@@ -1,7 +1,7 @@
 <?php
 /*
    Plugin Name: Contact Form 7 to DB Extension
-   Plugin URI: http://blog.michael-simpson.com/cf7db
+   Plugin URI: http://plugin.michael-simpson.com/?page_id=5
    Version: 1.0
    Author: Michael Simpson
    Description: You also need to install Contact Form 7 for this to work. It is an extension that writes the form data to the database | <a href="plugins.php?page=CF7DBPlugin">Settings</a>
