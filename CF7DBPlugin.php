@@ -47,10 +47,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         // Add the Admin Config page for this plugin
 
         // Add Config page into the Plugins menu
-        //add_action('admin_menu', array(&$this, 'addSettingsSubMenuPage'));
+        add_action('admin_menu', array(&$this, 'addSettingsSubMenuPage'));
 
         // Add Config page as a top-level menu item on the Admin page
-        add_action('admin_menu', array(&$this, 'createAdminMenu'));
+        //add_action('admin_menu', array(&$this, 'createAdminMenu'));
 
         // Hook into Contact Form 7 when a form post is made to save the data to the DB
         add_action('wpcf7_before_send_mail', array(&$this, 'saveFormData'));
