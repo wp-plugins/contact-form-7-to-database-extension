@@ -23,7 +23,7 @@ This plugin also puts a menu item in the Administration Plugins menu where you c
 1. Be sure that Contact Form 7 is installed and activated (this is an extension to it)
 1. Import contact-form-7-db.zip via the 'Plugins' menu in WordPress
 1. Activate the plugin through the 'Plugins' menu in WordPress
-1. The 'Plugins' menu will contain a menu item for seeing the stored data
+1. Adds an Admin menu item for seeing the stored data
 
 Notes:
 * Installing this plugin creates its own table. If you uninstall it, it will delete its table and any data you have in it. (But you can deactivate it without loosing any data).
