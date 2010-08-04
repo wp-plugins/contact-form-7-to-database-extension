@@ -60,6 +60,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     public function saveFormData($cf7) {
         global $wpdb;
         $time = time();
+        $ip = ($_SERVER['X_FORWARDED_FOR']) ? $_SERVER['X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
         $tableName = $this->prefixTableName('SUBMITS');
         foreach ($cf7->posted_data as $name => $value) {
             $value = is_array($value) ? implode($value, ", ") : $value;
@@ -68,6 +69,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             ('$time', '$cf7->title', '$name', '$value')");
         }
 
+        // Capture the IP Address of the submitter
+        $wpdb->query("INSERT INTO `$tableName`
+        (`submit_time`, `form_name`, `field_name`, `field_value`) VALUES
+        ('$time', '$cf7->title', 'Submitted From', '$ip')");
     }
 
     public function createAdminMenu() {
