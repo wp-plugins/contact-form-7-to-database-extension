@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=NEVDJ
 Tags: contact form,database
 Requires at least: 2.9
 Tested up to: 3.0.1
-Stable tag: 1.0.1
+Stable tag: 1.1
 
 Extension to the Contact Form 7 plugin that saves submitted form data to the database.
 
@@ -26,11 +26,32 @@ This plugin also puts a menu item in the Administration Plugins menu where you c
 1. Adds an Admin menu item for seeing the stored data
 
 Notes:
+
 * Installing this plugin creates its own table. If you uninstall it, it will delete its table and any data you have in it. (But you can deactivate it without loosing any data).
 * Tested on WP 3.0, PHP 5.2.13, MySQL 5.0 (Using 1and1 for hosting)
 
+== Frequently Asked Questions ==
+
+= What is the name of the table where the data is stored? =
+
+wp_CF7DBPlugin_SUBMITS
+
+= If I uninstall the plugin, what happens to its data in the database? =
+
+The table and all its data are deleted when you uninstall. You can deactivate the plugin without loosing data. 
+
+== Screenshots ==
+
 == Changelog ==
+
+= 1.1 =
+* Added Export to CSV file
+* Now can delete a row
 
 = 1.0 =
 * Initial Revision.
 
+== Upgrade Notice ==
+
+= 1.1 =
+Adds Export to CSV file and ability to delete a row

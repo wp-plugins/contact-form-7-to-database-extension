@@ -5,7 +5,6 @@ require_once('CF7DBTableData.php');
 
 /**
  * Implementation for CF7DBPluginLifeCycle.
- * Plugin writer: put your code here. Also enter code in settings.php
  */
 
 class CF7DBPlugin extends CF7DBPluginLifeCycle {
