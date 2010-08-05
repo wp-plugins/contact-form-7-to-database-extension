@@ -88,6 +88,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     }
 
     public function whatsInTheDBPage() {
+        //print_r($_POST);
         ?><h2>Form Submissions</h2><?php
         global $wpdb;
         $tableName = $this->prefixTableName('SUBMITS');
@@ -104,14 +105,19 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             $currSelection = $_POST['form_name'];
             // Check for delete operation
             if (isset($_POST['delete'])) {
-                $wpdb->query("delete from `$tableName` where `form_name` = '$currSelection'");
+                if (isset($_POST['submit_time'])) {
+                    $submitTime = $_POST['submit_time'];
+                    $wpdb->query("delete from `$tableName` where `form_name` = '$currSelection' and `submit_time` = '$submitTime'");
+                }
+                else {
+                    $wpdb->query("delete from `$tableName` where `form_name` = '$currSelection'");
+                }
             }
         }
         // Form selection drop-down list
         ?>
         <form method="post" action="" name="<?php echo $htmlFormName ?>" id="<?php echo $htmlFormName ?>">
-            <select name="form_name" id="form_name"
-                    onchange="document.getElementById('<?php echo $htmlFormName ?>').submit();">
+            <select name="form_name" id="form_name" onchange="this.form.submit();">
             <?php foreach ($rows as $aRow) {
                 $formName = $aRow->form_name;
                 $selected = ($formName == $currSelection) ? "selected" : "";
@@ -127,9 +133,11 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
         // Show table of form data
         $style = "style='padding:5px; border-width:1px; border-style:solid; border-color:gray;'";
+        $pluginDirUrl = $this->getPluginDirUrl();
         ?>
-        <table style="margin-top:1em; border-width:1px; border-style:solid; border-color:gray;">
+        <table cellspacing="0" style="margin-top:1em; border-width:0px; border-style:solid; border-color:gray;">
             <thead>
+            <th></th>
             <th <?php echo $style ?>>Submitted</th>
             <?php foreach ($tableData->columns as $aCol) {
                 echo "<th $style>$aCol</th>";
@@ -139,6 +147,14 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             <?php foreach ($tableData->pivot as $submitTime => $data) {
                 ?>
                 <tr>
+                    <td>
+                        <form action="" method="post">
+                            <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
+                            <input name="submit_time" type="hidden" value="<?php echo $submitTime ?>"/>
+                            <input name="delete" type="hidden" value="row"/>
+                            <input type="image" src="<?php echo $pluginDirUrl ?>delete.gif" alt="Delete Row" onchange="this.form.submit()"/>
+                        </form>
+                    </td>
                     <td <?php echo $style ?>><?php echo date('Y-m-d', $submitTime) ?></td>
                 <?php
                     foreach ($tableData->columns as $aCol) {
@@ -151,18 +167,18 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             </tbody>
         </table>
 
-        <table style="margin-top:2em">
+        <table cellspacing="20" style="margin-top:2em;">
             <tr>
                 <td>
                     <form action="">
                         <input name="exportcsv" type="button" value="Export to CSV (Excel) File"
-                                onclick="document.getElementById('export').src = '../wp-content/plugins/contact-form-7-db/exportCSV.php?form_name=<?php echo urlencode($currSelection) ?>'"/>
+                                onclick="document.getElementById('export').src = '<?php echo $pluginDirUrl ?>exportCSV.php?form_name=<?php echo urlencode($currSelection) ?>'"/>
                     </form>
                 </td>
                 <td>
                     <form action="" method="post">
                         <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
-                        <input name="delete" type="submit" value="Delete This Form's Records" onclick="return confirm('Are you sure you want to delete all the data for this form?')"/>
+                        <input name="delete" type="submit" value="Delete All This Form's Records" onclick="return confirm('Are you sure you want to delete all the data for this form?')"/>
                     </form>
                 </td>
             </tr>
@@ -175,8 +191,6 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 style='display:block'
                 src=''></iframe>
         <?php
-// todo: none
-
     }
 
     /**
@@ -200,5 +214,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         $tableData->columns = array_unique($tableData->columns);
 
         return $tableData;
+    }
+
+    public function getPluginDirUrl() {
+        return WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
     }
 }
