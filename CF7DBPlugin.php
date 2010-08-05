@@ -1,6 +1,7 @@
 <?php
 
 require_once('CF7DBPluginLifeCycle.php');
+require_once('CF7DBTableData.php');
 
 /**
  * Implementation for CF7DBPluginLifeCycle.
@@ -90,6 +91,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         ?><h2>Form Submissions</h2><?php
         global $wpdb;
         $tableName = $this->prefixTableName('SUBMITS');
+
+        // Identify which forms have data in the database
         $rows = $wpdb->get_results("select distinct `form_name` from `$tableName` order by `form_name`");
         if ($rows == null || count($rows) == 0) {
             ?>No form submissions in the database<?php
@@ -99,10 +102,12 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         $currSelection = $rows[0]->form_name;
         if (isset($_POST['form_name'])) {
             $currSelection = $_POST['form_name'];
+            // Check for delete operation
             if (isset($_POST['delete'])) {
                 $wpdb->query("delete from `$tableName` where `form_name` = '$currSelection'");
             }
         }
+        // Form selection drop-down list
         ?>
         <form method="post" action="" name="<?php echo $htmlFormName ?>" id="<?php echo $htmlFormName ?>">
             <select name="form_name" id="form_name"
@@ -117,33 +122,26 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         </form>
         <?php
 
-        $rows = $wpdb->get_results("select `submit_time`, `field_name`, `field_value` from `$tableName` where `form_name` = '$currSelection' order by `submit_time` desc");
-        $pivot = array();
-        $columns = array();
-        foreach ($rows as $aRow) {
-            if (!isset($pivot[$aRow->submit_time])) {
-                $pivot[$aRow->submit_time] = array();
-            }
-            $pivot[$aRow->submit_time][$aRow->field_name] = $aRow->field_value;
-            $columns[count($columns)] = $aRow->field_name;
-        }
-        $columns = array_unique($columns);
+        // Query DB for the data for that form
+        $tableData = $this->getRowsPivot($currSelection);
+
+        // Show table of form data
         $style = "style='padding:5px; border-width:1px; border-style:solid; border-color:gray;'";
         ?>
         <table style="margin-top:1em; border-width:1px; border-style:solid; border-color:gray;">
             <thead>
             <th <?php echo $style ?>>Submitted</th>
-            <?php foreach ($columns as $aCol) {
+            <?php foreach ($tableData->columns as $aCol) {
                 echo "<th $style>$aCol</th>";
             } ?>
             </thead>
             <tbody>
-            <?php foreach ($pivot as $submitTime => $data) {
+            <?php foreach ($tableData->pivot as $submitTime => $data) {
                 ?>
                 <tr>
                     <td <?php echo $style ?>><?php echo date('Y-m-d', $submitTime) ?></td>
                 <?php
-                    foreach ($columns as $aCol) {
+                    foreach ($tableData->columns as $aCol) {
                     $cell = isset($data[$aCol]) ? $data[$aCol] : "";
                     echo "<td $style>$cell</td>";
                 }
@@ -152,12 +150,55 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             } ?>
             </tbody>
         </table>
-        <p style="margin-top:2em"></p>
-        <form action="" method="post">
-            <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
-            <input name="delete" type="submit" value="Delete This Form's Records"/>
-        </form>
 
+        <table style="margin-top:2em">
+            <tr>
+                <td>
+                    <form action="">
+                        <input name="exportcsv" type="button" value="Export to CSV (Excel) File"
+                                onclick="document.getElementById('export').src = '../wp-content/plugins/contact-form-7-db/exportCSV.php?form_name=<?php echo urlencode($currSelection) ?>'"/>
+                    </form>
+                </td>
+                <td>
+                    <form action="" method="post">
+                        <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
+                        <input name="delete" type="submit" value="Delete This Form's Records" onclick="return confirm('Are you sure you want to delete all the data for this form?')"/>
+                    </form>
+                </td>
+            </tr>
+        </table>
+
+        <iframe
+                id='export'
+                name='export'
+                frameborder='0'
+                style='display:block'
+                src=''></iframe>
         <?php
+// todo: none
+
+    }
+
+    /**
+     * @param  $formName
+     * @return CF7DBTableData
+     */
+    public function &getRowsPivot($formName) {
+        global $wpdb;
+        $tableName = $this->prefixTableName('SUBMITS');
+        $rows = $wpdb->get_results("select `submit_time`, `field_name`, `field_value` from `$tableName` where `form_name` = '$formName' order by `submit_time` desc");
+
+        $tableData = new CF7DBTableData();
+
+        foreach ($rows as $aRow) {
+            if (!isset($tableData->pivot[$aRow->submit_time])) {
+                $tableData->pivot[$aRow->submit_time] = array();
+            }
+            $tableData->pivot[$aRow->submit_time][$aRow->field_name] = $aRow->field_value;
+            $tableData->columns[count($tableData->columns)] = $aRow->field_name;
+        }
+        $tableData->columns = array_unique($tableData->columns);
+
+        return $tableData;
     }
 }
