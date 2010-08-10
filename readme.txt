@@ -10,6 +10,8 @@ Extension to the Contact Form 7 plugin that saves submitted form data to the dat
 
 == Description ==
 
+Takes submissions from Contact Form 7 plugin, saves them in the database and allows you to export the data.
+
 First a disclaimer: I am not the maker of Contact Form 7 or associated with it's author.
 
 That being said, I think Contact Form 7 is great...except for one thing. It does not save its information to the database. And if you get a lot of form submissions, then you end up sorting through a lot of email.
