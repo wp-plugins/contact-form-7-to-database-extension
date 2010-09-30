@@ -21,9 +21,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         $tableName = $this->prefixTableName('SUBMITS');
         $wpdb->query("CREATE TABLE IF NOT EXISTS $tableName (
             `submit_time` INTEGER NOT NULL,
-            `form_name` VARCHAR(127),
-            `field_name` VARCHAR(127),
-            `field_value` LONGTEXT )");
+            `form_name` VARCHAR(127) CHARACTER SET utf8,
+            `field_name` VARCHAR(127) CHARACTER SET utf8,
+            `field_value` LONGTEXT CHARACTER SET utf8)");
     }
 
 
@@ -62,17 +62,23 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         $time = time();
         $ip = ($_SERVER['X_FORWARDED_FOR']) ? $_SERVER['X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
         $tableName = $this->prefixTableName('SUBMITS');
+        $parametrizedQuery = "INSERT INTO `$tableName` (`submit_time`, `form_name`, `field_name`, `field_value`) VALUES ('%s', '%s', '%s', '%s')";
         foreach ($cf7->posted_data as $name => $value) {
             $value = is_array($value) ? implode($value, ", ") : $value;
-            $wpdb->query("INSERT INTO `$tableName`
-            (`submit_time`, `form_name`, `field_name`, `field_value`) VALUES
-            ('$time', '$cf7->title', '$name', '$value')");
+            $query = sprintf($parametrizedQuery,
+                    mysql_real_escape_string($time),
+                    mysql_real_escape_string($cf7->title),
+                    mysql_real_escape_string($name),
+                    mysql_real_escape_string($value));
+            $wpdb->query($query);
         }
 
         // Capture the IP Address of the submitter
-        $wpdb->query("INSERT INTO `$tableName`
-        (`submit_time`, `form_name`, `field_name`, `field_value`) VALUES
-        ('$time', '$cf7->title', 'Submitted From', '$ip')");
+        $wpdb->query(sprintf($parametrizedQuery,
+                         mysql_real_escape_string($time),
+                         mysql_real_escape_string($cf7->title),
+                         mysql_real_escape_string('Submitted From'),
+                         mysql_real_escape_string($ip)));
     }
 
     public function createAdminMenu() {
