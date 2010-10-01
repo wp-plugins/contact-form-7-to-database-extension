@@ -254,7 +254,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             <tr>
                 <td>
                     <form action="">
-                        <input name="exportcsv" type="button" value="<?php _e('Export to CSV (Excel) File'); ?>"
+                        <input name="exportcsv" type="button" value="<?php _e('Export to Excel (CSV File)'); ?>"
                                 onclick="document.getElementById('export').src = '<?php echo $pluginDirUrl ?>exportCSV.php?form_name=<?php echo urlencode($currSelection) ?>'"/>
                     </form>
                 </td>

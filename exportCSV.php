@@ -16,25 +16,30 @@ function CF7DBPlugin_exportToCSV($formName) {
 
     $tableData = $plugin->getRowsPivot($formName);
 
-    header("Content-type: text/csv");
+    //  Notes on getting Excel-friendly encoding right: http://dev.piwik.org/trac/ticket/309
+    header("Content-Type: application/vnd.ms-excel");
+    header("Expires: 0");
+    header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
     header("Content-Disposition: attachment; filename=\"$formName.csv\"");
 
+    echo chr(255) . chr(254); // File encoding UTF-16LE
+
     // Column Headers
-    echo __("Submitted") . ",";
+    echo mb_convert_encoding(__("\"Submitted\"") . ",", 'UTF-16LE', 'UTF-8');
     foreach ($tableData->columns as $aCol) {
-        echo "\"$aCol\",";
+        echo mb_convert_encoding("\"$aCol\",", 'UTF-16LE', 'UTF-8');
     }
-    echo "\n";
+    echo mb_convert_encoding("\n", 'UTF-16LE', 'UTF-8');
 
     // Rows
     foreach ($tableData->pivot as $submitTime => $data) {
-        echo date('Y-m-d', $submitTime);
-        echo ",";
+        echo mb_convert_encoding(date('Y-m-d', $submitTime), 'UTF-16LE', 'UTF-8');
+        echo mb_convert_encoding(",", 'UTF-16LE', 'UTF-8');
         foreach ($tableData->columns as $aCol) {
             $cell = isset($data[$aCol]) ? $data[$aCol] : "";
-            echo "\"$cell\",";
+            echo mb_convert_encoding("\"$cell\",", 'UTF-16LE', 'UTF-8');
         }
-        echo "\n";
+        echo mb_convert_encoding("\n", 'UTF-16LE', 'UTF-8');
     }
 }
 
