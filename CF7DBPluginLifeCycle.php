@@ -23,6 +23,9 @@ class CF7DBPluginLifeCycle extends CF7DBInstallIndicator {
         // Other Plugin initialization - for the plugin writer to override as needed
         $this->otherInstall();
 
+        // Record the installed version
+        $this->saveInstalledVersion();
+
         // To avoid running install() more then once
         $this->markAsInstalled();
     }
@@ -34,7 +37,11 @@ class CF7DBPluginLifeCycle extends CF7DBInstallIndicator {
         $this->markAsUnInstalled();
     }
 
-    public function upgradeIfNeeded() {
+    /**
+     * Perform any version-upgrade activities prior to activation (e.g. database changes)
+     * @return void
+     */
+    public function upgrade() {
     }
 
     public function activate() {

@@ -21,10 +21,12 @@ function init_CF7DBPlugin() {
     if (!$aPlugin->isInstalled()) {
         $aPlugin->install();
     }
+    else {
+        // Perform any version-upgrade activities prior to activation (e.g. database changes)
+        $aPlugin->upgrade();
+    }
 
-    // Perform any version-upgrade activities prior to activation (e.g. database changes)
-    $aPlugin->upgradeIfNeeded();
-
+    // Add callbacks to hooks
     $aPlugin->addActionsAndFilters();
 
     // Register the Plugin Activation Hook

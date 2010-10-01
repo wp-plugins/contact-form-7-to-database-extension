@@ -9,6 +9,13 @@ require_once('CF7DBTableData.php');
 
 class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
+    /**
+     * @return string
+     */
+    public function getVersion() {
+        return "1.2";
+    }
+
 
     public function &getPluginDisplayName() {
         return "Contact Form 7 to DB Extension";
@@ -19,6 +26,28 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             'CanSeeSubmitData' => array('Can See Submission data', 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
             'CanChangeSubmitData' => array('Can Delete Submission data', 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber')
         );
+    }
+
+    public function upgrade() {
+        $version = $this->getVersionSaved();
+        if (!$version || $version == "") { // Prior to storing version in options (pre 1.2)
+            // DB Schema Upgrade to support i18n using UTF-8
+            global $wpdb;
+            $tableName = $this->prefixTableName('SUBMITS');
+            $wpdb->query("ALTER TABLE $tableName MODIFY form_name VARCHAR(127) CHARACTER SET utf8");
+            $wpdb->query("ALTER TABLE $tableName MODIFY field_name VARCHAR(127) CHARACTER SET utf8");
+            $wpdb->query("ALTER TABLE $tableName MODIFY field_value longtext CHARACTER SET utf8");
+
+            // Remove obsolete options
+            $this->deleteOption('_displayName');
+            $this->deleteOption('_metatdata');
+        }
+
+
+        // Post-upgrade, set the current version in the options
+        if ($version != $this->getVersion()) {
+            $this->saveInstalledVersion();
+        }
     }
 
     /**

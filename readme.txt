@@ -41,7 +41,11 @@ Note: if you changed your WordPress MySql table prefix from the default "wp_" to
 
 = If I uninstall the plugin, what happens to its data in the database? =
 
-The table and all its data are deleted when you uninstall. You can deactivate the plugin without loosing data. 
+The table and all its data are deleted when you uninstall. You can deactivate the plugin without loosing data.
+
+= There used to be (pre-version 1.2) a top-level menu item in the Admin panel to see the data. Where did it go? =
+
+It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Database". This is to take up less menu space and keep this extension's pages with those of CF7
 
 == Screenshots ==
 
