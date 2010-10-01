@@ -24,22 +24,27 @@ function CF7DBPlugin_exportToCSV($formName) {
 
     echo chr(255) . chr(254); // File encoding UTF-16LE
 
+    $eol = mb_convert_encoding("\n", 'UTF-16LE', 'UTF-8');
+    $comma = mb_convert_encoding(",", 'UTF-16LE', 'UTF-8');
+
     // Column Headers
-    echo mb_convert_encoding(__("\"Submitted\"") . ",", 'UTF-16LE', 'UTF-8');
+    echo mb_convert_encoding(__("\"Submitted\""), 'UTF-16LE', 'UTF-8');
+    echo $comma;
     foreach ($tableData->columns as $aCol) {
         echo mb_convert_encoding("\"$aCol\",", 'UTF-16LE', 'UTF-8');
     }
-    echo mb_convert_encoding("\n", 'UTF-16LE', 'UTF-8');
+    echo $eol;
 
     // Rows
     foreach ($tableData->pivot as $submitTime => $data) {
         echo mb_convert_encoding(date('Y-m-d', $submitTime), 'UTF-16LE', 'UTF-8');
-        echo mb_convert_encoding(",", 'UTF-16LE', 'UTF-8');
+        echo $comma;
         foreach ($tableData->columns as $aCol) {
             $cell = isset($data[$aCol]) ? $data[$aCol] : "";
-            echo mb_convert_encoding("\"$cell\",", 'UTF-16LE', 'UTF-8');
+            echo mb_convert_encoding("\"$cell\"", 'UTF-16LE', 'UTF-8');
+            echo $comma;
         }
-        echo mb_convert_encoding("\n", 'UTF-16LE', 'UTF-8');
+        echo $eol;
     }
 }
 

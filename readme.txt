@@ -61,5 +61,6 @@ Adds Export to CSV file and ability to delete a row
 * Admin menu now appears under CF7's "Contact" top level menu
 * Includes an Options page to configure who can see and delete submitted data in the database
 * Saves data in DB table as UTF-8 to support non-latin character encodings.
+* CSV Export now in a more Excel-friendly encoding so it can properly display characters from different languages
 
 == Upgrade Notice ==
