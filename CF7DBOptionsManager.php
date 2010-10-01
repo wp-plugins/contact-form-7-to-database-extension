@@ -20,7 +20,7 @@ class CF7DBOptionsManager {
 
 
     /**
-     * Define your options metadata here as an array, where each element in the array
+     * Define your options meta data here as an array, where each element in the array
      * @return array of key=>display-name and/or key=>array(display-name, choice1, choice2, ...)
      * key: an option name for the key (this name will be given a prefix when stored in
      * the database to ensure it does not conflict with other plugin options)
@@ -32,6 +32,7 @@ class CF7DBOptionsManager {
      * array(
      *   "item" => "Item:",             // key => display-name
      *   "rating" => array(             // key => array ( display-name, choice1, choice2, ...)
+     *       'CanDoOperationX' => array('Can do Operation X', 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
      *       "Rating:", "Excellent", "Good", "Fair", "Poor")
      */
     public function &getOptionMetaData() {
@@ -146,6 +147,66 @@ class CF7DBOptionsManager {
     public function updateOption($optionName, $value) {
         $prefixedOptionName = $this->prefix($optionName); // how it is stored in DB
         return update_option($prefixedOptionName, $value);
+    }
+
+    /**
+     * A Role Option is an option defined in getOptionMetaData() as a choice of WP standard roles, e.g.
+     * 'CanDoOperationX' => array('Can do Operation X', 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber')
+     * The idea is use an option to indicate what role level a user must minimally have in order to do some operation.
+     * So if a Role Option 'CanDoOperationX' is set to 'Editor' then users which role 'Editor' or above should be
+     * able to do Operation X.
+     * Also see: canUserDoRoleOption()
+     * @param  $optionName
+     * @return string role name
+     */
+    public function getRoleOption($optionName) {
+        $roleAllowed = $this->getOption($optionName);
+        if (!$roleAllowed || $roleAllowed == '') {
+            $roleAllowed = 'Administrator';
+        }
+        return $roleAllowed;
+    }
+
+    /**
+     * Given a WP role name, return a WP capability which only that role and roles above it have
+     * http://codex.wordpress.org/Roles_and_Capabilities
+     * @param  $roleName
+     * @return string a WP capability or "" if unknown input role
+     */
+    protected function roleToCapability($roleName) {
+        switch ($roleName) {
+            case "Super Admin":
+                return "manage_options";
+            case "Administrator":
+                return "manage_options";
+            case "Editor":
+                return "publish_pages";
+            case "Author":
+                return "publish_posts";
+            case "Contributor":
+                return "edit_posts";
+            case "Subscriber":
+                return "read";
+        }
+        return "";
+    }
+
+    /**
+     * @param  $roleName a standard WP role name like 'Administrator'
+     * @return bool
+     */
+    public function isUserRoleEqualOrBetterThan($roleName) {
+        $capability = $this->roleToCapability($roleName);
+        return current_user_can($capability);
+    }
+
+    /**
+     * @param  $optionName name of a Role option (see comments in getRoleOption())
+     * @return bool indicates if the user has adequate permissions
+     */
+    public function canUserDoRoleOption($optionName) {
+        $roleAllowed = $this->getRoleOption($optionName);
+        return $this->isUserRoleEqualOrBetterThan($roleAllowed);
     }
 
     /**

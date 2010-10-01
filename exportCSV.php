@@ -8,9 +8,7 @@ require_once('CF7DBPlugin.php');
 function CF7DBPlugin_exportToCSV($formName) {
     $plugin = new CF7DBPlugin();
 
-    $roleAllowed = $plugin->getRoleOption('CanSeeSubmitData');
-    $canSeeData = $plugin->isRoleOrBetter($roleAllowed);
-    if (!$canSeeData) {
+    if (!$plugin->canUserDoRoleOption('CanSeeSubmitData')) {
         wp_die(__('You do not have sufficient permissions to access this page.'));
     }
 

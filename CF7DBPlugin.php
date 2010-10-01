@@ -153,7 +153,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         add_submenu_page('wpcf7',
                          $displayName . ' Submissions',
                          'Database',
-                         $this->roleToPermission($roleAllowed),
+                         $this->roleToCapability($roleAllowed),
                          $this->getDBPageSlug(),
                          array(&$this, 'whatsInTheDBPage'));
     }
@@ -162,47 +162,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         return get_class($this) . 'Submissions';
     }
 
-    public function getRoleOption($optionName) {
-        $roleAllowed = $this->getOption($optionName);
-        if (!$roleAllowed || $roleAllowed == '') {
-            $roleAllowed = 'Administrator';
-        }
-        return $roleAllowed;
-    }
-
-    /**
-     * Given a role name, return a permission which only that role and roles above it have
-     * http://codex.wordpress.org/Roles_and_Capabilities
-     * @param  $roleName 
-     * @return string
-     */
-    protected function roleToPermission($roleName) {
-        switch ($roleName) {
-            case "Super Admin":
-                return "manage_options";
-            case "Administrator":
-                return "manage_options";
-            case "Editor":
-                return "publish_pages";
-            case "Author":
-                return "publish_posts";
-            case "Contributor":
-                return "edit_posts";
-            case "Subscriber":
-                return "read";
-        }
-        return "";
-    }
-
-    public function isRoleOrBetter($roleName) {
-        $permission = $this->roleToPermission($roleName);
-        return current_user_can($permission);
-    }
-
     public function whatsInTheDBPage() {
         //print_r($_POST);
-        $roleAllowed = $this->getRoleOption('CanChangeSubmitData');
-        $canDelete = $this->isRoleOrBetter($roleAllowed);
+        $canDelete = $this->canUserDoRoleOption('CanChangeSubmitData');
 
         ?><h2>Form Submissions</h2><?php
         global $wpdb;
