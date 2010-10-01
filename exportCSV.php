@@ -17,15 +17,18 @@ function CF7DBPlugin_exportToCSV($formName) {
     $tableData = $plugin->getRowsPivot($formName);
 
     header("Content-Type: text/csv; charset=UTF-8");
+//    header("Content-Type: application/vnd.ms-excel");
     header("Expires: 0");
     header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
     header("Content-Disposition: attachment; filename=\"$formName.csv\"");
+
+    echo chr(239) . chr(187) . chr(191); // File encoding UTF-8 Byte Order Mark (BOM) http://wiki.sdn.sap.com/wiki/display/ABAP/Excel+files+-+CSV+format
 
     $eol = "\n";
     $comma = ",";
 
     // Column Headers
-    echo CF7DBPlugin_PrepareCsvValue(__('Submitted'));
+    echo CF7DBPlugin_PrepareCsvValue(__("Submitted"));
     echo $comma;
     foreach ($tableData->columns as $aCol) {
         echo CF7DBPlugin_PrepareCsvValue($aCol);
@@ -49,13 +52,15 @@ function CF7DBPlugin_exportToCSV($formName) {
 
 function CF7DBPlugin_PrepareCsvValue($text) {
     // In CSV, escape double-quotes but putting two double quotes together
-    $text = str_replace('"', '""', $text);
+    $quote = '"';
+    $text = str_replace($quote, $quote.$quote, $text);
 
-    // Quote it
-    $text = '"' . $text . '"';
+    // Quote it to escape line breaks
+    $text = $quote . $text . $quote;
 
     return $text;
 }
+
 
 if (isset($_GET['form_name'])) {
     CF7DBPlugin_exportToCSV($_GET['form_name']);
