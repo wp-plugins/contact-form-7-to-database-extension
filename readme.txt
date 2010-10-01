@@ -30,13 +30,14 @@ This plugin also puts a menu item in the Administration Plugins menu where you c
 Notes:
 
 * Installing this plugin creates its own table. If you uninstall it, it will delete its table and any data you have in it. (But you can deactivate it without loosing any data).
-* Tested on WP 3.0, PHP 5.2.13, MySQL 5.0 (Using 1and1 for hosting)
+* Tested on WP 3.0.1, PHP 5.2.13, MySQL 5.0 (Using 1and1 for hosting)
 
 == Frequently Asked Questions ==
 
 = What is the name of the table where the data is stored? =
 
 wp_CF7DBPlugin_SUBMITS
+Note: if you changed your WordPress MySql table prefix from the default "wp_" to something else, then this table will also have that prefix ($wpdb->prefix)
 
 = If I uninstall the plugin, what happens to its data in the database? =
 
@@ -53,7 +54,12 @@ The table and all its data are deleted when you uninstall. You can deactivate th
 = 1.0 =
 * Initial Revision.
 
-== Upgrade Notice ==
-
 = 1.1 =
 Adds Export to CSV file and ability to delete a row
+
+= 1.2 =
+* Admin menu now appears under CF7's "Contact" top level menu
+* Includes an Options page to configure who can see and delete submitted data in the database
+* Saves data in DB table as UTF-8 to support non-latin character encodings.
+
+== Upgrade Notice ==

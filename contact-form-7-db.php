@@ -4,15 +4,13 @@
    Plugin URI: http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/
    Version: 1.1
    Author: Michael Simpson
-   Description: You also need to install Contact Form 7 for this to work. It is an extension that writes the form data to the database | <a href="plugins.php?page=CF7DBPlugin">Settings</a>
+   Description: You also need to install and activate Contact Form 7 for this to work. It is an extension that writes the form data to the database | <a href="admin.php?page=CF7DBPluginSubmissions">Data</a>  | <a href="admin.php?page=CF7DBPluginSettings">Settings</a>
   */
 
 function init_CF7DBPlugin() {
 
     require_once('CF7DBPlugin.php');
-    // Must give the plugin variable a unique name
-    // Don't name it "$plugin" or you get a fatal error
-    $aPlugin = new CF7DBPlugin(); // Don't name it "$plugin" or you get a fatal error
+    $aPlugin = new CF7DBPlugin();
 
     // Install the plugin
     // NOTE: this file gets run each time you *activate* the plugin.
@@ -23,6 +21,9 @@ function init_CF7DBPlugin() {
     if (!$aPlugin->isInstalled()) {
         $aPlugin->install();
     }
+
+    // Perform any version-upgrade activities prior to activation (e.g. database changes)
+    $aPlugin->upgradeIfNeeded();
 
     $aPlugin->addActionsAndFilters();
 

@@ -34,6 +34,9 @@ class CF7DBPluginLifeCycle extends CF7DBInstallIndicator {
         $this->markAsUnInstalled();
     }
 
+    public function upgradeIfNeeded() {
+    }
+
     public function activate() {
     }
 
@@ -41,34 +44,6 @@ class CF7DBPluginLifeCycle extends CF7DBInstallIndicator {
     }
 
     protected function initOptions() {
-        /**
-         * @var $pluginDisplayName string a name for the Plugin to be displayed to the user on a web page
-         */
-        $pluginDisplayName = "Contact Form 7 to DB Extension";
-
-        /**
-         * @var $unPrefixedOptionsMetaData array
-         * Define your options metadata here as an array, where each element in the array
-         * key: an option name for the key (this name will be given a prefix when stored in
-         * the database to ensure it does not conflict with other plugin options)
-         * value: can be one of two things:
-         *   (1) string display name for displaying the name of the option to the user on a web page
-         *   (2) array where the first element is a display name (as above) and the rest of
-         *       the elements are choices of values that the user can select
-         * e.g.
-         * array(
-         *   "item" => "Item:",             // key => display-name
-         *   "rating" => array(             // key => array ( display-name, choice1, choice2, ...)
-         *       "Rating:", "Excellent", "Good", "Fair", "Poor")
-         */
-        $unPrefixedOptionsMetaData = array(
-            // todo: fill out options
-            //    "item1" => "Item 1",
-            //    "item2" => array(
-            //        "Item 2", "Excellent", "Good", "Fair", "Poor")
-        );
-        $this->setPluginDisplayName($pluginDisplayName);
-        $this->setOptionMetaData($unPrefixedOptionsMetaData);
     }
 
     public function addActionsAndFilters() {
@@ -110,7 +85,7 @@ class CF7DBPluginLifeCycle extends CF7DBInstallIndicator {
                          $displayName,
                          $displayName,
                          'manage_options',
-                         get_class($this),
+                         get_class($this) . 'Settings',
                          array(&$this, 'settingsPage'));
     }
 
@@ -121,8 +96,8 @@ class CF7DBPluginLifeCycle extends CF7DBInstallIndicator {
         add_options_page($displayName,
                          $displayName,
                          'manage_options',
-                         get_class($this),
-                         array(&$this, 'settingsPage')); 
+                         get_class($this) . 'Settings',
+                         array(&$this, 'settingsPage'));
     }
 
     /**

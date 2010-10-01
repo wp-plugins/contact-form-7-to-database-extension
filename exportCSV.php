@@ -7,13 +7,20 @@ require_once('CF7DBPlugin.php');
 
 function CF7DBPlugin_exportToCSV($formName) {
     $plugin = new CF7DBPlugin();
+
+    $roleAllowed = $plugin->getRoleOption('CanSeeSubmitData');
+    $canSeeData = $plugin->isRoleOrBetter($roleAllowed);
+    if (!$canSeeData) {
+        wp_die(__('You do not have sufficient permissions to access this page.'));
+    }
+
     $tableData = $plugin->getRowsPivot($formName);
 
     header("Content-type: text/csv");
     header("Content-Disposition: attachment; filename=\"$formName.csv\"");
 
     // Column Headers
-    echo "Submitted,";
+    echo __("Submitted") . ",";
     foreach ($tableData->columns as $aCol) {
         echo "\"$aCol\",";
     }

@@ -5,7 +5,6 @@ require_once("CF7DBOptionsManager.php");
 /**
  * The methods in this class are used to track whether or not the plugin has been installed.
  * It writes a value in options to indicate that this plugin is installed.
- * activate.php uses these methods.
  * 
  * @author Michael Simpson
  */

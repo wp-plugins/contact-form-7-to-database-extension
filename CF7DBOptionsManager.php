@@ -14,41 +14,34 @@
 
 class CF7DBOptionsManager {
 
-    const optionDisplayName = '_displayName';
-
-    /**
-     * @const $optionMetaData string referencing an associative array which elements such as:
-     * array(
-     *   "item1" => "Item 1",          // key => display-name (simple)
-     *   "item3" => array(             // key => array ( display-name, choice1, choice2, ...)
-     *       "Item 3", "Excellent", "Good", "Fair", "Poor")
-     */
-    const optionMetaData = '_metatdata';
-
     public function getOptionNamePrefix() {
         return get_class($this) . '_';
     }
 
-    /**
-     * Called in activate.php
-     * @param  $optionMetaData array see documentation for $this->optionMetaData
-     * @return void
-     */
-    public function setOptionMetaData($optionMetaData) {
-        $this->updateOption(self::optionMetaData, $optionMetaData);
-    }
 
     /**
-     * @return array
+     * Define your options metadata here as an array, where each element in the array
+     * @return array of key=>display-name and/or key=>array(display-name, choice1, choice2, ...)
+     * key: an option name for the key (this name will be given a prefix when stored in
+     * the database to ensure it does not conflict with other plugin options)
+     * value: can be one of two things:
+     *   (1) string display name for displaying the name of the option to the user on a web page
+     *   (2) array where the first element is a display name (as above) and the rest of
+     *       the elements are choices of values that the user can select
+     * e.g.
+     * array(
+     *   "item" => "Item:",             // key => display-name
+     *   "rating" => array(             // key => array ( display-name, choice1, choice2, ...)
+     *       "Rating:", "Excellent", "Good", "Fair", "Poor")
      */
-    public function getOptionMetaData() {
-        return $this->getOption(self::optionMetaData);
+    public function &getOptionMetaData() {
+        return array();
     }
 
     /**
      * @return array of string name of options
      */
-    public function getOptionNames() {
+    public function &getOptionNames() {
         return array_keys($this->getOptionMetaData());
     }
 
@@ -71,27 +64,13 @@ class CF7DBOptionsManager {
                 delete_option($prefixedOptionName);
             }
         }
-        $this->deleteOption(self::optionDisplayName);
-        $this->deleteOption(self::optionMetaData);
-    }
-
-    /**
-     * @param  $pluginDisplayName string display name of the plugin to be shown as a name/title in HTML pages
-     * @return void
-     */
-    public function setPluginDisplayName($pluginDisplayName) {
-        $this->updateOption(self::optionDisplayName, $pluginDisplayName);
     }
 
     /**
      * @return string display name of the plugin to show as a name/title in HTML.
-     * If the display name is not set via setPluginDisplayName(), then it will just return the class name
+     * Just returns the class name. Override this method to return something more readable
      */
     public function getPluginDisplayName() {
-        $displayName = $this->getOption(self::optionDisplayName);
-        if ($displayName != null) {
-            return $displayName;
-        }
         return get_class($this);
     }
 
@@ -101,7 +80,7 @@ class CF7DBOptionsManager {
      * @param  $name string option name to prefix. Defined in settings.php and set as keys of $this->optionMetaData
      * @return string
      */
-    public function prefix($name) {
+    public function &prefix($name) {
         $optionNamePrefix = $this->getOptionNamePrefix();
         if (strpos($name, $optionNamePrefix) === 0) { // 0 but not false
             return $name; // already prefixed
@@ -115,7 +94,7 @@ class CF7DBOptionsManager {
      * @param  $name string
      * @return string $optionName without the prefix.
      */
-    public function unPrefix($name) {
+    public function &unPrefix($name) {
         $optionNamePrefix = $this->getOptionNamePrefix();
         if (strpos($name, $optionNamePrefix) === 0) {
             return substr($name, strlen($optionNamePrefix));
@@ -129,7 +108,7 @@ class CF7DBOptionsManager {
      * @param  $optionName string defined in settings.php and set as keys of $this->optionMetaData
      * @return string the value from delegated call to get_option()
      */
-    public function getOption($optionName) {
+    public function &getOption($optionName) {
         $prefixedOptionName = $this->prefix($optionName); // how it is stored in DB
         return get_option($prefixedOptionName);
     }
@@ -184,7 +163,7 @@ class CF7DBOptionsManager {
         /*,plugins_url('/images/icon.png', __FILE__)*/); // if you call 'plugins_url; be sure to "require_once" it
 
         //call register settings function
-        add_action('admin_init', array(&$aPlugin, 'registerSettings'));
+        add_action('admin_init', array(&$this, 'registerSettings'));
     }
 
     public function registerSettings() {
@@ -201,6 +180,10 @@ class CF7DBOptionsManager {
      * @return void
      */
     public function settingsPage() {
+        if (!current_user_can('manage_options')) {
+            wp_die(__('You do not have sufficient permissions to access this page.'));
+        }
+
         $optionMetaData = $this->getOptionMetaData();
 
         // Save Posted Options
@@ -224,15 +207,16 @@ class CF7DBOptionsManager {
                 <?php
         if ($optionMetaData != null) {
                     foreach ($optionMetaData as $aOptionKey => $aOptionMeta) {
+                        $displayText = is_array($aOptionMeta) ?  $aOptionMeta[0] :  $aOptionMeta;
+                        $displayText = __($displayText);
                         ?>
                             <tr valign="top">
-                                <th scope="row"><?php echo $aOptionKey ?></th>
+                                <th scope="row"><p><?php echo $displayText ?></p></th>
                                 <td>
                                 <?php $this->createFormControl($aOptionKey, $aOptionMeta, $this->getOption($aOptionKey)); ?>
                                 </td>
                             </tr>
                         <?php
-
                     }
                 }
                 ?>
@@ -250,7 +234,7 @@ class CF7DBOptionsManager {
     /**
      * Helper-function outputs the correct form element (input tag, select tag) for the given item
      * @param  $aOptionKey name of the option (unprefixed)
-     * @param  $aOptionMeta meta-data for $aOptionKey
+     * @param  $aOptionMeta meta-data for $aOptionKey (either a string display-name or an array(display-name, option1, option2, ...)
      * @param  $savedOptionValue current value for $aOptionKey
      * @return void
      */

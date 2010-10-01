@@ -9,6 +9,18 @@ require_once('CF7DBTableData.php');
 
 class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
+
+    public function &getPluginDisplayName() {
+        return "Contact Form 7 to DB Extension";
+    }
+
+    public function &getOptionMetaData() {
+        return array(
+            'CanSeeSubmitData' => array('Can See Submission data', 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
+            'CanChangeSubmitData' => array('Can Delete Submission data', 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber')
+        );
+    }
+
     /**
      * Called by install()
      * You should: Prefix all table names with $wpdb->prefix
@@ -46,14 +58,25 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     public function addActionsAndFilters() {
         // Add the Admin Config page for this plugin
 
-        // Add Config page into the Plugins menu
-        //add_action('admin_menu', array(&$this, 'addSettingsSubMenuPage'));
-
         // Add Config page as a top-level menu item on the Admin page
         add_action('admin_menu', array(&$this, 'createAdminMenu'));
 
+        // Add Config page into the Plugins menu
+        add_action('admin_menu', array(&$this, 'addSettingsSubMenuPage'));
+
         // Hook into Contact Form 7 when a form post is made to save the data to the DB
         add_action('wpcf7_before_send_mail', array(&$this, 'saveFormData'));
+    }
+
+    public function addSettingsSubMenuPage() {
+        $this->requireExtraPluginFiles();
+        $displayName = $this->getPluginDisplayName();
+        add_submenu_page('wpcf7', //$this->getDBPageSlug(),
+                         $displayName . ' Options',
+                         'Database Options',
+                         'manage_options',
+                         get_class($this) . 'Settings',
+                         array(&$this, 'settingsPage'));
     }
 
 
@@ -82,18 +105,71 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     }
 
     public function createAdminMenu() {
-        $pluginName = $this->getPluginDisplayName();
-        //create new top-level menu
-        add_menu_page($pluginName . ' Plugin Settings',
-                      $pluginName,
-                      'administrator',
-                      get_class($this),
-                      array(&$this, 'whatsInTheDBPage'));
+        $displayName = $this->getPluginDisplayName();
+        $roleAllowed = $this->getRoleOption('CanSeeSubmitData');
 
+        //create new top-level menu
+//        add_menu_page($displayName . ' Plugin Settings',
+//                      "Contact Form Submissions",
+//                      'administrator', //$roleAllowed,
+//                      $this->getDBPageSlug(),
+//                      array(&$this, 'whatsInTheDBPage'));
+
+        // Put page under CF7's "Contact" page
+        add_submenu_page('wpcf7',
+                         $displayName . ' Submissions',
+                         'Database',
+                         $this->roleToPermission($roleAllowed),
+                         $this->getDBPageSlug(),
+                         array(&$this, 'whatsInTheDBPage'));
+    }
+
+    protected function getDBPageSlug() {
+        return get_class($this) . 'Submissions';
+    }
+
+    public function getRoleOption($optionName) {
+        $roleAllowed = $this->getOption($optionName);
+        if (!$roleAllowed || $roleAllowed == '') {
+            $roleAllowed = 'Administrator';
+        }
+        return $roleAllowed;
+    }
+
+    /**
+     * Given a role name, return a permission which only that role and roles above it have
+     * http://codex.wordpress.org/Roles_and_Capabilities
+     * @param  $roleName 
+     * @return string
+     */
+    protected function roleToPermission($roleName) {
+        switch ($roleName) {
+            case "Super Admin":
+                return "manage_options";
+            case "Administrator":
+                return "manage_options";
+            case "Editor":
+                return "publish_pages";
+            case "Author":
+                return "publish_posts";
+            case "Contributor":
+                return "edit_posts";
+            case "Subscriber":
+                return "read";
+        }
+        return "";
+    }
+
+    public function isRoleOrBetter($roleName) {
+        $permission = $this->roleToPermission($roleName);
+        return current_user_can($permission);
     }
 
     public function whatsInTheDBPage() {
         //print_r($_POST);
+        $roleAllowed = $this->getRoleOption('CanChangeSubmitData');
+        $canDelete = $this->isRoleOrBetter($roleAllowed);
+
         ?><h2>Form Submissions</h2><?php
         global $wpdb;
         $tableName = $this->prefixTableName('SUBMITS');
@@ -101,15 +177,15 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         // Identify which forms have data in the database
         $rows = $wpdb->get_results("select distinct `form_name` from `$tableName` order by `form_name`");
         if ($rows == null || count($rows) == 0) {
-            ?>No form submissions in the database<?php
-                return;
+            _e('No form submissions in the database');
+            return;
         }
         $htmlFormName = $this->prefix('form');
         $currSelection = $rows[0]->form_name;
         if (isset($_POST['form_name'])) {
             $currSelection = $_POST['form_name'];
             // Check for delete operation
-            if (isset($_POST['delete'])) {
+            if (isset($_POST['delete']) && $canDelete) {
                 if (isset($_POST['submit_time'])) {
                     $submitTime = $_POST['submit_time'];
                     $wpdb->query("delete from `$tableName` where `form_name` = '$currSelection' and `submit_time` = '$submitTime'");
@@ -142,7 +218,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         ?>
         <table cellspacing="0" style="margin-top:1em; border-width:0px; border-style:solid; border-color:gray;">
             <thead>
-            <th></th>
+            <?php if ($canDelete) { ?> <th></th> <?php } ?>
             <th <?php echo $style ?>>Submitted</th>
             <?php foreach ($tableData->columns as $aCol) {
                 echo "<th $style>$aCol</th>";
@@ -152,6 +228,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             <?php foreach ($tableData->pivot as $submitTime => $data) {
                 ?>
                 <tr>
+                <?php if ($canDelete) { ?>
                     <td>
                         <form action="" method="post">
                             <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
@@ -160,6 +237,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                             <input type="image" src="<?php echo $pluginDirUrl ?>delete.gif" alt="Delete Row" onchange="this.form.submit()"/>
                         </form>
                     </td>
+                <?php } ?>
                     <td <?php echo $style ?>><?php echo date('Y-m-d', $submitTime) ?></td>
                 <?php
                     foreach ($tableData->columns as $aCol) {
@@ -176,16 +254,18 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             <tr>
                 <td>
                     <form action="">
-                        <input name="exportcsv" type="button" value="Export to CSV (Excel) File"
+                        <input name="exportcsv" type="button" value="<?php _e('Export to CSV (Excel) File'); ?>"
                                 onclick="document.getElementById('export').src = '<?php echo $pluginDirUrl ?>exportCSV.php?form_name=<?php echo urlencode($currSelection) ?>'"/>
                     </form>
                 </td>
+                <?php if ($canDelete) { ?>
                 <td>
                     <form action="" method="post">
                         <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
-                        <input name="delete" type="submit" value="Delete All This Form's Records" onclick="return confirm('Are you sure you want to delete all the data for this form?')"/>
+                        <input name="delete" type="submit" value="<?php _e('Delete All This Form\'s Records'); ?>" onclick="return confirm('Are you sure you want to delete all the data for this form?')"/>
                     </form>
                 </td>
+                <?php } ?>
             </tr>
         </table>
 
@@ -193,7 +273,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 id='export'
                 name='export'
                 frameborder='0'
-                style='display:block'
+                style='display:none'
                 src=''></iframe>
         <?php
     }
