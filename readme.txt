@@ -49,6 +49,8 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 
 == Screenshots ==
 
+1. View of data saved in DB
+
 == Changelog ==
 
 = 1.2 =
