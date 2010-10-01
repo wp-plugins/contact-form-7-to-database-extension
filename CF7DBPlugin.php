@@ -85,23 +85,28 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         $time = time();
         $ip = ($_SERVER['X_FORWARDED_FOR']) ? $_SERVER['X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
         $tableName = $this->prefixTableName('SUBMITS');
-        $parametrizedQuery = "INSERT INTO `$tableName` (`submit_time`, `form_name`, `field_name`, `field_value`) VALUES ('%s', '%s', '%s', '%s')";
+        $parametrizedQuery = "INSERT INTO `$tableName` (`submit_time`, `form_name`, `field_name`, `field_value`) VALUES (%s, %s, %s, %s)";
+
+        $title = $this->stripSlashes($cf7->title);
         foreach ($cf7->posted_data as $name => $value) {
             $value = is_array($value) ? implode($value, ", ") : $value;
-            $query = sprintf($parametrizedQuery,
-                    mysql_real_escape_string($time),
-                    mysql_real_escape_string($cf7->title),
-                    mysql_real_escape_string($name),
-                    mysql_real_escape_string($value));
-            $wpdb->query($query);
+            $wpdb->query($wpdb->prepare($parametrizedQuery,
+                                        $time,
+                                        $title,
+                                        $this->stripSlashes($name),
+                                        $this->stripSlashes($value)));
         }
 
         // Capture the IP Address of the submitter
-        $wpdb->query(sprintf($parametrizedQuery,
-                         mysql_real_escape_string($time),
-                         mysql_real_escape_string($cf7->title),
-                         mysql_real_escape_string('Submitted From'),
-                         mysql_real_escape_string($ip)));
+        $wpdb->query($wpdb->prepare($parametrizedQuery,
+                                    $time,
+                                    $title,
+                                    'Submitted From',
+                                    $ip));
+    }
+
+    public function &stripSlashes($text) {
+        return get_magic_quotes_gpc() ? stripslashes($text) : $text;
     }
 
     public function createAdminMenu() {
