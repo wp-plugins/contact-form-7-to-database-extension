@@ -169,9 +169,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         ?>
         <table style="width:100%;">
             <tbody><tr>
-                <td style="font-size:x-small;"><a href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension">CF7-to-DB Extension</a></td>
+                <td style="font-size:x-small;"><a target="_cf7todb" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension">CF7-to-DB Extension</a></td>
                 <td style="font-size:x-small;"></td>
-                <td style="font-size:x-small;"><a href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/">FAQ</a></td>
+                <td style="font-size:x-small;"><a target="_cf7todb" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/">FAQ</a></td>
             </tr></tbody>
         </table>
         <?php
