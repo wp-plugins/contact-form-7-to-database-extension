@@ -212,6 +212,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         $style = "style='padding:5px; border-width:1px; border-style:solid; border-color:gray;'";
         $pluginDirUrl = $this->getPluginDirUrl();
         ?>
+        <div style="overflow:auto; max-height:500px;">
         <table cellspacing="0" style="margin-top:1em; border-width:0px; border-style:solid; border-color:gray;">
             <thead>
             <?php if ($canDelete) { ?> <th></th> <?php } ?>
@@ -245,17 +246,24 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             } ?>
             </tbody>
         </table>
+        </div>
 
-        <table cellspacing="20" style="margin-top:2em;">
+        <table width="100%" cellspacing="20" style="margin-top:2em;">
             <tr>
                 <td>
-                    <form action="">
-                        <input name="exportcsv" type="button" value="<?php _e('Export to Excel (CSV File)'); ?>"
-                                onclick="document.getElementById('export').src = '<?php echo $pluginDirUrl ?>exportCSV.php?form_name=<?php echo urlencode($currSelection) ?>'"/>
+                    <form name="exportcsv" action="">
+                        <select size="1" name="encoding">
+                            <option id="UTF8" value="UTF8">UTF-8</option>
+                            <option id="UTF16LE" value="UTF16LE">UTF-16LE</option>
+                        </select>
+                        <input name="exportcsv" type="button" value="<?php _e('Export to CSV File'); ?>"
+                                onclick="document.getElementById('export').src =
+                                '<?php echo $pluginDirUrl ?>exportCSV.php?form_name=<?php echo urlencode($currSelection) ?>&encoding=' +
+                                document.forms['exportcsv'].elements['encoding'].options[document.forms['exportcsv'].elements['encoding'].selectedIndex].value;"/>
                     </form>
                 </td>
                 <?php if ($canDelete) { ?>
-                <td>
+                <td align="right">
                     <form action="" method="post">
                         <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
                         <input name="delete" type="submit" value="<?php _e('Delete All This Form\'s Records'); ?>" onclick="return confirm('Are you sure you want to delete all the data for this form?')"/>
@@ -269,7 +277,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 id='export'
                 name='export'
                 frameborder='0'
-                style='display:none'
+                style='display:block'   <?php // todo  ?>
                 src=''></iframe>
         <?php
     }

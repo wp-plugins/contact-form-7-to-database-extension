@@ -49,9 +49,12 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 
 == Screenshots ==
 
-1. View of data saved in DB
+1. screenshot-1.png
 
 == Changelog ==
+
+= 1.2.1 =
+* Option for UTF-8 or UTF-16LE export. UTF-16LE works better for MS Excel for some people but does it not preserve line breaks inside a form entry.
 
 = 1.2 =
 * Admin menu now appears under CF7's "Contact" top level menu

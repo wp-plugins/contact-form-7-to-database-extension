@@ -1,0 +1,71 @@
+<?php
+
+include_once('../../../wp-config.php');
+include_once('../../../wp-load.php');
+include_once('../../../wp-includes/wp-db.php');
+require_once('CF7DBTableData.php');
+require_once('CF7DBPlugin.php');
+
+class ExportToCsvUtf16le {
+
+    public function export($formName) {
+        $plugin = new CF7DBPlugin();
+        $tableData = $plugin->getRowsPivot($formName);
+
+        header("Content-Type: text/csv; charset=UTF-16LE");
+//    header("Content-Type: application/vnd.ms-excel");
+        header("Expires: 0");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Content-Disposition: attachment; filename=\"$formName.csv\"");
+
+        //Bytes FF FE (UTF-16LE BOM)
+        echo chr(255) . chr(254);
+        $eol = $this->encode(utf8_encode("\n"));
+        $delimiter = $this->encode(utf8_encode("\t"));
+
+        // Column Headers
+        echo $this->prepareCsvValue(utf8_encode(__("Submitted")));
+        echo $delimiter;
+        foreach ($tableData->columns as $aCol) {
+            echo $this->prepareCsvValue($aCol);
+            echo $delimiter;
+        }
+        echo $eol;
+
+
+        // Rows
+        foreach ($tableData->pivot as $submitTime => $data) {
+            echo $this->encode(utf8_encode(date('Y-m-d', $submitTime)));
+            echo $delimiter;
+            foreach ($tableData->columns as $aCol) {
+                $cell = isset($data[$aCol]) ? $data[$aCol] : "";
+                echo $this->prepareCsvValue($cell);
+                echo $delimiter;
+            }
+            echo $eol;
+        }
+    }
+
+
+    protected function &prepareCsvValue($text) {
+        // Excel does not like \n characters in UTF-16LE, so we replace with a space
+        $text = str_replace("\n", " ", $text);
+
+        // In CSV, escape double-quotes by putting two double quotes together
+        $quote = '"';
+        $text = str_replace($quote, $quote . $quote, $text);
+
+        // Quote it to escape delimiters
+        $text = $quote . $text . $quote;
+
+        // Encode UTF-16LE
+        $text = $this->encode($text);
+
+        return $text;
+    }
+
+    protected function &encode($text) {
+        return mb_convert_encoding($text, 'UTF-16LE', 'UTF-8');
+    }
+
+}
