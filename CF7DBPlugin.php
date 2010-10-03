@@ -166,7 +166,16 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         //print_r($_POST);
         $canDelete = $this->canUserDoRoleOption('CanChangeSubmitData');
 
-        ?><h2>Form Submissions</h2><?php
+        ?>
+        <table style="width:100%;">
+            <tbody><tr>
+                <td style="font-size:x-small;"><a href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension">CF7-to-DB Extension</a></td>
+                <td style="font-size:x-small;"></td>
+                <td style="font-size:x-small;"><a href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/">FAQ</a></td>
+            </tr></tbody>
+        </table>
+        <?php
+
         global $wpdb;
         $tableName = $this->prefixTableName('SUBMITS');
 
@@ -192,28 +201,57 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             }
         }
         // Form selection drop-down list
+        $pluginDirUrl = $this->getPluginDirUrl();
+
         ?>
-        <form method="post" action="" name="<?php echo $htmlFormName ?>" id="<?php echo $htmlFormName ?>">
-            <select name="form_name" id="form_name" onchange="this.form.submit();">
-            <?php foreach ($rows as $aRow) {
-                $formName = $aRow->form_name;
-                $selected = ($formName == $currSelection) ? "selected" : "";
-                ?>
-                    <option value="<?php echo $formName ?>" <?php echo $selected ?>><?php echo $formName ?></option>
-                <?php } ?>
-            </select>
-        </form>
+        <table width="100%" cellspacing="20">
+            <tr>
+                <td>
+                    <form method="post" action="" name="<?php echo $htmlFormName ?>" id="<?php echo $htmlFormName ?>">
+                        <select name="form_name" id="form_name" onchange="this.form.submit();">
+                        <?php foreach ($rows as $aRow) {
+                            $formName = $aRow->form_name;
+                            $selected = ($formName == $currSelection) ? "selected" : "";
+                            ?>
+                                <option value="<?php echo $formName ?>" <?php echo $selected ?>><?php echo $formName ?></option>
+                            <?php } ?>
+                        </select>
+                    </form>
+                </td>
+                <td>
+                    <form name="exportcsv" action="">
+                        <select size="1" name="encoding">
+                            <option id="UTF8" value="UTF8">UTF-8</option>
+                            <option id="UTF16LE" value="UTF16LE">UTF-16LE</option>
+                        </select>
+                        <input name="exportcsv" type="button" value="<?php _e('Export to CSV File'); ?>"
+                                onclick="document.getElementById('export').src =
+                                '<?php echo $pluginDirUrl ?>exportCSV.php?form_name=<?php echo urlencode($currSelection) ?>&encoding=' +
+                                document.forms['exportcsv'].elements['encoding'].options[document.forms['exportcsv'].elements['encoding'].selectedIndex].value;"/>
+                    </form>
+                </td>
+                <td align="right">
+                    <?php if ($canDelete) { ?>
+                    <form action="" method="post">
+                        <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
+                        <input name="delete" type="submit" value="<?php _e('Delete All This Form\'s Records'); ?>" onclick="return confirm('Are you sure you want to delete all the data for this form?')"/>
+                    </form>
+                    <?php } ?>
+                </td>
+            </tr>
+        </table>
+
+
         <?php
 
         // Query DB for the data for that form
         $tableData = $this->getRowsPivot($currSelection);
 
         // Show table of form data
-        $style = "style='padding:5px; border-width:1px; border-style:solid; border-color:gray;'";
-        $pluginDirUrl = $this->getPluginDirUrl();
+        $style = "style='padding:5px; border-width:1px; border-style:solid; border-color:gray; font-size:x-small;'";
         ?>
         <div style="overflow:auto; max-height:500px;">
-        <table cellspacing="0" style="margin-top:1em; border-width:0px; border-style:solid; border-color:gray;">
+        <table cellspacing="0" style="margin-top:1em; border-width:0px; border-style:solid; border-color:gray; font-size:x-small;">
             <thead>
             <?php if ($canDelete) { ?> <th></th> <?php } ?>
             <th <?php echo $style ?>>Submitted</th>
@@ -247,31 +285,6 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             </tbody>
         </table>
         </div>
-
-        <table width="100%" cellspacing="20" style="margin-top:2em;">
-            <tr>
-                <td>
-                    <form name="exportcsv" action="">
-                        <select size="1" name="encoding">
-                            <option id="UTF8" value="UTF8">UTF-8</option>
-                            <option id="UTF16LE" value="UTF16LE">UTF-16LE</option>
-                        </select>
-                        <input name="exportcsv" type="button" value="<?php _e('Export to CSV File'); ?>"
-                                onclick="document.getElementById('export').src =
-                                '<?php echo $pluginDirUrl ?>exportCSV.php?form_name=<?php echo urlencode($currSelection) ?>&encoding=' +
-                                document.forms['exportcsv'].elements['encoding'].options[document.forms['exportcsv'].elements['encoding'].selectedIndex].value;"/>
-                    </form>
-                </td>
-                <?php if ($canDelete) { ?>
-                <td align="right">
-                    <form action="" method="post">
-                        <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
-                        <input name="delete" type="submit" value="<?php _e('Delete All This Form\'s Records'); ?>" onclick="return confirm('Are you sure you want to delete all the data for this form?')"/>
-                    </form>
-                </td>
-                <?php } ?>
-            </tr>
-        </table>
 
         <iframe
                 id='export'
