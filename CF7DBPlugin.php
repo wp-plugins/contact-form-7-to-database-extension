@@ -290,7 +290,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 id='export'
                 name='export'
                 frameborder='0'
-                style='display:block'   <?php // todo  ?>
+                style='display:none'<?php // todo  ?>
                 src=''></iframe>
         <?php
     }
