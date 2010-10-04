@@ -36,7 +36,7 @@ Notes:
 
 = What is the name of the table where the data is stored? =
 
-wp_CF7DBPlugin_SUBMITS
+wp_CF7DBPlugin_SUBMITS 
 Note: if you changed your WordPress MySql table prefix from the default "wp_" to something else, then this table will also have that prefix ($wpdb->prefix)
 
 = If I uninstall the plugin, what happens to its data in the database? =
@@ -50,14 +50,14 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 = What is the difference between UTF-8 and UTF-16LE CVS Export files? =
 
 Try UTF-8 first and only use UTF-16LE if it does not work.
-UTF-8 is generally good for most Microsoft Excel installation and all non-Excel spreadsheets that import CSV. But in some cases Excel will not show non-western latin characters properly form UTF-8.
-In that case, you can use UTF-16LE (actually a tab-delimited format) but there is a downside. The UTF-16LE format cannot handle new lines inside of entries. Therefore the plugin converts new lines to spaces.
+UTF-8 is generally good for most Microsoft Excel installation and all non-Excel spreadsheets that import CSV. But in some cases Excel will not show non-western latin characters properly from UTF-8.
+In that case, you can use UTF-16LE (actually a TSV - tab separated values) but there is a downside. The UTF-16LE format cannot handle new lines inside of entries. Therefore the plugin converts new lines to spaces.
 In other words, if you have a form with a text area where people enter multi-line input, the returns are converted to spaces in UTF-16LE but are preserved in UTF-8.
 
 
 == Screenshots ==
 
-1. screenshot-1.png
+1. Admin Panel view of submitted form data
 
 == Changelog ==
 

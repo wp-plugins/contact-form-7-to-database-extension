@@ -20,8 +20,8 @@ class ExportToCsvUtf16le {
         header("Content-Disposition: attachment; filename=\"$fileName\"");
 
         // todo: make this work
-        //$fileName = $this->encodeWordRfc2231($formName) . ".csv";
-        //header("Content-Disposition: attachment; filename*=UTF-8''$fileName");
+//        $fileName = $this->encodeWordRfc2231($formName) . ".csv";
+//        header("Content-Disposition: attachment; filename*=UTF-8''$fileName");
 
         //Bytes FF FE (UTF-16LE BOM)
         echo chr(255) . chr(254);
@@ -75,10 +75,11 @@ class ExportToCsvUtf16le {
 
     protected function &encodeWordRfc2231($word) {
         $binArray = unpack("C*", $word);
+        $hex = '';
         foreach ($binArray as $chr) {
-            $hex_ary[] = '%' . sprintf("%02X", base_convert($chr, 2, 16));
+            $hex .= '%' . sprintf("%02X", base_convert($chr, 2, 16));
         }
-        return implode('', $hex_ary);
+        return $hex;
     }
 
 }
