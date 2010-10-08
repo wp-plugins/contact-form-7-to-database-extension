@@ -3,6 +3,7 @@
 require_once('CF7DBPlugin.php');
 require_once('ExportToCsvUtf8.php');
 require_once('ExportToCsvUtf16le.php');
+require_once('ExportToIqy.php');
 
 function CF7DBPlugin_exportToCSV($formName, $encoding) {
     $plugin = new CF7DBPlugin();
@@ -10,7 +11,12 @@ function CF7DBPlugin_exportToCSV($formName, $encoding) {
         wp_die(__('You do not have sufficient permissions to access this page.'));
     }
 
-    if ($encoding == 'UTF16LE') {
+
+    if ($encoding == 'IQY') {
+        $exporter = new ExportToIqy();
+        $exporter->export($formName);
+    }
+    else if ($encoding == 'UTF16LE') {
         $exporter = new ExportToCsvUtf16le();
         $exporter->export($formName);
     }

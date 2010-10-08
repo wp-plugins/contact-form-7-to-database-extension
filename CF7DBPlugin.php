@@ -221,10 +221,11 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 <td>
                     <form name="exportcsv" action="">
                         <select size="1" name="encoding">
-                            <option id="UTF8" value="UTF8">UTF-8</option>
-                            <option id="UTF16LE" value="UTF16LE">UTF-16LE</option>
+                            <option id="UTF8" value="IQY">Excel Internet Query</option>
+                            <option id="UTF8" value="UTF8">Spreadsheet (CSV UTF-8)</option>
+                            <option id="UTF16LE" value="UTF16LE">Excel-specific (TSV UTF-16LE)</option>
                         </select>
-                        <input name="exportcsv" type="button" value="<?php _e('Export to CSV File'); ?>"
+                        <input name="exportcsv" type="button" value="<?php _e('Export to File'); ?>"
                                 onclick="document.getElementById('export').src =
                                 '<?php echo $pluginDirUrl ?>exportCSV.php?form_name=<?php echo urlencode($currSelection) ?>&encoding=' +
                                 document.forms['exportcsv'].elements['encoding'].options[document.forms['exportcsv'].elements['encoding'].selectedIndex].value;"/>

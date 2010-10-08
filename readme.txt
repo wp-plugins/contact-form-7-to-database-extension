@@ -34,10 +34,26 @@ Notes:
 
 == Frequently Asked Questions ==
 
+= Where do I see the data? =
+
+In the admin page, under CF7's top level "Contact" admin menu. Look for "Contact" -> "Database"
+
+= What is the Excel Internet Query Export Option? =
+
+This option exports a file that you can open in MS Excel. Unlike other exports, it is does contain the data, but creates an internet connection to the plug page to extract the data.
+The data can be refreshed from directly withing Excel so there is no need to do an export every time there is new data.
+
+= What is the difference between UTF-8 and UTF-16LE Export files? =
+
+Try UTF-8 first and only use UTF-16LE if it does not work.
+UTF-8 is generally good for most Microsoft Excel installation and all non-Excel spreadsheets that import CSV. But in some cases Excel will not show non-western latin characters properly from UTF-8.
+In that case, you can use UTF-16LE (actually a TSV - tab separated values) but there is a downside. The UTF-16LE format cannot handle new lines inside of entries. Therefore the plugin converts new lines to spaces.
+In other words, if you have a form with a text area where people enter multi-line input, the returns are converted to spaces in UTF-16LE but are preserved in UTF-8.
+
 = What is the name of the table where the data is stored? =
 
 wp_CF7DBPlugin_SUBMITS 
-Note: if you changed your WordPress MySql table prefix from the default "wp_" to something else, then this table will also have that prefix ($wpdb->prefix)
+Note: if you changed your WordPress MySql table prefix from the default "wp_" to something else, then this table will also have that prefix insted of "wp_" ($wpdb->prefix)
 
 = If I uninstall the plugin, what happens to its data in the database? =
 
@@ -47,13 +63,6 @@ The table and all its data are deleted when you uninstall. You can deactivate th
 
 It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Database". This is to take up less menu space and keep this extension's pages with those of CF7
 
-= What is the difference between UTF-8 and UTF-16LE CVS Export files? =
-
-Try UTF-8 first and only use UTF-16LE if it does not work.
-UTF-8 is generally good for most Microsoft Excel installation and all non-Excel spreadsheets that import CSV. But in some cases Excel will not show non-western latin characters properly from UTF-8.
-In that case, you can use UTF-16LE (actually a TSV - tab separated values) but there is a downside. The UTF-16LE format cannot handle new lines inside of entries. Therefore the plugin converts new lines to spaces.
-In other words, if you have a form with a text area where people enter multi-line input, the returns are converted to spaces in UTF-16LE but are preserved in UTF-8.
-
 
 == Screenshots ==
 
@@ -62,6 +71,7 @@ In other words, if you have a form with a text area where people enter multi-lin
 == Changelog ==
 
 = 1.2.2 =
+* Added export to Excel Internet Query
 * "Submitted" now shows time with timezone instead of just the date. 
 * The height of cells in the data display are limited to avoid really tall rows. Overflow cells will get a scroll bar. 
 
