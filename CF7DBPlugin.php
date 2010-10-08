@@ -13,7 +13,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * @return string
      */
     public function getVersion() {
-        return "1.2";
+        return "1.2.2";
     }
 
 
@@ -132,6 +132,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                     $title,
                                     'Submitted From',
                                     $ip));
+
+        // todo: How to handle file uploads? foreach ( (array) $cf7->uploaded_files as $name => $path ) { }
     }
 
     public function &stripSlashes($text) {
