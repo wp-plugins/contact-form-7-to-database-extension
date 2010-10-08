@@ -273,11 +273,11 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                         </form>
                     </td>
                 <?php } ?>
-                    <td <?php echo $style ?>><?php echo $this->formatDate($submitTime) ?></td>
+                    <td <?php echo $style ?>><div style="max-height:100px; overflow:auto;"><?php echo $this->formatDate($submitTime) ?></div></td>
                 <?php
                     foreach ($tableData->columns as $aCol) {
                     $cell = isset($data[$aCol]) ? $data[$aCol] : "";
-                    echo "<td $style>$cell</td>";
+                    echo "<td $style><div style=\"max-height:100px; overflow:auto;\">$cell</div></td>";
                 }
                 ?></tr><?php
 
