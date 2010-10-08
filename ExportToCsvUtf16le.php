@@ -40,7 +40,7 @@ class ExportToCsvUtf16le {
 
         // Rows
         foreach ($tableData->pivot as $submitTime => $data) {
-            echo $this->encode(utf8_encode(date('Y-m-d', $submitTime)));
+            echo $this->encode(utf8_encode($plugin->formatDate($submitTime)));
             echo $delimiter;
             foreach ($tableData->columns as $aCol) {
                 $cell = isset($data[$aCol]) ? $data[$aCol] : "";

@@ -61,6 +61,9 @@ In other words, if you have a form with a text area where people enter multi-lin
 
 == Changelog ==
 
+= 1.2.2 =
+* "Submitted" now shows time with timezone instead of just the date. 
+
 = 1.2.1 =
 * Option for UTF-8 or UTF-16LE export. UTF-16LE works better for MS Excel for some people but does it not preserve line breaks inside a form entry.
 

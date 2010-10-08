@@ -111,7 +111,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
     public function saveFormData($cf7) {
         global $wpdb;
-        $time = time();
+        $time = $_SERVER['REQUEST_TIME'] ? $_SERVER['REQUEST_TIME'] : time();
         $ip = ($_SERVER['X_FORWARDED_FOR']) ? $_SERVER['X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
         $tableName = $this->prefixTableName('SUBMITS');
         $parametrizedQuery = "INSERT INTO `$tableName` (`submit_time`, `form_name`, `field_name`, `field_value`) VALUES (%s, %s, %s, %s)";
@@ -273,7 +273,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                         </form>
                     </td>
                 <?php } ?>
-                    <td <?php echo $style ?>><?php echo date('Y-m-d', $submitTime) ?></td>
+                    <td <?php echo $style ?>><?php echo $this->formatDate($submitTime) ?></td>
                 <?php
                     foreach ($tableData->columns as $aCol) {
                     $cell = isset($data[$aCol]) ? $data[$aCol] : "";
@@ -320,5 +320,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
     public function getPluginDirUrl() {
         return WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
+    }
+
+    public function formatDate($time) {
+        return date('Y-m-d H:i:s P', $time);
     }
 }

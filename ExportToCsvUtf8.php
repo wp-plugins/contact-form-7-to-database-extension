@@ -36,7 +36,7 @@ class ExportToCsvUtf8 {
 
         // Rows
         foreach ($tableData->pivot as $submitTime => $data) {
-            echo date('Y-m-d', $submitTime);
+            echo $plugin->formatDate($submitTime);
             echo $comma;
             foreach ($tableData->columns as $aCol) {
                 $cell = isset($data[$aCol]) ? $data[$aCol] : "";
