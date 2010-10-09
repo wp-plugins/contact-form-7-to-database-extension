@@ -160,7 +160,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                          array(&$this, 'whatsInTheDBPage'));
     }
 
-    protected function getDBPageSlug() {
+    public function getDBPageSlug() {
         return get_class($this) . 'Submissions';
     }
 
