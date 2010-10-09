@@ -25,7 +25,7 @@ class ExportToCsvUtf8 {
         $comma = ",";
 
         // Column Headers
-        echo $this->prepareCsvValue(__("Submitted"));
+        echo $this->prepareCsvValue(__("Submitted", 'contact-form-7-to-database-extension'));
         echo $comma;
         foreach ($tableData->columns as $aCol) {
             echo $this->prepareCsvValue($aCol);

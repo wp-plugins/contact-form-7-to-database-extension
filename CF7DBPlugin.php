@@ -184,7 +184,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         // Identify which forms have data in the database
         $rows = $wpdb->get_results("select distinct `form_name` from `$tableName` order by `form_name`");
         if ($rows == null || count($rows) == 0) {
-            _e('No form submissions in the database');
+            _e('No form submissions in the database', 'contact-form-7-to-database-extension');
             return;
         }
         $htmlFormName = $this->prefix('form');
@@ -227,7 +227,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                             <option id="UTF8" value="UTF8">Spreadsheet (CSV UTF-8)</option>
                             <option id="UTF16LE" value="UTF16LE">Excel-specific (TSV UTF-16LE)</option>
                         </select>
-                        <input name="exportcsv" type="button" value="<?php _e('Export to File'); ?>"
+                        <input name="exportcsv" type="button" value="<?php _e('Export to File', 'contact-form-7-to-database-extension'); ?>"
                                 onclick="document.getElementById('export').src =
                                 '<?php echo $pluginDirUrl ?>exportCSV.php?form_name=<?php echo urlencode($currSelection) ?>&encoding=' +
                                 document.forms['exportcsv'].elements['encoding'].options[document.forms['exportcsv'].elements['encoding'].selectedIndex].value;"/>
@@ -237,7 +237,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                     <?php if ($canDelete) { ?>
                     <form action="" method="post">
                         <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
-                        <input name="delete" type="submit" value="<?php _e('Delete All This Form\'s Records'); ?>" onclick="return confirm('Are you sure you want to delete all the data for this form?')"/>
+                        <input name="delete" type="submit" value="<?php _e('Delete All This Form\'s Records', 'contact-form-7-to-database-extension'); ?>" onclick="return confirm('Are you sure you want to delete all the data for this form?')"/>
                     </form>
                     <?php } ?>
                 </td>

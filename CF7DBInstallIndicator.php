@@ -5,7 +5,7 @@ require_once("CF7DBOptionsManager.php");
 /**
  * The methods in this class are used to track whether or not the plugin has been installed.
  * It writes a value in options to indicate that this plugin is installed.
- * 
+ *
  * @author Michael Simpson
  */
 
@@ -64,7 +64,7 @@ class CF7DBInstallIndicator extends CF7DBOptionsManager {
     /**
      * Version of this deployment.
      * Override this to set your current release version, e.g. "1.0", 1.1.1"
-     * Best practice: define version strings to be easily compared using version_compare() 
+     * Best practice: define version strings to be easily compared using version_compare()
      * (http://php.net/manual/en/function.version-compare.php)
      * NOTE: You should manually make this match the SVN tag for your main plugin file "Version" release and "Stable tag" in readme.txt
      * @return string

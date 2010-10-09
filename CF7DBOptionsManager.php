@@ -242,7 +242,7 @@ class CF7DBOptionsManager {
      */
     public function settingsPage() {
         if (!current_user_can('manage_options')) {
-            wp_die(__('You do not have sufficient permissions to access this page.'));
+            wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
         }
 
         $optionMetaData = $this->getOptionMetaData();
@@ -260,7 +260,7 @@ class CF7DBOptionsManager {
         $settingsGroup = get_class($this) . '-settings-group';
         ?>
         <div class="wrap">
-            <h2><?php echo $this->getPluginDisplayName(); echo _e(" Settings"); ?></h2>
+            <h2><?php echo $this->getPluginDisplayName(); echo _e(" Settings", 'contact-form-7-to-database-extension'); ?></h2>
 
             <form method="post" action="">
             <?php settings_fields($settingsGroup); ?>
@@ -269,7 +269,7 @@ class CF7DBOptionsManager {
         if ($optionMetaData != null) {
                     foreach ($optionMetaData as $aOptionKey => $aOptionMeta) {
                         $displayText = is_array($aOptionMeta) ?  $aOptionMeta[0] :  $aOptionMeta;
-                        $displayText = __($displayText);
+                        $displayText = __($displayText, 'contact-form-7-to-database-extension');
                         ?>
                             <tr valign="top">
                                 <th scope="row"><p><?php echo $displayText ?></p></th>
@@ -283,7 +283,7 @@ class CF7DBOptionsManager {
                 ?>
                 </table>
                 <p class="submit">
-                    <input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>"/>
+                    <input type="submit" class="button-primary" value="<?php _e('Save Changes', 'contact-form-7-to-database-extension') ?>"/>
                 </p>
 
             </form>

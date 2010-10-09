@@ -29,7 +29,7 @@ class ExportToCsvUtf16le {
         $delimiter = $this->encode(utf8_encode("\t"));
 
         // Column Headers
-        echo $this->prepareCsvValue(utf8_encode(__("Submitted")));
+        echo $this->prepareCsvValue(utf8_encode(__("Submitted", 'contact-form-7-to-database-extension')));
         echo $delimiter;
         foreach ($tableData->columns as $aCol) {
             echo $this->prepareCsvValue($aCol);
