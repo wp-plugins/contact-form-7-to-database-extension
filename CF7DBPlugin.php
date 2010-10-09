@@ -13,7 +13,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * @return string
      */
     public function getVersion() {
-        return "1.2";
+        return "1.2.2";
     }
 
 
@@ -132,6 +132,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                     $title,
                                     'Submitted From',
                                     $ip));
+
+        // todo: How to handle file uploads? foreach ( (array) $cf7->uploaded_files as $name => $path ) { }
     }
 
     public function &stripSlashes($text) {
@@ -158,7 +160,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                          array(&$this, 'whatsInTheDBPage'));
     }
 
-    protected function getDBPageSlug() {
+    public function getDBPageSlug() {
         return get_class($this) . 'Submissions';
     }
 
@@ -221,7 +223,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 <td>
                     <form name="exportcsv" action="">
                         <select size="1" name="encoding">
-                            <option id="UTF8" value="IQY">Excel Internet Query</option>
+                            <option id="IQY" value="IQY">Excel Internet Query</option>
                             <option id="UTF8" value="UTF8">Spreadsheet (CSV UTF-8)</option>
                             <option id="UTF16LE" value="UTF16LE">Excel-specific (TSV UTF-16LE)</option>
                         </select>
