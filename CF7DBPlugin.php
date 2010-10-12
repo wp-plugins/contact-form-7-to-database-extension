@@ -191,6 +191,11 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         $currSelection = $rows[0]->form_name;
         if (isset($_POST['form_name'])) {
             $currSelection = $_POST['form_name'];
+        }
+        else if (isset($_GET['form_name'])) {
+            $currSelection = $_GET['form_name'];
+        }
+        if (isset($currSelection)) {
             // Check for delete operation
             if (isset($_POST['delete']) && $canDelete) {
                 if (isset($_POST['submit_time'])) {
@@ -280,6 +285,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 <?php
                     foreach ($tableData->columns as $aCol) {
                     $cell = isset($data[$aCol]) ? $data[$aCol] : "";
+                    $cell = htmlentities($cell); // no HTML injection
+                    $cell = str_replace("\r\n", "<br/>", $cell); // preserve DOS line breaks
+                    $cell = str_replace("\n", "<br/>", $cell); // preserve UNIX line breaks
                     echo "<td $style><div style=\"max-height:100px; overflow:auto;\">$cell</div></td>";
                 }
                 ?></tr><?php
