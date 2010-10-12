@@ -75,6 +75,8 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 * "Submitted" now shows time with timezone instead of just the date. 
 * The height of cells in the data display are limited to avoid really tall rows. Overflow cells will get a scroll bar.
 * Protection against HTML-injection
+* Option to show line breaks in multi-line form submissions
+* Added POT file for i18n
 
 = 1.2.1 =
 * Option for UTF-8 or UTF-16LE export. UTF-16LE works better for MS Excel for some people but does it not preserve line breaks inside a form entry.
