@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=NEVDJ
 Tags: contact form,database
 Requires at least: 2.9
 Tested up to: 3.0.1
-Stable tag: 1.2.1
+Stable tag: 1.3
 
 Extension to the Contact Form 7 plugin that saves submitted form data to the database.
 
@@ -70,7 +70,7 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 
 == Changelog ==
 
-= 1.2.2 =
+= 1.3 =
 * Added export to Excel Internet Query
 * "Submitted" now shows time with timezone instead of just the date. 
 * The height of cells in the data display are limited to avoid really tall rows. Overflow cells will get a scroll bar.

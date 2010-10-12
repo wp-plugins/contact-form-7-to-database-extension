@@ -13,7 +13,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * @return string
      */
     public function getVersion() {
-        return "1.2.2";
+        return "1.3";
     }
 
 
