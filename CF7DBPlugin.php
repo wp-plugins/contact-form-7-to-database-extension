@@ -24,7 +24,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     public function &getOptionMetaData() {
         return array(
             'CanSeeSubmitData' => array('Can See Submission data', 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
-            'CanChangeSubmitData' => array('Can Delete Submission data', 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber')
+            'CanChangeSubmitData' => array('Can Delete Submission data', 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
+            'ShowLineBreaksInDataTable' => array('Show line breaks in submitted data table', 'true', 'false')
         );
     }
 
@@ -283,11 +284,15 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 <?php } ?>
                     <td <?php echo $style ?>><div style="max-height:100px; overflow:auto;"><?php echo $this->formatDate($submitTime) ?></div></td>
                 <?php
+                    $showLineBreaks = $this->getOption('ShowLineBreaksInDataTable');
+                    $showLineBreaks = 'false' != $showLineBreaks;
                     foreach ($tableData->columns as $aCol) {
                     $cell = isset($data[$aCol]) ? $data[$aCol] : "";
                     $cell = htmlentities($cell, null, 'UTF-8'); // no HTML injection
-                    $cell = str_replace("\r\n", "<br/>", $cell); // preserve DOS line breaks
-                    $cell = str_replace("\n", "<br/>", $cell); // preserve UNIX line breaks
+                    if ($showLineBreaks) {
+                        $cell = str_replace("\r\n", "<br/>", $cell); // preserve DOS line breaks
+                        $cell = str_replace("\n", "<br/>", $cell); // preserve UNIX line breaks
+                    }
                     echo "<td $style><div style=\"max-height:100px; overflow:auto;\">$cell</div></td>";
                 }
                 ?></tr><?php
