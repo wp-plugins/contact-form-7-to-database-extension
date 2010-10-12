@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-"
 "extension\n"
-"POT-Creation-Date: 2010-10-09 20:48+0000\n"
+"POT-Creation-Date: 2010-10-12 15:31+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,15 +29,15 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: CF7DBPlugin.php:187
+#: CF7DBPlugin.php:188
 msgid "No form submissions in the database"
 msgstr ""
 
-#: CF7DBPlugin.php:230
+#: CF7DBPlugin.php:236
 msgid "Export to File"
 msgstr ""
 
-#: CF7DBPlugin.php:240
+#: CF7DBPlugin.php:246
 msgid "Delete All This Form's Records"
 msgstr ""
 
