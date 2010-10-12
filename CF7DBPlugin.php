@@ -285,7 +285,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 <?php
                     foreach ($tableData->columns as $aCol) {
                     $cell = isset($data[$aCol]) ? $data[$aCol] : "";
-                    $cell = htmlentities($cell); // no HTML injection
+                    $cell = htmlentities($cell, null, 'UTF-8'); // no HTML injection
                     $cell = str_replace("\r\n", "<br/>", $cell); // preserve DOS line breaks
                     $cell = str_replace("\n", "<br/>", $cell); // preserve UNIX line breaks
                     echo "<td $style><div style=\"max-height:100px; overflow:auto;\">$cell</div></td>";
