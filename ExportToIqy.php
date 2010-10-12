@@ -11,21 +11,24 @@ class ExportToIqy {
         $url = get_bloginfo('url');
         $plugin = new CF7DBPlugin();
         $slug = $plugin->getDBPageSlug();
+        $encFormName = urlencode($formName);
+        $encRedir = urlencode("$url/wp-admin/admin.php?page=$slug&form_name=$encFormName");
 
         // To get this to work right, we have to submit to the same page that the login form does and post
         // the same parameters that the login form does. This includes "log" and "pwd" for the login and
-        // also "redirect_to" which is the page where we want to end up. We also add the "form_name" parameter
-        // for the final page to select which contact form data is to be displayed.
+        // also "redirect_to" which is the URL of the page where we want to end up including a "form_name" parameter
+        // to tell that final page to select which contact form data is to be displayed.
         //
-        // the "Selection=3" part references the 3rd table in the page which is the data table.
+        // "Selection=3" references the 3rd table in the page which is the data table.
+        // "Formatting" can be "None", "All", or "RTF"
         echo (
 "WEB
 1
-$url/wp-login.php
-form_name=$formName&log=[\"Username for $url\"]&pwd=[\"Password for $url\"]&redirect_to=$url/wp-admin/admin.php?page=$slug
+$url/wp-login.php?redirect_to=$encRedir
+log=[\"Username for $url\"]&pwd=[\"Password for $url\"]
 
 Selection=3
-Formatting=None
+Formatting=RTF
 PreFormattedTextToColumns=True
 ConsecutiveDelimitersAsOne=True
 SingleBlockTextImport=False
