@@ -25,7 +25,7 @@ This plugin also puts a menu item in the Administration Plugins menu where you c
 1. Be sure that Contact Form 7 is installed and activated (this is an extension to it)
 1. Import contact-form-7-db.zip via the 'Plugins' menu in WordPress
 1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Adds an Admin menu item for seeing the stored data
+1. Adds an Admin menu item for seeing the stored data under "Contact" -> "Database"
 
 Notes:
 
@@ -40,7 +40,7 @@ In the admin page, under CF7's top level "Contact" admin menu. Look for "Contact
 
 = What is the Excel Internet Query Export Option? =
 
-This option exports a file that you can open in MS Excel. Unlike other exports, it is does contain the data, but creates an internet connection to the plug page to extract the data.
+This option exports a file that you can open in MS Excel. Unlike other exports, it is does contain the data, but creates an internet connection to the plugin page to extract the data.
 The data can be refreshed from directly withing Excel so there is no need to do an export every time there is new data.
 
 = What is the difference between UTF-8 and UTF-16LE Export files? =
