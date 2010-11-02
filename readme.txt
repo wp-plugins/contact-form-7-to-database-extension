@@ -70,6 +70,9 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 
 == Changelog ==
 
+= 1.3.1 =
+* Made date-time format configurable.
+
 = 1.3 =
 * Added export to Excel Internet Query
 * "Submitted" now shows time with timezone instead of just the date. 

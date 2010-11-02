@@ -13,7 +13,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * @return string
      */
     public function getVersion() {
-        return "1.3";
+        return "1.3.1";
     }
 
 
@@ -25,7 +25,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         return array(
             'CanSeeSubmitData' => array('Can See Submission data', 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
             'CanChangeSubmitData' => array('Can Delete Submission data', 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
-            'ShowLineBreaksInDataTable' => array('Show line breaks in submitted data table', 'true', 'false')
+            'ShowLineBreaksInDataTable' => array('Show line breaks in submitted data table', 'true', 'false'),
+            'SubmitDateTimeFormat' => array('Submit <a target="_blank" href="http://php.net/manual/en/function.date.php">Date-Time Display Format</a>')
         );
     }
 
@@ -42,6 +43,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             // Remove obsolete options
             $this->deleteOption('_displayName');
             $this->deleteOption('_metatdata');
+        }
+
+        if ($this->getOption('SubmitDateTimeFormat') == '') {
+            $this->addOption('SubmitDateTimeFormat', 'Y-m-d H:i:s P');
         }
 
 
@@ -331,6 +336,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         }
         $tableData->columns = array_unique($tableData->columns);
 
+        // todo: order columns based on order of last form entry
+
         return $tableData;
     }
 
@@ -339,6 +346,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     }
 
     public function formatDate($time) {
-        return date('Y-m-d H:i:s P', $time);
+        $dateFormat = $this->getOption('SubmitDateTimeFormat');
+        return date($dateFormat, $time);
     }
 }
