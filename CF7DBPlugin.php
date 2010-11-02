@@ -26,7 +26,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             'CanSeeSubmitData' => array('Can See Submission data', 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
             'CanChangeSubmitData' => array('Can Delete Submission data', 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
             'ShowLineBreaksInDataTable' => array('Show line breaks in submitted data table', 'true', 'false'),
-            'SubmitDateTimeFormat' => array('Submit <a target="_blank" href="http://php.net/manual/en/function.date.php">Date-Time Display Format</a>')
+            'SubmitDateTimeFormat' => array('Submit <a target="_blank" href="http://php.net/manual/en/function.date.php">Date-Time Display Format</a>'),
+            'ShowExportIFrame' => array('Show Export IFRAME (for debugging)', 'false', 'true')
         );
     }
 
@@ -311,7 +312,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 id='export'
                 name='export'
                 frameborder='0'
-                style='display:none'<?php // todo  ?>
+                style='display:<?php echo('true' == $this->getOption('ShowExportIFrame') ? 'block' : 'none') ?>'
                 src=''></iframe>
         <?php
     }
@@ -341,6 +342,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         return $tableData;
     }
 
+    /**
+     * @return string URL to the Plugin directory
+     */
     public function getPluginDirUrl() {
         return WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
     }
