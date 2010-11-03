@@ -257,8 +257,15 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                     $submitTime = $_POST['submit_time'];
                     $wpdb->query("delete from `$tableName` where `form_name` = '$currSelection' and `submit_time` = '$submitTime'");
                 }
-                else {
+                else  if (isset($_POST['all'])) {
                     $wpdb->query("delete from `$tableName` where `form_name` = '$currSelection'");
+                }
+                else {
+                    foreach ($_POST as $name => $value) { // checkboxes
+                        if ($value == 'row') {
+                            $wpdb->query("delete from `$tableName` where `form_name` = '$currSelection' and `submit_time` = '$name'");
+                        }
+                    }
                 }
             }
         }
@@ -297,6 +304,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                     <?php if ($canDelete) { ?>
                     <form action="" method="post">
                         <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
+                        <input name="all" type="hidden" value="y"/>
                         <input name="delete" type="submit" value="<?php _e('Delete All This Form\'s Records', 'contact-form-7-to-database-extension'); ?>" onclick="return confirm('Are you sure you want to delete all the data for this form?')"/>
                     </form>
                     <?php } ?>
@@ -314,9 +322,18 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         $style = "style='padding:5px; border-width:1px; border-style:solid; border-color:gray; font-size:x-small;'";
         ?>
         <div style="overflow:auto; max-height:500px;">
+        <?php if ($canDelete) { ?>
+        <form action="" method="post">
+            <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
+            <input name="delete" type="hidden" value="rows"/>
+        <?php } ?>
         <table cellspacing="0" style="margin-top:1em; border-width:0px; border-style:solid; border-color:gray; font-size:x-small;">
             <thead>
-            <?php if ($canDelete) { ?> <th></th> <?php } ?>
+            <?php if ($canDelete) { ?>
+            <th>
+                <input type="image" src="<?php echo $pluginDirUrl ?>delete.gif" alt="<?php _e('Delete Selected')?>" onchange="this.form.submit()"/>
+            </th>
+            <?php } ?>
             <th <?php echo $style ?>>Submitted</th>
             <?php foreach ($tableData->columns as $aCol) {
                 echo "<th $style>$aCol</th>";
@@ -327,13 +344,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 ?>
                 <tr>
                 <?php if ($canDelete) { ?>
-                    <td>
-                        <form action="" method="post">
-                            <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
-                            <input name="submit_time" type="hidden" value="<?php echo $submitTime ?>"/>
-                            <input name="delete" type="hidden" value="row"/>
-                            <input type="image" src="<?php echo $pluginDirUrl ?>delete.gif" alt="Delete Row" onchange="this.form.submit()"/>
-                        </form>
+                    <td align="center">
+                        <input type="checkbox" name="<?php echo $submitTime ?>" value="row" />
                     </td>
                 <?php } ?>
                     <td <?php echo $style ?>><div style="max-height:100px; overflow:auto;"><?php echo $this->formatDate($submitTime) ?></div></td>
@@ -358,6 +370,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             } ?>
             </tbody>
         </table>
+        <?php if ($canDelete) { ?>
+        </form>
+        <?php } ?>
         </div>
 
         <iframe
