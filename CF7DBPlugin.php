@@ -319,7 +319,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         $tableData = $this->getRowsPivot($currSelection);
 
         // Show table of form data
-        $style = "style='padding:5px; border-width:1px; border-style:solid; border-color:gray; font-size:x-small;'";
+        $style = "padding:5px; border-width:1px; border-style:solid; border-color:gray; font-size:x-small;";
+        $thStyle = $style." background-color:#E8E8E8;";
         ?>
         <div style="overflow:auto; max-height:500px;">
         <?php if ($canDelete) { ?>
@@ -334,9 +335,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 <input type="image" src="<?php echo $pluginDirUrl ?>delete.gif" alt="<?php _e('Delete Selected')?>" onchange="this.form.submit()"/>
             </th>
             <?php } ?>
-            <th <?php echo $style ?>>Submitted</th>
+            <th style="<?php echo $thStyle ?>">Submitted</th>
             <?php foreach ($tableData->columns as $aCol) {
-                echo "<th $style>$aCol</th>";
+                echo "<th style=\"$thStyle\">$aCol</th>";
             } ?>
             </thead>
             <tbody>
@@ -348,7 +349,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                         <input type="checkbox" name="<?php echo $submitTime ?>" value="row" />
                     </td>
                 <?php } ?>
-                    <td <?php echo $style ?>><div style="max-height:100px; overflow:auto;"><?php echo $this->formatDate($submitTime) ?></div></td>
+                    <td style="<?php echo $style ?>"><div style="max-height:100px; overflow:auto;"><?php echo $this->formatDate($submitTime) ?></div></td>
                 <?php
                     $showLineBreaks = $this->getOption('ShowLineBreaksInDataTable');
                     $showLineBreaks = 'false' != $showLineBreaks;
@@ -363,7 +364,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                             $fileUrl = sprintf("${pluginDirUrl}getFile.php?s=%s&form=%s&field=%s", $submitTime, urlencode($currSelection), urlencode($aCol));
                             $cell = "<a href=\"$fileUrl\">$cell</a>";
                         }
-                        echo "<td $style><div style=\"max-height:100px; overflow:auto;\">$cell</div></td>";
+                        echo "<td style=\"$style\"><div style=\"max-height:100px; overflow:auto;\">$cell</div></td>";
                     }
                 ?></tr><?php
 
