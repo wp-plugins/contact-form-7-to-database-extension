@@ -26,8 +26,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             'CanSeeSubmitData' => array('Can See Submission data', 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
             'CanChangeSubmitData' => array('Can Delete Submission data', 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
             'ShowLineBreaksInDataTable' => array('Show line breaks in submitted data table', 'true', 'false'),
-            'SubmitDateTimeFormat' => array('Submit <a target="_blank" href="http://php.net/manual/en/function.date.php">Date-Time Display Format</a>'),
-            'ShowExportIFrame' => array('Show Export IFRAME (for debugging)', 'false', 'true')
+            'SubmitDateTimeFormat' => array('Submit <a target="_blank" href="http://php.net/manual/en/function.date.php">Date-Time Display Format</a>')
         );
     }
 
@@ -111,7 +110,6 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         add_action('admin_menu', array(&$this, 'addSettingsSubMenuPage'));
 
         // Hook into Contact Form 7 when a form post is made to save the data to the DB
-        // TODO: need to find a hook that happens after form validation.
         add_action('wpcf7_before_send_mail', array(&$this, 'saveFormData'));
     }
 
@@ -295,7 +293,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                             <option id="UTF16LE" value="UTF16LE">Excel-specific (TSV UTF-16LE)</option>
                         </select>
                         <input name="exportcsv" type="button" value="<?php _e('Export to File', 'contact-form-7-to-database-extension'); ?>"
-                                onclick="document.getElementById('export').src =
+                                onclick="location.href=
                                 '<?php echo $pluginDirUrl ?>exportCSV.php?form_name=<?php echo urlencode($currSelection) ?>&encoding=' +
                                 document.forms['exportcsv'].elements['encoding'].options[document.forms['exportcsv'].elements['encoding'].selectedIndex].value;"/>
                     </form>
@@ -375,13 +373,6 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         </form>
         <?php } ?>
         </div>
-
-        <iframe
-                id='export'
-                name='export'
-                frameborder='0'
-                style='display:<?php echo('true' == $this->getOption('ShowExportIFrame') ? 'block' : 'none') ?>'
-                src=''></iframe>
         <?php
     }
 
