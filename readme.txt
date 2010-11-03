@@ -71,7 +71,7 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 == Changelog ==
 
 = 1.3.1 =
-* Now saves files uploaded via a CF7 form.
+* Now saves files uploaded via a CF7 form. When defining a file upload in CF7, be sure to set a file size limit. Example: [file upload limit:10mb]
 * Made date-time format configurable.
 * In Database page, the order of columns in the table follows the order of fields from the last form submitted.
 
