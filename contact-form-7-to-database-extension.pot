@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-"
 "extension\n"
-"POT-Creation-Date: 2010-10-12 15:31+0000\n"
+"POT-Creation-Date: 2010-11-03 22:44+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: CF7DBOptionsManager.php:245 exportCSV.php:11
+#: CF7DBOptionsManager.php:245 exportCSV.php:11 getFile.php:11
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
@@ -29,18 +29,46 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: CF7DBPlugin.php:188
+#: CF7DBPlugin.php:26
+msgid "Can See Submission data"
+msgstr ""
+
+#: CF7DBPlugin.php:27
+msgid "Can Delete Submission data"
+msgstr ""
+
+#: CF7DBPlugin.php:28
+msgid "Show line breaks in submitted data table"
+msgstr ""
+
+#: CF7DBPlugin.php:29
+msgid "Date-Time Display Format"
+msgstr ""
+
+#: CF7DBPlugin.php:240
 msgid "No form submissions in the database"
 msgstr ""
 
-#: CF7DBPlugin.php:236
+#: CF7DBPlugin.php:295
 msgid "Export to File"
 msgstr ""
 
-#: CF7DBPlugin.php:246
+#: CF7DBPlugin.php:306
 msgid "Delete All This Form's Records"
+msgstr ""
+
+#: CF7DBPlugin.php:333
+msgid "Delete Selected"
 msgstr ""
 
 #: ExportToCsvUtf16le.php:32 ExportToCsvUtf8.php:28
 msgid "Submitted"
+msgstr ""
+
+#: getFile.php:18
+msgid "Missing form parameters"
+msgstr ""
+
+#: getFile.php:23
+msgid "No such file."
 msgstr ""
