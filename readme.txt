@@ -71,6 +71,7 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 == Changelog ==
 
 = 1.3.1 =
+* Now saves files uploaded via a CF7 form.
 * Made date-time format configurable.
 
 = 1.3 =

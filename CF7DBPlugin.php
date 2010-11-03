@@ -32,10 +32,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     }
 
     public function upgrade() {
+        global $wpdb;
         $version = $this->getVersionSaved();
         if (!$version || $version == "") { // Prior to storing version in options (pre 1.2)
             // DB Schema Upgrade to support i18n using UTF-8
-            global $wpdb;
             $tableName = $this->prefixTableName('SUBMITS');
             $wpdb->query("ALTER TABLE $tableName MODIFY form_name VARCHAR(127) CHARACTER SET utf8");
             $wpdb->query("ALTER TABLE $tableName MODIFY field_name VARCHAR(127) CHARACTER SET utf8");
@@ -46,8 +46,15 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             $this->deleteOption('_metatdata');
         }
 
-        if ($this->getOption('SubmitDateTimeFormat') == '') {
+        $submitDateTimeFormat = $this->getOption('SubmitDateTimeFormat');
+        if (!$submitDateTimeFormat || $submitDateTimeFormat == '') {
             $this->addOption('SubmitDateTimeFormat', 'Y-m-d H:i:s P');
+        }
+
+        if ($this->isSavedVersionLessThan('1.3.1')) {
+            $tableName = $this->prefixTableName('SUBMITS');
+            $wpdb->query("ALTER TABLE $tableName ADD COLUMN `file` LONGBLOB");
+            $wpdb->query("ALTER TABLE  $tableName ADD INDEX  `submit_time_idx` ( `submit_time` )");
         }
 
 
@@ -71,7 +78,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             `submit_time` INTEGER NOT NULL,
             `form_name` VARCHAR(127) CHARACTER SET utf8,
             `field_name` VARCHAR(127) CHARACTER SET utf8,
-            `field_value` LONGTEXT CHARACTER SET utf8)");
+            `field_value` LONGTEXT CHARACTER SET utf8),
+            `file` LONGBLOB");
     }
 
 
@@ -101,6 +109,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         add_action('admin_menu', array(&$this, 'addSettingsSubMenuPage'));
 
         // Hook into Contact Form 7 when a form post is made to save the data to the DB
+        // TODO: need to find a hook that happens after form validation.
         add_action('wpcf7_before_send_mail', array(&$this, 'saveFormData'));
     }
 
@@ -122,15 +131,33 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         $ip = ($_SERVER['X_FORWARDED_FOR']) ? $_SERVER['X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
         $tableName = $this->prefixTableName('SUBMITS');
         $parametrizedQuery = "INSERT INTO `$tableName` (`submit_time`, `form_name`, `field_name`, `field_value`) VALUES (%s, %s, %s, %s)";
+        $parametrizedFileQuery = "UPDATE `$tableName` SET `file` =  '%s' WHERE `submit_time` = '%s' AND `form_name` = %s AND `field_name` = '%s' AND `field_value` = '%s'";
 
         $title = $this->stripSlashes($cf7->title);
         foreach ($cf7->posted_data as $name => $value) {
             $value = is_array($value) ? implode($value, ", ") : $value;
+            $nameClean = $this->stripSlashes($name);
+            $valueClean = $this->stripSlashes($value);
             $wpdb->query($wpdb->prepare($parametrizedQuery,
                                         $time,
                                         $title,
-                                        $this->stripSlashes($name),
-                                        $this->stripSlashes($value)));
+                                        $nameClean,
+                                        $valueClean));
+
+            // Store uploaded files - Do as a separate query in case it fails due to max size or other issue
+            if ( $cf7->uploaded_files) {
+                $filePath = $cf7->uploaded_files[$nameClean];
+                if ($filePath) {
+                   // $content=$wpdb->escape_by_ref(file_get_contents($filePath));
+                    $content=file_get_contents($filePath);
+                    $wpdb->query($wpdb->prepare($parametrizedFileQuery,
+                        $content,
+                        $time,
+                        $title,
+                        $nameClean,
+                        $valueClean));
+                }
+            }
         }
 
         // Capture the IP Address of the submitter
@@ -140,7 +167,24 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                     'Submitted From',
                                     $ip));
 
-        // todo: How to handle file uploads? foreach ( (array) $cf7->uploaded_files as $name => $path ) { }
+    }
+
+    /**
+     * @param  $time form submit time
+     * @param  $formName form name
+     * @param  $fieldName field name (should be an upload file field)
+     * @return array of (file-name, file-contents) or null if not found
+     */
+    public function &getFileFromDB($time, $formName, $fieldName) {
+        global $wpdb;
+        $tableName = $this->prefixTableName('SUBMITS');
+        $parametrizedQuery = "SELECT `field_value`, `file` FROM `$tableName` WHERE `submit_time` = '%s' AND `form_name` = %s AND `field_name` = '%s'";
+        $rows = $wpdb->get_results($wpdb->prepare($parametrizedQuery, $time, $formName, $fieldName));
+        if ($rows == null || count($rows) == 0) {
+            return null;
+        }
+
+        return array($rows[0]->field_value, $rows[0]->file);
     }
 
     public function &stripSlashes($text) {
@@ -293,14 +337,18 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                     $showLineBreaks = $this->getOption('ShowLineBreaksInDataTable');
                     $showLineBreaks = 'false' != $showLineBreaks;
                     foreach ($tableData->columns as $aCol) {
-                    $cell = isset($data[$aCol]) ? $data[$aCol] : "";
-                    $cell = htmlentities($cell, null, 'UTF-8'); // no HTML injection
-                    if ($showLineBreaks) {
-                        $cell = str_replace("\r\n", "<br/>", $cell); // preserve DOS line breaks
-                        $cell = str_replace("\n", "<br/>", $cell); // preserve UNIX line breaks
+                        $cell = isset($data[$aCol]) ? $data[$aCol] : "";
+                        $cell = htmlentities($cell, null, 'UTF-8'); // no HTML injection
+                        if ($showLineBreaks) {
+                            $cell = str_replace("\r\n", "<br/>", $cell); // preserve DOS line breaks
+                            $cell = str_replace("\n", "<br/>", $cell); // preserve UNIX line breaks
+                        }
+                        if ($tableData->files[$aCol] && "" != $cell) {
+                            $fileUrl = sprintf("${pluginDirUrl}getFile.php?s=%s&form=%s&field=%s", $submitTime, urlencode($currSelection), urlencode($aCol));
+                            $cell = "<a href=\"$fileUrl\">$cell</a>";
+                        }
+                        echo "<td $style><div style=\"max-height:100px; overflow:auto;\">$cell</div></td>";
                     }
-                    echo "<td $style><div style=\"max-height:100px; overflow:auto;\">$cell</div></td>";
-                }
                 ?></tr><?php
 
             } ?>
@@ -324,7 +372,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     public function &getRowsPivot($formName) {
         global $wpdb;
         $tableName = $this->prefixTableName('SUBMITS');
-        $rows = $wpdb->get_results("select `submit_time`, `field_name`, `field_value` from `$tableName` where `form_name` = '$formName' order by `submit_time` desc");
+        $rows = $wpdb->get_results("select `submit_time`, `field_name`, `field_value`, `file` IS NOT NULL AS has_file from `$tableName` where `form_name` = '$formName' order by `submit_time` desc");
 
         $tableData = new CF7DBTableData();
 
@@ -333,6 +381,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 $tableData->pivot[$aRow->submit_time] = array();
             }
             $tableData->pivot[$aRow->submit_time][$aRow->field_name] = $aRow->field_value;
+            if ($aRow->has_file) {
+                $tableData->files[$aRow->field_name] = $aRow->field_value;
+            }
             $tableData->columns[count($tableData->columns)] = $aRow->field_name;
         }
         $tableData->columns = array_unique($tableData->columns);
@@ -343,7 +394,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     }
 
     /**
-     * @return string URL to the Plugin directory
+     * @return string URL to the Plugin directory. Includes ending "/"
      */
     public function getPluginDirUrl() {
         return WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));

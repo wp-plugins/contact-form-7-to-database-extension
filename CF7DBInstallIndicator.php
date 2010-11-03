@@ -62,8 +62,8 @@ class CF7DBInstallIndicator extends CF7DBOptionsManager {
     }
 
     /**
-     * Version of this deployment.
-     * Override this to set your current release version, e.g. "1.0", 1.1.1"
+     * Version of this code.
+     * Override this function to set your current release version, e.g. "1.0", 1.1.1"
      * Best practice: define version strings to be easily compared using version_compare()
      * (http://php.net/manual/en/function.version-compare.php)
      * NOTE: You should manually make this match the SVN tag for your main plugin file "Version" release and "Stable tag" in readme.txt
@@ -71,6 +71,37 @@ class CF7DBInstallIndicator extends CF7DBOptionsManager {
      */
     public function getVersion() {
         return "0";
+    }
+
+    /**
+     * Useful when checking for upgrades, can tell if the currently installed version is earlier than the
+     * newly installed code. This case indicates that an upgrade has been installed and this is the first time it
+     * has been activated, so any upgrade actions should be taken. 
+     * @return bool true if the version saved in the options is earlier than the version declared in getVersion().
+     * true indicates that new code is installed and this is the first time it is activated, so upgrade actions
+     * should be taken. Assumes that version string comparable by version_compare, examples: "1", "1.1", "1.1.1", "2.0", etc.
+     */
+    public function isInstalledCodeAnUpgrade() {
+        return $this->isSavedVersionLessThan($this->getVersion());
+    }
+
+    /**
+     * Used to see if the installed code is an upgrade to the input version.
+     * For example, $this->isInstalledCodeAnUpgradeToVersion("2.3") == true indicates that the
+     * @param  $aVersion string
+     * @return bool true if the saved version is earlier (by natural order) than the input version
+     */
+    public function isSavedVersionLessThan($aVersion) {
+        return $this->isVersionLessThan($this->getVersionSaved(), $aVersion);
+    }
+
+    /**
+     * @param  $version1 string a version string such as "1", "1.1", "1.1.1", "2.0", etc.
+     * @param  $version2 string a version string such as "1", "1.1", "1.1.1", "2.0", etc.
+     * @return bool true if version_compare of $versions1 and $version2 shows $version1 as earlier
+     */
+    public function isVersionLessThan($version1, $version2) {
+        return (version_compare($version1, $version2) < 0);
     }
 
     /**
