@@ -23,10 +23,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
     public function &getOptionMetaData() {
         return array(
-            'CanSeeSubmitData' => array('Can See Submission data', 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
-            'CanChangeSubmitData' => array('Can Delete Submission data', 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
-            'ShowLineBreaksInDataTable' => array('Show line breaks in submitted data table', 'true', 'false'),
-            'SubmitDateTimeFormat' => array('Submit <a target="_blank" href="http://php.net/manual/en/function.date.php">Date-Time Display Format</a>')
+            'CanSeeSubmitData' => array(__('Can See Submission data'), 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
+            'CanChangeSubmitData' => array(__('Can Delete Submission data'), 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
+            'ShowLineBreaksInDataTable' => array(__('Show line breaks in submitted data table'), 'true', 'false'),
+            'SubmitDateTimeFormat' => array('<a target="_blank" href="http://php.net/manual/en/function.date.php">'.__('Date-Time Display Format').'</a>')
         );
     }
 
