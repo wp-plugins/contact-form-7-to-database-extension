@@ -73,6 +73,7 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 = 1.3.1 =
 * Now saves files uploaded via a CF7 form.
 * Made date-time format configurable.
+* In Database page, the order of columns in the table follows the order of fields from the last form submitted.
 
 = 1.3 =
 * Added export to Excel Internet Query

@@ -53,6 +53,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
         if ($this->isSavedVersionLessThan('1.3.1')) {
             $tableName = $this->prefixTableName('SUBMITS');
+            $wpdb->query("ALTER TABLE $tableName ADD COLUMN `field_order` INTEGER");
             $wpdb->query("ALTER TABLE $tableName ADD COLUMN `file` LONGBLOB");
             $wpdb->query("ALTER TABLE  $tableName ADD INDEX  `submit_time_idx` ( `submit_time` )");
         }
@@ -79,6 +80,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             `form_name` VARCHAR(127) CHARACTER SET utf8,
             `field_name` VARCHAR(127) CHARACTER SET utf8,
             `field_value` LONGTEXT CHARACTER SET utf8),
+            `field_order` INTEGER,
             `file` LONGBLOB");
     }
 
@@ -130,10 +132,11 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         $time = $_SERVER['REQUEST_TIME'] ? $_SERVER['REQUEST_TIME'] : time();
         $ip = ($_SERVER['X_FORWARDED_FOR']) ? $_SERVER['X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
         $tableName = $this->prefixTableName('SUBMITS');
-        $parametrizedQuery = "INSERT INTO `$tableName` (`submit_time`, `form_name`, `field_name`, `field_value`) VALUES (%s, %s, %s, %s)";
+        $parametrizedQuery = "INSERT INTO `$tableName` (`submit_time`, `form_name`, `field_name`, `field_value`, `field_order`) VALUES (%s, %s, %s, %s, %s)";
         $parametrizedFileQuery = "UPDATE `$tableName` SET `file` =  '%s' WHERE `submit_time` = '%s' AND `form_name` = %s AND `field_name` = '%s' AND `field_value` = '%s'";
 
         $title = $this->stripSlashes($cf7->title);
+        $order = 0;
         foreach ($cf7->posted_data as $name => $value) {
             $value = is_array($value) ? implode($value, ", ") : $value;
             $nameClean = $this->stripSlashes($name);
@@ -142,7 +145,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                         $time,
                                         $title,
                                         $nameClean,
-                                        $valueClean));
+                                        $valueClean,
+                                        $order++));
 
             // Store uploaded files - Do as a separate query in case it fails due to max size or other issue
             if ( $cf7->uploaded_files) {
@@ -372,10 +376,11 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     public function &getRowsPivot($formName) {
         global $wpdb;
         $tableName = $this->prefixTableName('SUBMITS');
-        $rows = $wpdb->get_results("select `submit_time`, `field_name`, `field_value`, `file` IS NOT NULL AS has_file from `$tableName` where `form_name` = '$formName' order by `submit_time` desc");
+        $rows = $wpdb->get_results("select `submit_time`, `field_name`, `field_value`, `file` IS NOT NULL AS has_file from `$tableName` where `form_name` = '$formName' order by `submit_time` desc, `field_order` asc");
 
         $tableData = new CF7DBTableData();
-
+        $latestSubmitTime = null;
+        $columnsSeen = array();
         foreach ($rows as $aRow) {
             if (!isset($tableData->pivot[$aRow->submit_time])) {
                 $tableData->pivot[$aRow->submit_time] = array();
@@ -384,11 +389,38 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             if ($aRow->has_file) {
                 $tableData->files[$aRow->field_name] = $aRow->field_value;
             }
-            $tableData->columns[count($tableData->columns)] = $aRow->field_name;
-        }
-        $tableData->columns = array_unique($tableData->columns);
 
-        // todo: order columns based on order of last form entry
+            // Keep track of all column names seen
+            if (!in_array($aRow->field_name, $columnsSeen)) {
+                $columnsSeen[] = $aRow->field_name;
+            }
+
+            if ($latestSubmitTime == null) {
+                // assumes query sorted by submit_time in descending order
+                $latestSubmitTime = $aRow->submit_time;
+            }
+            if ($aRow->submit_time == $latestSubmitTime) {
+                // Get the column order of the last posted submission
+                $tableData->columns[] = $aRow->field_name;
+            }
+        }
+
+        // We want to maintain the same order of fields as in the CF7 Form
+        // The form post parameters are in the order defined in the HTML and we
+        // save that order in the DB. But CF7 form definition may change over time,
+        // for example:
+        // 1. Form elements may be re-ordered
+        // 2. Form elements may be added
+        // So we use the order of form elements seen in the last form submission.
+        // But it is possible the last form no longer has fields that appeared in
+        // an earlier version of it and appear in the DB in older form submissions.
+        // We track all seen in $columnsSeen and append any that are missed to the
+        // end of the ordering.
+        foreach ($columnsSeen as $colSeen) {
+            if (!in_array($colSeen, $tableData->columns)) {
+                $tableData->columns[] = $colSeen;
+            }
+        }
 
         return $tableData;
     }
