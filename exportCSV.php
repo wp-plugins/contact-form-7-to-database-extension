@@ -1,16 +1,12 @@
 <?php
 
-require_once('CF7DBPlugin.php');
 require_once('ExportToCsvUtf8.php');
 require_once('ExportToCsvUtf16le.php');
 require_once('ExportToIqy.php');
+//require_once('ExportToGoogleSS.php');
 require_once('ExportToGoogleLiveData.php');
 
 function CF7DBPlugin_exportToCSV($formName, $encoding) {
-    $plugin = new CF7DBPlugin();
-    if (!$plugin->canUserDoRoleOption('CanSeeSubmitData')) {
-        wp_die(__('You do not have sufficient permissions to access this page.'));
-    }
 
     switch ($encoding) {
         case 'IQY':
@@ -29,6 +25,10 @@ function CF7DBPlugin_exportToCSV($formName, $encoding) {
             $exporter = new ExportToGoogleLiveData();
             $exporter->export($formName);
             break;
+//        case 'GSS':
+//            $exporter = new ExportToGoogleSS();
+//            $exporter->export($formName);
+//            break;
         default:
             break;
     }

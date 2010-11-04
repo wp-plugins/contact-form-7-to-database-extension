@@ -6,6 +6,12 @@ class ExportToGoogleLiveData {
 
     public function export($formName) {
         $plugin = new CF7DBPlugin();
+        if (!$plugin->canUserDoRoleOption('CanSeeSubmitData')) {
+            wp_die(__('You do not have sufficient permissions to access this page.'));
+        }
+        header("Expires: 0");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        
         $scriptLink = $plugin->getPluginDirUrl() . "Cf7ToDBGGoogleSS.js.php";
         $siteUrl = get_option("home");
         ?>
