@@ -2,7 +2,7 @@
 
 require_once('CF7DBPlugin.php');
 
-class ExportToGoogleIqy {
+class ExportToGoogleLiveData {
 
     public function export($formName) {
         $plugin = new CF7DBPlugin();

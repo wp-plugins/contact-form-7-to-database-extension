@@ -4,7 +4,7 @@ require_once('CF7DBPlugin.php');
 require_once('ExportToCsvUtf8.php');
 require_once('ExportToCsvUtf16le.php');
 require_once('ExportToIqy.php');
-require_once('ExportToGoogleIqy.php');
+require_once('ExportToGoogleLiveData.php');
 
 function CF7DBPlugin_exportToCSV($formName, $encoding) {
     $plugin = new CF7DBPlugin();
@@ -17,8 +17,8 @@ function CF7DBPlugin_exportToCSV($formName, $encoding) {
         $exporter = new ExportToIqy();
         $exporter->export($formName);
     }
-    if ($encoding == 'GIQY') {
-        $exporter = new ExportToGoogleIqy();
+    if ($encoding == 'GLD') {
+        $exporter = new ExportToGoogleLiveData();
         $exporter->export($formName);
     }
     else if ($encoding == 'UTF16LE') {
