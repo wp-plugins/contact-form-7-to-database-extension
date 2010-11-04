@@ -6,12 +6,12 @@
 4. Save and close the script editor.
 5. Click on a cell A1 in the Spreadsheet (or any cell)
 6. Enter in the cell the formula: 
-	=CF7ToDBData("siteUrl", "formName", "user", "pwd")
+   =CF7ToDBData("siteUrl", "formName", "user", "pwd")
   Where the parameters are (be sure to quote them):
-	siteUrl: the URL of you site, e.g. "http://www.mywordpress.com"
-	formName: name of the form
-	user: your login name on your wordpress site
-	pwd: password
+    siteUrl: the URL of you site, e.g. "http://www.mywordpress.com"
+    formName: name of the form
+    user: your login name on your wordpress site
+    pwd: password
 */
 
 function CF7ToDBData(siteUrl, formName, user, pwd) {

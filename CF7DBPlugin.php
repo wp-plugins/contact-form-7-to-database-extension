@@ -291,8 +291,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                             <option id="IQY" value="IQY">Excel Internet Query</option>
                             <option id="UTF8" value="UTF8">Spreadsheet (CSV UTF-8)</option>
                             <option id="UTF16LE" value="UTF16LE">Excel-specific (TSV UTF-16LE)</option>
+                            <option id="GIQY" value="GIQY">Google Internet Query</option>
                         </select>
-                        <input name="exportcsv" type="button" value="<?php _e('Export to File', 'contact-form-7-to-database-extension'); ?>"
+                        <input name="exportcsv" type="button" value="<?php _e('Export', 'contact-form-7-to-database-extension'); ?>"
                                 onclick="location.href=
                                 '<?php echo $pluginDirUrl ?>exportCSV.php?form_name=<?php echo urlencode($currSelection) ?>&encoding=' +
                                 document.forms['exportcsv'].elements['encoding'].options[document.forms['exportcsv'].elements['encoding'].selectedIndex].value;"/>
