@@ -12,22 +12,25 @@ function CF7DBPlugin_exportToCSV($formName, $encoding) {
         wp_die(__('You do not have sufficient permissions to access this page.'));
     }
 
-
-    if ($encoding == 'IQY') {
-        $exporter = new ExportToIqy();
-        $exporter->export($formName);
-    }
-    if ($encoding == 'GLD') {
-        $exporter = new ExportToGoogleLiveData();
-        $exporter->export($formName);
-    }
-    else if ($encoding == 'UTF16LE') {
-        $exporter = new ExportToCsvUtf16le();
-        $exporter->export($formName);
-    }
-    else { // UTF8
-        $exporter = new ExportToCsvUtf8();
-        $exporter->export($formName);
+    switch ($encoding) {
+        case 'IQY':
+            $exporter = new ExportToIqy();
+            $exporter->export($formName);
+            break;
+        case 'UTF8':
+            $exporter = new ExportToCsvUtf8();
+            $exporter->export($formName);
+            break;
+        case 'UTF16LE':
+            $exporter = new ExportToCsvUtf16le();
+            $exporter->export($formName);
+            break;
+        case 'GLD':
+            $exporter = new ExportToGoogleLiveData();
+            $exporter->export($formName);
+            break;
+        default:
+            break;
     }
 }
 
