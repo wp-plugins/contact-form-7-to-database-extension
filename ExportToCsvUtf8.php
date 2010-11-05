@@ -7,18 +7,26 @@ require_once('CF7DBPlugin.php');
 
 class ExportToCsvUtf8 {
 
+    var $useBom = false;
+
+    public function setUseBom($use) {
+        $this->useBom = $use;
+    }
+
     public function export($formName) {
         $plugin = new CF7DBPlugin();
         if (!$plugin->canUserDoRoleOption('CanSeeSubmitData')) {
-            wp_die(__('You do not have sufficient permissions to access this page.'));
+            wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
         }
         header("Expires: 0");
         header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
         header("Content-Type: text/csv; charset=UTF-8");
         header("Content-Disposition: attachment; filename=\"$formName.csv\"");
 
-        // File encoding UTF-8 Byte Order Mark (BOM) http://wiki.sdn.sap.com/wiki/display/ABAP/Excel+files+-+CSV+format
-        echo chr(239) . chr(187) . chr(191);
+        if ($this->useBom) {
+            // File encoding UTF-8 Byte Order Mark (BOM) http://wiki.sdn.sap.com/wiki/display/ABAP/Excel+files+-+CSV+format
+            echo chr(239) . chr(187) . chr(191);
+        }
 
         $eol = "\n";
         $comma = ",";

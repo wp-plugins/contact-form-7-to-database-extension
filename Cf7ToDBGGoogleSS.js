@@ -20,7 +20,7 @@ function CF7ToDBData(siteUrl, formName, user, pwd) {
 
 function fetchCF7ToDBCSVText(siteUrl, formName, user, pwd) {
   var encformName = escape(formName).replace(new RegExp("%20", "g"), "%2B");
-  var url = siteUrl + "/wp-login.php?redirect_to=/wp-content/plugins/contact-form-7-db/exportCSV.php%3Fform_name%3D" + encformName;
+  var url = siteUrl + "/wp-login.php?redirect_to=/wp-content/plugins/contact-form-7-db/exportCSV.php%3Fform%3D" + encformName;
   var postData = "log=" + escape(user) + "&pwd=" + escape(pwd);  
   var response = UrlFetchApp.fetch(
     url,

@@ -23,9 +23,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
     public function &getOptionMetaData() {
         return array(
-            'CanSeeSubmitData' => array(__('Can See Submission data'), 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
-            'CanChangeSubmitData' => array(__('Can Delete Submission data'), 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
-            'ShowLineBreaksInDataTable' => array(__('Show line breaks in submitted data table'), 'true', 'false'),
+            'CanSeeSubmitData' => array(__('Can See Submission data', 'contact-form-7-to-database-extension'), 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
+            'CanChangeSubmitData' => array(__('Can Delete Submission data', 'contact-form-7-to-database-extension'), 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
+            'ShowLineBreaksInDataTable' => array(__('Show line breaks in submitted data table', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'SubmitDateTimeFormat' => array('<a target="_blank" href="http://php.net/manual/en/function.date.php">'.__('Date-Time Display Format').'</a>')
         );
     }
@@ -291,16 +291,18 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 </td>
                 <td>
                     <form name="exportcsv" action="">
-                        <select size="1" name="encoding">
+                        <select size="1" name="enc">
                             <option id="IQY" value="IQY">Excel Internet Query</option>
-                            <option id="UTF8" value="UTF8">Spreadsheet (CSV UTF-8)</option>
-                            <option id="UTF16LE" value="UTF16LE">Excel-specific (TSV UTF-16LE)</option>
+                            <option id="CSVUTF8BOM" value="CSVUTF8BOM">Excel CVS (UTF8-BOM)</option>
+                            <option id="CSVUTF16LEBOM" value="CSVUTF16LEBOM">Excel TSV (UTF16LE-BOM)</option>
+                            <option id="CSVUTF8" value="CSVUTF8">Plain CVS (UTF-8)</option>
+                            <option id="GSS" value="GSS">Google Spreadsheet</option>
                             <option id="GLD" value="GLD">Google Spreadsheet Live Data</option>
                         </select>
                         <input name="exportcsv" type="button" value="<?php _e('Export', 'contact-form-7-to-database-extension'); ?>"
                                 onclick="location.href=
-                                '<?php echo $pluginDirUrl ?>exportCSV.php?form_name=<?php echo urlencode($currSelection) ?>&encoding=' +
-                                document.forms['exportcsv'].elements['encoding'].options[document.forms['exportcsv'].elements['encoding'].selectedIndex].value;"/>
+                                '<?php echo $pluginDirUrl ?>exportCSV.php?form=<?php echo urlencode($currSelection) ?>&enc=' +
+                                document.forms['exportcsv'].elements['enc'].options[document.forms['exportcsv'].elements['enc'].selectedIndex].value;"/>
                     </form>
                 </td>
                 <td align="right">
@@ -335,7 +337,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             <thead>
             <?php if ($canDelete) { ?>
             <th>
-                <input type="image" src="<?php echo $pluginDirUrl ?>delete.gif" alt="<?php _e('Delete Selected')?>" onchange="this.form.submit()"/>
+                <input type="image" src="<?php echo $pluginDirUrl ?>delete.gif" alt="<?php _e('Delete Selected', 'contact-form-7-to-database-extension')?>" onchange="this.form.submit()"/>
             </th>
             <?php } ?>
             <th style="<?php echo $thStyle ?>">Submitted</th>
