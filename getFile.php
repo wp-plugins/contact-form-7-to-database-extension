@@ -8,19 +8,19 @@ require_once('CF7DBPlugin.php');
 function cF7ToDBGetFile() {
     $plugin = new CF7DBPlugin();
     if (!$plugin->canUserDoRoleOption('CanSeeSubmitData')) {
-        wp_die(__('You do not have sufficient permissions to access this page.'));
+        wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
     }
 
     $submitTime = cF7ToDBGetParam('s');
     $formName = cF7ToDBGetParam('form');
     $fieldName = cF7ToDBGetParam('field');
     if (!$submitTime || !$formName || !$fieldName) {
-        wp_die(__('Missing form parameters'));
+        wp_die(__('Missing form parameters', 'contact-form-7-to-database-extension'));
     }
 
     $fileInfo = (array) $plugin->getFileFromDB($submitTime, $formName, $fieldName);
     if ($fileInfo == null) {
-        wp_die(__("No such file."));
+        wp_die(__("No such file.", 'contact-form-7-to-database-extension'));
     }
 
     header("Content-Disposition: attachment; filename=\"$fileInfo[0]\"");
