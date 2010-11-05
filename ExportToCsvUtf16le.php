@@ -10,7 +10,7 @@ class ExportToCsvUtf16le {
     public function export($formName) {
         $plugin = new CF7DBPlugin();
         if (!$plugin->canUserDoRoleOption('CanSeeSubmitData')) {
-            wp_die(__('You do not have sufficient permissions to access this page.'));
+            wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
         }
         header("Expires: 0");
         header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
@@ -28,7 +28,7 @@ class ExportToCsvUtf16le {
         $delimiter = $this->encode(utf8_encode("\t"));
 
         // Column Headers
-        echo $this->prepareCsvValue(utf8_encode(__("Submitted", 'contact-form-7-to-database-extension')));
+        echo $this->prepareCsvValue(utf8_encode(__("Submitted", 'contact-form-7-to-database-extension', 'contact-form-7-to-database-extension')));
         echo $delimiter;
         $tableData = $plugin->getRowsPivot($formName);
         foreach ($tableData->columns as $aCol) {
