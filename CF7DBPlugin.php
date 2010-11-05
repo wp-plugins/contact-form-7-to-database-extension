@@ -224,8 +224,12 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         ?>
         <table style="width:100%;">
             <tbody><tr>
-                <td style="font-size:x-small;"><a target="_cf7todb" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension">CF7-to-DB Extension</a></td>
-                <td style="font-size:x-small;"></td>
+                <td style="font-size:x-small;">
+                    <a target="_donate" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=NEVDJ792HKGFN&lc=US&item_name=Wordpress%20Plugin&item_number=cf7%2dto%2ddb%2dextension&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">
+                         <img src="https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif" alt="Donate">
+                    </a>
+                </td>
+                <td style="font-size:x-small;"><a target="_cf7todb" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension">Plugin Home</a></td>
                 <td style="font-size:x-small;"><a target="_cf7todb" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/">FAQ</a></td>
             </tr></tbody>
         </table>
