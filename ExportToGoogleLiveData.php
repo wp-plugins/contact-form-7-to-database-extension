@@ -29,6 +29,8 @@ class ExportToGoogleLiveData {
                 Replacing <b>user</b> and <b>pwd</b> with your <u>WordPress</u> site user name and password
             </li>
         </ol>
+        <b><em>WARNING: since you are putting your login information into the Google Spreadsheet, be sure not to share
+        the spreadsheet with others.</em></b>
         <body>
         </html>
         <?php
