@@ -8,14 +8,18 @@ require_once('CF7DBPlugin.php');
 class ExportToCsvUtf8 {
 
     var $useBom = false;
+    var $plugin;
+
+    function __construct() {
+        $this->plugin = new CF7DBPlugin();
+    }
 
     public function setUseBom($use) {
         $this->useBom = $use;
     }
 
     public function export($formName) {
-        $plugin = new CF7DBPlugin();
-        if (!$plugin->canUserDoRoleOption('CanSeeSubmitData')) {
+        if (!$this->plugin->canUserDoRoleOption('CanSeeSubmitData')) {
             wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
         }
         header("Expires: 0");
@@ -23,6 +27,10 @@ class ExportToCsvUtf8 {
         header("Content-Type: text/csv; charset=UTF-8");
         header("Content-Disposition: attachment; filename=\"$formName.csv\"");
 
+        $this->echoCsv($formName);
+    }
+
+    public function echoCsv($formName) {
         if ($this->useBom) {
             // File encoding UTF-8 Byte Order Mark (BOM) http://wiki.sdn.sap.com/wiki/display/ABAP/Excel+files+-+CSV+format
             echo chr(239) . chr(187) . chr(191);
@@ -34,7 +42,7 @@ class ExportToCsvUtf8 {
         // Column Headers
         echo $this->prepareCsvValue(__("Submitted", 'contact-form-7-to-database-extension'));
         echo $comma;
-        $tableData = $plugin->getRowsPivot($formName);
+        $tableData = $this->plugin->getRowsPivot($formName);
         foreach ($tableData->columns as $aCol) {
             echo $this->prepareCsvValue($aCol);
             echo $comma;
@@ -44,7 +52,7 @@ class ExportToCsvUtf8 {
 
         // Rows
         foreach ($tableData->pivot as $submitTime => $data) {
-            echo $plugin->formatDate($submitTime);
+            echo $this->plugin->formatDate($submitTime);
             echo $comma;
             foreach ($tableData->columns as $aCol) {
                 $cell = isset($data[$aCol]) ? $data[$aCol] : "";
