@@ -18,7 +18,7 @@ function CF7DBPlugin_exportToCSV($formName, $encoding) {
             $exporter->setUseBom(true);
             $exporter->export($formName);
             break;
-        case 'UTF16LEBOM':
+        case 'TSVUTF16LEBOM':
             $exporter = new ExportToCsvUtf16le();
             $exporter->export($formName);
             break;

@@ -294,7 +294,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                         <select size="1" name="enc">
                             <option id="IQY" value="IQY">Excel Internet Query</option>
                             <option id="CSVUTF8BOM" value="CSVUTF8BOM">Excel CVS (UTF8-BOM)</option>
-                            <option id="CSVUTF16LEBOM" value="CSVUTF16LEBOM">Excel TSV (UTF16LE-BOM)</option>
+                            <option id="TSVUTF16LEBOM" value="TSVUTF16LEBOM">Excel TSV (UTF16LE-BOM)</option>
                             <option id="CSVUTF8" value="CSVUTF8">Plain CVS (UTF-8)</option>
                             <option id="GSS" value="GSS">Google Spreadsheet</option>
                             <option id="GLD" value="GLD">Google Spreadsheet Live Data</option>
