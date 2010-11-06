@@ -4,10 +4,11 @@ class CJ7DBCheckZendFramework {
 
     /**
      * Checks for the existence of the Zend Framework. If not found, prints out some (hopefully) helpful information
-     * @return bool true if Zend is found, false if not
+     * @return bool true if Zend is found, *but* if not found calls wp_die()
      */
     public static function checkIncludeZend() {
         if (!(include 'Zend/Loader.php')) {
+            ob_start();
             ?>
             <h1>Missing Zend Framework</h1>
             <p>
@@ -44,7 +45,12 @@ class CJ7DBCheckZendFramework {
                 </li>
             </ol>
             <?php
-                    return false;
+            $errorHtml = ob_get_contents();
+            ob_end_clean();
+            wp_die($errorHtml, "Missing Zend Framework");
+
+            // Doesn't actually return because we call wp_die
+            return false;
         }
         return true;
     }
