@@ -205,6 +205,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 //                      array(&$this, 'whatsInTheDBPage'));
 
         // Put page under CF7's "Contact" page
+        wp_enqueue_style("jquery.ui.all.css", "http://jqueryui.com/themes/base/jquery.ui.all.css"); // todo
+        wp_enqueue_script("jquery-ui-dialog"); // needed by whatsInTheDBPage
         add_submenu_page('wpcf7',
                          $displayName . ' Submissions',
                          'Database',
@@ -290,6 +292,20 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                     </form>
                 </td>
                 <td>
+                    <script type="text/javascript" language="Javascript">
+                        function exportData(encSelect) {
+                            jQuery("#GoogleCredentialsDialog").dialog({ autoOpen: false, title: 'Google Login' });
+                            var enc = encSelect.options[encSelect.selectedIndex].value;
+                            if (enc == 'GSS') {
+                                jQuery("#GoogleCredentialsDialog").dialog('open');
+                                //jQuery("#GoogleCredentialsDialog").dialog('close');
+                                // todo
+                            }
+                            else {
+                                location.href='<?php echo $pluginDirUrl ?>exportCSV.php?form=<?php echo urlencode($currSelection) ?>&enc=' + enc;
+                            }
+                        }
+                    </script>
                     <form name="exportcsv" action="">
                         <select size="1" name="enc">
                             <option id="IQY" value="IQY">Excel Internet Query</option>
@@ -299,10 +315,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                             <option id="GSS" value="GSS">Google Spreadsheet</option>
                             <option id="GLD" value="GLD">Google Spreadsheet Live Data</option>
                         </select>
-                        <input name="exportcsv" type="button" value="<?php _e('Export', 'contact-form-7-to-database-extension'); ?>"
-                                onclick="location.href=
-                                '<?php echo $pluginDirUrl ?>exportCSV.php?form=<?php echo urlencode($currSelection) ?>&enc=' +
-                                document.forms['exportcsv'].elements['enc'].options[document.forms['exportcsv'].elements['enc'].selectedIndex].value;"/>
+                        <input name="exportcsv" type="button"
+                               value="<?php _e('Export', 'contact-form-7-to-database-extension'); ?>"
+                               onclick="exportData(this.form.elements['enc'])"/>
                     </form>
                 </td>
                 <td align="right">
@@ -379,6 +394,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         <?php if ($canDelete) { ?>
         </form>
         <?php } ?>
+        </div>
+        <div id="GoogleCredentialsDialog" style="display:none; height:100px; width:100px; background-color:#EEEEEE;">
+            <p>Hello!</p>
         </div>
         <?php
     }
