@@ -34,7 +34,9 @@ class ExportToGoogleSS {
                 Zend_Gdata_Docs::AUTH_SERVICE_NAME); //Zend_Gdata_Spreadsheets::AUTH_SERVICE_NAME
         }
         catch (Zend_Gdata_App_AuthException $ae) {
-            wp_die("<p>Login failed for: '$guser' </p><p>Error: " . $ae->getMessage() . "</p>");
+            wp_die("<p>Login failed for: '$guser' </p><p>Error: " . $ae->getMessage() . "</p>",
+                   __("Login Failed", 'contact-form-7-to-database-extension'),
+                   array('response' => 200, 'back_link' => true));
         }
 
         try {
@@ -74,7 +76,7 @@ class ExportToGoogleSS {
                     utf8_encode("$title: <a target=\"_blank\" href=\"$alternateLink\">") .
                             $formName .
                             utf8_encode("</a>");
-            wp_die($output, $title);
+            wp_die($output, $title,  array('response' => 200, 'back_link' => true));
         }
         catch (Exception $ex) {
             wp_die($ex->getMessage() . "<pre>" . $ex->getTraceAsString() . "</pre>");

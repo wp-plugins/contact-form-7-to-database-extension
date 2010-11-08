@@ -29,9 +29,9 @@ class CJ7DBCheckZendFramework {
                 <li>locate the the <b>Zend</b> directory on your computer</li>
                 <li>If found, here is one way to put it on the include path</li>
                 <ol>
-                    <li>copy the <b>php.ini</b> file to your WordPress installation to <b>[wp-dir]/wp-content/plugins/contact-form-7-db/php.ini</b>
+                    <li style="list-style: lower-roman">copy the <b>php.ini</b> file to your WordPress installation to <b>[wp-dir]/wp-content/plugins/contact-form-7-db/php.ini</b>
                     </li>
-                    <li>add a line to this new file:<br/>
+                    <li style="list-style: lower-roman">add a line to this new file:<br/>
                         <code>include_path="<?php echo(ini_get('include_path') . PATH_SEPARATOR . "[Zend-parent-directory]");?>"</code>
                     </li>
                 </ol>
@@ -47,7 +47,9 @@ class CJ7DBCheckZendFramework {
             <?php
             $errorHtml = ob_get_contents();
             ob_end_clean();
-            wp_die($errorHtml, __("Missing Zend Framework", 'contact-form-7-to-database-extension'));
+            wp_die($errorHtml,
+                   __("Missing Zend Framework", 'contact-form-7-to-database-extension'),
+                   array('response' => 200, 'back_link' => true));
 
             // Doesn't actually return because we call wp_die
             return false;

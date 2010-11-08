@@ -16,8 +16,6 @@ class ExportToGoogleLiveData {
         $siteUrl = get_option("home");
         ob_start();
         ?>
-        <html>
-        <body>
         Setting up a Google Spreadsheet to pull in data from WordPress requires these manual steps:
         <ol>
             <li>Log into Google Docs and create a new Google Spreadsheet</li>
@@ -36,12 +34,11 @@ class ExportToGoogleLiveData {
         <span style="color:red; font-weight:bold;">
             WARNING: since you are putting your login information into the Google Spreadsheet, be sure not to share
         the spreadsheet with others.</span>
-
-        <body>
-        </html>
         <?php
             $html = ob_get_contents();
-            ob_end_clean();
-            wp_die($html, __("How to Set up Google Spreadsheet to pull data from WordPress"), 'contact-form-7-to-database-extension');
+        ob_end_clean();
+        wp_die($html,
+               __("How to Set up Google Spreadsheet to pull data from WordPress", 'contact-form-7-to-database-extension'),
+               array('response' => 200, 'back_link' => true));
     }
 }
