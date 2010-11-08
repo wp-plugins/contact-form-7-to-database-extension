@@ -8,7 +8,7 @@ require_once('ExportToCsvUtf8.php');
 
 class ExportToGoogleSS {
 
-    public function export($formName) {
+    public function export($formName, $guser, $gpwd) {
         $plugin = new CF7DBPlugin();
         if (!$plugin->canUserDoRoleOption('CanSeeSubmitData')) {
             wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
@@ -28,17 +28,13 @@ class ExportToGoogleSS {
         Zend_Loader::loadClass('Zend_Http_Client');
         Zend_Loader::loadClass('Zend_Gdata_Docs');
 
-        // todo: Get Google Login info
-        $email = "xxx@gmail.com";
-        $password = 'xxx';
-
         try {
             $client = Zend_Gdata_ClientLogin::getHttpClient(
-                $email, $password,
+                $guser, $gpwd,
                 Zend_Gdata_Docs::AUTH_SERVICE_NAME); //Zend_Gdata_Spreadsheets::AUTH_SERVICE_NAME
         }
         catch (Zend_Gdata_App_AuthException $ae) {
-            wp_die("Error: " . $ae->getMessage() . "\nCredentials provided were email: [$email] and password [$password].\n");
+            wp_die("<p>Login failed for: '$guser' </p><p>Error: " . $ae->getMessage() . "</p>");
         }
 
         try {
@@ -72,13 +68,12 @@ class ExportToGoogleSS {
 
             //header("Location: $alternateLink");
             //$title = $newDocumentEntry->title;
-            echo(utf8_encode("
-            <html><body>
-            New Google Spreadsheet: <a target=\"_blank\" href=\"$alternateLink\">"));
-            echo($formName);
-            echo(utf8_encode("</a>
-            </body></html>
-            "));
+
+            $output =
+                    utf8_encode("New Google Spreadsheet: <a target=\"_blank\" href=\"$alternateLink\">") .
+                            $formName .
+                            utf8_encode("</a>");
+            wp_die($output);
         }
         catch (Exception $ex) {
             wp_die($ex->getMessage() . "<pre>" . $ex->getTraceAsString() . "</pre>");

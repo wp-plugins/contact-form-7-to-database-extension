@@ -300,12 +300,17 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                             var enc = encSelect.options[encSelect.selectedIndex].value;
                             if (enc == 'GSS') {
                                 jQuery("#GoogleCredentialsDialog").dialog('open');
-                                //
-                                // todo
                             }
                             else {
-                                location.href='<?php echo $pluginDirUrl ?>exportCSV.php?form=<?php echo urlencode($currSelection) ?>&enc=' + enc;
+                                location.href = '<?php echo $pluginDirUrl ?>export.php?form=<?php echo urlencode($currSelection) ?>&enc=' + enc;
                             }
+                        }
+                        function uploadGoogleSS() {
+                            var guser = jQuery('#guser').attr('value');
+                            var gpwd = jQuery('#gpwd').attr('value');
+                            location.href = '<?php echo $pluginDirUrl ?>export.php?form=<?php echo urlencode($currSelection) ?>&enc=GSS'
+                                    + '&guser=' + encodeURI(guser) + '&gpwd=' + encodeURI(gpwd);
+                            jQuery("#GoogleCredentialsDialog").dialog('close');
                         }
                     </script>
                     <form name="exportcsv" action="">
@@ -411,8 +416,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 <tr>
                     <td></td>
                     <td>
-                        <input type="button" value="<?php _e("Cancel") ?>" onclick="jQuery('#GoogleCredentialsDialog').dialog('close');"/>
-                        <input type="button" value="<?php _e("Upload") ?>" onclick="alert('TODO')"/>
+                        <input type="button" value="<?php _e("Cancel", 'contact-form-7-to-database-extension') ?>" onclick="jQuery('#GoogleCredentialsDialog').dialog('close');"/>
+                        <input type="button" value="<?php _e("Upload", 'contact-form-7-to-database-extension') ?>" onclick="uploadGoogleSS()"/>
                     </td>
                 </tr>
                 </tbody>

@@ -4,6 +4,7 @@ include_once('../../../wp-load.php');
 include_once('../../../wp-includes/wp-db.php');
 require_once('CF7DBTableData.php');
 require_once('CF7DBPlugin.php');
+require_once('CF7DBUtil.php');
 
 function cF7ToDBGetFile() {
     $plugin = new CF7DBPlugin();
@@ -11,9 +12,9 @@ function cF7ToDBGetFile() {
         wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
     }
 
-    $submitTime = cF7ToDBGetParam('s');
-    $formName = cF7ToDBGetParam('form');
-    $fieldName = cF7ToDBGetParam('field');
+    $submitTime = CF7DBUtil::getParam('s');
+    $formName = CF7DBUtil::getParam('form');
+    $fieldName = CF7DBUtil::getParam('field');
     if (!$submitTime || !$formName || !$fieldName) {
         wp_die(__('Missing form parameters', 'contact-form-7-to-database-extension'));
     }
@@ -27,14 +28,5 @@ function cF7ToDBGetFile() {
     echo($fileInfo[1]);
 }
 
-function &cF7ToDBGetParam($paramName) {
-    if (isset($_GET[$paramName])) {
-        return $_GET[$paramName];
-    }
-    else if (isset($_POST[$paramName])) {
-        return $_POST[$paramName];
-    }
-    return null;
-}
 
 cF7ToDBGetFile();

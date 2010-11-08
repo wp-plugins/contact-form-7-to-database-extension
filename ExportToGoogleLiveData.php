@@ -14,6 +14,7 @@ class ExportToGoogleLiveData {
 
         $scriptLink = $plugin->getPluginDirUrl() . "Cf7ToDBGGoogleSS.js.php";
         $siteUrl = get_option("home");
+        ob_start();
         ?>
         <html>
         <body>
@@ -25,7 +26,7 @@ class ExportToGoogleLiveData {
             <li>Copy the text from <a target="_gscript" href="<?php echo($scriptLink) ?>">this file</a> and paste it
                 into the Google script editor
             </li>
-            <li>Save and close the script editor.</li>
+            <li><b>Save</b> and close the script editor.</li>
             <li>Click on a cell A1 in the Spreadsheet (or any cell)</li>
             <li>Enter in the cell the formula: <br/>
                 <code><?php echo("=CF7ToDBData(\"$siteUrl\", \"$formName\", \"user\", \"pwd\")") ?></code><br/>
@@ -39,6 +40,8 @@ class ExportToGoogleLiveData {
         <body>
         </html>
         <?php
-
+            $html = ob_get_contents();
+            ob_end_clean();
+            wp_die($html, __("How to Set up Google Spreadsheet to pull data from WordPress"), 'contact-form-7-to-database-extension');
     }
 }
