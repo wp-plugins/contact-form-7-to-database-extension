@@ -69,11 +69,12 @@ class ExportToGoogleSS {
             //header("Location: $alternateLink");
             //$title = $newDocumentEntry->title;
 
+            $title = __("New Google Spreadsheet", 'contact-form-7-to-database-extension');
             $output =
-                    utf8_encode("New Google Spreadsheet: <a target=\"_blank\" href=\"$alternateLink\">") .
+                    utf8_encode("$title: <a target=\"_blank\" href=\"$alternateLink\">") .
                             $formName .
                             utf8_encode("</a>");
-            wp_die($output);
+            wp_die($output, $title);
         }
         catch (Exception $ex) {
             wp_die($ex->getMessage() . "<pre>" . $ex->getTraceAsString() . "</pre>");

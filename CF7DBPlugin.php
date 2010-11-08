@@ -296,7 +296,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 <td>
                     <script type="text/javascript" language="Javascript">
                         function exportData(encSelect) {
-                            jQuery("#GoogleCredentialsDialog").dialog({ autoOpen: false, title: 'Google Login for Upload' });
+                            jQuery("#GoogleCredentialsDialog").dialog({ autoOpen: false, title: <?php _e("'Google Login for Upload'", 'contact-form-7-to-database-extension')?> });
                             var enc = encSelect.options[encSelect.selectedIndex].value;
                             if (enc == 'GSS') {
                                 jQuery("#GoogleCredentialsDialog").dialog('open');
@@ -308,9 +308,20 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                         function uploadGoogleSS() {
                             var guser = jQuery('#guser').attr('value');
                             var gpwd = jQuery('#gpwd').attr('value');
-                            location.href = '<?php echo $pluginDirUrl ?>export.php?form=<?php echo urlencode($currSelection) ?>&enc=GSS'
-                                    + '&guser=' + encodeURI(guser) + '&gpwd=' + encodeURI(gpwd);
                             jQuery("#GoogleCredentialsDialog").dialog('close');
+                            var form = document.createElement("form");
+                            form.setAttribute("method", 'POST');
+                            form.setAttribute("action", '<?php echo $pluginDirUrl ?>export.php?form=<?php echo urlencode($currSelection) ?>');
+                            var params = {enc : 'GSS', guser: encodeURI(guser), gpwd:encodeURI(gpwd)};
+                            for(var key in params) {
+                                var hiddenField = document.createElement("input");
+                                hiddenField.setAttribute("type", "hidden");
+                                hiddenField.setAttribute("name", key);
+                                hiddenField.setAttribute("value", params[key]);
+                                form.appendChild(hiddenField);
+                            }
+                            document.body.appendChild(form);
+                            form.submit();
                         }
                     </script>
                     <form name="exportcsv" action="">

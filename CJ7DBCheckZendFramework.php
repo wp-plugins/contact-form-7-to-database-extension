@@ -47,7 +47,7 @@ class CJ7DBCheckZendFramework {
             <?php
             $errorHtml = ob_get_contents();
             ob_end_clean();
-            wp_die($errorHtml, "Missing Zend Framework");
+            wp_die($errorHtml, __("Missing Zend Framework", 'contact-form-7-to-database-extension'));
 
             // Doesn't actually return because we call wp_die
             return false;
