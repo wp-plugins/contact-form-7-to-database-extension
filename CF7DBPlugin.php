@@ -204,9 +204,11 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 //                      $this->getDBPageSlug(),
 //                      array(&$this, 'whatsInTheDBPage'));
 
+        // Needed for dialog in whatsInTheDBPage
+        wp_enqueue_style("jquery-ui.css", "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/base/jquery-ui.css");
+        wp_enqueue_script("jquery-ui-dialog");
+
         // Put page under CF7's "Contact" page
-        wp_enqueue_style("jquery.ui.all.css", "http://jqueryui.com/themes/base/jquery.ui.all.css"); // todo
-        wp_enqueue_script("jquery-ui-dialog"); // needed by whatsInTheDBPage
         add_submenu_page('wpcf7',
                          $displayName . ' Submissions',
                          'Database',
@@ -294,11 +296,11 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 <td>
                     <script type="text/javascript" language="Javascript">
                         function exportData(encSelect) {
-                            jQuery("#GoogleCredentialsDialog").dialog({ autoOpen: false, title: 'Google Login' });
+                            jQuery("#GoogleCredentialsDialog").dialog({ autoOpen: false, title: 'Google Login for Upload' });
                             var enc = encSelect.options[encSelect.selectedIndex].value;
                             if (enc == 'GSS') {
                                 jQuery("#GoogleCredentialsDialog").dialog('open');
-                                //jQuery("#GoogleCredentialsDialog").dialog('close');
+                                //
                                 // todo
                             }
                             else {
@@ -395,8 +397,26 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         </form>
         <?php } ?>
         </div>
-        <div id="GoogleCredentialsDialog" style="display:none; height:100px; width:100px; background-color:#EEEEEE;">
-            <p>Hello!</p>
+        <div id="GoogleCredentialsDialog" style="display:none; background-color:#EEEEEE;">
+            <table>
+                <tbody>
+                <tr>
+                    <td>User</td>
+                    <td><input id="guser" type="text" size="25" value="@gmail.com"/></td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td><input id="gpwd" type="password" size="25" value=""/></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="button" value="<?php _e("Cancel") ?>" onclick="jQuery('#GoogleCredentialsDialog').dialog('close');"/>
+                        <input type="button" value="<?php _e("Upload") ?>" onclick="alert('TODO')"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
         <?php
     }
