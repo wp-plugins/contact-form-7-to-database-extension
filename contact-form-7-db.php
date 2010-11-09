@@ -6,6 +6,7 @@
    Author: Michael Simpson
    Description: You also need to install and activate Contact Form 7 for this to work. It is an extension that writes the form data to the database | <a href="admin.php?page=CF7DBPluginSubmissions">Data</a>  | <a href="admin.php?page=CF7DBPluginSettings">Settings</a> | <a href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/">FAQ</a>
    Text Domain: contact-form-7-to-database-extension
+   License: GPL2
   */
 
 function init_CF7DBPlugin() {
