@@ -34,11 +34,31 @@ function cF7DBExport_export() {
         return;
     }
 
+    $guser = CF7DBUtil::getParam('guser');
+    $gpwd = CF7DBUtil::getParam('gpwd');
+    $key = 'TODOKEY';
+    if ($guser) {
+        $guser = mcrypt_decrypt(MCRYPT_3DES, $key, hexToStr($guser), 'ecb');
+    }
+    if ($gpwd) {
+        $gpwd = mcrypt_decrypt(MCRYPT_3DES, $key, hexToStr($gpwd), 'ecb');
+    }
+
     CF7DBPluginExporter::export(
        $form,
        CF7DBUtil::getParam('enc'),
-       CF7DBUtil::getParam('guser'),
-       CF7DBUtil::getParam('gpwd'));
+       $guser,
+       $gpwd);
 }
+
+// Taken from http://ditio.net/2008/11/04/php-string-to-hex-and-hex-to-string-functions/
+function hexToStr($hex) {
+    $string='';
+    for ($i=0; $i < strlen($hex)-1; $i+=2) {
+        $string .= chr(hexdec($hex[$i].$hex[$i+1]));
+    }
+    return $string;
+}
+
 
 cF7DBExport_export();

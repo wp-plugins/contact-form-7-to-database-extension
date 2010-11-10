@@ -222,6 +222,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         // Needed for dialog in whatsInTheDBPage
         wp_enqueue_style("jquery-ui.css", "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/base/jquery-ui.css");
         wp_enqueue_script("jquery-ui-dialog");
+        wp_enqueue_script('CF7DBdes', $this->getPluginDirUrl() . 'des.js');
 
         // Put page under CF7's "Contact" page
         add_submenu_page('wpcf7',
@@ -315,14 +316,16 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                             var enc = encSelect.options[encSelect.selectedIndex].value;
                             if (enc == 'GSS') {
                                 jQuery("#GoogleCredentialsDialog").dialog('open');
+                                jQuery("#guser").focus();
                             }
                             else {
                                 location.href = '<?php echo $pluginDirUrl ?>export.php?form=<?php echo urlencode($currSelection) ?>&enc=' + enc;
                             }
                         }
                         function uploadGoogleSS() {
-                            var guser = jQuery('#guser').attr('value');
-                            var gpwd = jQuery('#gpwd').attr('value');
+                            var $key = 'TODOKEY';
+                            var guser = printHex(des($key, jQuery('#guser').attr('value'), 1));
+                            var gpwd = printHex(des($key, jQuery('#gpwd').attr('value'), 1));
                             jQuery("#GoogleCredentialsDialog").dialog('close');
                             var form = document.createElement("form");
                             form.setAttribute("method", 'POST');

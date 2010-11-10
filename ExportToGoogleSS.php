@@ -33,6 +33,8 @@ class ExportToGoogleSS {
         header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
         header("Content-Type: text/html; charset=UTF-8");
 
+        flush(); // try to prevent the browser from timing on slow uploads but giving it something
+
         if (!CJ7DBCheckZendFramework::checkIncludeZend()) {
             return;
         }
@@ -95,7 +97,9 @@ class ExportToGoogleSS {
             wp_die($output, $title,  array('response' => 200, 'back_link' => true));
         }
         catch (Exception $ex) {
-            wp_die($ex->getMessage() . "<pre>" . $ex->getTraceAsString() . "</pre>");
+            wp_die($ex->getMessage() . "<pre>" . $ex->getTraceAsString() . "</pre>",
+                   __("Error", 'contact-form-7-to-database-extension'),
+                   array('back_link' => true));
         }
     }
 }
