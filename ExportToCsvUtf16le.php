@@ -54,11 +54,15 @@ class ExportToCsvUtf16le {
 
 
         // Rows
+        $showFileUrlsInExport = $plugin->getOption('ShowFileUrlsInExport') == "true";
         foreach ($tableData->pivot as $submitTime => $data) {
             echo $this->encode(utf8_encode($plugin->formatDate($submitTime)));
             echo $delimiter;
             foreach ($tableData->columns as $aCol) {
                 $cell = isset($data[$aCol]) ? $data[$aCol] : "";
+                if ($showFileUrlsInExport && $tableData->files[$aCol] && "" != $cell) {
+                    $cell = $plugin->getFileUrl($submitTime, $formName, $aCol);
+                }
                 echo $this->prepareCsvValue($cell);
                 echo $delimiter;
             }

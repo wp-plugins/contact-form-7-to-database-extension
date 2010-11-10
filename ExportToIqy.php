@@ -43,7 +43,7 @@ $url/wp-login.php?redirect_to=$encRedir
 log=[\"Username for $url\"]&pwd=[\"Password for $url\"]
 
 Selection=3
-Formatting=RTF
+Formatting=All
 PreFormattedTextToColumns=True
 ConsecutiveDelimitersAsOne=True
 SingleBlockTextImport=False

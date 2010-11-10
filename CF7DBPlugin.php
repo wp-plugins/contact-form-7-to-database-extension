@@ -41,7 +41,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             'CanSeeSubmitData' => array(__('Can See Submission data', 'contact-form-7-to-database-extension'), 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
             'CanChangeSubmitData' => array(__('Can Delete Submission data', 'contact-form-7-to-database-extension'), 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
             'ShowLineBreaksInDataTable' => array(__('Show line breaks in submitted data table', 'contact-form-7-to-database-extension'), 'true', 'false'),
-            'SubmitDateTimeFormat' => array('<a target="_blank" href="http://php.net/manual/en/function.date.php">'.__('Date-Time Display Format').'</a>')
+            'SubmitDateTimeFormat' => array('<a target="_blank" href="http://php.net/manual/en/function.date.php">'.__('Date-Time Display Format').'</a>'),
+            'ShowFileUrlsInExport' => array(__('Export URLs instead of file names for uploaded files', 'contact-form-7-to-database-extension'), 'false', 'true')
         );
     }
 
@@ -416,7 +417,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                             $cell = str_replace("\n", "<br/>", $cell); // preserve UNIX line breaks
                         }
                         if ($tableData->files[$aCol] && "" != $cell) {
-                            $fileUrl = sprintf("${pluginDirUrl}getFile.php?s=%s&form=%s&field=%s", $submitTime, urlencode($currSelection), urlencode($aCol));
+                            $fileUrl = $this->getFileUrl($submitTime, $currSelection, $aCol);
                             $cell = "<a href=\"$fileUrl\">$cell</a>";
                         }
                         echo "<td style=\"$style\"><div style=\"max-height:100px; overflow:auto;\">$cell</div></td>";
@@ -513,12 +514,17 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     /**
      * @return string URL to the Plugin directory. Includes ending "/"
      */
-    public function getPluginDirUrl() {
+    public function &getPluginDirUrl() {
         return WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
     }
 
-    public function formatDate($time) {
+    public function &formatDate($time) {
         $dateFormat = $this->getOption('SubmitDateTimeFormat');
         return date($dateFormat, $time);
+    }
+
+    public function &getFileUrl($submitTime, $formName, $fileName) {
+        $url = $this->getPluginDirUrl() . "getFile.php?s=%s&form=%s&field=%s";
+        return sprintf($url, $submitTime, urlencode($formName), urlencode($fileName));
     }
 }
