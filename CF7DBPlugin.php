@@ -191,7 +191,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                     $title,
                                     'Submitted From',
                                     $ip,
-                                    $order++));
+                                    10000)); // large order num to try to make it always last
 
     }
 
