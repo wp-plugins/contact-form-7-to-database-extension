@@ -43,7 +43,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             'CanChangeSubmitData' => array(__('Can Delete Submission data', 'contact-form-7-to-database-extension'), 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
             'ShowLineBreaksInDataTable' => array(__('Show line breaks in submitted data table', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'SubmitDateTimeFormat' => array('<a target="_blank" href="http://php.net/manual/en/function.date.php">'.__('Date-Time Display Format').'</a>'),
-            'ShowFileUrlsInExport' => array(__('Export URLs instead of file names for uploaded files', 'contact-form-7-to-database-extension'), 'false', 'true')
+            'ShowFileUrlsInExport' => array(__('Export URLs instead of file names for uploaded files', 'contact-form-7-to-database-extension'), 'false', 'true'),
+            'NoSaveFields' => array(__('Do not save fields in DB named (comma-separated list)', 'contact-form-7-to-database-extension'))
         );
     }
 
@@ -152,9 +153,14 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
         $title = $this->stripSlashes($cf7->title);
         $order = 0;
+        $noSaveFields = $this->getNoSaveFields();
         foreach ($cf7->posted_data as $name => $value) {
-            $value = is_array($value) ? implode($value, ", ") : $value;
             $nameClean = $this->stripSlashes($name);
+            if (in_array($nameClean, $noSaveFields)) {
+                continue; // Don't save in DB
+            }
+
+            $value = is_array($value) ? implode($value, ", ") : $value;
             $valueClean = $this->stripSlashes($value);
             $wpdb->query($wpdb->prepare($parametrizedQuery,
                                         $time,
@@ -184,7 +190,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                     $time,
                                     $title,
                                     'Submitted From',
-                                    $ip));
+                                    $ip,
+                                    $order++));
 
     }
 
@@ -483,5 +490,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     public function &getFileUrl($submitTime, $formName, $fileName) {
         $url = $this->getPluginDirUrl() . "getFile.php?s=%s&form=%s&field=%s";
         return sprintf($url, $submitTime, urlencode($formName), urlencode($fileName));
+    }
+
+    public function &getNoSaveFields() {
+        return preg_split('/,|;/', $this->getOption('NoSaveFields'), -1, PREG_SPLIT_NO_EMPTY);
     }
 }
