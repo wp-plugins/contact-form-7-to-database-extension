@@ -238,7 +238,6 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     }
 
     public function whatsInTheDBPage() {
-        //print_r($_POST);
         $canDelete = $this->canUserDoRoleOption('CanChangeSubmitData');
 
         ?>
@@ -323,14 +322,14 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                             }
                         }
                         function uploadGoogleSS() {
-                            var $key = 'TODOKEY';
+                            var $key = '<?php session_start(); echo(substr(session_id(), - 5)); ?>';
                             var guser = printHex(des($key, jQuery('#guser').attr('value'), 1));
                             var gpwd = printHex(des($key, jQuery('#gpwd').attr('value'), 1));
                             jQuery("#GoogleCredentialsDialog").dialog('close');
                             var form = document.createElement("form");
                             form.setAttribute("method", 'POST');
                             form.setAttribute("action", '<?php echo $pluginDirUrl ?>export.php?form=<?php echo urlencode($currSelection) ?>');
-                            var params = {enc : 'GSS', guser: encodeURI(guser), gpwd:encodeURI(gpwd)};
+                            var params = {enc: 'GSS', guser: encodeURI(guser), gpwd: encodeURI(gpwd)};
                             for(var key in params) {
                                 var hiddenField = document.createElement("input");
                                 hiddenField.setAttribute("type", "hidden");
