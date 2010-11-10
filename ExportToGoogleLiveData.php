@@ -31,21 +31,125 @@ class ExportToGoogleLiveData {
         $siteUrl = get_option("home");
         ob_start();
         ?>
+        <style type="text/css">
+            *.popup-trigger {
+                position: relative;
+                z-index: 0;
+            }
+
+            *.popup-trigger:hover {
+                background-color: transparent;
+                z-index: 50;
+            }
+
+            *.popup-content {
+                position: absolute!important;
+                background-color: #ffffff;
+                padding: 5px;
+                border: 2px gray;
+                visibility: hidden!important;
+                color: black;
+                text-decoration: none;
+                min-width:400px;
+                max-width:600px;
+                overflow: auto;
+            }
+
+            *.popup-trigger:hover *.popup-content {
+                visibility: visible!important;
+                top: 50px!important;
+                left: 50px!important;
+            }
+        </style>
         Setting up a Google Spreadsheet to pull in data from WordPress requires these manual steps:
-        <ol>
-            <li>Log into Google Docs and create a new Google Spreadsheet</li>
-            <li>Go to <b>Tools</b> menu -> <b>Scripts</b> -> <b>Script Editor...</b></li>
-            <li>Delete any text that is already there</li>
-            <li>Copy the text from <a target="_gscript" href="<?php echo($scriptLink) ?>">this file</a> and paste it
-                into the Google script editor
-            </li>
-            <li><b>Save</b> and close the script editor.</li>
-            <li>Click on a cell A1 in the Spreadsheet (or any cell)</li>
-            <li>Enter in the cell the formula: <br/>
-                <code><?php echo("=CF7ToDBData(\"$siteUrl\", \"$formName\", \"user\", \"pwd\")") ?></code><br/>
-                Replacing <b>user</b> and <b>pwd</b> with your <u>WordPress</u> site user name and password
-            </li>
-        </ol>
+        <table cellspacing="15px" cellpadding="15px">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="popup-trigger">
+                        <a>
+                            <img src="help/GoogleNewSS.png" alt="Create a new spreadsheet" height="100px" width="61px"/>
+
+                            <div class="popup-content">
+                                <img src="help/GoogleNewSS.png" alt="Create a new spreadsheet"/>
+                            </div>
+                        </a>
+                    </div>
+                </td>
+                <td><p>Log into Google Docs and create a new Google Spreadsheet</p></td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="popup-trigger">
+                        <a>
+                            <img src="help/GoogleOpenScriptEditor.png" alt="Create a new spreadsheet" height="69px" width="100px"/>
+
+                            <div class="popup-content">
+                                <img src="help/GoogleOpenScriptEditor.png" alt="Create a new spreadsheet"/>
+                            </div>
+                        </a>
+                    </div>
+                </td>
+                <td><p>Go to <b>Tools</b> menu -> <b>Scripts</b> -> <b>Script Editor...</b></p></td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="popup-trigger">
+                        <a>
+                            <img src="help/GooglePasteScriptEditor.png" alt="Paste script text" height="68px" width="100px"/>
+
+                            <div class="popup-content">
+                                <img src="help/GooglePasteScriptEditor.png" alt="Paste script text"/>
+                            </div>
+                        </a>
+                    </div>
+                </td>
+                <td>
+                    <p>Delete any text that is already there</p>
+                    <p><b>Copy</b> the text from <a target="_gscript" href="<?php echo($scriptLink) ?>">THIS SCRIPT FILE</a> and <b>paste</b> it
+                    into the Google script editor</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="popup-trigger">
+                        <a>
+                            <img src="help/GoogleSaveScriptEditor.png" alt="Create a new spreadsheet" height="100px" width="83px"/>
+
+                            <div class="popup-content">
+                                <img src="help/GoogleSaveScriptEditor.png" alt="Create a new spreadsheet"/>
+                            </div>
+                        </a>
+                    </div>
+                </td>
+                <td>
+                    <p><b>Save</b> and <b>close</b> the script editor.</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="popup-trigger">
+                        <a>
+                            <img src="help/GoogleEnterFormula.png" alt="Create a new spreadsheet" height="43px" width="100px"/>
+
+                            <div class="popup-content">
+                                <img src="help/GoogleEnterFormula.png" alt="Create a new spreadsheet"/>
+                            </div>
+                        </a>
+                    </div>
+                </td>
+                <td>
+                    <p>Click on a cell A1 in the Spreadsheet (or any cell)</p>
+                    <p>Enter in the cell the formula:</p>
+                    <p><code><?php echo("=CF7ToDBData(\"$siteUrl\", \"$formName\", \"user\", \"pwd\")") ?></code></p>
+                    <p>Replacing <b>user</b> and <b>pwd</b> with your <u>WordPress</u> site user name and password</p>
+                </td>
+            </tr>
+            <tr>
+
+            </tr>
+            </tbody>
+        </table>
         <span style="color:red; font-weight:bold;">
             WARNING: since you are putting your login information into the Google Spreadsheet, be sure not to share
         the spreadsheet with others.</span>
