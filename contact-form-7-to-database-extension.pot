@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-"
 "extension\n"
-"POT-Creation-Date: 2010-11-10 18:33+0000\n"
+"POT-Creation-Date: 2010-11-10 19:34+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,27 +51,31 @@ msgstr ""
 msgid "Export URLs instead of file names for uploaded files"
 msgstr ""
 
-#: CF7DBPlugin.php:265
+#: CF7DBPlugin.php:47
+msgid "Do not save fields in DB named (comma-separated list)"
+msgstr ""
+
+#: CF7DBPlugin.php:272
 msgid "No form submissions in the database"
 msgstr ""
 
-#: CF7DBPlugin.php:316
+#: CF7DBPlugin.php:323
 msgid "'Google Login for Upload'"
 msgstr ""
 
-#: CF7DBPlugin.php:357
+#: CF7DBPlugin.php:364
 msgid "Export"
 msgstr ""
 
-#: CF7DBPlugin.php:366
+#: CF7DBPlugin.php:373
 msgid "Delete All This Form's Records"
 msgstr ""
 
-#: CF7DBPlugin.php:405
+#: CF7DBPlugin.php:412
 msgid "Cancel"
 msgstr ""
 
-#: CF7DBPlugin.php:406
+#: CF7DBPlugin.php:413
 msgid "Upload"
 msgstr ""
 
