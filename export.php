@@ -36,8 +36,9 @@ function cF7DBExport_export() {
 
     $guser = CF7DBUtil::getParam('guser');
     $gpwd = CF7DBUtil::getParam('gpwd');
-    session_start();
-    $key = substr(session_id(), - 5);
+
+    // Assumes session started in CF7DBPlugin::whatsInTheDBPage()
+    $key = substr($_COOKIE['PHPSESSID'], - 5); // session_id() doesn't work
     if ($guser) {
         $guser = mcrypt_decrypt(MCRYPT_3DES, $key, hexToStr($guser), 'ecb');
     }
