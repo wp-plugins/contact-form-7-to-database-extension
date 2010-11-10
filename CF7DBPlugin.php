@@ -351,6 +351,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                             <option id="CSVUTF8" value="CSVUTF8">Plain CVS (UTF-8)</option>
                             <option id="GSS" value="GSS">Google Spreadsheet</option>
                             <option id="GLD" value="GLD">Google Spreadsheet Live Data</option>
+                            <option id="HTML" value="HTML">HTML</option>
                         </select>
                         <input name="exportcsv" type="button"
                                value="<?php _e('Export', 'contact-form-7-to-database-extension'); ?>"
