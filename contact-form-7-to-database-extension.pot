@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-"
 "extension\n"
-"POT-Creation-Date: 2010-11-03 22:44+0000\n"
+"POT-Creation-Date: 2010-11-10 18:33+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,58 +17,96 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: CF7DBOptionsManager.php:245 exportCSV.php:11 getFile.php:11
+#: CF7DBOptionsManager.php:260 ExportToCsvUtf16le.php:28
+#: ExportToCsvUtf8.php:38 ExportToGoogleLiveData.php:25
+#: ExportToGoogleSS.php:30 ExportToHtml.php:24 getFile.php:28
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: CF7DBOptionsManager.php:263
+#: CF7DBOptionsManager.php:278
 msgid " Settings"
 msgstr ""
 
-#: CF7DBOptionsManager.php:286
+#: CF7DBOptionsManager.php:301
 msgid "Save Changes"
 msgstr ""
 
-#: CF7DBPlugin.php:26
+#: CF7DBPlugin.php:42
 msgid "Can See Submission data"
 msgstr ""
 
-#: CF7DBPlugin.php:27
+#: CF7DBPlugin.php:43
 msgid "Can Delete Submission data"
 msgstr ""
 
-#: CF7DBPlugin.php:28
+#: CF7DBPlugin.php:44
 msgid "Show line breaks in submitted data table"
 msgstr ""
 
-#: CF7DBPlugin.php:29
+#: CF7DBPlugin.php:45
 msgid "Date-Time Display Format"
 msgstr ""
 
-#: CF7DBPlugin.php:240
+#: CF7DBPlugin.php:46
+msgid "Export URLs instead of file names for uploaded files"
+msgstr ""
+
+#: CF7DBPlugin.php:265
 msgid "No form submissions in the database"
 msgstr ""
 
-#: CF7DBPlugin.php:295
-msgid "Export to File"
+#: CF7DBPlugin.php:316
+msgid "'Google Login for Upload'"
 msgstr ""
 
-#: CF7DBPlugin.php:306
+#: CF7DBPlugin.php:357
+msgid "Export"
+msgstr ""
+
+#: CF7DBPlugin.php:366
 msgid "Delete All This Form's Records"
 msgstr ""
 
-#: CF7DBPlugin.php:333
-msgid "Delete Selected"
+#: CF7DBPlugin.php:405
+msgid "Cancel"
 msgstr ""
 
-#: ExportToCsvUtf16le.php:32 ExportToCsvUtf8.php:28
+#: CF7DBPlugin.php:406
+msgid "Upload"
+msgstr ""
+
+#: CJ7DBCheckZendFramework.php:66
+msgid "Missing Zend Framework"
+msgstr ""
+
+#: ExportToCsvUtf16le.php:46 ExportToCsvUtf8.php:58
 msgid "Submitted"
 msgstr ""
 
-#: getFile.php:18
+#: ExportToGoogleLiveData.php:160
+msgid "How to Set up Google Spreadsheet to pull data from WordPress"
+msgstr ""
+
+#: ExportToGoogleSS.php:56
+msgid "Login Failed"
+msgstr ""
+
+#: ExportToGoogleSS.php:92
+msgid "New Google Spreadsheet"
+msgstr ""
+
+#: ExportToGoogleSS.php:101
+msgid "Error"
+msgstr ""
+
+#: ExportToHtml.php:46
+msgid "Delete Selected"
+msgstr ""
+
+#: getFile.php:35
 msgid "Missing form parameters"
 msgstr ""
 
-#: getFile.php:23
+#: getFile.php:40
 msgid "No such file."
 msgstr ""
