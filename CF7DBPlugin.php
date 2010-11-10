@@ -17,6 +17,7 @@
 
 require_once('CF7DBPluginLifeCycle.php');
 require_once('CF7DBTableData.php');
+require_once('ExportToHtml.php');
 
 /**
  * Implementation for CF7DBPluginLifeCycle.
@@ -371,63 +372,18 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
         <?php
 
-        // Query DB for the data for that form
-        $tableData = $this->getRowsPivot($currSelection);
-
         // Show table of form data
-        $style = "padding:5px; border-width:1px; border-style:solid; border-color:gray; font-size:x-small;";
-        $thStyle = $style." background-color:#E8E8E8;";
         ?>
         <div style="overflow:auto; max-height:500px;">
         <?php if ($canDelete) { ?>
         <form action="" method="post">
             <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
             <input name="delete" type="hidden" value="rows"/>
-        <?php } ?>
-        <table cellspacing="0" style="margin-top:1em; border-width:0px; border-style:solid; border-color:gray; font-size:x-small;">
-            <thead>
-            <?php if ($canDelete) { ?>
-            <th>
-                <input type="image" src="<?php echo $pluginDirUrl ?>delete.gif" alt="<?php _e('Delete Selected', 'contact-form-7-to-database-extension')?>" onchange="this.form.submit()"/>
-            </th>
-            <?php } ?>
-            <th style="<?php echo $thStyle ?>">Submitted</th>
-            <?php foreach ($tableData->columns as $aCol) {
-                echo "<th style=\"$thStyle\">$aCol</th>";
-            } ?>
-            </thead>
-            <tbody>
-            <?php foreach ($tableData->pivot as $submitTime => $data) {
-                ?>
-                <tr>
-                <?php if ($canDelete) { ?>
-                    <td align="center">
-                        <input type="checkbox" name="<?php echo $submitTime ?>" value="row" />
-                    </td>
-                <?php } ?>
-                    <td style="<?php echo $style ?>"><div style="max-height:100px; overflow:auto;"><?php echo $this->formatDate($submitTime) ?></div></td>
-                <?php
-                    $showLineBreaks = $this->getOption('ShowLineBreaksInDataTable');
-                    $showLineBreaks = 'false' != $showLineBreaks;
-                    foreach ($tableData->columns as $aCol) {
-                        $cell = isset($data[$aCol]) ? $data[$aCol] : "";
-                        $cell = htmlentities($cell, null, 'UTF-8'); // no HTML injection
-                        if ($showLineBreaks) {
-                            $cell = str_replace("\r\n", "<br/>", $cell); // preserve DOS line breaks
-                            $cell = str_replace("\n", "<br/>", $cell); // preserve UNIX line breaks
-                        }
-                        if ($tableData->files[$aCol] && "" != $cell) {
-                            $fileUrl = $this->getFileUrl($submitTime, $currSelection, $aCol);
-                            $cell = "<a href=\"$fileUrl\">$cell</a>";
-                        }
-                        echo "<td style=\"$style\"><div style=\"max-height:100px; overflow:auto;\">$cell</div></td>";
-                    }
-                ?></tr><?php
-
-            } ?>
-            </tbody>
-        </table>
-        <?php if ($canDelete) { ?>
+        <?php }
+        $exporter = new ExportToHtml();
+        $exporter->export($currSelection, $canDelete);
+        if ($canDelete) {
+            ?>
         </form>
         <?php } ?>
         </div>

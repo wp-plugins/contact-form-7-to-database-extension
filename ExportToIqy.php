@@ -25,9 +25,8 @@ class ExportToIqy {
 
         $url = get_bloginfo('url');
         $plugin = new CF7DBPlugin();
-        $slug = $plugin->getDBPageSlug();
         $encFormName = urlencode($formName);
-        $encRedir = urlencode("/wp-admin/admin.php?page=$slug&form_name=$encFormName");
+        $encRedir = urlencode($plugin->getPluginDirUrl() . "export.php?form=$encFormName&enc=HTML");
 
         // To get this to work right, we have to submit to the same page that the login form does and post
         // the same parameters that the login form does. This includes "log" and "pwd" for the login and
@@ -42,7 +41,7 @@ class ExportToIqy {
 $url/wp-login.php?redirect_to=$encRedir
 log=[\"Username for $url\"]&pwd=[\"Password for $url\"]
 
-Selection=3
+Selection=1
 Formatting=All
 PreFormattedTextToColumns=True
 ConsecutiveDelimitersAsOne=True

@@ -19,6 +19,10 @@ class  CF7DBPluginExporter {
     static function export($formName, $encoding, $guser=null, $gpwd=null) {
 
         switch ($encoding) {
+            case 'HTML':
+                $exporter = new ExportToHtml();
+                $exporter->export($formName);
+                break;
             case 'IQY':
                 $exporter = new ExportToIqy();
                 $exporter->export($formName);
