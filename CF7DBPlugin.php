@@ -149,7 +149,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         $ip = ($_SERVER['X_FORWARDED_FOR']) ? $_SERVER['X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
         $tableName = $this->prefixTableName('SUBMITS');
         $parametrizedQuery = "INSERT INTO `$tableName` (`submit_time`, `form_name`, `field_name`, `field_value`, `field_order`) VALUES (%s, %s, %s, %s, %s)";
-        $parametrizedFileQuery = "UPDATE `$tableName` SET `file` =  '%s' WHERE `submit_time` = '%s' AND `form_name` = %s AND `field_name` = '%s' AND `field_value` = '%s'";
+        $parametrizedFileQuery = "UPDATE `$tableName` SET `file` =  '%s' WHERE `submit_time` = '%s' AND `form_name` = '%s' AND `field_name` = '%s' AND `field_value` = '%s'";
 
         $title = $this->stripSlashes($cf7->title);
         $order = 0;
