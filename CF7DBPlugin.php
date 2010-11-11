@@ -72,7 +72,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             $tableName = $this->prefixTableName('SUBMITS');
             $wpdb->query("ALTER TABLE $tableName ADD COLUMN `field_order` INTEGER");
             $wpdb->query("ALTER TABLE $tableName ADD COLUMN `file` LONGBLOB");
-            $wpdb->query("ALTER TABLE  $tableName ADD INDEX  `submit_time_idx` ( `submit_time` )");
+            $wpdb->query("ALTER TABLE  $tableName ADD INDEX `submit_time_idx` ( `submit_time` )");
         }
 
 
@@ -99,6 +99,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             `field_value` LONGTEXT CHARACTER SET utf8,
             `field_order` INTEGER,
             `file` LONGBLOB)");
+        $wpdb->query("ALTER TABLE  $tableName ADD INDEX `submit_time_idx` ( `submit_time` )");
     }
 
 
