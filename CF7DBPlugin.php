@@ -230,6 +230,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 //                      array(&$this, 'whatsInTheDBPage'));
 
         // Needed for dialog in whatsInTheDBPage
+        wp_enqueue_script("jquery");
         wp_enqueue_style("jquery-ui.css", "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/base/jquery-ui.css");
         wp_enqueue_script("jquery-ui-dialog");
         wp_enqueue_script('CF7DBdes', $this->getPluginDirUrl() . 'des.js');
@@ -361,7 +362,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                             <option id="GLD" value="GLD">Google Spreadsheet Live Data</option>
                             <option id="HTML" value="HTML">HTML</option>
                         </select>
-                        <input name="exportcsv" type="button"
+                        <input name="exportButton" type="button"
                                value="<?php _e('Export', 'contact-form-7-to-database-extension'); ?>"
                                onclick="exportData(this.form.elements['enc'])"/>
                     </form>
