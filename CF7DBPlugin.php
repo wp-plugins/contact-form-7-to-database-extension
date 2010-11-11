@@ -333,7 +333,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                             }
                         }
                         function uploadGoogleSS() {
-                            var key = '<?php session_start(); echo(substr($_COOKIE['PHPSESSID'], - 5)); ?>';
+                            var key = '3fde789a';
                             var guser = printHex(des(key, jQuery('#guser').attr('value'), 1));
                             var gpwd = printHex(des(key, jQuery('#gpwd').attr('value'), 1));
                             jQuery("#GoogleCredentialsDialog").dialog('close');
