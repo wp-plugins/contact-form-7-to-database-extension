@@ -96,9 +96,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             `submit_time` INTEGER NOT NULL,
             `form_name` VARCHAR(127) CHARACTER SET utf8,
             `field_name` VARCHAR(127) CHARACTER SET utf8,
-            `field_value` LONGTEXT CHARACTER SET utf8),
+            `field_value` LONGTEXT CHARACTER SET utf8,
             `field_order` INTEGER,
-            `file` LONGBLOB");
+            `file` LONGBLOB)");
     }
 
 
