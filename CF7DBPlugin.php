@@ -44,7 +44,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             'ShowLineBreaksInDataTable' => array(__('Show line breaks in submitted data table', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'SubmitDateTimeFormat' => array('<a target="_blank" href="http://php.net/manual/en/function.date.php">'.__('Date-Time Display Format').'</a>'),
             'ShowFileUrlsInExport' => array(__('Export URLs instead of file names for uploaded files', 'contact-form-7-to-database-extension'), 'false', 'true'),
-            'NoSaveFields' => array(__('Do not save fields in DB named (comma-separated list)', 'contact-form-7-to-database-extension'))
+            'NoSaveFields' => array(__('Do not save fields in DB named (comma-separated list, no spaces)', 'contact-form-7-to-database-extension'))
         );
     }
 
