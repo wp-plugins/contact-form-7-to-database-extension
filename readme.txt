@@ -102,3 +102,4 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 * Initial Revision.
 
 == Upgrade Notice ==
+
