@@ -29,17 +29,17 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * @return string
      */
     public function getVersion() {
-        return "1.4";
+        return '1.4.2';
     }
 
 
     public function &getPluginDisplayName() {
-        return "Contact Form 7 to DB Extension";
+        return 'Contact Form 7 to DB Extension';
     }
 
     public function &getOptionMetaData() {
         return array(
-            'CanSeeSubmitData' => array(__('Can See Submission data', 'contact-form-7-to-database-extension'), 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
+            'CanSeeSubmitData' => array(__('Can See Submission data', 'contact-form-7-to-database-extension'), 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
             'CanChangeSubmitData' => array(__('Can Delete Submission data', 'contact-form-7-to-database-extension'), 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
             'ShowLineBreaksInDataTable' => array(__('Show line breaks in submitted data table', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'SubmitDateTimeFormat' => array('<a target="_blank" href="http://php.net/manual/en/function.date.php">'.__('Date-Time Display Format').'</a>'),
@@ -130,6 +130,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
         // Hook into Contact Form 7 when a form post is made to save the data to the DB
         add_action('wpcf7_before_send_mail', array(&$this, 'saveFormData'));
+
+        // Shortcode to add a table to a page
+        add_shortcode('cf7db-table', array(&$this, 'showTableShortCode'));
     }
 
     public function addSettingsSubMenuPage() {
@@ -161,7 +164,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 continue; // Don't save in DB
             }
 
-            $value = is_array($value) ? implode($value, ", ") : $value;
+            $value = is_array($value) ? implode($value, ', ') : $value;
             $valueClean = $this->stripSlashes($value);
             $wpdb->query($wpdb->prepare($parametrizedQuery,
                                         $time,
@@ -224,15 +227,15 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
         //create new top-level menu
 //        add_menu_page($displayName . ' Plugin Settings',
-//                      "Contact Form Submissions",
+//                      'Contact Form Submissions',
 //                      'administrator', //$roleAllowed,
 //                      $this->getDBPageSlug(),
 //                      array(&$this, 'whatsInTheDBPage'));
 
         // Needed for dialog in whatsInTheDBPage
-        wp_enqueue_script("jquery");
-        wp_enqueue_style("jquery-ui.css", "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/base/jquery-ui.css");
-        wp_enqueue_script("jquery-ui-dialog");
+        wp_enqueue_script('jquery');
+        wp_enqueue_style('jquery-ui.css', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/base/jquery-ui.css');
+        wp_enqueue_script('jquery-ui-dialog');
         wp_enqueue_script('CF7DBdes', $this->getPluginDirUrl() . 'des.js');
 
         // Put page under CF7's "Contact" page
@@ -242,6 +245,23 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                          $this->roleToCapability($roleAllowed),
                          $this->getDBPageSlug(),
                          array(&$this, 'whatsInTheDBPage'));
+    }
+
+    /**
+     * Shortcode callback for writing the table of form data. Can be put in a page or post to show that data.
+     * @param  $atts short code attributes
+     * @return void
+     */
+    public function showTableShortCode($atts) {
+        if ($atts['form']) {
+            if ($this->canUserDoRoleOption('CanSeeSubmitData')) {
+                $export = new ExportToHtml();
+                $export->export($atts['form']);
+            }
+            else {
+                echo __('Insufficient privileges to display data from form: ', 'contact-form-7-to-database-extension') . $atts['form'];
+            }
+        }
     }
 
     public function getDBPageSlug() {
@@ -481,7 +501,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * @return string URL to the Plugin directory. Includes ending "/"
      */
     public function &getPluginDirUrl() {
-        return WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
+        return WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),'',plugin_basename(__FILE__));
     }
 
     public function &formatDate($time) {
@@ -490,7 +510,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     }
 
     public function &getFileUrl($submitTime, $formName, $fileName) {
-        $url = $this->getPluginDirUrl() . "getFile.php?s=%s&form=%s&field=%s";
+        $url = $this->getPluginDirUrl() . 'getFile.php?s=%s&form=%s&field=%s';
         return sprintf($url, $submitTime, urlencode($formName), urlencode($fileName));
     }
 
