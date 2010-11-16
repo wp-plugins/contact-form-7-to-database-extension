@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-"
 "extension\n"
-"POT-Creation-Date: 2010-11-10 19:34+0000\n"
+"POT-Creation-Date: 2010-11-16 20:25+0000\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,17 +17,17 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: CF7DBOptionsManager.php:260 ExportToCsvUtf16le.php:28
+#: CF7DBOptionsManager.php:268 ExportToCsvUtf16le.php:28
 #: ExportToCsvUtf8.php:38 ExportToGoogleLiveData.php:25
-#: ExportToGoogleSS.php:30 ExportToHtml.php:24 getFile.php:28
+#: ExportToGoogleSS.php:30 ExportToHtml.php:34 getFile.php:28
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: CF7DBOptionsManager.php:278
+#: CF7DBOptionsManager.php:286
 msgid " Settings"
 msgstr ""
 
-#: CF7DBOptionsManager.php:301
+#: CF7DBOptionsManager.php:309
 msgid "Save Changes"
 msgstr ""
 
@@ -52,30 +52,34 @@ msgid "Export URLs instead of file names for uploaded files"
 msgstr ""
 
 #: CF7DBPlugin.php:47
-msgid "Do not save fields in DB named (comma-separated list)"
+msgid "Do not save fields in DB named (comma-separated list, no spaces)"
 msgstr ""
 
-#: CF7DBPlugin.php:272
+#: CF7DBPlugin.php:273
+msgid "Insufficient privileges to display data from form: "
+msgstr ""
+
+#: CF7DBPlugin.php:305
 msgid "No form submissions in the database"
 msgstr ""
 
-#: CF7DBPlugin.php:323
+#: CF7DBPlugin.php:356
 msgid "'Google Login for Upload'"
 msgstr ""
 
-#: CF7DBPlugin.php:364
+#: CF7DBPlugin.php:397
 msgid "Export"
 msgstr ""
 
-#: CF7DBPlugin.php:373
+#: CF7DBPlugin.php:406
 msgid "Delete All This Form's Records"
 msgstr ""
 
-#: CF7DBPlugin.php:412
+#: CF7DBPlugin.php:445
 msgid "Cancel"
 msgstr ""
 
-#: CF7DBPlugin.php:413
+#: CF7DBPlugin.php:446
 msgid "Upload"
 msgstr ""
 
@@ -103,7 +107,7 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: ExportToHtml.php:46
+#: ExportToHtml.php:81
 msgid "Delete Selected"
 msgstr ""
 
