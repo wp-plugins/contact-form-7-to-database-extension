@@ -55,7 +55,7 @@ class ExportToCsvUtf8 {
         $comma = ',';
 
         // Column Headers
-        echo $this->prepareCsvValue(__("Submitted", 'contact-form-7-to-database-extension'));
+        echo $this->prepareCsvValue(__('Submitted', 'contact-form-7-to-database-extension'));
         echo $comma;
         $tableData = $this->plugin->getRowsPivot($formName);
         foreach ($tableData->columns as $aCol) {
@@ -66,13 +66,13 @@ class ExportToCsvUtf8 {
 
 
         // Rows
-        $showFileUrlsInExport = $this->plugin->getOption('ShowFileUrlsInExport') == "true";
+        $showFileUrlsInExport = $this->plugin->getOption('ShowFileUrlsInExport') == 'true';
         foreach ($tableData->pivot as $submitTime => $data) {
             echo $this->plugin->formatDate($submitTime);
             echo $comma;
             foreach ($tableData->columns as $aCol) {
-                $cell = isset($data[$aCol]) ? $data[$aCol] : "";
-                if ($showFileUrlsInExport && $tableData->files[$aCol] && "" != $cell) {
+                $cell = isset($data[$aCol]) ? $data[$aCol] : '';
+                if ($showFileUrlsInExport && $tableData->files[$aCol] && '' != $cell) {
                     $cell = $this->plugin->getFileUrl($submitTime, $formName, $aCol);
                 }
                 echo $this->prepareCsvValue($cell);
