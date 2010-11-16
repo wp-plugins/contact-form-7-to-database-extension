@@ -37,9 +37,9 @@ class ExportToCsvUtf8 {
         if (!$this->plugin->canUserDoRoleOption('CanSeeSubmitData')) {
             wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
         }
-        header("Expires: 0");
-        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-        header("Content-Type: text/csv; charset=UTF-8");
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Content-Type: text/csv; charset=UTF-8');
         header("Content-Disposition: attachment; filename=\"$formName.csv\"");
 
         $this->echoCsv($formName);
@@ -52,7 +52,7 @@ class ExportToCsvUtf8 {
         }
 
         $eol = "\n";
-        $comma = ",";
+        $comma = ',';
 
         // Column Headers
         echo $this->prepareCsvValue(__("Submitted", 'contact-form-7-to-database-extension'));

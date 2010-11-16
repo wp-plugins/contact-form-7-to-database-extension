@@ -20,7 +20,7 @@ require_once('CF7DBPlugin.php');
 class ExportToIqy {
 
     public function export($formName) {
-        header("Content-Type: text/x-ms-iqy");
+        header('Content-Type: text/x-ms-iqy');
         header("Content-Disposition: attachment; filename=\"$formName.iqy\"");
 
         $url = get_bloginfo('url');

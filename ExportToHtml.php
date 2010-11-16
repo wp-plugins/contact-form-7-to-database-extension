@@ -24,16 +24,16 @@ class ExportToHtml {
             wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
         }
         if (!headers_sent()) {
-            header("Expires: 0");
-            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-            header("Content-Type: text/html; charset=UTF-8");
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header('Content-Type: text/html; charset=UTF-8');
         }
 
         // Query DB for the data for that form
         $tableData = $plugin->getRowsPivot($formName);
 
-        $style = "padding:5px; border-width:1px; border-style:solid; border-color:gray; font-size:x-small;";
-        $thStyle = $style . " background-color:#E8E8E8;";
+        $style = 'padding:5px; border-width:1px; border-style:solid; border-color:gray; font-size:x-small;';
+        $thStyle = $style . ' background-color:#E8E8E8;';
 
         ?>
 

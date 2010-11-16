@@ -27,14 +27,14 @@ class ExportToCsvUtf16le {
         if (!$plugin->canUserDoRoleOption('CanSeeSubmitData')) {
             wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
         }
-        header("Expires: 0");
-        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-        header("Content-Type: text/csv; charset=UTF-16LE");
-        $fileName = $formName . ".csv";
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Content-Type: text/csv; charset=UTF-16LE');
+        $fileName = $formName . '.csv';
         header("Content-Disposition: attachment; filename=\"$fileName\"");
 
         // todo: make this work
-//        $fileName = $this->encodeWordRfc2231($formName) . ".csv";
+//        $fileName = $this->encodeWordRfc2231($formName) . '.csv';
 //        header("Content-Disposition: attachment; filename*=UTF-8''$fileName");
 
         //Bytes FF FE (UTF-16LE BOM)
@@ -43,7 +43,7 @@ class ExportToCsvUtf16le {
         $delimiter = $this->encode(utf8_encode("\t"));
 
         // Column Headers
-        echo $this->prepareCsvValue(utf8_encode(__("Submitted", 'contact-form-7-to-database-extension', 'contact-form-7-to-database-extension')));
+        echo $this->prepareCsvValue(utf8_encode(__('Submitted', 'contact-form-7-to-database-extension', 'contact-form-7-to-database-extension')));
         echo $delimiter;
         $tableData = $plugin->getRowsPivot($formName);
         foreach ($tableData->columns as $aCol) {
@@ -54,13 +54,13 @@ class ExportToCsvUtf16le {
 
 
         // Rows
-        $showFileUrlsInExport = $plugin->getOption('ShowFileUrlsInExport') == "true";
+        $showFileUrlsInExport = $plugin->getOption('ShowFileUrlsInExport') == 'true';
         foreach ($tableData->pivot as $submitTime => $data) {
             echo $this->encode(utf8_encode($plugin->formatDate($submitTime)));
             echo $delimiter;
             foreach ($tableData->columns as $aCol) {
-                $cell = isset($data[$aCol]) ? $data[$aCol] : "";
-                if ($showFileUrlsInExport && $tableData->files[$aCol] && "" != $cell) {
+                $cell = isset($data[$aCol]) ? $data[$aCol] : '';
+                if ($showFileUrlsInExport && $tableData->files[$aCol] && '' != $cell) {
                     $cell = $plugin->getFileUrl($submitTime, $formName, $aCol);
                 }
                 echo $this->prepareCsvValue($cell);
@@ -73,7 +73,7 @@ class ExportToCsvUtf16le {
 
     protected function &prepareCsvValue($text) {
         // Excel does not like \n characters in UTF-16LE, so we replace with a space
-        $text = str_replace("\n", " ", $text);
+        $text = str_replace("\n", ' ', $text);
 
         // In CSV, escape double-quotes by putting two double quotes together
         $quote = '"';

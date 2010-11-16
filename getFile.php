@@ -37,7 +37,7 @@ function cF7ToDBGetFile() {
 
     $fileInfo = (array) $plugin->getFileFromDB($submitTime, $formName, $fieldName);
     if ($fileInfo == null) {
-        wp_die(__("No such file.", 'contact-form-7-to-database-extension'));
+        wp_die(__('No such file.', 'contact-form-7-to-database-extension'));
     }
 
     header("Content-Disposition: attachment; filename=\"$fileInfo[0]\"");

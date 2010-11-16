@@ -29,9 +29,9 @@ class ExportToGoogleSS {
         if (!$plugin->canUserDoRoleOption('CanSeeSubmitData')) {
             wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
         }
-        header("Expires: 0");
-        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-        header("Content-Type: text/html; charset=UTF-8");
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Content-Type: text/html; charset=UTF-8');
 
         flush(); // try to prevent the browser from timing on slow uploads but giving it something
 
@@ -52,8 +52,8 @@ class ExportToGoogleSS {
                 Zend_Gdata_Docs::AUTH_SERVICE_NAME); //Zend_Gdata_Spreadsheets::AUTH_SERVICE_NAME
         }
         catch (Zend_Gdata_App_AuthException $ae) {
-            wp_die("<p>Login failed for: '$guser' </p><p>Error: " . $ae->getMessage() . "</p>",
-                   __("Login Failed", 'contact-form-7-to-database-extension'),
+            wp_die("<p>Login failed for: '$guser' </p><p>Error: " . $ae->getMessage() . '</p>',
+                   __('Login Failed', 'contact-form-7-to-database-extension'),
                    array('response' => 200, 'back_link' => true));
         }
 
@@ -68,7 +68,7 @@ class ExportToGoogleSS {
 
             // Put the contents in a tmp file because Google upload API only reads from a file
             $tmpfname = tempnam(sys_get_temp_dir(), "$formName.csv");
-            $handle = fopen($tmpfname, "w");
+            $handle = fopen($tmpfname, 'w');
             fwrite($handle, $csvFileContents);
             fclose($handle);
 
@@ -89,16 +89,16 @@ class ExportToGoogleSS {
             //header("Location: $alternateLink");
             //$title = $newDocumentEntry->title;
 
-            $title = __("New Google Spreadsheet", 'contact-form-7-to-database-extension');
+            $title = __('New Google Spreadsheet', 'contact-form-7-to-database-extension');
             $output =
                     utf8_encode("$title: <a target=\"_blank\" href=\"$alternateLink\">") .
                             $formName .
-                            utf8_encode("</a>");
+                            utf8_encode('</a>');
             wp_die($output, $title,  array('response' => 200, 'back_link' => true));
         }
         catch (Exception $ex) {
-            wp_die($ex->getMessage() . "<pre>" . $ex->getTraceAsString() . "</pre>",
-                   __("Error", 'contact-form-7-to-database-extension'),
+            wp_die($ex->getMessage() . '<pre>' . $ex->getTraceAsString() . '</pre>',
+                   __('Error', 'contact-form-7-to-database-extension'),
                    array('back_link' => true));
         }
     }

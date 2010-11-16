@@ -24,11 +24,11 @@ class ExportToGoogleLiveData {
         if (!$plugin->canUserDoRoleOption('CanSeeSubmitData')) {
             wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
         }
-        header("Expires: 0");
-        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 
-        $scriptLink = $plugin->getPluginDirUrl() . "Cf7ToDBGGoogleSS.js.php";
-        $siteUrl = get_option("home");
+        $scriptLink = $plugin->getPluginDirUrl() . 'Cf7ToDBGGoogleSS.js.php';
+        $siteUrl = get_option('home');
         ob_start();
         ?>
         <style type="text/css">
@@ -157,7 +157,7 @@ class ExportToGoogleLiveData {
             $html = ob_get_contents();
         ob_end_clean();
         wp_die($html,
-               __("How to Set up Google Spreadsheet to pull data from WordPress", 'contact-form-7-to-database-extension'),
+               __('How to Set up Google Spreadsheet to pull data from WordPress', 'contact-form-7-to-database-extension'),
                array('response' => 200, 'back_link' => true));
     }
 }
