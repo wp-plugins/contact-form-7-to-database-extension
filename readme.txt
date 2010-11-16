@@ -70,6 +70,9 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 
 == Changelog ==
 
+= 1.4.2 =
+* Added "cf7db-table" shortcode to incorporate form data on regular posts and pages. Use [cf7db-table form="your-form"] with optional "show" and "hide: [cf7db-table form="your-form" show="field1,field2,field3"] (optionally show selected fields), [cf7db-table form="your-form" hide="field1,field2,field3"] (optionally hide selected fields)
+
 = 1.4 =
 * Added export to Google spreadsheet
 * Now saves files uploaded via a CF7 form. When defining a file upload in CF7, be sure to set a file size limit. Example: [file upload limit:10mb]

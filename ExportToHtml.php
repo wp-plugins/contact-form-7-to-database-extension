@@ -18,7 +18,17 @@
 
 class ExportToHtml {
 
-    public function export($formName, $canDelete = false) {
+    /**
+     * Echo a table of submitted form data
+     * @param string $formName
+     * @param bool $canDelete
+     * @param array $showColumns
+     * @param array $hideColumns
+     * @return void
+     */
+    public function export(&$formName, $canDelete = false, &$showColumns = null, &$hideColumns = null) {
+//        print_r($showColumns); // debug
+//        print_r($hideColumns); // debug
         $plugin = new CF7DBPlugin();
         if (!$plugin->canUserDoRoleOption('CanSeeSubmitData')) {
             wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
@@ -35,6 +45,31 @@ class ExportToHtml {
         $style = 'padding:5px; border-width:1px; border-style:solid; border-color:gray; font-size:x-small;';
         $thStyle = $style . ' background-color:#E8E8E8;';
 
+        // Get the columns to display
+        if ($hideColumns == null || !is_array($hideColumns)) { // no hidden cols specified
+            $columns = ($showColumns != null) ? $showColumns : $tableData->columns;
+        }
+        else {
+            $tmpArray = ($showColumns != null) ? $showColumns : $tableData->columns;
+            $columns = array();
+            foreach ($tmpArray as $aCol) {
+                if (!in_array($aCol, $hideColumns)) {
+                    $columns[] = $aCol;
+                }
+            }
+        }
+
+        $showSubmitField = true;
+        {
+            if ($hideColumns != null && is_array($hideColumns)) {
+                if (in_array('Submitted', $hideColumns)) {
+                    $showSubmitField = false;
+                }
+            }
+            if ($showColumns != null && is_array($showColumns)) {
+                $showSubmitField =  in_array('Submitted', $showColumns);
+            }
+        }
         ?>
 
         <table cellspacing="0"
@@ -46,11 +81,14 @@ class ExportToHtml {
                        alt="<?php _e('Delete Selected', 'contact-form-7-to-database-extension')?>"
                        onchange="this.form.submit()"/>
             </th>
-            <?php } ?>
-            <th style="<?php echo $thStyle ?>">Submitted</th>
-            <?php foreach ($tableData->columns as $aCol) {
+            <?php }
+            if ($showSubmitField) {
+                echo "<th style=\"$thStyle\">Submitted</th>";
+            }
+            foreach ($columns as $aCol) {
                 echo "<th style=\"$thStyle\">$aCol</th>";
-            } ?>
+            }
+            ?>
             </thead>
             <tbody>
             <?php foreach ($tableData->pivot as $submitTime => $data) {
@@ -60,14 +98,18 @@ class ExportToHtml {
                     <td align="center">
                         <input type="checkbox" name="<?php echo $submitTime ?>" value="row"/>
                     </td>
-                <?php } ?>
-                    <td style="<?php echo $style ?>">
-                        <div style="max-height:100px; overflow:auto;"><?php echo $plugin->formatDate($submitTime) ?></div>
-                    </td>
                 <?php
+                }
+                if ($showSubmitField) {
+                    ?>
+                        <td style="<?php echo $style ?>">
+                            <div style="max-height:100px; overflow:auto;"><?php echo $plugin->formatDate($submitTime) ?></div>
+                        </td>
+                    <?php
+                }
                 $showLineBreaks = $plugin->getOption('ShowLineBreaksInDataTable');
                 $showLineBreaks = 'false' != $showLineBreaks;
-                foreach ($tableData->columns as $aCol) {
+                foreach ($columns as $aCol) {
                     $cell = isset($data[$aCol]) ? $data[$aCol] : "";
                     $cell = htmlentities($cell, null, 'UTF-8'); // no HTML injection
                     if ($showLineBreaks) {

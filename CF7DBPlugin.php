@@ -249,14 +249,25 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
     /**
      * Shortcode callback for writing the table of form data. Can be put in a page or post to show that data.
+     * Shortcode options:
+     * [cf7db-table form="your-form" ]
+     * [cf7db-table form="your-form" show="field1,field2,field3"] (optionally show selected fields)
+     * [cf7db-table form="your-form" hide="field1,field2,field3"] (optionally hide selected fields)
+     * [cf7db-table form="your-form" show="f1,f2,f3" hide="f1"]   (hide trumps show)
      * @param  $atts short code attributes
      * @return void
      */
     public function showTableShortCode($atts) {
         if ($atts['form']) {
             if ($this->canUserDoRoleOption('CanSeeSubmitData')) {
+                if ($atts['show']) {
+                    $showColumns = preg_split('/,/', $atts['show'], -1, PREG_SPLIT_NO_EMPTY);
+                }
+                if ($atts['hide']) {
+                    $hideColumns = preg_split('/,/', $atts['hide'], -1, PREG_SPLIT_NO_EMPTY);
+                }
                 $export = new ExportToHtml();
-                $export->export($atts['form']);
+                $export->export($atts['form'], false, $showColumns, $hideColumns);
             }
             else {
                 echo __('Insufficient privileges to display data from form: ', 'contact-form-7-to-database-extension') . $atts['form'];
