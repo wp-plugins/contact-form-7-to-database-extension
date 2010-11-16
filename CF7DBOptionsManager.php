@@ -45,10 +45,10 @@ class CF7DBOptionsManager {
      *       the elements are choices of values that the user can select
      * e.g.
      * array(
-     *   "item" => "Item:",             // key => display-name
-     *   "rating" => array(             // key => array ( display-name, choice1, choice2, ...)
+     *   'item' => 'Item:',             // key => display-name
+     *   'rating' => array(             // key => array ( display-name, choice1, choice2, ...)
      *       'CanDoOperationX' => array('Can do Operation X', 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
-     *       "Rating:", "Excellent", "Good", "Fair", "Poor")
+     *       'Rating:', 'Excellent', 'Good', 'Fair', 'Poor')
      */
     public function &getOptionMetaData() {
         return array();
@@ -186,24 +186,26 @@ class CF7DBOptionsManager {
      * Given a WP role name, return a WP capability which only that role and roles above it have
      * http://codex.wordpress.org/Roles_and_Capabilities
      * @param  $roleName
-     * @return string a WP capability or "" if unknown input role
+     * @return string a WP capability or '' if unknown input role
      */
     protected function roleToCapability($roleName) {
         switch ($roleName) {
-            case "Super Admin":
-                return "manage_options";
-            case "Administrator":
-                return "manage_options";
-            case "Editor":
-                return "publish_pages";
-            case "Author":
-                return "publish_posts";
-            case "Contributor":
-                return "edit_posts";
-            case "Subscriber":
-                return "read";
+            case 'Super Admin':
+                return 'manage_options';
+            case 'Administrator':
+                return 'manage_options';
+            case 'Editor':
+                return 'publish_pages';
+            case 'Author':
+                return 'publish_posts';
+            case 'Contributor':
+                return 'edit_posts';
+            case 'Subscriber':
+                return 'read';
+            case 'Anyone':
+                return 'read';
         }
-        return "";
+        return '';
     }
 
     /**
@@ -211,6 +213,9 @@ class CF7DBOptionsManager {
      * @return bool
      */
     public function isUserRoleEqualOrBetterThan($roleName) {
+        if ('Anyone' == $roleName) {
+            return true;
+        }
         $capability = $this->roleToCapability($roleName);
         return current_user_can($capability);
     }
@@ -221,6 +226,9 @@ class CF7DBOptionsManager {
      */
     public function canUserDoRoleOption($optionName) {
         $roleAllowed = $this->getRoleOption($optionName);
+        if ('Anyone' == $roleAllowed) {
+            return true;
+        }
         return $this->isUserRoleEqualOrBetterThan($roleAllowed);
     }
 
@@ -275,7 +283,7 @@ class CF7DBOptionsManager {
         $settingsGroup = get_class($this) . '-settings-group';
         ?>
         <div class="wrap">
-            <h2><?php echo $this->getPluginDisplayName(); _e(" Settings", 'contact-form-7-to-database-extension'); ?></h2>
+            <h2><?php echo $this->getPluginDisplayName(); _e(' Settings', 'contact-form-7-to-database-extension'); ?></h2>
 
             <form method="post" action="">
             <?php settings_fields($settingsGroup); ?>
