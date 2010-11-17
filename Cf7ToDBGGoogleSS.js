@@ -36,7 +36,7 @@ function CF7ToDBData(siteUrl, formName, user, pwd) {
 
 function fetchCF7ToDBCSVText(siteUrl, formName, user, pwd) {
   var encformName = encodeURI(formName).replace(new RegExp("%20", "g"), "%2B");
-  var url = siteUrl + "/wp-login.php?redirect_to=/wp-content/plugins/contact-form-7-db/export.php%3Fform%3D" + encformName;
+  var url = siteUrl + "/wp-login.php?redirect_to=/wp-content/plugins/contact-form-7-to-database-extension/export.php%3Fform%3D" + encformName;
   var postData = "log=" + encodeURI(user) + "&pwd=" + encodeURI(pwd);  
   var response = UrlFetchApp.fetch(
     url,
