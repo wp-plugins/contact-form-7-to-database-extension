@@ -29,7 +29,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * @return string
      */
     public function getVersion() {
-        return '1.4.2';
+        return '1.4.3';
     }
 
 
@@ -292,6 +292,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 </td>
                 <td style="font-size:x-small;"><a target="_cf7todb" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension">Plugin Home</a></td>
                 <td style="font-size:x-small;"><a target="_cf7todb" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/">FAQ</a></td>
+                <td style="font-size:x-small;"><a target="_cf7todb" href="http://wordpress.org/tags/contact-form-7-to-database-extension">Support</a></td>
             </tr></tbody>
         </table>
         <?php
