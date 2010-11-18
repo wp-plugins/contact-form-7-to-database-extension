@@ -84,7 +84,11 @@ class CF7DBInstallIndicator extends CF7DBOptionsManager {
      * @return string
      */
     public function getVersion() {
-        return '0';
+        // Read the version string from the comment header of the main plugin file
+        $data = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR .'contact-form-7-db.php');
+        $match = array();
+        preg_match('/Version:\s*(\S+)/', $data, $match);
+        return $match[1];
     }
 
     /**

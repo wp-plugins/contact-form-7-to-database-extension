@@ -25,14 +25,6 @@ require_once('ExportToHtml.php');
 
 class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
-    /**
-     * @return string
-     */
-    public function getVersion() {
-        return '1.4.3';
-    }
-
-
     public function &getPluginDisplayName() {
         return 'Contact Form 7 to DB Extension';
     }
