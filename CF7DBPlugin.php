@@ -37,6 +37,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             'SubmitDateTimeFormat' => array('<a target="_blank" href="http://php.net/manual/en/function.date.php">'.__('Date-Time Display Format').'</a>'),
             'ShowFileUrlsInExport' => array(__('Export URLs instead of file names for uploaded files', 'contact-form-7-to-database-extension'), 'false', 'true'),
             'NoSaveFields' => array(__('Do not save fields in DB named (comma-separated list, no spaces)', 'contact-form-7-to-database-extension'))
+            //'SubmitTableNameOverride' => array(__('Use this table to store submission data rather than the default (leave blank for default)', 'contact-form-7-to-database-extension'))
         );
     }
 
@@ -45,10 +46,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         $version = $this->getVersionSaved();
         if (!$version || $version == "") { // Prior to storing version in options (pre 1.2)
             // DB Schema Upgrade to support i18n using UTF-8
-            $tableName = $this->prefixTableName('SUBMITS');
-            $wpdb->query("ALTER TABLE $tableName MODIFY form_name VARCHAR(127) CHARACTER SET utf8");
-            $wpdb->query("ALTER TABLE $tableName MODIFY field_name VARCHAR(127) CHARACTER SET utf8");
-            $wpdb->query("ALTER TABLE $tableName MODIFY field_value longtext CHARACTER SET utf8");
+            $tableName = $this->getSubmitsTableName();
+            $wpdb->query("ALTER TABLE `$tableName` MODIFY form_name VARCHAR(127) CHARACTER SET utf8");
+            $wpdb->query("ALTER TABLE `$tableName` MODIFY field_name VARCHAR(127) CHARACTER SET utf8");
+            $wpdb->query("ALTER TABLE `$tableName` MODIFY field_value longtext CHARACTER SET utf8");
 
             // Remove obsolete options
             $this->deleteOption('_displayName');
@@ -61,10 +62,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         }
 
         if ($this->isSavedVersionLessThan('1.3.1')) {
-            $tableName = $this->prefixTableName('SUBMITS');
-            $wpdb->query("ALTER TABLE $tableName ADD COLUMN `field_order` INTEGER");
-            $wpdb->query("ALTER TABLE $tableName ADD COLUMN `file` LONGBLOB");
-            $wpdb->query("ALTER TABLE  $tableName ADD INDEX `submit_time_idx` ( `submit_time` )");
+            $tableName = $this->getSubmitsTableName();
+            $wpdb->query("ALTER TABLE `$tableName` ADD COLUMN `field_order` INTEGER");
+            $wpdb->query("ALTER TABLE `$tableName` ADD COLUMN `file` LONGBLOB");
+            $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `submit_time_idx` ( `submit_time` )");
         }
 
 
@@ -83,15 +84,15 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      */
     protected function installDatabaseTables() {
         global $wpdb;
-        $tableName = $this->prefixTableName('SUBMITS');
-        $wpdb->query("CREATE TABLE IF NOT EXISTS $tableName (
+        $tableName = $this->getSubmitsTableName();
+        $wpdb->query("CREATE TABLE IF NOT EXISTS `$tableName` (
             `submit_time` INTEGER NOT NULL,
             `form_name` VARCHAR(127) CHARACTER SET utf8,
             `field_name` VARCHAR(127) CHARACTER SET utf8,
             `field_value` LONGTEXT CHARACTER SET utf8,
             `field_order` INTEGER,
             `file` LONGBLOB)");
-        $wpdb->query("ALTER TABLE  $tableName ADD INDEX `submit_time_idx` ( `submit_time` )");
+        $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `submit_time_idx` ( `submit_time` )");
     }
 
 
@@ -104,11 +105,13 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      */
     protected function unInstallDatabaseTables() {
         global $wpdb;
-        $tables = array('SUBMITS');
-        foreach ($tables as $aTable) {
-            $tableName = $this->prefixTableName($aTable);
-            $wpdb->query("DROP TABLE IF EXISTS $tableName");
-        }
+        $tableName = $this->getSubmitsTableName();
+        $wpdb->query("DROP TABLE IF EXISTS $tableName");
+//        $tables = array('SUBMITS');
+//        foreach ($tables as $aTable) {
+//            $tableName = $this->prefixTableName($aTable);
+//            $wpdb->query("DROP TABLE IF EXISTS $tableName");
+//        }
     }
 
     public function addActionsAndFilters() {
@@ -143,7 +146,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         global $wpdb;
         $time = $_SERVER['REQUEST_TIME'] ? $_SERVER['REQUEST_TIME'] : time();
         $ip = ($_SERVER['X_FORWARDED_FOR']) ? $_SERVER['X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
-        $tableName = $this->prefixTableName('SUBMITS');
+        $tableName = $this->getSubmitsTableName();
         $parametrizedQuery = "INSERT INTO `$tableName` (`submit_time`, `form_name`, `field_name`, `field_value`, `field_order`) VALUES (%s, %s, %s, %s, %s)";
         $parametrizedFileQuery = "UPDATE `$tableName` SET `file` =  '%s' WHERE `submit_time` = '%s' AND `form_name` = '%s' AND `field_name` = '%s' AND `field_value` = '%s'";
 
@@ -199,7 +202,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      */
     public function &getFileFromDB($time, $formName, $fieldName) {
         global $wpdb;
-        $tableName = $this->prefixTableName('SUBMITS');
+        $tableName = $this->getSubmitsTableName();
         $parametrizedQuery = "SELECT `field_value`, `file` FROM `$tableName` WHERE `submit_time` = '%s' AND `form_name` = %s AND `field_name` = '%s'";
         $rows = $wpdb->get_results($wpdb->prepare($parametrizedQuery, $time, $formName, $fieldName));
         if ($rows == null || count($rows) == 0) {
@@ -290,7 +293,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         <?php
 
         global $wpdb;
-        $tableName = $this->prefixTableName('SUBMITS');
+        $tableName = $this->getSubmitsTableName();
 
         // Identify which forms have data in the database
         $rows = $wpdb->get_results("select distinct `form_name` from `$tableName` order by `form_name`");
@@ -451,7 +454,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      */
     public function &getRowsPivot($formName) {
         global $wpdb;
-        $tableName = $this->prefixTableName('SUBMITS');
+        $tableName = $this->getSubmitsTableName();
         $rows = $wpdb->get_results("select `submit_time`, `field_name`, `field_value`, `file` IS NOT NULL AS has_file from `$tableName` where `form_name` = '$formName' order by `submit_time` desc, `field_order` asc");
 
         $tableData = new CF7DBTableData();
@@ -520,5 +523,13 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
     public function &getNoSaveFields() {
         return preg_split('/,|;/', $this->getOption('NoSaveFields'), -1, PREG_SPLIT_NO_EMPTY);
+    }
+
+    public function &getSubmitsTableName() {
+//        $overideTable = $this->getOption('SubmitTableNameOverride');
+//        if ($overideTable && "" != $overideTable) {
+//            return $overideTable;
+//        }
+        return $this->prefixTableName('SUBMITS');
     }
 }
