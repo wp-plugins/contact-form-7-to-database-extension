@@ -16,8 +16,8 @@
 */
 
 include_once('../../../wp-config.php');
-include_once('../../../wp-load.php');
-include_once('../../../wp-includes/wp-db.php');
+include_once('../../../wp-includes/functions.php');
+require_wp_db();
 require_once('CF7DBPlugin.php');
 
 class ExportToCsvUtf8 {
