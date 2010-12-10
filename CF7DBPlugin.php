@@ -36,7 +36,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             'ShowLineBreaksInDataTable' => array(__('Show line breaks in submitted data table', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'SubmitDateTimeFormat' => array('<a target="_blank" href="http://php.net/manual/en/function.date.php">'.__('Date-Time Display Format').'</a>'),
             'ShowFileUrlsInExport' => array(__('Export URLs instead of file names for uploaded files', 'contact-form-7-to-database-extension'), 'false', 'true'),
-            'NoSaveFields' => array(__('Do not save fields in DB named (comma-separated list, no spaces)', 'contact-form-7-to-database-extension'))
+            'NoSaveFields' => array(__('Do not save <u>fields</u> in DB named (comma-separated list, no spaces)', 'contact-form-7-to-database-extension')),
+            'NoSaveForms' => array(__('Do not save <u>forms</u> in DB named (comma-separated list, no spaces)', 'contact-form-7-to-database-extension'))
             //'SubmitTableNameOverride' => array(__('Use this table to store submission data rather than the default (leave blank for default)', 'contact-form-7-to-database-extension'))
         );
     }
@@ -143,6 +144,11 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
 
     public function saveFormData($cf7) {
+        $title = $this->stripSlashes($cf7->title);
+        if (in_array($title, $this->getNoSaveForms())) {
+            return; // Don't save in DB
+        }
+
         global $wpdb;
         $time = $_SERVER['REQUEST_TIME'] ? $_SERVER['REQUEST_TIME'] : time();
         $ip = ($_SERVER['X_FORWARDED_FOR']) ? $_SERVER['X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
@@ -150,7 +156,6 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         $parametrizedQuery = "INSERT INTO `$tableName` (`submit_time`, `form_name`, `field_name`, `field_value`, `field_order`) VALUES (%s, %s, %s, %s, %s)";
         $parametrizedFileQuery = "UPDATE `$tableName` SET `file` =  '%s' WHERE `submit_time` = '%s' AND `form_name` = '%s' AND `field_name` = '%s' AND `field_value` = '%s'";
 
-        $title = $this->stripSlashes($cf7->title);
         $order = 0;
         $noSaveFields = $this->getNoSaveFields();
         foreach ($cf7->posted_data as $name => $value) {
@@ -525,10 +530,14 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         return preg_split('/,|;/', $this->getOption('NoSaveFields'), -1, PREG_SPLIT_NO_EMPTY);
     }
 
+    public function &getNoSaveForms() {
+        return preg_split('/,|;/', $this->getOption('NoSaveForms'), -1, PREG_SPLIT_NO_EMPTY);
+    }
+
     public function &getSubmitsTableName() {
-//        $overideTable = $this->getOption('SubmitTableNameOverride');
-//        if ($overideTable && "" != $overideTable) {
-//            return $overideTable;
+//        $overrideTable = $this->getOption('SubmitTableNameOverride');
+//        if ($overrideTable && "" != $overrideTable) {
+//            return $overrideTable;
 //        }
         return $this->prefixTableName('SUBMITS');
     }
