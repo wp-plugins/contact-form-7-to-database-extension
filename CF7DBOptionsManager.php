@@ -96,7 +96,7 @@ class CF7DBOptionsManager {
      * @param  $name string option name to prefix. Defined in settings.php and set as keys of $this->optionMetaData
      * @return string
      */
-    public function &prefix($name) {
+    public function prefix($name) {
         $optionNamePrefix = $this->getOptionNamePrefix();
         if (strpos($name, $optionNamePrefix) === 0) { // 0 but not false
             return $name; // already prefixed
@@ -124,7 +124,7 @@ class CF7DBOptionsManager {
      * @param  $optionName string defined in settings.php and set as keys of $this->optionMetaData
      * @return string the value from delegated call to get_option()
      */
-    public function &getOption($optionName) {
+    public function getOption($optionName) {
         $prefixedOptionName = $this->prefix($optionName); // how it is stored in DB
         return get_option($prefixedOptionName);
     }
