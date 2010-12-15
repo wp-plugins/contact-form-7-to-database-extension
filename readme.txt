@@ -34,6 +34,15 @@ Notes:
 
 == Frequently Asked Questions ==
 
+= Parse error: parse error, unexpected T_STRING, expecting T_OLD_FUNCTION or T_FUNCTION or T_VAR or '}' =
+
+This indicates that you have your WordPress site configured to run using PHP4 whereas this plugin requires PHP5.
+When using Apache as the web server, you can edit the .htaccess file at the root of your WordPress installation and add these two lines:
+`
+AddType x-mapp-php5 .php
+AddHandler x-mapp-php5 .php
+`
+
 = Where do I see the data? =
 
 In the admin page, under CF7's top level "Contact" admin menu. Look for "Contact" -> "Database"
@@ -43,12 +52,12 @@ In the admin page, under CF7's top level "Contact" admin menu. Look for "Contact
 This option exports a file that you can open in MS Excel. Unlike other exports, it is does contain the data, but creates an internet connection to the plugin page to extract the data.
 The data can be refreshed from directly withing Excel so there is no need to do an export every time there is new data.
 
-= What is the difference between UTF-8 and UTF-16LE Export files? =
+= What is the differences among Excel CSV (UTF8-BOM), Excel TSV (UTF16LE-BOM) and Plain CSV (UTF8) Export files? =
 
-Try UTF-8 first and only use UTF-16LE if it does not work.
-UTF-8 is generally good for most Microsoft Excel installation and all non-Excel spreadsheets that import CSV. But in some cases Excel will not show non-western latin characters properly from UTF-8.
-In that case, you can use UTF-16LE (actually a TSV - tab separated values) but there is a downside. The UTF-16LE format cannot handle new lines inside of entries. Therefore the plugin converts new lines to spaces.
-In other words, if you have a form with a text area where people enter multi-line input, the returns are converted to spaces in UTF-16LE but are preserved in UTF-8.
+For any non-Excel spreadsheet application, use 'Plain CSV (UTF8)'. For Excel, first try 'Excel CSV (UTF8-BOM)' and if that does not work property, try 'Excel TSV (UTF16LE-BOM)'.
+Excel CSV (UTF8-BOM) generally good for most Microsoft Excel installations. But in some cases Excel will not show non-western latin characters properly from UTF8-BOM file.
+In that case, you can use Excel TSV (UTF16LE-BOM) but this format has a downside. The UTF16LE-BOM format cannot handle new lines inside of entries. Therefore the plugin converts new lines to spaces.
+In other words, if you have a form with a text area where people enter multi-line input, the returns are converted to spaces in UTF16LE-BOM but are preserved in UTF8-BOM.
 
 = What is the name of the table where the data is stored? =
 
