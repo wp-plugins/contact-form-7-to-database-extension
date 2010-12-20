@@ -35,7 +35,7 @@ class ExportToHtml {
         }
         if (!headers_sent()) {
             header('Expires: 0');
-            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header('Cache-Control: no-store, no-cache, must-revalidate');
             header('Content-Type: text/html; charset=UTF-8');
         }
 

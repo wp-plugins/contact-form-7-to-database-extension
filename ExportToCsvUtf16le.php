@@ -28,7 +28,7 @@ class ExportToCsvUtf16le {
             wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
         }
         header('Expires: 0');
-        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Cache-Control: no-store, no-cache, must-revalidate');
         header('Content-Type: text/csv; charset=UTF-16LE');
         $fileName = $formName . '.csv';
         header("Content-Disposition: attachment; filename=\"$fileName\"");
