@@ -291,7 +291,7 @@ class CF7DBOptionsManager {
                 <?php
         if ($optionMetaData != null) {
                     foreach ($optionMetaData as $aOptionKey => $aOptionMeta) {
-                        $displayText = is_array($aOptionMeta) ?  $aOptionMeta[0] :  $aOptionMeta;
+                        $displayText = is_array($aOptionMeta) ? $aOptionMeta[0] : $aOptionMeta;
                         $displayText = __($displayText, 'contact-form-7-to-database-extension');
                         ?>
                             <tr valign="top">
@@ -301,12 +301,14 @@ class CF7DBOptionsManager {
                                 </td>
                             </tr>
                         <?php
+
                     }
                 }
                 ?>
                 </table>
                 <p class="submit">
-                    <input type="submit" class="button-primary" value="<?php _e('Save Changes', 'contact-form-7-to-database-extension') ?>"/>
+                    <input type="submit" class="button-primary"
+                           value="<?php _e('Save Changes', 'contact-form-7-to-database-extension') ?>"/>
                 </p>
 
             </form>
