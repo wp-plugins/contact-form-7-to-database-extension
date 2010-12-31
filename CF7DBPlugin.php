@@ -31,6 +31,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
     public function &getOptionMetaData() {
         return array(
+            //'_version' => array('Installed Version'), // For testing upgrades
             'CanSeeSubmitData' => array(__('Can See Submission data', 'contact-form-7-to-database-extension'), 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
             'CanChangeSubmitData' => array(__('Can Delete Submission data', 'contact-form-7-to-database-extension'), 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
             'ShowLineBreaksInDataTable' => array(__('Show line breaks in submitted data table', 'contact-form-7-to-database-extension'), 'true', 'false'),
@@ -44,13 +45,16 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
     public function upgrade() {
         global $wpdb;
+        $upgradeOk = true;
         $version = $this->getVersionSaved();
         if (!$version || $version == "") { // Prior to storing version in options (pre 1.2)
             // DB Schema Upgrade to support i18n using UTF-8
             $tableName = $this->getSubmitsTableName();
-            $wpdb->query("ALTER TABLE `$tableName` MODIFY form_name VARCHAR(127) CHARACTER SET utf8");
-            $wpdb->query("ALTER TABLE `$tableName` MODIFY field_name VARCHAR(127) CHARACTER SET utf8");
-            $wpdb->query("ALTER TABLE `$tableName` MODIFY field_value longtext CHARACTER SET utf8");
+            $wpdb->show_errors();
+            $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` MODIFY form_name VARCHAR(127) CHARACTER SET utf8");
+            $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` MODIFY field_name VARCHAR(127) CHARACTER SET utf8");
+            $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` MODIFY field_value longtext CHARACTER SET utf8");
+            $wpdb->hide_errors();
 
             // Remove obsolete options
             $this->deleteOption('_displayName');
@@ -64,14 +68,16 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
         if ($this->isSavedVersionLessThan('1.3.1')) {
             $tableName = $this->getSubmitsTableName();
-            $wpdb->query("ALTER TABLE `$tableName` ADD COLUMN `field_order` INTEGER");
-            $wpdb->query("ALTER TABLE `$tableName` ADD COLUMN `file` LONGBLOB");
-            $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `submit_time_idx` ( `submit_time` )");
+            $wpdb->show_errors();
+            $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` ADD COLUMN `field_order` INTEGER");
+            $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` ADD COLUMN `file` LONGBLOB");
+            $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `submit_time_idx` ( `submit_time` )");
+            $wpdb->hide_errors();
         }
 
 
         // Post-upgrade, set the current version in the options
-        if ($version != $this->getVersion()) {
+        if ($upgradeOk && $version != $this->getVersion()) {
             $this->saveInstalledVersion();
         }
     }
@@ -86,6 +92,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     protected function installDatabaseTables() {
         global $wpdb;
         $tableName = $this->getSubmitsTableName();
+        $wpdb->show_errors();
         $wpdb->query("CREATE TABLE IF NOT EXISTS `$tableName` (
             `submit_time` INTEGER NOT NULL,
             `form_name` VARCHAR(127) CHARACTER SET utf8,
@@ -94,6 +101,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             `field_order` INTEGER,
             `file` LONGBLOB)");
         $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `submit_time_idx` ( `submit_time` )");
+        $wpdb->hide_errors();
     }
 
 
