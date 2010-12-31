@@ -121,7 +121,7 @@ class CF7DBOptionsManager {
     /**
      * A wrapper function delegating to WP get_option() but it prefixes the input $optionName
      * to enforce "scoping" the options in the WP options table thereby avoiding name conflicts
-     * @param  $optionName string defined in settings.php and set as keys of $this->optionMetaData
+     * @param $optionName string defined in settings.php and set as keys of $this->optionMetaData
      * @return string the value from delegated call to get_option()
      */
     public function getOption($optionName) {
@@ -209,7 +209,7 @@ class CF7DBOptionsManager {
     }
 
     /**
-     * @param  $roleName a standard WP role name like 'Administrator'
+     * @param $roleName string a standard WP role name like 'Administrator'
      * @return bool
      */
     public function isUserRoleEqualOrBetterThan($roleName) {
@@ -221,7 +221,7 @@ class CF7DBOptionsManager {
     }
 
     /**
-     * @param  $optionName name of a Role option (see comments in getRoleOption())
+     * @param  $optionName string name of a Role option (see comments in getRoleOption())
      * @return bool indicates if the user has adequate permissions
      */
     public function canUserDoRoleOption($optionName) {
@@ -317,8 +317,8 @@ class CF7DBOptionsManager {
 
     /**
      * Helper-function outputs the correct form element (input tag, select tag) for the given item
-     * @param  $aOptionKey name of the option (unprefixed)
-     * @param  $aOptionMeta meta-data for $aOptionKey (either a string display-name or an array(display-name, option1, option2, ...)
+     * @param  $aOptionKey name of the option (un-prefixed)
+     * @param  $aOptionMeta mixed meta-data for $aOptionKey (either a string display-name or an array(display-name, option1, option2, ...)
      * @param  $savedOptionValue current value for $aOptionKey
      * @return void
      */
