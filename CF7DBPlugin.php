@@ -262,7 +262,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * [cf7db-table form="your-form" show="field1,field2,field3"] (optionally show selected fields)
      * [cf7db-table form="your-form" hide="field1,field2,field3"] (optionally hide selected fields)
      * [cf7db-table form="your-form" show="f1,f2,f3" hide="f1"]   (hide trumps show)
-     * @param  $atts short code attributes
+     * @param  $atts array short code attributes
      * @return void
      */
     public function showTableShortCode($atts) {
