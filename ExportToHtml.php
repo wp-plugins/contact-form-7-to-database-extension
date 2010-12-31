@@ -42,9 +42,6 @@ class ExportToHtml {
         // Query DB for the data for that form
         $tableData = $plugin->getRowsPivot($formName);
 
-        $style = 'padding:5px; border-width:1px; border-style:solid; border-color:gray; font-size:x-small;';
-        $thStyle = $style . ' background-color:#E8E8E8;';
-
         // Get the columns to display
         if ($hideColumns == null || !is_array($hideColumns)) { // no hidden cols specified
             $columns = ($showColumns != null) ? $showColumns : $tableData->columns;
@@ -71,9 +68,23 @@ class ExportToHtml {
             }
         }
         ?>
+        <style type="text/css">
+            table.cf7-db-table {
+                margin-top:1em; border-spacing:0; border: 0 solid gray; font-size:x-small;
+            }
+            table.cf7-db-table th {
+                padding:5px; border: 1px solid gray; font-size:x-small;
+                background-color:#E8E8E8;
+            }
+            table.cf7-db-table td {
+                padding:5px; border: 1px solid gray; font-size:x-small;
+            }
+            table.cf7-db-table div.cf7-db-cell {
+                max-height:100px; overflow:auto;
+            }
+        </style>
 
-        <table cellspacing="0"
-               style="margin-top:1em; border-width:0; border-style:solid; border-color:gray; font-size:x-small;">
+        <table class="cf7-db-table">
             <thead>
             <?php if ($canDelete) { ?>
             <th>
@@ -83,10 +94,10 @@ class ExportToHtml {
             </th>
             <?php }
             if ($showSubmitField) {
-                echo "<th style=\"$thStyle\">Submitted</th>";
+                echo "<th>Submitted</th>";
             }
             foreach ($columns as $aCol) {
-                echo "<th style=\"$thStyle\">$aCol</th>";
+                echo "<th>$aCol</th>";
             }
             ?>
             </thead>
@@ -102,8 +113,8 @@ class ExportToHtml {
                 }
                 if ($showSubmitField) {
                     ?>
-                        <td style="<?php echo $style ?>">
-                            <div style="max-height:100px; overflow:auto;"><?php echo $plugin->formatDate($submitTime) ?></div>
+                        <td>
+                            <div class="cf7-db-cell"><?php echo $plugin->formatDate($submitTime) ?></div>
                         </td>
                     <?php
                 }
@@ -120,7 +131,7 @@ class ExportToHtml {
                         $fileUrl = $plugin->getFileUrl($submitTime, $formName, $aCol);
                         $cell = "<a href=\"$fileUrl\">$cell</a>";
                     }
-                    echo "<td style=\"$style\"><div style=\"max-height:100px; overflow:auto;\">$cell</div></td>";
+                    echo "<td><div class=\"cf7-db-cell\">$cell</div></td>";
                 }
                 ?></tr><?php
             } ?>
