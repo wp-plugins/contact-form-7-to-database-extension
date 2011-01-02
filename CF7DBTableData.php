@@ -16,8 +16,20 @@
 */
 
 class CF7DBTableData {
+
+    /**
+     * @var array (submitTime, array(column => value)
+     */
     var $pivot;
+
+    /**
+     * @var array (columnName1, columnName2, ...)
+     */
     var $columns;
+
+    /**
+     * @var array (filePath1, filePath2, ...)
+     */
     var $files;
 
     function __construct() {
