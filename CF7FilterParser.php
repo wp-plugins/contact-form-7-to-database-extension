@@ -119,7 +119,7 @@ class CF7FilterParser {
     public function evaluateComparison($andString, &$data) {
         $andExpr = $this->parseExpression($andString);
         if (is_array($andExpr) && count($andExpr) == 3) {
-            return $this->evaluateLeftOpRightComparison($andExpr[2], $andExpr[1], $data[$andExpr[0]]);
+            return $this->evaluateLeftOpRightComparison($data[$andExpr[0]], $andExpr[1], $andExpr[2]);
         }
         trigger_error("Invalid expression: '$andString'", E_USER_NOTICE);
         return false;
