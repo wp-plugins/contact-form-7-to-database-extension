@@ -297,6 +297,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 if ($atts['id']) {
                     $options['id'] = $atts['id'];
                 }
+                if ($atts['class']) {
+                    $options['class'] = $atts['class'];
+                }
                 if ($atts['filter']) {
                     $options['filter'] = $atts['filter'];
                 }
