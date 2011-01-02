@@ -151,6 +151,12 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     }
 
 
+    /**
+     * Callback from Contact Form 7. CF7 passes an object with the posted data which is inserted into the database
+     * by this function.  
+     * @param  $cf7 WPCF7_ContactForm object
+     * @return void
+     */
     public function saveFormData($cf7) {
         $title = $this->stripSlashes($cf7->title);
         if (in_array($title, $this->getNoSaveForms())) {
@@ -258,24 +264,44 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     /**
      * Shortcode callback for writing the table of form data. Can be put in a page or post to show that data.
      * Shortcode options:
-     * [cf7db-table form="your-form" ]
+     * [cf7db-table form="your-form"]                             (shows the whole table with default options)
+     * Controlling the Display: Apply your CSS to the table; set the table's 'class' or 'id' attribute:
+     * [cf7db-table form="your-form" class="css_class"]           (outputs <table class="css_class"> (default: class="cf7-db-table")
+     * [cf7db-table form="your-form" id="css_id"]                 (outputs <table id="css_id"> (no default id)
+     * [cf7db-table form="your-form" id="css_id" class="css_class"] (outputs <table id="css_id" class="css_class">
+     * Filtering Columns:
      * [cf7db-table form="your-form" show="field1,field2,field3"] (optionally show selected fields)
      * [cf7db-table form="your-form" hide="field1,field2,field3"] (optionally hide selected fields)
      * [cf7db-table form="your-form" show="f1,f2,f3" hide="f1"]   (hide trumps show)
+     * Filtering Rows:
+     * [cf7db-table form="your-form" filter="field1=value1"]      (show only rows where field1=value1)
+     * [cf7db-table form="your-form" filter="field1!=value1"]      (show only rows where field1!=value1)
+     * [cf7db-table form="your-form" filter="field1=value1&&field2!=value2"] (Logical AND the filters using '&&')
+     * [cf7db-table form="your-form" filter="field1=value1||field2!=value2"] (Logical OR the filters using '||')
+     * [cf7db-table form="your-form" filter="field1=value1&&field2!=value2||field3=value3&&field4=value4"] (Mixed &&, ||)
      * @param  $atts array short code attributes
      * @return void
      */
     public function showTableShortCode($atts) {
         if ($atts['form']) {
             if ($this->canUserDoRoleOption('CanSeeSubmitData')) {
+                $options = array('canDelete' => false);
                 if ($atts['show']) {
                     $showColumns = preg_split('/,/', $atts['show'], -1, PREG_SPLIT_NO_EMPTY);
+                    $options['showColumns'] = $showColumns;
                 }
                 if ($atts['hide']) {
                     $hideColumns = preg_split('/,/', $atts['hide'], -1, PREG_SPLIT_NO_EMPTY);
+                    $options['hideColumns'] = $hideColumns;
+                }
+                if ($atts['id']) {
+                    $options['id'] = $atts['id'];
+                }
+                if ($atts['filter']) {
+                    $options['filter'] = $atts['filter'];
                 }
                 $export = new ExportToHtml();
-                $export->export($atts['form'], false, $showColumns, $hideColumns);
+                $export->export($atts['form'], $options);
             }
             else {
                 echo __('Insufficient privileges to display data from form: ', 'contact-form-7-to-database-extension') . $atts['form'];
@@ -431,7 +457,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             <input name="delete" type="hidden" value="rows"/>
         <?php }
         $exporter = new ExportToHtml();
-        $exporter->export($currSelection, $canDelete);
+        $exporter->export($currSelection, array('canDelete' => $canDelete));
         if ($canDelete) {
             ?>
         </form>

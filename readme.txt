@@ -59,6 +59,32 @@ Excel CSV (UTF8-BOM) generally good for most Microsoft Excel installations. But 
 In that case, you can use Excel TSV (UTF16LE-BOM) but this format has a downside. The UTF16LE-BOM format cannot handle new lines inside of entries. Therefore the plugin converts new lines to spaces.
 In other words, if you have a form with a text area where people enter multi-line input, the returns are converted to spaces in UTF16LE-BOM but are preserved in UTF8-BOM.
 
+= Can I display form data on a non-admin web page or in a post? =
+
+Yes, use "cf7db-table" shortcode to incorporate form data on regular posts and pages.
+Use [cf7db-table form="your-form"] with optional "show" and "hide: [cf7db-table form="your-form" show="field1,field2,field3"] (optionally show selected fields),
+[cf7db-table form="your-form" hide="field1,field2,field3"] (optionally hide selected fields)
+Shortcode options:
+* [cf7db-table form="your-form"]                             (shows the whole table with default options)
+* Controlling the Display: Apply your CSS to the table; set the table's 'class' or 'id' attribute:
+* [cf7db-table form="your-form" class="css_class"]           (outputs <table class="css_class"> (default: class="cf7-db-table")
+* [cf7db-table form="your-form" id="css_id"]                 (outputs <table id="css_id"> (no default id)
+* [cf7db-table form="your-form" id="css_id" class="css_class"] (outputs <table id="css_id" class="css_class">
+Filtering Columns:
+* [cf7db-table form="your-form" show="field1,field2,field3"] (optionally show selected fields)
+* [cf7db-table form="your-form" hide="field1,field2,field3"] (optionally hide selected fields)
+* [cf7db-table form="your-form" show="f1,f2,f3" hide="f1"]   (hide trumps show)
+Filtering Rows:
+* [cf7db-table form="your-form" filter="field1=value1"]      (show only rows where field1=value1)
+* [cf7db-table form="your-form" filter="field1=null"]        (SPECIAL CASE: 'null' is interpreted as null-value (field does has no value)
+* [cf7db-table form="your-form" filter="field1!=value1"]      (show only rows where field1!=value1)
+* [cf7db-table form="your-form" filter="field1=value1&&field2!=value2"] (Logical AND the filters using '&&')
+* [cf7db-table form="your-form" filter="field1=value1||field2!=value2"] (Logical OR the filters using '||')
+* [cf7db-table form="your-form" filter="field1=value1&&field2!=value2||field3=value3&&field4=value4"] (Mixed &&, ||)
+* Supports operators =, !=, <>, ===, <, <=, >, >=
+* Does not support parentheses to control the order of boolean evaluation
+* Does not support regular expressions
+
 = What is the name of the table where the data is stored? =
 
 wp_CF7DBPlugin_SUBMITS 
@@ -80,6 +106,8 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 == Changelog ==
 
 = 1.4.4 =
+* [cf7db-table] shortcode options for filtering rows
+* [cf7db-table] shortcode options for CSS
 * Can exclude forms from being saved to DB by name
 
 = 1.4.2 =
