@@ -70,20 +70,30 @@ Shortcode options:
 * [cf7db-table form="your-form" class="css_class"]           (outputs <table class="css_class"> (default: class="cf7-db-table")
 * [cf7db-table form="your-form" id="css_id"]                 (outputs <table id="css_id"> (no default id)
 * [cf7db-table form="your-form" id="css_id" class="css_class"] (outputs <table id="css_id" class="css_class">
-Filtering Columns:
+Filtering In and Out Columns:
 * [cf7db-table form="your-form" show="field1,field2,field3"] (optionally show selected fields)
 * [cf7db-table form="your-form" hide="field1,field2,field3"] (optionally hide selected fields)
 * [cf7db-table form="your-form" show="f1,f2,f3" hide="f1"]   (hide trumps show)
-Filtering Rows:
+Filtering In Rows:
 * [cf7db-table form="your-form" filter="field1=value1"]      (show only rows where field1=value1)
 * [cf7db-table form="your-form" filter="field1=null"]        (SPECIAL CASE: 'null' is interpreted as null-value (field does has no value)
-* [cf7db-table form="your-form" filter="field1!=value1"]      (show only rows where field1!=value1)
+* [cf7db-table form="your-form" filter="field1!=value1"]     (show only rows where field1!=value1)
 * [cf7db-table form="your-form" filter="field1=value1&&field2!=value2"] (Logical AND the filters using '&&')
 * [cf7db-table form="your-form" filter="field1=value1||field2!=value2"] (Logical OR the filters using '||')
 * [cf7db-table form="your-form" filter="field1=value1&&field2!=value2||field3=value3&&field4=value4"] (Mixed &&, ||)
-* Supports operators =, !=, <>, ===, <, <=, >, >=
+* [cf7db-table form="your-form" filter="field1~~/^a/"]       (shows rows where field1 starts with 'a')
+Supported operators
+* = and == are the same
+* !=, <> are the same
+* >, <, <=, >=
+* === and !==
+* ~~ for regular expressions
+Regular Expressions
+* Use the ~~ operator
+* [cf7db-table form="your-form" filter="field1~~/^a/"]   (shows rows where field1 starts with 'a')
+* Uses preg_match() to evaluate the regex
+Limitations
 * Does not support parentheses to control the order of boolean evaluation
-* Does not support regular expressions
 
 = What is the name of the table where the data is stored? =
 

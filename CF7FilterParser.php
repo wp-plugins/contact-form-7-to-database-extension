@@ -80,7 +80,7 @@ class CF7FilterParser {
      * @return array of string [ value1, operator, value2 ]
      */
     public function parseExpression($comparisonExpression) {
-        return preg_split('/(===)|(==)|(=)|(!==)|(!=)|(<>)|(<=)|(<)|(>=)|(>)/',
+        return preg_split('/(===)|(==)|(=)|(!==)|(!=)|(<>)|(<=)|(<)|(>=)|(>)|(~~)/',
                           $comparisonExpression, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
     }
 
@@ -167,6 +167,9 @@ class CF7FilterParser {
 
             case '<=':
                 return $left <= $right;
+
+            case '~~':
+                return preg_match($right, $left) > 0;
 
             default:
                 trigger_error("Invalid operator: '$operator'", E_USER_NOTICE);
