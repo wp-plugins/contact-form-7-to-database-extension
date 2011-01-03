@@ -33,7 +33,11 @@ class ExportToGoogleSS {
         header('Cache-Control: no-store, no-cache, must-revalidate');
         header('Content-Type: text/html; charset=UTF-8');
 
-        flush(); // try to prevent the browser from timing on slow uploads but giving it something
+        // Hoping to keep the browser from timing out if connection to Google Docs is slow
+        // Not a standard HTTP header; browsers may disregard
+        header("Keep-Alive: timeout=60");
+
+        flush(); // try to prevent the browser from timing out on slow uploads by giving it something
 
         if (!CJ7DBCheckZendFramework::checkIncludeZend()) {
             return;
