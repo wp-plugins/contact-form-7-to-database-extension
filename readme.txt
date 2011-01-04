@@ -18,7 +18,8 @@ That being said, I think Contact Form 7 is great...except for one thing. It does
 
 Fortunately, the author of CF7 created a hook. So I wrote a plugin that hooks into CF7 and saves all of its form submissions to the database. You need to have both CF7 and this plugin installed and activated.
 
-This plugin also puts a menu item in the Administration Plugins menu where you can see the data in the database. It's pretty rudimentary but does the job.
+This plugin also puts a menu item in the Administration Plugins menu where you can see the data in the database.
+You can also use the [cf7db-table] shortcode to display the data on a non-admin page on your site.
 
 == Installation ==
 
