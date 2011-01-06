@@ -203,6 +203,17 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             }
         }
 
+        // If the submitter is logged in, capture his id
+        if (is_user_logged_in()) {
+            $current_user = wp_get_current_user(); // WP_User
+            $wpdb->query($wpdb->prepare($parametrizedQuery,
+                                        $time,
+                                        $title,
+                                        'Submitted Login',
+                                        $current_user->user_login,
+                                        9999)); // large order num to try to make it always next-to-last
+        }
+
         // Capture the IP Address of the submitter
         $wpdb->query($wpdb->prepare($parametrizedQuery,
                                     $time,
