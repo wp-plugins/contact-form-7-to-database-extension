@@ -63,6 +63,7 @@ class ExportToHtml {
         $htmlTableId = null;
         $htmlTableClass = 'cf7-db-table';
         $filterParser = new CF7FilterParser;
+        $filterParser->setComparisonValuePreprocessor(new DereferenceUserInfoVar);
 
         if ($options && is_array($options)) {
             if ($options['canDelete']) {
@@ -222,4 +223,73 @@ class ExportToHtml {
         <?php
 
     }
+}
+
+class DereferenceUserInfoVar implements CF7DBValueConverter {
+
+    public function convert($varString) {
+
+        $current_user = wp_get_current_user(); // WP_User
+
+//        echo '<pre>';
+//        print_r($current_user);
+//        echo '</pre>';
+
+//        echo('ID ' . $current_user->ID . '<br/>');
+//        echo('id ' . $current_user->id . '<br/>');
+//        echo('user_email ' . $current_user->user_email . '<br/>');
+//        echo('first_name ' . $current_user->first_name . '<br/>');
+//        echo('last_name ' . $current_user->last_name . '<br/>');
+//        echo('user_login ' . $current_user->user_login . '<br/>');
+//        echo('user_nicename ' . $current_user->user_nicename . '<br/>');
+//        echo('user_firstname ' . $current_user->user_firstname . '<br/>');
+//        echo('user_lastname ' . $current_user->user_lastname . '<br/>');
+
+        switch ($varString) {
+
+            case '$ID' :
+                $retValue = $current_user->ID;
+                break;
+
+            case '$id':
+                $retValue = $current_user->id;
+                break;
+
+            case '$first_name':
+                $retValue = $current_user->first_name;
+                break;
+
+            case '$last_name':
+                $retValue = $current_user->last_name;
+                break;
+
+            case '$user_login':
+                $retValue = $current_user->user_login;
+                break;
+
+            case '$user_nicename':
+                $retValue = $current_user->user_nicename;
+                break;
+
+            case '$user_email':
+                $retValue = $current_user->user_email;
+                break;
+
+            case '$user_firstname':
+                $retValue = $current_user->user_firstname;
+                break;
+
+            case '$user_lastname':
+                $retValue = $current_user->user_lastname;
+                break;
+
+            default:
+                $retValue = $varString;
+                break;
+        }
+
+        //echo "input: '$varString' output: '$retValue' <br/>"; // debug
+        return $retValue;
+    }
+
 }

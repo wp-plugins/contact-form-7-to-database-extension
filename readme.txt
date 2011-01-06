@@ -35,14 +35,15 @@ Notes:
 
 == Frequently Asked Questions ==
 
-= Parse error: parse error, unexpected T_STRING, expecting T_OLD_FUNCTION or T_FUNCTION or T_VAR or '}' =
+=  Plugin Fails when activated with Parse error =
+
+    Parse error: parse error, unexpected T_STRING, expecting T_OLD_FUNCTION or T_FUNCTION or T_VAR or '}'
 
 This indicates that you have your WordPress site configured to run using PHP4 whereas this plugin requires PHP5.
-When using Apache as the web server, you can edit the .htaccess file at the root of your WordPress installation and add these two lines:
-`
-AddType x-mapp-php5 .php
-AddHandler x-mapp-php5 .php
-`
+When using Apache as the web server, you can edit the __.htaccess__ file at the root of your WordPress installation and add these two lines:
+
+    AddType x-mapp-php5 .php
+    AddHandler x-mapp-php5 .php
 
 = Where do I see the data? =
 
@@ -55,46 +56,77 @@ The data can be refreshed from directly withing Excel so there is no need to do 
 
 = What is the differences among Excel CSV (UTF8-BOM), Excel TSV (UTF16LE-BOM) and Plain CSV (UTF8) Export files? =
 
-For any non-Excel spreadsheet application, use 'Plain CSV (UTF8)'. For Excel, first try 'Excel CSV (UTF8-BOM)' and if that does not work property, try 'Excel TSV (UTF16LE-BOM)'.
-Excel CSV (UTF8-BOM) generally good for most Microsoft Excel installations. But in some cases Excel will not show non-western latin characters properly from UTF8-BOM file.
-In that case, you can use Excel TSV (UTF16LE-BOM) but this format has a downside. The UTF16LE-BOM format cannot handle new lines inside of entries. Therefore the plugin converts new lines to spaces.
-In other words, if you have a form with a text area where people enter multi-line input, the returns are converted to spaces in UTF16LE-BOM but are preserved in UTF8-BOM.
+* For any non-Excel spreadsheet application, use 'Plain CSV (UTF8)'.
+* For Excel, first try 'Excel CSV (UTF8-BOM)' and if that does not work property, try 'Excel TSV (UTF16LE-BOM)'.
+* Excel CSV (UTF8-BOM) generally good for most Microsoft Excel installations. But in some cases Excel will not show non-western latin characters properly from UTF8-BOM file.
+
+    In that case, you can use Excel TSV (UTF16LE-BOM) but this format has a downside. The UTF16LE-BOM format cannot handle new lines inside of entries. Therefore the plugin converts new lines to spaces.
+
+    In other words, if you have a form with a text area where people enter multi-line input, the returns are converted to spaces in UTF16LE-BOM but are preserved in UTF8-BOM.
 
 = Can I display form data on a non-admin web page or in a post? =
 
-Yes, use "cf7db-table" shortcode to incorporate form data on regular posts and pages.
-Use [cf7db-table form="your-form"] with optional "show" and "hide: [cf7db-table form="your-form" show="field1,field2,field3"] (optionally show selected fields),
-[cf7db-table form="your-form" hide="field1,field2,field3"] (optionally hide selected fields)
-Shortcode options:
-* [cf7db-table form="your-form"]                             (shows the whole table with default options)
+Yes, use `[cf7db-table]` shortcode to incorporate form data on regular posts and pages.
+
+BUT: First be sure to give users access.
+* In the __Admin panel, Contact -> Database Options__, set "__Can See Submission data__" to the appropriate choice.
+
+Use `[cf7db-table form="your-form"]` with optional `show` and `hide`: `[cf7db-table form="your-form" show="field1,field2,field3"]` (optionally show selected fields),
+`[cf7db-table form="your-form" hide="field1,field2,field3"]` (optionally hide selected fields)
+
+## Shortcode options: ##
+* `[cf7db-table form="your-form"]`                             (shows the whole table with default options)
 * Controlling the Display: Apply your CSS to the table; set the table's 'class' or 'id' attribute:
-* [cf7db-table form="your-form" class="css_class"]           (outputs <table class="css_class"> (default: class="cf7-db-table")
-* [cf7db-table form="your-form" id="css_id"]                 (outputs <table id="css_id"> (no default id)
-* [cf7db-table form="your-form" id="css_id" class="css_class"] (outputs <table id="css_id" class="css_class">
-Filtering In and Out Columns:
-* [cf7db-table form="your-form" show="field1,field2,field3"] (optionally show selected fields)
-* [cf7db-table form="your-form" hide="field1,field2,field3"] (optionally hide selected fields)
-* [cf7db-table form="your-form" show="f1,f2,f3" hide="f1"]   (hide trumps show)
-Filtering In Rows:
-* [cf7db-table form="your-form" filter="field1=value1"]      (show only rows where field1=value1)
-* [cf7db-table form="your-form" filter="field1=null"]        (SPECIAL CASE: 'null' is interpreted as null-value (field does has no value)
-* [cf7db-table form="your-form" filter="field1!=value1"]     (show only rows where field1!=value1)
-* [cf7db-table form="your-form" filter="field1=value1&&field2!=value2"] (Logical AND the filters using '&&')
-* [cf7db-table form="your-form" filter="field1=value1||field2!=value2"] (Logical OR the filters using '||')
-* [cf7db-table form="your-form" filter="field1=value1&&field2!=value2||field3=value3&&field4=value4"] (Mixed &&, ||)
-* [cf7db-table form="your-form" filter="field1~~/^a/"]       (shows rows where field1 starts with 'a')
-Supported operators
-* = and == are the same
-* !=, <> are the same
-* >, <, <=, >=
-* === and !==
-* ~~ for regular expressions
-Regular Expressions
+* `[cf7db-table form="your-form" class="css_class"]`           (outputs <table class="css_class"> (default: class="cf7-db-table")
+* `[cf7db-table form="your-form" id="css_id"]`                 (outputs <table id="css_id"> (no default id)
+* `[cf7db-table form="your-form" id="css_id" class="css_class"]` (outputs <table id="css_id" class="css_class">
+
+## Filtering In and Out Columns: ##
+* `[cf7db-table form="your-form" show="field1,field2,field3"]` (optionally show selected fields)
+* `[cf7db-table form="your-form" hide="field1,field2,field3"]` (optionally hide selected fields)
+* `[cf7db-table form="your-form" show="f1,f2,f3" hide="f1"]`   (hide trumps show)
+
+## Filtering In Rows: ##
+* `[cf7db-table form="your-form" filter="field1=value1"]`      (show only rows where field1=value1)
+* `[cf7db-table form="your-form" filter="field1=null"]`        (SPECIAL CASE: 'null' is interpreted as null-value (field does has no value)
+* `[cf7db-table form="your-form" filter="field1!=value1"]`     (show only rows where field1!=value1)
+* `[cf7db-table form="your-form" filter="field1=value1&&field2!=value2"]` (Logical AND the filters using '&&')
+* `[cf7db-table form="your-form" filter="field1=value1||field2!=value2"]` (Logical OR the filters using '||')
+* `[cf7db-table form="your-form" filter="field1=value1&&field2!=value2||field3=value3&&field4=value4"]` (Mixed &&, ||)
+* `[cf7db-table form="your-form" filter="field1~~/^a/"]`       (shows rows where field1 starts with 'a')
+
+## Supported operators ##
+* `=` and `==` are the same
+* `!=`, `<>` are the same
+* `>`, `<`, `<=`, `>=`
+* `===` and `!==`
+* `~~` for regular expressions
+
+## Regular Expressions ##
 * Use the ~~ operator
 * [cf7db-table form="your-form" filter="field1~~/^a/"]   (shows rows where field1 starts with 'a')
-* Uses preg_match() to evaluate the regex
-Limitations
+* FYI: uses preg_match() to evaluate the regex
+
+## Limitations ##
 * Does not support parentheses to control the order of boolean evaluation
+
+## Variable Substitution ##
+If the user is logged in when viewing the page with the shortcode, you can try to match a filter value against
+some user information. If the user was logged in when he submitted the form, then 'Submitted Login' will be captured (since version 1.4.4)
+So if the user is also logged in to view a page with this shortcode, you could have the table filter to show him only
+his submissions using:
+* `[cf7db-table form="your-form" filter="Submitted Login=$user_login"]`
+Similarly, if the user entered his email in a form field, (say "email"), and perhaps was not logged in but entered
+the same email address as is associated with his WordPress account, then later came back to view a page when logged in,
+you could show him his entry using:
+* `[cf7db-table form="your-form" filter="email=$user_email"]`
+All of the following variables are supported
+* `$user_login`
+* `$user_email`
+* `$first_name` or `$user_firstname`
+* `$last_name` or `$user_lastname`
+* `$user_nicename`
+* `$id` or `$ID`
 
 = What is the name of the table where the data is stored? =
 
@@ -117,6 +149,7 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 == Changelog ==
 
 = 1.4.4 =
+* If user is logged in when submitting a form, 'Submitted Login' is captured 
 * [cf7db-table] shortcode options for filtering rows
 * [cf7db-table] shortcode options for CSS
 * Can exclude forms from being saved to DB by name

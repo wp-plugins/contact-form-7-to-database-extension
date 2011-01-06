@@ -15,6 +15,8 @@
     http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 */
 
+include_once('CF7DBValueConverter.php');
+
 /**
  * Used to parse boolean expression strings like 'field1=value1&&field2=value2||field3=value3&&field4=value4'
  * Where logical AND and OR are represented by && and || respectively.
@@ -29,15 +31,17 @@ class CF7FilterParser {
      */
     var $tree;
 
-//    public function __construct() {
-//        $this->tree = null;
-//    }
-
+    /**
+     * @var CF7DBValueConverter callback that can be used to pre-process values in the filter string
+     * passed into parseFilterString($filterString).
+     * For example, a function might take the value '$user_email' and replace it with an actual email address
+     * just prior to checking it against input data in call evaluate($data)
+     */
+    var $compValuePreprocessor;
 
     public function hasFilters() {
         return count($this->tree) > 0; // count is null-safe
     }
-
 
     public function getFilterTree() {
         return $this->tree;
@@ -119,7 +123,18 @@ class CF7FilterParser {
     public function evaluateComparison($andString, &$data) {
         $andExpr = $this->parseExpression($andString);
         if (is_array($andExpr) && count($andExpr) == 3) {
-            return $this->evaluateLeftOpRightComparison($data[$andExpr[0]], $andExpr[1], $andExpr[2]);
+            $left = $data[$andExpr[0]];
+            $op = $andExpr[1];
+            $right = $andExpr[2];
+            if ($this->compValuePreprocessor) {
+                try {
+                    $right = $this->compValuePreprocessor->convert($right);
+                }
+                catch (Exception $ex) {
+                    trigger_error($ex, E_USER_NOTICE);
+                }
+            }
+            return $this->evaluateLeftOpRightComparison($left, $op, $right);
         }
         trigger_error("Invalid expression: '$andString'", E_USER_NOTICE);
         return false;
@@ -176,4 +191,13 @@ class CF7FilterParser {
                 return false;
         }
     }
+
+    /**
+     * @param  $converter CF7DBValueConverter
+     * @return void
+     */
+    public function setComparisonValuePreprocessor($converter) {
+        $this->compValuePreprocessor = $converter;
+    }
+
 }
