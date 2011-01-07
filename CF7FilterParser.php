@@ -51,7 +51,7 @@ class CF7FilterParser {
      * Parse a string with delimiters || and/or && into a Boolean evaluation tree.
      * For example: aaa&&bbb||ccc&&ddd would be parsed into the following tree,
      * where level 1 represents items ORed, level 2 represents items ANDed, and
-     * level 3 represent individual expressions. 
+     * level 3 represent individual expressions.
      * Array
      * (
      *     [0] => Array
@@ -195,48 +195,63 @@ class CF7FilterParser {
      * @return bool evaluation of comparison $left $operator $right
      */
     public function evaluateLeftOpRightComparison($left, $operator, $right) {
-        // Could do this easier with eval() but I want since this text ultimately
-        // comes form a shortcode's user-entered attributes, I want to avoid a security hole
         if ($right == 'null') {
             // special case
             $right = null;
         }
+
+        // Could do this easier with eval() but I want since this text ultimately
+        // comes form a shortcode's user-entered attributes, I want to avoid a security hole
+        $retVal = false;
         switch ($operator) {
             case '=' :
             case '==':
-                return $left == $right;
+                $retVal = $left == $right;
+                break;
 
             case '===':
-                return $left === $right;
+                $retVal = $left === $right;
+                break;
 
             case '!=':
-                return $left != $right;
+                $retVal = $left != $right;
+                break;
 
             case '!==':
-                return $left !== $right;
+                $retVal = $left !== $right;
+                break;
 
             case '<>':
-                return $left <> $right;
+                $retVal = $left <> $right;
+                break;
 
             case '>':
-                return $left > $right;
+                $retVal = $left > $right;
+                break;
 
             case '>=':
-                return $left >= $right;
+                $retVal = $left >= $right;
+                break;
 
             case '<':
-                return $left < $right;
+                $retVal = $left < $right;
+                break;
 
             case '<=':
-                return $left <= $right;
+                $retVal = $left <= $right;
+                break;
 
             case '~~':
-                return preg_match($right, $left) > 0;
+                $retVal = preg_match($right, $left) > 0;
+                break;
 
             default:
                 trigger_error("Invalid operator: '$operator'", E_USER_NOTICE);
-                return false;
+                $retVal = false;
+                break;
         }
+
+        return $retVal;
     }
 
     /**
