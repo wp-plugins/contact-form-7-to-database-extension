@@ -74,19 +74,21 @@ BUT: First be sure to give users access.
 Use `[cf7db-table form="your-form"]` with optional `show` and `hide`: `[cf7db-table form="your-form" show="field1,field2,field3"]` (optionally show selected fields),
 `[cf7db-table form="your-form" hide="field1,field2,field3"]` (optionally hide selected fields)
 
-## Shortcode options: ##
-* `[cf7db-table form="your-form"]`                             (shows the whole table with default options)
-* Controlling the Display: Apply your CSS to the table; set the table's 'class' or 'id' attribute:
-* `[cf7db-table form="your-form" class="css_class"]`           (outputs <table class="css_class"> (default: class="cf7-db-table")
-* `[cf7db-table form="your-form" id="css_id"]`                 (outputs <table id="css_id"> (no default id)
-* `[cf7db-table form="your-form" id="css_id" class="css_class"]` (outputs <table id="css_id" class="css_class">
+## Basic Shortcode ##
+* `[cf7db-table form="your-form"]`                             (shows the whole table with CSS provided by the plugin)
 
-## Filtering In and Out Columns: ##
+## Shortcode: Controlling the Display ##
+Apply your CSS to the table; set the table's 'class' or 'id' attribute:
+* `[cf7db-table form="your-form" class="css_class"]`           (outputs `<table class="css_class">` (default: class="cf7-db-table")
+* `[cf7db-table form="your-form" id="css_id"]`                 (outputs `<table id="css_id">` (no default id)
+* `[cf7db-table form="your-form" id="css_id" class="css_class"]` (outputs `<table id="css_id" class="css_class">`)
+
+## Shortcode: Filtering In and Out Columns: ##
 * `[cf7db-table form="your-form" show="field1,field2,field3"]` (optionally show selected fields)
 * `[cf7db-table form="your-form" hide="field1,field2,field3"]` (optionally hide selected fields)
 * `[cf7db-table form="your-form" show="f1,f2,f3" hide="f1"]`   (hide trumps show)
 
-## Filtering In Rows: ##
+## Shortcode: Filtering In Rows: ##
 * `[cf7db-table form="your-form" filter="field1=value1"]`      (show only rows where field1=value1)
 * `[cf7db-table form="your-form" filter="field1=null"]`        (SPECIAL CASE: 'null' is interpreted as null-value (field does has no value)
 * `[cf7db-table form="your-form" filter="field1!=value1"]`     (show only rows where field1!=value1)
@@ -95,22 +97,22 @@ Use `[cf7db-table form="your-form"]` with optional `show` and `hide`: `[cf7db-ta
 * `[cf7db-table form="your-form" filter="field1=value1&&field2!=value2||field3=value3&&field4=value4"]` (Mixed &&, ||)
 * `[cf7db-table form="your-form" filter="field1~~/^a/"]`       (shows rows where field1 starts with 'a')
 
-## Supported operators ##
+## Shortcode: Supported Filter Operators ##
 * `=` and `==` are the same
 * `!=`, `<>` are the same
 * `>`, `<`, `<=`, `>=`
 * `===` and `!==`
 * `~~` for regular expressions
 
-## Regular Expressions ##
+## Shortcode: Filter by Regular Expressions ##
 * Use the ~~ operator
 * [cf7db-table form="your-form" filter="field1~~/^a/"]   (shows rows where field1 starts with 'a')
 * FYI: uses preg_match() to evaluate the regex
 
-## Limitations ##
+## Shortcode: Filter Limitations ##
 * Does not support parentheses to control the order of boolean evaluation
 
-## Variable Substitution ##
+## Shortcode: Filter Variable Substitution ##
 If the user is logged in when viewing the page with the shortcode, you can try to match a filter value against
 some user information. If the user was logged in when he submitted the form, then 'Submitted Login' will be captured (since version 1.4.4)
 So if the user is also logged in to view a page with this shortcode, you could have the table filter to show him only
@@ -128,7 +130,7 @@ All of the following variables are supported
 * `$user_nicename`
 * `$id` or `$ID`
 
-## Debugging Filter Expressions ##
+## Shortcode: Debugging Filter Expressions ##
 If you have a complicated filter expression that may not be working right, you can get a printout of the parse tree.
 To do this, you add debug="true", e.g. `[cf7db-table form="your-form" debug="true"]`
 
