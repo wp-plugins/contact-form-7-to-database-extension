@@ -69,6 +69,7 @@ The data can be refreshed from directly withing Excel so there is no need to do 
 Yes, use `[cf7db-table]` shortcode to incorporate form data on regular posts and pages.
 
 BUT: First be sure to give users access.
+
 * In the __Admin panel, Contact -> Database Options__, set "__Can See Submission data__" to the appropriate choice.
 
 Use `[cf7db-table form="your-form"]` with optional `show` and `hide`: `[cf7db-table form="your-form" show="field1,field2,field3"]` (optionally show selected fields),
@@ -79,6 +80,7 @@ Use `[cf7db-table form="your-form"]` with optional `show` and `hide`: `[cf7db-ta
 
 ## Shortcode: Controlling the Display ##
 Apply your CSS to the table; set the table's 'class' or 'id' attribute:
+
 * `[cf7db-table form="your-form" class="css_class"]`           (outputs `<table class="css_class">` (default: class="cf7-db-table")
 * `[cf7db-table form="your-form" id="css_id"]`                 (outputs `<table id="css_id">` (no default id)
 * `[cf7db-table form="your-form" id="css_id" class="css_class"]` (outputs `<table id="css_id" class="css_class">`)
@@ -86,7 +88,7 @@ Apply your CSS to the table; set the table's 'class' or 'id' attribute:
 ## Shortcode: Filtering In and Out Columns: ##
 * `[cf7db-table form="your-form" show="field1,field2,field3"]` (optionally show selected fields)
 * `[cf7db-table form="your-form" hide="field1,field2,field3"]` (optionally hide selected fields)
-* `[cf7db-table form="your-form" show="f1,f2,f3" hide="f1"]`   (hide trumps show)
+* `[cf7db-table form="your-form" show="f1,f2,f3" hide="f1"]`   (hide trumps show, f1 will be hidden)
 
 ## Shortcode: Filtering In Rows: ##
 * `[cf7db-table form="your-form" filter="field1=value1"]`      (show only rows where field1=value1)
@@ -94,8 +96,8 @@ Apply your CSS to the table; set the table's 'class' or 'id' attribute:
 * `[cf7db-table form="your-form" filter="field1!=value1"]`     (show only rows where field1!=value1)
 * `[cf7db-table form="your-form" filter="field1=value1&&field2!=value2"]` (Logical AND the filters using '&&')
 * `[cf7db-table form="your-form" filter="field1=value1||field2!=value2"]` (Logical OR the filters using '||')
-* `[cf7db-table form="your-form" filter="field1=value1&&field2!=value2||field3=value3&&field4=value4"]` (Mixed &&, ||)
-* `[cf7db-table form="your-form" filter="field1~~/^a/"]`       (shows rows where field1 starts with 'a')
+* `[cf7db-table form="your-form" filter="field1=value1&&field2!=value2||field3=value3&&field4=value4"]` (Mixed &&, ||. Standard Boolean operator precedence applies (ANDs are evaluated, then ORs)
+* `[cf7db-table form="your-form" filter="field1~~/^a/"]`       (Regular expression; shows rows where field1 starts with 'a')
 
 ## Shortcode: Supported Filter Operators ##
 * `=` and `==` are the same
@@ -106,7 +108,7 @@ Apply your CSS to the table; set the table's 'class' or 'id' attribute:
 
 ## Shortcode: Filter by Regular Expressions ##
 * Use the ~~ operator
-* [cf7db-table form="your-form" filter="field1~~/^a/"]   (shows rows where field1 starts with 'a')
+* `[cf7db-table form="your-form" filter="field1~~/^a/"]`   (shows rows where field1 starts with 'a')
 * FYI: uses preg_match() to evaluate the regex
 
 ## Shortcode: Filter Limitations ##
@@ -117,12 +119,15 @@ If the user is logged in when viewing the page with the shortcode, you can try t
 some user information. If the user was logged in when he submitted the form, then 'Submitted Login' will be captured (since version 1.4.4)
 So if the user is also logged in to view a page with this shortcode, you could have the table filter to show him only
 his submissions using:
+
 * `[cf7db-table form="your-form" filter="Submitted Login=$user_login"]`
 Similarly, if the user entered his email in a form field, (say "email"), and perhaps was not logged in but entered
 the same email address as is associated with his WordPress account, then later came back to view a page when logged in,
 you could show him his entry using:
 * `[cf7db-table form="your-form" filter="email=$user_email"]`
+
 All of the following variables are supported
+
 * `$user_login`
 * `$user_email`
 * `$first_name` or `$user_firstname`
@@ -136,6 +141,7 @@ To do this, you add debug="true", e.g. `[cf7db-table form="your-form" debug="tru
 
 For example, if you had `[cf7db-table form="your-form" debug="true" filter="aaa=bbb||ccc=ddd&&eee=fff"]` then you
 would get a dump like the following, where
+
 * Tree Level 1 elements are ORed
 * Tree Level 2 elements are ANDed
 * Tree Level 3 elements are comparison expressions
