@@ -148,6 +148,8 @@ would get a dump like the following, where
 * Tree Level 2 elements are ANDed
 * Tree Level 3 elements are comparison expressions
 
+`aaa=bbb||ccc=ddd&&eee=fff` parses to:
+
     Array
     (
         [0] => Array
