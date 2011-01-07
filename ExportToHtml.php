@@ -103,6 +103,11 @@ class ExportToHtml {
             header('Expires: 0');
             header('Cache-Control: no-store, no-cache, must-revalidate');
             header('Content-Type: text/html; charset=UTF-8');
+
+            // Hoping to keep the browser from timing out if connection from Google SS Live Data
+            // script is calling this page to get information
+            header("Keep-Alive: timeout=60"); // Not a standard HTTP header; browsers may disregard
+            flush();
         }
 
         // Query DB for the data for that form
