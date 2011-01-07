@@ -3,7 +3,7 @@ Contributors: msimpson
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=NEVDJ792HKGFN&lc=US&item_name=Wordpress%20Plugin&item_number=cf7%2dto%2ddb%2dextension&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 Tags: contact form,database
 Requires at least: 2.9
-Tested up to: 3.0.3
+Tested up to: 3.0.4
 Stable tag: 1.4.3
 
 Extension to the Contact Form 7 plugin that saves submitted form data to the database.
@@ -190,7 +190,7 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 
 = 1.4.4 =
 * If user is logged in when submitting a form, 'Submitted Login' is captured 
-* [cf7db-table] shortcode options for filtering rows
+* [cf7db-table] shortcode options for filtering rows including using user variables (see FAQ)
 * [cf7db-table] shortcode options for CSS
 * Can exclude forms from being saved to DB by name
 
