@@ -58,7 +58,7 @@ The data can be refreshed from directly withing Excel so there is no need to do 
 
 * For any non-Excel spreadsheet application, use 'Plain CSV (UTF8)'.
 * For Excel, first try 'Excel CSV (UTF8-BOM)' and if that does not work property, try 'Excel TSV (UTF16LE-BOM)'.
-* Excel CSV (UTF8-BOM) generally good for most Microsoft Excel installations. But in some cases Excel will not show non-western latin characters properly from UTF8-BOM file.
+* Excel CSV (UTF8-BOM) is generally good for most Microsoft Excel installations. But in some cases Excel will not show non-western latin characters properly from UTF8-BOM file.
 
     In that case, you can use Excel TSV (UTF16LE-BOM) but this format has a downside. The UTF16LE-BOM format cannot handle new lines inside of entries. Therefore the plugin converts new lines to spaces.
 
@@ -121,9 +121,11 @@ So if the user is also logged in to view a page with this shortcode, you could h
 his submissions using:
 
 * `[cf7db-table form="your-form" filter="Submitted Login=$user_login"]`
+
 Similarly, if the user entered his email in a form field, (say "email"), and perhaps was not logged in but entered
 the same email address as is associated with his WordPress account, then later came back to view a page when logged in,
 you could show him his entry using:
+
 * `[cf7db-table form="your-form" filter="email=$user_email"]`
 
 All of the following variables are supported
