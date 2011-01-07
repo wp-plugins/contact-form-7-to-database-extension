@@ -128,6 +128,44 @@ All of the following variables are supported
 * `$user_nicename`
 * `$id` or `$ID`
 
+## Debugging Filter Expressions ##
+If you have a complicated filter expression that may not be working right, you can get a printout of the parse tree.
+To do this, you add debug="true", e.g. `[cf7db-table form="your-form" debug="true"]`
+
+For example, if you had `[cf7db-table form="your-form" debug="true" filter="aaa=bbb||ccc=ddd&&eee=fff"]` then you
+would get a dump like the following, where
+* Tree Level 1 elements are ORed
+* Tree Level 2 elements are ANDed
+* Tree Level 3 elements are comparison expressions
+
+    Array
+    (
+        [0] => Array
+            (
+                [0] => Array
+                    (
+                        [0] => aaa
+                        [1] => =
+                        [2] => bbb
+                    )
+            )
+        [1] => Array
+            (
+                [0] => Array
+                    (
+                        [0] => ccc
+                        [1] => =
+                        [2] => ddd
+                    )
+                [1] => Array
+                    (
+                        [0] => eee
+                        [1] => =
+                        [2] => fff
+                    )
+            )
+    )
+
 = What is the name of the table where the data is stored? =
 
 wp_CF7DBPlugin_SUBMITS 
