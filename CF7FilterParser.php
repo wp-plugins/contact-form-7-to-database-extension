@@ -182,6 +182,13 @@ class CF7FilterParser {
                     trigger_error($ex, E_USER_NOTICE);
                 }
             }
+            if (!$left && !$right) {
+                // Addresses case where 'Submitted Login' = $user_login but there exist some submissions
+                // with no 'Submitted Login' field. Without this clause, those rows where 'Submitted Login' == null
+                // would be returned when what we really want to is affirm that there is a 'Submitted Login' value ($left)
+                // But we want to preserve the correct behavior for the case where 'field'=null is the constraint.
+                return false;
+            }
             return $this->evaluateLeftOpRightComparison($left, $op, $right);
         }
         return false;
