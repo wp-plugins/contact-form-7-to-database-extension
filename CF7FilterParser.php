@@ -48,16 +48,56 @@ class CF7FilterParser {
     }
 
     /**
-     * Parse a string with delimiters || and/or &&. For example: aaa&&bbb||ccc&&ddd into a tree.
-     * this represents a logical AND OR expression
+     * Parse a string with delimiters || and/or && into a Boolean evaluation tree.
+     * For example: aaa&&bbb||ccc&&ddd would be parsed into the following tree,
+     * where level 1 represents items ORed, level 2 represents items ANDed, and
+     * level 3 represent individual expressions. 
+     * Array
+     * (
+     *     [0] => Array
+     *         (
+     *             [0] => Array
+     *                 (
+     *                     [0] => aaa
+     *                     [1] => =
+     *                     [2] => bbb
+     *                 )
+     *
+     *         )
+     *
+     *     [1] => Array
+     *         (
+     *             [0] => Array
+     *                 (
+     *                     [0] => ccc
+     *                     [1] => =
+     *                     [2] => ddd
+     *                 )
+     *
+     *             [1] => Array
+     *                 (
+     *                     [0] => eee
+     *                     [1] => =
+     *                     [2] => fff
+     *                 )
+     *
+     *         )
+     *
+     * )
      * @param  $filterString string with delimiters && and/or ||
      * which each element being an array of strings broken on the && delimiter
      */
     public function parseFilterString($filterString) {
         $this->tree = array();
-        $ors = $this->parseORs($filterString);
-        foreach ($ors as $anOr) {
-            $this->tree[] = $this->parseANDs($anOr);
+        $arrayOfORedStrings = $this->parseORs($filterString);
+        foreach ($arrayOfORedStrings as $anANDString) {
+            $arrayOfANDedStrings = $this->parseANDs($anANDString);
+            $andSubTree = array();
+            foreach ($arrayOfANDedStrings as $anExpressionString) {
+                $exprArray = $this->parseExpression($anExpressionString);
+                $andSubTree[] = $exprArray;
+            }
+            $this->tree[] = $andSubTree;
         }
     }
 
@@ -104,9 +144,9 @@ class CF7FilterParser {
             $retVal = false;
             foreach ($this->tree as $andArray) { // loop each OR'ed $andArray
                 $andBoolean = true;
-                // evaluation the list of AND'ed expressions
-                foreach ($andArray as $andString) {
-                    $andBoolean = $this->evaluateComparison($andString, $data); //&& $andBoolean
+                // evaluation the list of AND'ed comparison expressions
+                foreach ($andArray as $comparison) {
+                    $andBoolean = $this->evaluateComparison($comparison, $data); //&& $andBoolean
                     if (!$andBoolean) {
                         break; // short-circuit AND expression evaluation
                     }
@@ -120,8 +160,7 @@ class CF7FilterParser {
         return $retVal;
     }
 
-    public function evaluateComparison($andString, &$data) {
-        $andExpr = $this->parseExpression($andString);
+    public function evaluateComparison($andExpr, &$data) {
         if (is_array($andExpr) && count($andExpr) == 3) {
             $left = $data[$andExpr[0]];
             $op = $andExpr[1];
@@ -136,7 +175,6 @@ class CF7FilterParser {
             }
             return $this->evaluateLeftOpRightComparison($left, $op, $right);
         }
-        trigger_error("Invalid expression: '$andString'", E_USER_NOTICE);
         return false;
     }
 
