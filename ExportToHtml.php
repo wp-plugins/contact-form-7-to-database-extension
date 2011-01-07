@@ -57,6 +57,7 @@ class ExportToHtml {
      */
     public function export(&$formName, $options = null) {
 
+        $debug = false;
         $canDelete = false;
         $showColumns = null;
         $hideColumns = null;
@@ -66,6 +67,9 @@ class ExportToHtml {
         $filterParser->setComparisonValuePreprocessor(new DereferenceUserInfoVar);
 
         if ($options && is_array($options)) {
+            if ($options['debug'] && $options['debug'] != 'false') {
+                $debug = true;
+            }
             if ($options['canDelete']) {
                 $canDelete = $options['canDelete'];
             }
@@ -83,6 +87,11 @@ class ExportToHtml {
             }
             if ($options['filter']) {
                 $filterParser->parseFilterString($options['filter']);
+                if ($debug) {
+                    echo '<pre>';
+                    print_r($filterParser->getFilterTree());
+                    echo '</pre>';
+                }
             }
         }
 

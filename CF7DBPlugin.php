@@ -297,6 +297,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         if ($atts['form']) {
             if ($this->canUserDoRoleOption('CanSeeSubmitData')) {
                 $options = array('canDelete' => false);
+                if ($atts['debug']) {
+                    $options['debug'] = $atts['debug'];
+                }
                 if ($atts['show']) {
                     $showColumns = preg_split('/,/', $atts['show'], -1, PREG_SPLIT_NO_EMPTY);
                     $options['showColumns'] = $showColumns;
