@@ -5,47 +5,13 @@ msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-"
 "extension\n"
-"POT-Creation-Date: 2011-01-07 19:19:23+00:00\n"
+"POT-Creation-Date: 2011-01-10 16:39:02+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-
-#: ExportToCsvUtf16le.php:28 getFile.php:28 CF7DBOptionsManager.php:268
-#: ExportToHtml.php:100 ExportToGoogleSS.php:30 ExportToGoogleLiveData.php:25
-#: ExportToCsvUtf8.php:38
-msgid "You do not have sufficient permissions to access this page."
-msgstr ""
-
-#: ExportToCsvUtf16le.php:46 ExportToCsvUtf8.php:58
-msgid "Submitted"
-msgstr ""
-
-#: getFile.php:35
-msgid "Missing form parameters"
-msgstr ""
-
-#: getFile.php:40
-msgid "No such file."
-msgstr ""
-
-#: CF7DBOptionsManager.php:286
-msgid " Settings"
-msgstr ""
-
-#: CF7DBOptionsManager.php:311
-msgid "Save Changes"
-msgstr ""
-
-#: ExportToHtml.php:181
-msgid "Delete Selected"
-msgstr ""
-
-#: CJ7DBCheckZendFramework.php:66
-msgid "Missing Zend Framework"
-msgstr ""
 
 #: CF7DBPlugin.php:35
 msgid "Can See Submission data"
@@ -103,6 +69,40 @@ msgstr ""
 msgid "Upload"
 msgstr ""
 
+#: ExportToCsvUtf8.php:38 getFile.php:28 ExportToCsvUtf16le.php:28
+#: CF7DBOptionsManager.php:268 ExportToGoogleLiveData.php:25
+#: ExportToGoogleSS.php:30 ExportToHtml.php:100
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: ExportToCsvUtf8.php:58 ExportToCsvUtf16le.php:46
+msgid "Submitted"
+msgstr ""
+
+#: getFile.php:35
+msgid "Missing form parameters"
+msgstr ""
+
+#: getFile.php:40
+msgid "No such file."
+msgstr ""
+
+#: CF7DBOptionsManager.php:286
+msgid " Settings"
+msgstr ""
+
+#: CF7DBOptionsManager.php:311
+msgid "Save Changes"
+msgstr ""
+
+#: ExportToGoogleLiveData.php:160
+msgid "How to Set up Google Spreadsheet to pull data from WordPress"
+msgstr ""
+
+#: CJ7DBCheckZendFramework.php:66
+msgid "Missing Zend Framework"
+msgstr ""
+
 #: ExportToGoogleSS.php:60
 msgid "Login Failed"
 msgstr ""
@@ -115,6 +115,30 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: ExportToGoogleLiveData.php:160
-msgid "How to Set up Google Spreadsheet to pull data from WordPress"
+#: contact-form-7-db.php:22
+msgid "Minimal version of PHP required: "
+msgstr ""
+
+#: contact-form-7-db.php:23
+msgid "Your server's PHP version: "
+msgstr ""
+
+#: contact-form-7-db.php:26
+msgid ""
+"When using the Apache web server, typically you can configure it to use PHP5 "
+"by doing the following:"
+msgstr ""
+
+#: contact-form-7-db.php:28
+msgid ""
+"Locate and edit this file, located at the top directory of your WordPress "
+"installation: "
+msgstr ""
+
+#: contact-form-7-db.php:30
+msgid "Add these two lines to the file:"
+msgstr ""
+
+#: ExportToHtml.php:181
+msgid "Delete Selected"
 msgstr ""
