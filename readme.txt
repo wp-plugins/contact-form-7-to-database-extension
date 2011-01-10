@@ -198,6 +198,9 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 
 == Changelog ==
 
+= 1.4.5 =
+* Added a PHP version check. This Plugin Requires PHP5 or later. Often default configurations are PHP4. Now a more informative error is given when the user tries to activate the plugin with PHP4.
+
 = 1.4.4 =
 * If user is logged in when submitting a form, 'Submitted Login' is captured 
 * [cf7db-table] shortcode options for filtering rows including using user variables (see FAQ)
