@@ -72,8 +72,10 @@ BUT: First be sure to give users access.
 
 * In the __Admin panel, Contact -> Database Options__, set "__Can See Submission data__" to the appropriate choice.
 
-Use `[cf7db-table form="your-form"]` with optional `show` and `hide`: `[cf7db-table form="your-form" show="field1,field2,field3"]` (optionally show selected fields),
-`[cf7db-table form="your-form" hide="field1,field2,field3"]` (optionally hide selected fields)
+Use `[cf7db-table form="your-form"]` with optional `show` and `hide`:
+
+* `[cf7db-table form="your-form" show="field1,field2,field3"]` (optionally show selected fields),
+* `[cf7db-table form="your-form" hide="field1,field2,field3"]` (optionally hide selected fields)
 
 ## Basic Shortcode ##
 * `[cf7db-table form="your-form"]`                             (shows the whole table with CSS provided by the plugin)
