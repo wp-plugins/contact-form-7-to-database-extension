@@ -180,8 +180,8 @@ would get a dump like the following, where
 
 = What is the name of the table where the data is stored? =
 
-wp_CF7DBPlugin_SUBMITS 
-Note: if you changed your WordPress MySql table prefix from the default "wp_" to something else, then this table will also have that prefix insted of "wp_" ($wpdb->prefix)
+`wp_CF7DBPlugin_SUBMITS`
+Note: if you changed your WordPress MySql table prefix from the default `wp_` to something else, then this table will also have that prefix instead of `wp_` (`$wpdb->prefix`)
 
 = If I uninstall the plugin, what happens to its data in the database? =
 
