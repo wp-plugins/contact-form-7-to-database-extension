@@ -110,7 +110,7 @@ Apply your CSS to the table; set the table's 'class' or 'id' attribute:
 * Use the `~~` operator, and Perl-style delimiters around the pattern, such as `/`
 * `[cf7db-table form="your-form" filter="field1~~/^a/"]`     (shows rows where field1 starts with 'a')
 * `[cf7db-table form="your-form" filter="field1~~/.*@gmail.com/i"]`  (shows rows where field1 is a Gmail address, case-insensitive)
-* FYI: uses preg_match() to evaluate the regex
+* FYI: uses [preg_match](http://php.net/manual/en/function.preg-match.php "preg_match") to evaluate the regex
 
 ## Shortcode: Filter Limitations ##
 * Does not support parentheses to control the order of boolean evaluation
