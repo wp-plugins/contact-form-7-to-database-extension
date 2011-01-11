@@ -35,9 +35,7 @@ Notes:
 
 == Frequently Asked Questions ==
 
-=  Plugin Fails when activated with Parse error =
-
-    Parse error: parse error, unexpected T_STRING, expecting T_OLD_FUNCTION or T_FUNCTION or T_VAR or '}'
+=  Plugin Fails when activated with fatal error =
 
 This indicates that you have your WordPress site configured to run using PHP4 whereas this plugin requires PHP5.
 When using Apache as the web server, you can edit the __.htaccess__ file at the root of your WordPress installation and add these two lines:
@@ -54,7 +52,7 @@ In the admin page, under CF7's top level "Contact" admin menu. Look for "Contact
 This option exports a file that you can open in MS Excel. Unlike other exports, it is does contain the data, but creates an internet connection to the plugin page to extract the data.
 The data can be refreshed from directly withing Excel so there is no need to do an export every time there is new data.
 
-= What is the differences among Excel CSV (UTF8-BOM), Excel TSV (UTF16LE-BOM) and Plain CSV (UTF8) Export files? =
+= What are the differences among Excel CSV (UTF8-BOM), Excel TSV (UTF16LE-BOM) and Plain CSV (UTF8) Export files? =
 
 * For any non-Excel spreadsheet application, use 'Plain CSV (UTF8)'.
 * For Excel, first try 'Excel CSV (UTF8-BOM)' and if that does not work property, try 'Excel TSV (UTF16LE-BOM)'.
