@@ -49,8 +49,8 @@ In the admin page, under CF7's top level "Contact" admin menu. Look for "Contact
 
 = What is the Excel Internet Query Export Option? =
 
-This option exports a file that you can open in MS Excel. Unlike other exports, it is does contain the data, but creates an internet connection to the plugin page to extract the data.
-The data can be refreshed from directly withing Excel so there is no need to do an export every time there is new data.
+This option exports a file that you can open in MS Excel. Unlike other exports, it is does not contain the data (initially), but creates an internet connection to the plugin page to extract the data.
+The data can be refreshed from directly within Excel so there is no need to do an export every time there is new data.
 
 = What are the differences among Excel CSV (UTF8-BOM), Excel TSV (UTF16LE-BOM) and Plain CSV (UTF8) Export files? =
 
