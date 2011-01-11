@@ -107,7 +107,7 @@ Apply your CSS to the table; set the table's 'class' or 'id' attribute:
 * `~~` for regular expressions
 
 ## Shortcode: Filter by Regular Expressions ##
-* Use the ~~ operator
+* Use the `~~` operator
 * `[cf7db-table form="your-form" filter="field1~~/^a/"]`   (shows rows where field1 starts with 'a')
 * FYI: uses preg_match() to evaluate the regex
 
