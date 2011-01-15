@@ -26,16 +26,20 @@ require_once('ExportToHtml.php');
 class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
     public function &getPluginDisplayName() {
-        return 'Contact Form 7 to DB Extension';
+        return 'Contact Form 7 and Fast Secure Contact Form to DB Extension';
     }
 
     public function &getOptionMetaData() {
         return array(
             //'_version' => array('Installed Version'), // For testing upgrades
-            'CanSeeSubmitData' => array(__('Can See Submission data', 'contact-form-7-to-database-extension'), 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
-            'CanChangeSubmitData' => array(__('Can Delete Submission data', 'contact-form-7-to-database-extension'), 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
+            'CanSeeSubmitData' => array(__('Can See Submission data', 'contact-form-7-to-database-extension'),
+                                        'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
+            'CanSeeSubmitDataViaShortcode' => array(__('Can See Submission when using [cf7db-table] shortcode', 'contact-form-7-to-database-extension'),
+                                         'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
+            'CanChangeSubmitData' => array(__('Can Delete Submission data', 'contact-form-7-to-database-extension'),
+                                         'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
             'ShowLineBreaksInDataTable' => array(__('Show line breaks in submitted data table', 'contact-form-7-to-database-extension'), 'true', 'false'),
-            'SubmitDateTimeFormat' => array('<a target="_blank" href="http://php.net/manual/en/function.date.php">'.__('Date-Time Display Format').'</a>'),
+            'SubmitDateTimeFormat' => array('<a target="_blank" href="http://php.net/manual/en/function.date.php">' . __('Date-Time Display Format') . '</a>'),
             'ShowFileUrlsInExport' => array(__('Export URLs instead of file names for uploaded files', 'contact-form-7-to-database-extension'), 'false', 'true'),
             'NoSaveFields' => array(__('Do not save <u>fields</u> in DB named (comma-separated list, no spaces)', 'contact-form-7-to-database-extension')),
             'NoSaveForms' => array(__('Do not save <u>forms</u> in DB named (comma-separated list, no spaces)', 'contact-form-7-to-database-extension'))
@@ -75,6 +79,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             $wpdb->hide_errors();
         }
 
+        if ($this->isSavedVersionLessThanEqual('1.4.5') && !$this->getOption('CanSeeSubmitDataViaShortcode')) {
+            $this->addOption('CanSeeSubmitDataViaShortcode', 'Anyone');
+        }
 
         // Post-upgrade, set the current version in the options
         if ($upgradeOk && $version != $this->getVersion()) {
@@ -135,6 +142,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         // Hook into Contact Form 7 when a form post is made to save the data to the DB
         add_action('wpcf7_before_send_mail', array(&$this, 'saveFormData'));
 
+//        // Hook into Fast Secure Contact Form
+//        add_action('fsctf_mail_sent', array(&$this, 'saveFormData'));
+//
         // Shortcode to add a table to a page
         add_shortcode('cf7db-table', array(&$this, 'showTableShortCode'));
     }
@@ -153,7 +163,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
     /**
      * Callback from Contact Form 7. CF7 passes an object with the posted data which is inserted into the database
-     * by this function.  
+     * by this function.
+     * Also callback from Fast Secure Contact Form
      * @param  $cf7 WPCF7_ContactForm object
      * @return void
      */
@@ -295,7 +306,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      */
     public function showTableShortCode($atts) {
         if ($atts['form']) {
-            if ($this->canUserDoRoleOption('CanSeeSubmitData')) {
+            if ($this->canUserDoRoleOption('CanSeeSubmitData') ||
+                    $this->canUserDoRoleOption('CanSeeSubmitDataViaShortcode')) {
                 $options = array('canDelete' => false);
                 if ($atts['debug']) {
                     $options['debug'] = $atts['debug'];
@@ -317,6 +329,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 if ($atts['filter']) {
                     $options['filter'] = $atts['filter'];
                 }
+                $options['fromshortcode'] = true;
                 $export = new ExportToHtml();
                 $export->export($atts['form'], $options);
             }

@@ -2,7 +2,7 @@
 /*
    Plugin Name: Contact Form 7 to DB Extension
    Plugin URI: http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/
-   Version: 1.4.5
+   Version: 1.4.6
    Author: Michael Simpson
    Description: You also need to install and activate Contact Form 7 for this to work. It is an extension that writes the form data to the database | <a href="admin.php?page=CF7DBPluginSubmissions">Data</a>  | <a href="admin.php?page=CF7DBPluginSettings">Settings</a> | <a href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/">FAQ</a>
    Text Domain: contact-form-7-to-database-extension
@@ -13,7 +13,7 @@
  * Check the PHP version and give a useful error message if the user's version is less than the required version
  * @return void
  */
-function CF7DBPlugin_versionCheck() {
+function CF7DBPlugin_PhpVersionCheck() {
     $minimalRequiredPhpVersion = '5.0';
     if (version_compare(phpversion(), $minimalRequiredPhpVersion) < 0) {
         trigger_error(
@@ -41,5 +41,5 @@ AddHandler x-mapp-php5 .php
     }
 }
 
-CF7DBPlugin_versionCheck();
+CF7DBPlugin_PhpVersionCheck();
 

@@ -95,8 +95,12 @@ class ExportToHtml {
             }
         }
 
+        // Security Check
         $plugin = new CF7DBPlugin();
-        if (!$plugin->canUserDoRoleOption('CanSeeSubmitData')) {
+        $securityCheck = $options['fromshortcode'] ?
+                $plugin->canUserDoRoleOption('CanSeeSubmitDataViaShortcode') :
+                $plugin->canUserDoRoleOption('CanSeeSubmitData');
+        if (!$securityCheck) {
             wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
         }
         if (!headers_sent()) {

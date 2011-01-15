@@ -104,13 +104,34 @@ class CF7DBInstallIndicator extends CF7DBOptionsManager {
     }
 
     /**
-     * Used to see if the installed code is an upgrade to the input version.
-     * For example, $this->isInstalledCodeAnUpgradeToVersion('2.3') == true indicates that the
+     * Used to see if the installed code is an earlier version than the input version
      * @param  $aVersion string
      * @return bool true if the saved version is earlier (by natural order) than the input version
      */
     public function isSavedVersionLessThan($aVersion) {
         return $this->isVersionLessThan($this->getVersionSaved(), $aVersion);
+    }
+
+    /**
+     * Used to see if the installed code is the same or earlier than the input version.
+     * Useful when checking for an upgrade. If you haven't specified the number of the newer version yet,
+     * but the last version (installed) was 2.3 (for example) you could check if
+     * For example, $this->isSavedVersionLessThanEqual('2.3') == true indicates that the saved version is not upgraded
+     * past 2.3 yet and therefore you would perform some appropriate upgrade action.
+     * @param  $aVersion string
+     * @return bool true if the saved version is earlier (by natural order) than the input version
+     */
+    public function isSavedVersionLessThanEqual($aVersion) {
+        return $this->isVersionLessThanEqual($this->getVersionSaved(), $aVersion);
+    }
+
+    /**
+     * @param  $version1 string a version string such as '1', '1.1', '1.1.1', '2.0', etc.
+     * @param  $version2 string a version string such as '1', '1.1', '1.1.1', '2.0', etc.
+     * @return bool true if version_compare of $versions1 and $version2 shows $version1 as the same or earlier
+     */
+    public function isVersionLessThanEqual($version1, $version2) {
+        return (version_compare($version1, $version2) <= 0);
     }
 
     /**
