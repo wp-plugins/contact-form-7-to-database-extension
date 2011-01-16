@@ -302,9 +302,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * [cf7db-table form="your-form" filter="field1=value1||field2!=value2"] (Logical OR the filters using '||')
      * [cf7db-table form="your-form" filter="field1=value1&&field2!=value2||field3=value3&&field4=value4"] (Mixed &&, ||)
      * @param  $atts array short code attributes
-     * @return void
+     * @return HTML output of shortcode
      */
-    public function showTableShortCode($atts) {
+    public function &showTableShortCode($atts) {
         if ($atts['form']) {
             if ($this->canUserDoRoleOption('CanSeeSubmitData') ||
                     $this->canUserDoRoleOption('CanSeeSubmitDataViaShortcode')) {
@@ -331,7 +331,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 }
                 $options['fromshortcode'] = true;
                 $export = new ExportToHtml();
-                $export->export($atts['form'], $options);
+                $html = $export->export($atts['form'], $options);
+                return $html;
             }
             else {
                 echo __('Insufficient privileges to display data from form: ', 'contact-form-7-to-database-extension') . $atts['form'];

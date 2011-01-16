@@ -114,6 +114,10 @@ class ExportToHtml {
             flush();
         }
 
+        if ($options['fromshortcode']) {
+            ob_start();
+        }
+
         // Query DB for the data for that form
         $tableData = $plugin->getRowsPivot($formName);
 
@@ -238,6 +242,13 @@ class ExportToHtml {
         </table>
         <?php
 
+        // Need to return the HTML when using a shortcode, otherwise text on the page
+        // can appear out of order
+        if ($options['fromshortcode']) {
+            $html = ob_get_contents();
+            ob_end_clean();
+            return $html;
+        }
     }
 }
 
