@@ -156,6 +156,9 @@ class ExportToHtml {
                 table.cf7-db-table th {
                     padding: 5px;
                     border: 1px solid gray;
+                }
+
+                table.cf7-db-table th > td {
                     font-size: x-small;
                     background-color: #E8E8E8;
                 }
@@ -188,10 +191,10 @@ class ExportToHtml {
 
             }
             if ($showSubmitField) {
-                echo "<th>Submitted</th>";
+                echo('<th title="Submitted"><div>Submitted</div></th>');
             }
             foreach ($columns as $aCol) {
-                echo "<th>$aCol</th>";
+                printf('<th><div title="%s">%s</div></th>', $aCol, $aCol);
             }
             ?>
             </thead>
@@ -203,7 +206,7 @@ class ExportToHtml {
                 }
                 ?>
                 <tr>
-                <?php if ($canDelete) { ?>
+                <?php if ($canDelete) { // Put in the delete checkbox ?>
                     <td align="center">
                         <input type="checkbox" name="<?php echo $submitTime ?>" value="row"/>
                     </td>
@@ -211,12 +214,7 @@ class ExportToHtml {
 
                 }
                 if ($showSubmitField) {
-                    ?>
-                        <td>
-                            <div><?php echo $plugin->formatDate($submitTime) ?></div>
-                        </td>
-                    <?php
-
+                    printf('<td title="Submitted"><div>%s</div></td>', $plugin->formatDate($submitTime));
                 }
                 $showLineBreaks = $plugin->getOption('ShowLineBreaksInDataTable');
                 $showLineBreaks = 'false' != $showLineBreaks;
@@ -231,7 +229,7 @@ class ExportToHtml {
                         $fileUrl = $plugin->getFileUrl($submitTime, $formName, $aCol);
                         $cell = "<a href=\"$fileUrl\">$cell</a>";
                     }
-                    echo "<td><div>$cell</div></td>";
+                    printf('<td title="%s"><div>%s</div></td>', $aCol, $cell);
                 }
                 ?></tr><?php
 

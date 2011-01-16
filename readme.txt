@@ -85,6 +85,37 @@ Apply your CSS to the table; set the table's 'class' or 'id' attribute:
 * `[cf7db-table form="your-form" id="css_id"]`                 (outputs `<table id="css_id">` (no default id)
 * `[cf7db-table form="your-form" id="css_id" class="css_class"]` (outputs `<table id="css_id" class="css_class">`)
 
+Applying different styles to different columns:
+By default, all `<th>` and `<td>` tags are given `title=` the field (column) name.
+For example, for `field1` you will see tags:
+
+    <th title="field1"><div>field1</div></th>
+
+and
+
+   <td title="field1"><div>{row value for field1}</div></td>
+
+(Notice the there is a `<div>` nested in the `<th>` and `<td>`)
+
+Use this `title` attribute to style columns and their headers individually.
+Example CSS selectors:
+
+* Assuming shortcode: `[cf7db-table form="myform" class="myformclass"]` that includes form field/table column `field1`
+* `table.myformclass th[title="field1"] {}` selects the `<th>` for column `field1`
+
+    Use this to style just the `<th>` (like its height and width) but not the text in the cell.
+    Remember: the text of the header is nested inside a div (`<th><div>`)
+* `table.myformclass th[title="field1"] > div {}` selects the nested div (`<th><div>`) for column `field1`
+
+    Use this to specifically format the column header text.
+* `table.myformclass td[title="field1"] {}` selects each table cell `<td>` in the column `field1`
+
+    Use this to style just the `<td>` (like its height and width) but not the text in the cell.
+    Remember: the text of the field is nested inside a div (`<td><div>`)
+* `table.myformclass td[title="field1"] > div {}` selects the nested div (`<th><div>`) for column `field1`
+
+    Use this to specifically format the text in the table cells
+
 ## Shortcode: Filtering In and Out Columns: ##
 * `[cf7db-table form="your-form" show="field1,field2,field3"]` (optionally show selected fields)
 * `[cf7db-table form="your-form" hide="field1,field2,field3"]` (optionally hide selected fields)
@@ -198,6 +229,11 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 1. Admin Panel view of submitted form data
 
 == Changelog ==
+
+= 1.5 =
+* Integration with Fast Secure
+* Added option to set roles that can see data when using [cf7db-table] shortcode
+* Can now specify per-column CSS for [cf7db-table] shortcode table (see FAQ)
 
 = 1.4.5 =
 * Added a PHP version check. This Plugin Requires PHP5 or later. Often default configurations are PHP4. Now a more informative error is given when the user tries to activate the plugin with PHP4.
