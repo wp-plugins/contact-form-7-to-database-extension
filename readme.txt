@@ -230,10 +230,10 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 
 == Changelog ==
 
-= 1.5 =
-* Integration with Fast Secure
+= 1.4.6 =
 * Added option to set roles that can see data when using [cf7db-table] shortcode
 * Can now specify per-column CSS for [cf7db-table] shortcode table (see FAQ)
+* Fixed bug with [cf7db-table] shortcode where the table aways appeared at the top of a post instead of embedded with the rest of the post text.
 
 = 1.4.5 =
 * Added a PHP version check. This Plugin Requires PHP5 or later. Often default configurations are PHP4. Now a more informative error is given when the user tries to activate the plugin with PHP4.
