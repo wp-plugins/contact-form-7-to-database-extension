@@ -373,7 +373,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
         ?>
         <table style="width:100%;">
-            <tbody><tr>
+            <tbody>
+            <tr>
                 <td style="font-size:x-small;">
                     <a target="_donate" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=NEVDJ792HKGFN&lc=US&item_name=Wordpress%20Plugin&item_number=cf7%2dto%2ddb%2dextension&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">
                          <img src="https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif" alt="Donate">
@@ -382,7 +383,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 <td style="font-size:x-small;"><a target="_cf7todb" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension">Plugin Home</a></td>
                 <td style="font-size:x-small;"><a target="_cf7todb" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/">FAQ</a></td>
                 <td style="font-size:x-small;"><a target="_cf7todb" href="http://wordpress.org/tags/contact-form-7-to-database-extension">Support</a></td>
-            </tr></tbody>
+            </tr>
+            </tbody>
         </table>
         <?php
 
@@ -517,6 +519,18 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             ?>
         </form>
         <?php } ?>
+        </div>
+        <div style="margin-top:1em"> <?php // Footer ?>
+            <table style="width:100%;">
+                <tbody>
+                <tr>
+                    <td align="center" colspan="4"><span style="font-size:x-small; font-style: italic;">Did you know: this plugin captures data from both
+                        <a href="http://wordpress.org/extend/plugins/contact-form-7/">Contact Form 7</a> and
+                        <a href="http://wordpress.org/extend/plugins/si-contact-form/">Fast Secure Contact Form</a></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
         <div id="GoogleCredentialsDialog" style="display:none; background-color:#EEEEEE;">
             <table>
