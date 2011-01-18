@@ -67,25 +67,25 @@ class ExportToHtml {
         $filterParser->setComparisonValuePreprocessor(new DereferenceUserInfoVar);
 
         if ($options && is_array($options)) {
-            if ($options['debug'] && $options['debug'] != 'false') {
+            if (isset($options['debug']) && $options['debug'] != 'false') {
                 $debug = true;
             }
-            if ($options['canDelete']) {
+            if (isset($options['canDelete'])) {
                 $canDelete = $options['canDelete'];
             }
-            if ($options['showColumns']) {
+            if (isset($options['showColumns'])) {
                 $showColumns = $options['showColumns'];
             }
-            if ($options['hideColumns']) {
+            if (isset($options['hideColumns'])) {
                 $hideColumns = $options['hideColumns'];
             }
-            if ($options['class']) {
+            if (isset($options['class'])) {
                 $htmlTableClass = $options['class'];
             }
-            if ($options['id']) {
+            if (isset($options['id'])) {
                 $htmlTableId = $options['id'];
             }
-            if ($options['filter']) {
+            if (isset($options['filter'])) {
                 $filterParser->parseFilterString($options['filter']);
                 if ($debug) {
                     echo '<pre>';
@@ -114,7 +114,7 @@ class ExportToHtml {
             flush();
         }
 
-        if ($options['fromshortcode']) {
+        if (isset($options['fromshortcode'])) {
             ob_start();
         }
 
@@ -229,7 +229,7 @@ class ExportToHtml {
                         $cell = str_replace("\r\n", "<br/>", $cell); // preserve DOS line breaks
                         $cell = str_replace("\n", "<br/>", $cell); // preserve UNIX line breaks
                     }
-                    if ($tableData->files[$aCol] && "" != $cell) {
+                    if (isset($tableData->files[$aCol]) && "" != $cell) {
                         $fileUrl = $plugin->getFileUrl($submitTime, $formName, $aCol);
                         $cell = "<a href=\"$fileUrl\">$cell</a>";
                     }
@@ -244,7 +244,7 @@ class ExportToHtml {
 
         // Need to return the HTML when using a shortcode, otherwise text on the page
         // can appear out of order
-        if ($options['fromshortcode']) {
+        if (isset($options['fromshortcode'])) {
             $html = ob_get_contents();
             ob_end_clean();
             return $html;
