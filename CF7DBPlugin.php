@@ -142,9 +142,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         // Hook into Contact Form 7 when a form post is made to save the data to the DB
         add_action('wpcf7_before_send_mail', array(&$this, 'saveFormData'));
 
-//        // Hook into Fast Secure Contact Form
-//        add_action('fsctf_mail_sent', array(&$this, 'saveFormData'));
-//
+        // Hook into Fast Secure Contact Form
+        add_action('fsctf_mail_sent', array(&$this, 'saveFormData'));
+        add_action('fsctf_menu_links', array(&$this, 'fscfMenuLinks'));
+
         // Shortcode to add a table to a page
         add_shortcode('cf7db-table', array(&$this, 'showTableShortCode'));
     }
@@ -162,10 +163,31 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
 
     /**
+     * Function courtesy of Mike Challis, author of Fast Secure Contact Form.
+     * Displays Admin Panel links in FSCF plugin menu
+     * @return void
+     */
+    public function fscfMenuLinks() {
+        $displayName = $this->getPluginDisplayName();
+        echo '
+        <p>
+      ' . $displayName .
+                ' | <a href="admin.php?page=CF7DBPluginSubmissions">' .
+                __('Database', 'contact-form-7-to-database-extension') .
+                '</a>  | <a href="admin.php?page=CF7DBPluginSettings">' .
+                __('Database Options', 'contact-form-7-to-database-extension') .
+                '</a> | <a href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/">' .
+                __('FAQ', 'contact-form-7-to-database-extension') . '</a>
+       </p>
+      ';
+    }
+
+    /**
      * Callback from Contact Form 7. CF7 passes an object with the posted data which is inserted into the database
      * by this function.
      * Also callback from Fast Secure Contact Form
-     * @param  $cf7 WPCF7_ContactForm object
+     * @param  $cf7 object either WPCF7_ContactForm object when coming from CF7 or $fsctf_posted_data object variable
+     * if coming from FSCF
      * @return void
      */
     public function saveFormData($cf7) {
@@ -216,22 +238,24 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
         // If the submitter is logged in, capture his id
         if (is_user_logged_in()) {
+            $order = ($order < 9999) ? 9999 : $order + 1; // large order num to try to make it always next-to-last
             $current_user = wp_get_current_user(); // WP_User
             $wpdb->query($wpdb->prepare($parametrizedQuery,
                                         $time,
                                         $title,
                                         'Submitted Login',
                                         $current_user->user_login,
-                                        9999)); // large order num to try to make it always next-to-last
+                                        $order));
         }
 
         // Capture the IP Address of the submitter
+        $order = ($order < 10000) ? 10000 : $order + 1; // large order num to try to make it always last
         $wpdb->query($wpdb->prepare($parametrizedQuery,
                                     $time,
                                     $title,
                                     'Submitted From',
                                     $ip,
-                                    10000)); // large order num to try to make it always last
+                                    $order));
 
     }
 
