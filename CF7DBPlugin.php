@@ -26,7 +26,7 @@ require_once('ExportToHtml.php');
 class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
     public function &getPluginDisplayName() {
-        return 'Contact Form 7 and Fast Secure Contact Form to DB Extension';
+        return 'Contact Form to DB Extension';
     }
 
     public function &getOptionMetaData() {
