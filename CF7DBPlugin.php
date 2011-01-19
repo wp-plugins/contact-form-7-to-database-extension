@@ -570,6 +570,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                             <option id="GSS" value="GSS">Google Spreadsheet</option>
                             <option id="GLD" value="GLD">Google Spreadsheet Live Data</option>
                             <option id="HTML" value="HTML">HTML</option>
+                            <option id="JSON" value="JSON">JSON</option>
                         </select>
                         <input name="exportButton" type="button"
                                value="<?php _e('Export', 'contact-form-7-to-database-extension'); ?>"

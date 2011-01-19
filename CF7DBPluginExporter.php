@@ -15,6 +15,12 @@
     http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 */
 
+require_once('ExportToCsvUtf8.php');
+require_once('ExportToCsvUtf16le.php');
+require_once('ExportToIqy.php');
+require_once('ExportToGoogleSS.php');
+require_once('ExportToGoogleLiveData.php');
+
 class  CF7DBPluginExporter {
     static function export($formName, $encoding, $guser=null, $gpwd=null) {
 
@@ -43,6 +49,10 @@ class  CF7DBPluginExporter {
             case 'GSS':
                 $exporter = new ExportToGoogleSS();
                 $exporter->export($formName, $guser, $gpwd);
+                break;
+            case 'JSON':
+                $exporter = new ExportToJson();
+                $exporter->export($formName);
                 break;
             case 'CSVUTF8':
             default:
