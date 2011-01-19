@@ -10,20 +10,22 @@ Extension to the Contact Form 7 plugin that saves submitted form data to the dat
 
 == Description ==
 
-Takes submissions from Contact Form 7 plugin, saves them in the database and allows you to export the data.
+Saves form submissions to the database that come from Contact Form 7 (CF7) plugin and/or Fast Secure Contact Form (FSCF) plugin.
 
-First a disclaimer: I am not the maker of Contact Form 7 or associated with it's author.
+CF7 and FSCF are great plugins but but were lacking one thing...the ability to save the form data to the database.
+And if you get a lot of form submissions, then you end up sorting through a lot of email.
+This plugin-to-a-plugin provides that functionality.
 
-That being said, I think Contact Form 7 is great...except for one thing. It does not save its information to the database. And if you get a lot of form submissions, then you end up sorting through a lot of email.
-
-Fortunately, the author of CF7 created a hook. So I wrote a plugin that hooks into CF7 and saves all of its form submissions to the database. You need to have both CF7 and this plugin installed and activated.
-
+You will need to have CF7 and/or FSCF installed along with this plugin.
 This plugin also puts a menu item in the Administration Plugins menu where you can see the data in the database.
 You can also use the [cf7db-table] shortcode to display the data on a non-admin page on your site.
 
+Disclaimer: I am not the maker of Contact Form 7 nor Fast Secure Contact Form and am not associated with the development of those plugins.
+
 == Installation ==
 
-1. Be sure that Contact Form 7 is installed and activated (this is an extension to it)
+1. Your WordPress site must be running PHP5 or better. This plugin will fail to activate if your site is running PHP4.
+1. Be sure that Contact Form 7 and/or Fast Secure Contact Form is installed and activated (this is an extension to them)
 1. Import contact-form-7-db.zip via the 'Plugins' menu in WordPress
 1. Activate the plugin through the 'Plugins' menu in WordPress
 1. Adds an Admin menu item for seeing the stored data under "Contact" -> "Database"
@@ -37,7 +39,7 @@ Notes:
 
 =  Plugin Fails when activated with fatal error =
 
-This indicates that you have your WordPress site configured to run using PHP4 whereas this plugin requires PHP5.
+<a name="php4error"/>This indicates that you have your WordPress site configured to run using PHP4 whereas this plugin requires PHP5.
 When using Apache as the web server, you can edit the __.htaccess__ file at the root of your WordPress installation and add these two lines:
 
     AddType x-mapp-php5 .php
@@ -49,10 +51,11 @@ In the admin page, under CF7's top level "Contact" admin menu. Look for "Contact
 
 = What is the Excel Internet Query Export Option? =
 
-This option exports a file that you can open in MS Excel. Unlike other exports, it is does not contain the data (initially), but creates an internet connection to the plugin page to extract the data.
+<a name="iqy"/>This option exports a file that you can open in MS Excel. Unlike other exports, it is does not contain the data (initially), but creates an internet connection to the plugin page to extract the data.
 The data can be refreshed from directly within Excel so there is no need to do an export every time there is new data.
 
 = What are the differences among Excel CSV (UTF8-BOM), Excel TSV (UTF16LE-BOM) and Plain CSV (UTF8) Export files? =
+<a name="csv"/>
 
 * For any non-Excel spreadsheet application, use 'Plain CSV (UTF8)'.
 * For Excel, first try 'Excel CSV (UTF8-BOM)' and if that does not work property, try 'Excel TSV (UTF16LE-BOM)'.
@@ -64,13 +67,11 @@ The data can be refreshed from directly within Excel so there is no need to do a
 
 = Can I display form data on a non-admin web page or in a post? =
 
-Yes, use `[cf7db-table]` shortcode to incorporate form data on regular posts and pages.
+<a name="shortcodes"/>Yes, see below about shortcodes `[cf7db-table]`, `[cf7db-json]` and `[cf7db-value]`
 
-BUT: First be sure to give users access.
+= How to use [cf7db-table] shortcode to incorporate form data on posts and pages =
 
-* In the __Admin panel, Contact -> Database Options__, set "__Can See Submission data__" to the appropriate choice.
-
-Use `[cf7db-table form="your-form"]` with optional `show` and `hide`:
+<a name="cf7db-table"/>Use `[cf7db-table form="your-form"]` with optional `show` and `hide`:
 
 * `[cf7db-table form="your-form" show="field1,field2,field3"]` (optionally show selected fields),
 * `[cf7db-table form="your-form" hide="field1,field2,field3"]` (optionally hide selected fields)
@@ -79,7 +80,7 @@ Use `[cf7db-table form="your-form"]` with optional `show` and `hide`:
 * `[cf7db-table form="your-form"]`                             (shows the whole table with CSS provided by the plugin)
 
 ## Shortcode: Controlling the Display ##
-Apply your CSS to the table; set the table's 'class' or 'id' attribute:
+<a name="shortcode-display"/>Apply your CSS to the table; set the table's 'class' or 'id' attribute:
 
 * `[cf7db-table form="your-form" class="css_class"]`           (outputs `<table class="css_class">` (default: class="cf7-db-table")
 * `[cf7db-table form="your-form" id="css_id"]`                 (outputs `<table id="css_id">` (no default id)
@@ -89,11 +90,8 @@ Applying different styles to different columns:
 By default, all `<th>` and `<td>` tags are given `title=` the field (column) name.
 For example, for `field1` you will see tags:
 
-    <th title="field1"><div>field1</div></th>
-
-and
-
-   <td title="field1"><div>{row value for field1}</div></td>
+* `<th title="field1"><div>field1</div></th>`
+* `<td title="field1"><div>{row value for field1}</div></td>`
 
 (Notice the there is a `<div>` nested in the `<th>` and `<td>`)
 
@@ -117,11 +115,15 @@ Example CSS selectors:
     Use this to specifically format the text in the table cells
 
 ## Shortcode: Filtering In and Out Columns: ##
+<a name="shortcode-filter-columns"/>
+
 * `[cf7db-table form="your-form" show="field1,field2,field3"]` (optionally show selected fields)
 * `[cf7db-table form="your-form" hide="field1,field2,field3"]` (optionally hide selected fields)
 * `[cf7db-table form="your-form" show="f1,f2,f3" hide="f1"]`   (hide trumps show, f1 will be hidden)
 
 ## Shortcode: Filtering In Rows: ##
+<a name="shortcode-filter-rows"/>
+
 * `[cf7db-table form="your-form" filter="field1=value1"]`      (show only rows where field1=value1)
 * `[cf7db-table form="your-form" filter="field1=null"]`        (SPECIAL CASE: 'null' is interpreted as null-value (field does has no value)
 * `[cf7db-table form="your-form" filter="field1!=value1"]`     (show only rows where field1!=value1)
@@ -131,6 +133,8 @@ Example CSS selectors:
 * `[cf7db-table form="your-form" filter="field1~~/^a/"]`       (Regular expression; shows rows where field1 starts with 'a')
 
 ## Shortcode: Supported Filter Operators ##
+<a name="shortcode-filter-ops"/>
+
 * `=` and `==` are the same
 * `!=`, `<>` are the same
 * `>`, `<`, `<=`, `>=`
@@ -138,15 +142,21 @@ Example CSS selectors:
 * `~~` for regular expressions
 
 ## Shortcode: Filter by Regular Expressions ##
+<a name="shortcode-filter-regex"/>
+
 * Use the `~~` operator, and Perl-style delimiters around the pattern, such as `/`
 * `[cf7db-table form="your-form" filter="field1~~/^a/"]`     (shows rows where field1 starts with 'a')
 * `[cf7db-table form="your-form" filter="field1~~/.*@gmail.com/i"]`  (shows rows where field1 is a Gmail address, case-insensitive)
 * FYI: uses [preg_match](http://php.net/manual/en/function.preg-match.php "preg_match") to evaluate the regex
 
 ## Shortcode: Filter Limitations ##
+<a name="shortcode-filter-limitations"/>
+
 * Does not support parentheses to control the order of boolean evaluation
 
-## Shortcode: Filter Variable Substitution ##
+## Shortcode: Filter Variable Substitution: Identifying logged-in user ##
+<a name="shortcode-user-vars"/>
+
 If the user is logged in when viewing the page with the shortcode, you can try to match a filter value against
 some user information. If the user was logged in when he submitted the form, then 'Submitted Login' will be captured (since version 1.4.4)
 So if the user is also logged in to view a page with this shortcode, you could have the table filter to show him only
@@ -169,7 +179,62 @@ All of the following variables are supported
 * `$user_nicename`
 * `$id` or `$ID`
 
+## Shortcode: Filter Variable Substitution: Using HTTP GET, POST and COOKIE variables ##
+<a name="shortcode-filter-params"/>
+
+When viewing a page or post, you can add HTTP GET parameters on the URL, for example the URL to view post #85
+might be:
+
+* `http://mywordpress.com/?p=85`
+
+to which you could add some arbitrary parameter:
+
+* `http://mywordpress.com/?p=85&email=joe@nowhere.com`
+
+in this case you might want to use that `email=joe@nowhere.com` in the shortcode filter. Assuming the table
+you are querying has a field named 'contact_email', you could use the shortcode:
+
+* `[cf7db-table form="your-form" filter="contact_email=$GET(email)"]` This looks for form submissions where the
+submitted value for the form's contact_email field is equal to joe@nowhere.com.
+
+This syntax can be used:
+
+* `$GET(http_get_parameter)` for URL parameters as described above or forms posting to the page on which the
+shortcode is located, where the form uses method=GET
+* `$POST(http_post_parameter)` for forms posting to the page on which the shortcode is located,
+where the form uses method=POST
+* `$COOKIE(http_cookie_name)` to reference Cookies.
+
+<a name="warning-on-name"/>WARNING: Known issue: Avoid using `name` as a GET parameter. This example will not work:
+
+* `http://mywordpress.com/?page_id=128&name=admin` __WILL NOT WORK!!__
+
+this gives you a page with the error:
+
+* `Apologies, but the page you requested could not be found. Perhaps searching will help.`
+
+The problem is with using `name`. Use something else, like `name1` and use `$GET(name1)` in your filter.
+In WordPress, your URL does not go directly to the page, it goes to `http://mywordpress.com/` in this
+example and that takes the parameters and dispatches it to the appropriate page/post etc. So you
+have to choose GET parameters names that do not conflict with those that WordPress uses.
+`name` is such a conflict. I don't a list of all conflicts, but look for the above error.
+
+WARNING: PHP programmers: note the syntax and don't get confused with similar PHP syntax:
+
+* `$GET(value)` __not__ `$_GET['value']`
+* `$POST(value)` __not__ `$_POST['value']`
+* `$COOKIE(value)` __not__ `$_COOKIE['value']`
+
+Summary of differences from PHP syntax:
+
+* Parentheses are used instead of square brackets because the shortcode already has brackets and we can't nest them within it.
+* Quoting 'value' is not necessary since you are already quoting the shortcode attribute,
+and this would result in nested quotes.
+* The leading underscore is dropped for brevity and to be consistent with other variable substitutions (like `$user_login`)
+
 ## Shortcode: Debugging Filter Expressions ##
+<a name="shortcode-filter-debug"/>
+
 If you have a complicated filter expression that may not be working right, you can get a printout of the parse tree.
 To do this, you add debug="true", e.g. `[cf7db-table form="your-form" debug="true"]`
 
@@ -210,6 +275,32 @@ would get a dump like the following, where
             )
     )
 
+= How to use [cf7db-json] shortcode to incorporate form data on posts and pages =
+<a name="cf7db-json"/>Use `[cf7db-table form="your-form"]` with optional `show` and `hide`:
+
+The `[cf7db-json]` works much the same as the `[cf7db-table]` tag (see above) but it outputs a `<script>` tag
+in the HTML in which it set a Javascript variable equal to a JSON representation of the data.
+
+* Use `var` to indicate the name of the javascript variable you would like.
+For example `[cf7db-json var="mystuff"]` would result in Javascript `var mystuff = [the json data];`
+* `show`, `hide`, `filter` options work just as they do for [cf7db-table]. Refer to the documentation on that tag.
+
+The JSON data will be in the form of an array of rows. Each row is a submission entry. Each row is a map of
+column-name -> value. For example, using `[cf7db-json var="mystuff"]` you might be able to reference the value
+in Javascript using: `mystuff[0].["Submitted"]` to refer to the first row, "Submitted" column.
+
+= How to use [cf7db-value] shortcode to incorporate form data on posts and pages =
+<a name="cf7db-value"/>Don't want a table or JSON, just want to put a value in the page? Use the `[cf7db-value]` shortcode
+
+Example: [cf7db-value form="your-form" show="field1" filter="Submitted Login=$user_login"]
+would display the field1 form value for the currently viewing user (who would have needed to be logged in when he
+submitted...see documentation on $user_login).
+
+The intention is to specify one column/field in `show` and specify a `filter` that would select on submission.
+(see how this works for `[cf7db-table]`)
+But if you specify more columns or have more submissions (rows) resulting in the filter, then this shortcode will print
+out a comma-delimited list of values. You can also use `hide`.
+
 = What is the name of the table where the data is stored? =
 
 `wp_CF7DBPlugin_SUBMITS`
@@ -231,21 +322,24 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 == Changelog ==
 
 = 1.4.6 =
-* Added option to set roles that can see data when using [cf7db-table] shortcode
-* Can now specify per-column CSS for [cf7db-table] shortcode table (see FAQ)
-* Fixed bug with [cf7db-table] shortcode where the table aways appeared at the top of a post instead of embedded with the rest of the post text.
+* Now works with Fast Secure Contact Form (FSCF)
+* New shortcode `[cf7db-value]`
+* New shortcode `[cf7db-json]`
+* Added option to set roles that can see data when using `[cf7db-table]` shortcode
+* Can now specify per-column CSS for `[cf7db-table]` shortcode table (see FAQ)
+* Fixed bug with `[cf7db-table]` shortcode where the table aways appeared at the top of a post instead of embedded with the rest of the post text.
 
 = 1.4.5 =
 * Added a PHP version check. This Plugin Requires PHP5 or later. Often default configurations are PHP4. Now a more informative error is given when the user tries to activate the plugin with PHP4.
 
 = 1.4.4 =
 * If user is logged in when submitting a form, 'Submitted Login' is captured 
-* [cf7db-table] shortcode options for filtering rows including using user variables (see FAQ)
-* [cf7db-table] shortcode options for CSS
+* `[cf7db-table]` shortcode options for filtering rows including using user variables (see FAQ)
+* `[cf7db-table]` shortcode options for CSS
 * Can exclude forms from being saved to DB by name
 
 = 1.4.2 =
-* Added "cf7db-table" shortcode to incorporate form data on regular posts and pages. Use [cf7db-table form="your-form"] with optional "show" and "hide: [cf7db-table form="your-form" show="field1,field2,field3"] (optionally show selected fields), [cf7db-table form="your-form" hide="field1,field2,field3"] (optionally hide selected fields)
+* Added `[cf7db-table]` shortcode to incorporate form data on regular posts and pages. Use `[cf7db-table form="your-form"]` with optional "show" and "hide: [cf7db-table form="your-form" show="field1,field2,field3"] (optionally show selected fields), [cf7db-table form="your-form" hide="field1,field2,field3"] (optionally hide selected fields)
 
 = 1.4 =
 * Added export to Google spreadsheet
@@ -280,3 +374,5 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 
 == Upgrade Notice ==
 
+= 1.4.6 =
+Now works with [Fast Secure Contact Form] (http://wordpress.org/extend/plugins/si-contact-form/). More and better shortcodes.

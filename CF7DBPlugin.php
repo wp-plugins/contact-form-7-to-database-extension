@@ -18,6 +18,7 @@
 require_once('CF7DBPluginLifeCycle.php');
 require_once('CF7DBTableData.php');
 require_once('ExportToHtml.php');
+require_once('ExportToJson.php');
 
 /**
  * Implementation for CF7DBPluginLifeCycle.
@@ -35,9 +36,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             'CanSeeSubmitData' => array(__('Can See Submission data', 'contact-form-7-to-database-extension'),
                                         'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
             'CanSeeSubmitDataViaShortcode' => array(__('Can See Submission when using [cf7db-table] shortcode', 'contact-form-7-to-database-extension'),
-                                         'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
+                                                    'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
             'CanChangeSubmitData' => array(__('Can Delete Submission data', 'contact-form-7-to-database-extension'),
-                                         'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
+                                           'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
             'ShowLineBreaksInDataTable' => array(__('Show line breaks in submitted data table', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'SubmitDateTimeFormat' => array('<a target="_blank" href="http://php.net/manual/en/function.date.php">' . __('Date-Time Display Format') . '</a>'),
             'ShowFileUrlsInExport' => array(__('Export URLs instead of file names for uploaded files', 'contact-form-7-to-database-extension'), 'false', 'true'),
@@ -123,11 +124,11 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         global $wpdb;
         $tableName = $this->getSubmitsTableName();
         $wpdb->query("DROP TABLE IF EXISTS $tableName");
-//        $tables = array('SUBMITS');
-//        foreach ($tables as $aTable) {
-//            $tableName = $this->prefixTableName($aTable);
-//            $wpdb->query("DROP TABLE IF EXISTS $tableName");
-//        }
+        //        $tables = array('SUBMITS');
+        //        foreach ($tables as $aTable) {
+        //            $tableName = $this->prefixTableName($aTable);
+        //            $wpdb->query("DROP TABLE IF EXISTS $tableName");
+        //        }
     }
 
     public function addActionsAndFilters() {
@@ -148,6 +149,12 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
         // Shortcode to add a table to a page
         add_shortcode('cf7db-table', array(&$this, 'showTableShortCode'));
+
+        // Shortcode to add a JSON to a page
+        add_shortcode('cf7db-json', array(&$this, 'showJsonShortCode'));
+
+        // Shortcode to add a value (just text) to a page
+        add_shortcode('cf7db-value', array(&$this, 'showValueShortCode'));
     }
 
     public function addSettingsSubMenuPage() {
@@ -221,17 +228,17 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                         $order++));
 
             // Store uploaded files - Do as a separate query in case it fails due to max size or other issue
-            if ( $cf7->uploaded_files) {
+            if ($cf7->uploaded_files) {
                 $filePath = $cf7->uploaded_files[$nameClean];
                 if ($filePath) {
-                   // $content=$wpdb->escape_by_ref(file_get_contents($filePath));
-                    $content=file_get_contents($filePath);
+                    // $content=$wpdb->escape_by_ref(file_get_contents($filePath));
+                    $content = file_get_contents($filePath);
                     $wpdb->query($wpdb->prepare($parametrizedFileQuery,
-                        $content,
-                        $time,
-                        $title,
-                        $nameClean,
-                        $valueClean));
+                                                $content,
+                                                $time,
+                                                $title,
+                                                $nameClean,
+                                                $valueClean));
                 }
             }
         }
@@ -364,6 +371,67 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         }
     }
 
+    public function &showJsonShortCode($atts) {
+        if ($atts['form']) {
+            if ($this->canUserDoRoleOption('CanSeeSubmitData') ||
+                    $this->canUserDoRoleOption('CanSeeSubmitDataViaShortcode')) {
+                if ($atts['debug']) {
+                    $options['debug'] = $atts['debug'];
+                }
+                if ($atts['show']) {
+                    $showColumns = preg_split('/,/', $atts['show'], -1, PREG_SPLIT_NO_EMPTY);
+                    $options['showColumns'] = $showColumns;
+                }
+                if ($atts['hide']) {
+                    $hideColumns = preg_split('/,/', $atts['hide'], -1, PREG_SPLIT_NO_EMPTY);
+                    $options['hideColumns'] = $hideColumns;
+                }
+                if ($atts['var']) {
+                    $options['var'] = $atts['var'];
+                }
+                if ($atts['filter']) {
+                    $options['filter'] = $atts['filter'];
+                }
+                $options['fromshortcode'] = true;
+                $export = new ExportToJson();
+                $html = $export->export($atts['form'], $options);
+                return $html;
+            }
+            else {
+                echo __('Insufficient privileges to display data from form: ', 'contact-form-7-to-database-extension') . $atts['form'];
+            }
+        }
+    }
+
+    public function &showValueShortCode($atts) {
+        if ($atts['form']) {
+            if ($this->canUserDoRoleOption('CanSeeSubmitData') ||
+                    $this->canUserDoRoleOption('CanSeeSubmitDataViaShortcode')) {
+                if ($atts['debug']) {
+                    $options['debug'] = $atts['debug'];
+                }
+                if ($atts['show']) {
+                    $showColumns = preg_split('/,/', $atts['show'], -1, PREG_SPLIT_NO_EMPTY);
+                    $options['showColumns'] = $showColumns;
+                }
+                if ($atts['hide']) {
+                    $hideColumns = preg_split('/,/', $atts['hide'], -1, PREG_SPLIT_NO_EMPTY);
+                    $options['hideColumns'] = $hideColumns;
+                }
+                if ($atts['filter']) {
+                    $options['filter'] = $atts['filter'];
+                }
+                $options['fromshortcode'] = true;
+                $export = new ExportToJson();
+                $html = $export->export($atts['form'], $options);
+                return $html;
+            }
+            else {
+                echo __('Insufficient privileges to display data from form: ', 'contact-form-7-to-database-extension') . $atts['form'];
+            }
+        }
+    }
+
     public function getDBPageSlug() {
         return get_class($this) . 'Submissions';
     }
@@ -376,13 +444,20 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             <tbody>
             <tr>
                 <td style="font-size:x-small;">
-                    <a target="_donate" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=NEVDJ792HKGFN&lc=US&item_name=Wordpress%20Plugin&item_number=cf7%2dto%2ddb%2dextension&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">
-                         <img src="https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif" alt="Donate">
+                    <a target="_donate"
+                       href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=NEVDJ792HKGFN&lc=US&item_name=Wordpress%20Plugin&item_number=cf7%2dto%2ddb%2dextension&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">
+                        <img src="https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif" alt="Donate">
                     </a>
                 </td>
-                <td style="font-size:x-small;"><a target="_cf7todb" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension">Plugin Home</a></td>
-                <td style="font-size:x-small;"><a target="_cf7todb" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/">FAQ</a></td>
-                <td style="font-size:x-small;"><a target="_cf7todb" href="http://wordpress.org/tags/contact-form-7-to-database-extension">Support</a></td>
+                <td style="font-size:x-small;"><a target="_cf7todb"
+                                                  href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension">Plugin
+                    Home</a></td>
+                <td style="font-size:x-small;"><a target="_cf7todb"
+                                                  href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/">FAQ</a>
+                </td>
+                <td style="font-size:x-small;"><a target="_cf7todb"
+                                                  href="http://wordpress.org/tags/contact-form-7-to-database-extension">Support</a>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -464,7 +539,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                             form.setAttribute("method", 'POST');
                             form.setAttribute("action", '<?php echo $pluginDirUrl ?>export.php?form=<?php echo urlencode($currSelection) ?>');
                             var params = {enc: 'GSS', guser: encodeURI(guser), gpwd: encodeURI(gpwd)};
-                            for(var pkey in params) {
+                            for (var pkey in params) {
                                 var hiddenField = document.createElement("input");
                                 hiddenField.setAttribute("type", "hidden");
                                 hiddenField.setAttribute("name", pkey);
@@ -491,13 +566,15 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                     </form>
                 </td>
                 <td align="right">
-                    <?php if ($canDelete) { ?>
+                <?php if ($canDelete) { ?>
                     <form action="" method="post">
                         <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
                         <input name="all" type="hidden" value="y"/>
-                        <input name="delete" type="submit" value="<?php _e('Delete All This Form\'s Records', 'contact-form-7-to-database-extension'); ?>" onclick="return confirm('Are you sure you want to delete all the data for this form?')"/>
+                        <input name="delete" type="submit"
+                               value="<?php _e('Delete All This Form\'s Records', 'contact-form-7-to-database-extension'); ?>"
+                               onclick="return confirm('Are you sure you want to delete all the data for this form?')"/>
                     </form>
-                    <?php } ?>
+                <?php } ?>
                 </td>
             </tr>
         </table>
@@ -512,7 +589,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         <form action="" method="post">
             <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
             <input name="delete" type="hidden" value="rows"/>
-        <?php }
+        <?php
+        }
         $exporter = new ExportToHtml();
         $exporter->export($currSelection, array('canDelete' => $canDelete));
         if ($canDelete) {
@@ -524,9 +602,22 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             <table style="width:100%;">
                 <tbody>
                 <tr>
-                    <td align="center" colspan="4"><span style="font-size:x-small; font-style: italic;">Did you know: this plugin captures data from both
-                        <a href="http://wordpress.org/extend/plugins/contact-form-7/">Contact Form 7</a> and
-                        <a href="http://wordpress.org/extend/plugins/si-contact-form/">Fast Secure Contact Form</a></span>
+                    <td align="center" colspan="4">
+                        <span style="font-size:x-small; font-style: italic;">
+                        Did you know: this plugin captures data from both
+                        <a target="_cf7" href="http://wordpress.org/extend/plugins/contact-form-7/">Contact Form 7</a> and
+                        <a target="_fscf" href="http://wordpress.org/extend/plugins/si-contact-form/">Fast Secure Contact Form</a>
+                    </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" colspan="4">
+                        <span style="font-size:x-small; font-style: italic;">
+                        Did you know: You can add this data to your posts and pages using shortcodes
+                            <a target="_faq" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/#cf7db-table">[cf7db-table]</a>
+                            <a target="_faq" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/#cf7db-value">[cf7db-value]</a>
+                            <a target="_faq" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/#cf7db-json">[cf7db-json]</a>
+                        </span>
                     </td>
                 </tr>
                 </tbody>
@@ -546,14 +637,17 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 <tr>
                     <td></td>
                     <td>
-                        <input type="button" value="<?php _e("Cancel", 'contact-form-7-to-database-extension') ?>" onclick="jQuery('#GoogleCredentialsDialog').dialog('close');"/>
-                        <input type="button" value="<?php _e("Upload", 'contact-form-7-to-database-extension') ?>" onclick="uploadGoogleSS()"/>
+                        <input type="button" value="<?php _e("Cancel", 'contact-form-7-to-database-extension') ?>"
+                               onclick="jQuery('#GoogleCredentialsDialog').dialog('close');"/>
+                        <input type="button" value="<?php _e("Upload", 'contact-form-7-to-database-extension') ?>"
+                               onclick="uploadGoogleSS()"/>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
         <?php
+
     }
 
     /**
@@ -616,7 +710,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * @return string URL to the Plugin directory. Includes ending "/"
      */
     public function &getPluginDirUrl() {
-        return WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),'',plugin_basename(__FILE__));
+        return WP_PLUGIN_URL . '/' . str_replace(basename(__FILE__), '', plugin_basename(__FILE__));
     }
 
     public function &formatDate($time) {
@@ -638,10 +732,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     }
 
     public function &getSubmitsTableName() {
-//        $overrideTable = $this->getOption('SubmitTableNameOverride');
-//        if ($overrideTable && "" != $overrideTable) {
-//            return $overrideTable;
-//        }
+        //        $overrideTable = $this->getOption('SubmitTableNameOverride');
+        //        if ($overrideTable && "" != $overrideTable) {
+        //            return $overrideTable;
+        //        }
         return $this->prefixTableName('SUBMITS');
     }
 }

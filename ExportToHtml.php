@@ -16,6 +16,7 @@
 */
 
 require_once('CF7FilterParser.php');
+require_once('DereferenceShortcodeVars.php');
 
 class ExportToHtml {
 
@@ -64,7 +65,7 @@ class ExportToHtml {
         $htmlTableId = null;
         $htmlTableClass = 'cf7-db-table';
         $filterParser = new CF7FilterParser;
-        $filterParser->setComparisonValuePreprocessor(new DereferenceUserInfoVar);
+        $filterParser->setComparisonValuePreprocessor(new DereferenceShortcodeVars);
 
         if ($options && is_array($options)) {
             if (isset($options['debug']) && $options['debug'] != 'false') {
@@ -195,7 +196,7 @@ class ExportToHtml {
 
             }
             if ($showSubmitField) {
-                echo('<th title="Submitted"><div>Submitted</div></th>');
+                echo '<th title="Submitted"><div>Submitted</div></th>';
             }
             foreach ($columns as $aCol) {
                 printf('<th><div title="%s">%s</div></th>', $aCol, $aCol);
@@ -242,81 +243,16 @@ class ExportToHtml {
         </table>
         <?php
 
-        // Need to return the HTML when using a shortcode, otherwise text on the page
-        // can appear out of order
         if (isset($options['fromshortcode'])) {
-            $html = ob_get_contents();
+            // If called from a shortcode, need to return the text,
+            // otherwise it can appear out of order on the page
+            $output = ob_get_contents();
             ob_end_clean();
-            return $html;
+            return $output;
+        }
+        else {
+            echo $output;
         }
     }
 }
 
-class DereferenceUserInfoVar implements CF7DBValueConverter {
-
-    public function convert($varString) {
-
-        $current_user = wp_get_current_user(); // WP_User
-
-//        echo '<pre>';
-//        print_r($current_user);
-//        echo '</pre>';
-
-//        echo('ID ' . $current_user->ID . '<br/>');
-//        echo('id ' . $current_user->id . '<br/>');
-//        echo('user_email ' . $current_user->user_email . '<br/>');
-//        echo('first_name ' . $current_user->first_name . '<br/>');
-//        echo('last_name ' . $current_user->last_name . '<br/>');
-//        echo('user_login ' . $current_user->user_login . '<br/>');
-//        echo('user_nicename ' . $current_user->user_nicename . '<br/>');
-//        echo('user_firstname ' . $current_user->user_firstname . '<br/>');
-//        echo('user_lastname ' . $current_user->user_lastname . '<br/>');
-
-        switch ($varString) {
-
-            case '$ID' :
-                $retValue = $current_user->ID;
-                break;
-
-            case '$id':
-                $retValue = $current_user->id;
-                break;
-
-            case '$first_name':
-                $retValue = $current_user->first_name;
-                break;
-
-            case '$last_name':
-                $retValue = $current_user->last_name;
-                break;
-
-            case '$user_login':
-                $retValue = $current_user->user_login;
-                break;
-
-            case '$user_nicename':
-                $retValue = $current_user->user_nicename;
-                break;
-
-            case '$user_email':
-                $retValue = $current_user->user_email;
-                break;
-
-            case '$user_firstname':
-                $retValue = $current_user->user_firstname;
-                break;
-
-            case '$user_lastname':
-                $retValue = $current_user->user_lastname;
-                break;
-
-            default:
-                $retValue = $varString;
-                break;
-        }
-
-        //echo "input: '$varString' output: '$retValue' <br/>"; // debug
-        return $retValue;
-    }
-
-}
