@@ -286,8 +286,9 @@ For example `[cfdb-json var="mystuff"]` would result in Javascript `var mystuff 
 * `show`, `hide`, `filter` options work just as they do for [cfdb-table]. Refer to the documentation on that tag.
 
 The JSON data will be in the form of an array of rows. Each row is a submission entry. Each row is a map of
-column-name -> value. For example, using `[cfdb-json var="mystuff"]` you might be able to reference the value
-in Javascript using: `mystuff[0].["Submitted"]` to refer to the first row, "Submitted" column.
+column-name -> value. Each "cell" is referenced by `jsonVar[row-integer][col-name-string]`.
+For example, using `[cfdb-json var="mystuff"]` you would be able to reference an example value
+in Javascript using: `mystuff[0]["Submitted"]` to refer to the first row, "Submitted" column.
 
 = How to use [cfdb-value] shortcode to incorporate form data on posts and pages =
 <a name="cfdb-value"/>Don't want a table or JSON, just want to put a value in the page? Use the `[cfdb-value]` shortcode
