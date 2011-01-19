@@ -393,6 +393,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 if ($atts['filter']) {
                     $options['filter'] = $atts['filter'];
                 }
+                $options['html'] = true;
                 $options['fromshortcode'] = true;
                 $export = new ExportToJson();
                 $html = $export->export($atts['form'], $options);
