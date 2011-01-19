@@ -18,17 +18,20 @@
 class CF7DBTableData {
 
     /**
+     * All the table data pivotted from its from how it is represented in the database (where it is one row per entry)
      * @var array (submitTime, array(column => value)
      */
     var $pivot;
 
     /**
+     * Column name metadata
      * @var array (columnName1, columnName2, ...)
      */
     var $columns;
 
     /**
-     * @var array (filePath1, filePath2, ...)
+     * @var array (columnName1 => filePath1, columnName2 => filePath2, ...)
+     * only including columns that have a file associated
      */
     var $files;
 
