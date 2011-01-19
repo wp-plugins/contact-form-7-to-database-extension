@@ -35,7 +35,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             //'_version' => array('Installed Version'), // For testing upgrades
             'CanSeeSubmitData' => array(__('Can See Submission data', 'contact-form-7-to-database-extension'),
                                         'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
-            'CanSeeSubmitDataViaShortcode' => array(__('Can See Submission when using [cf7db-table] shortcode', 'contact-form-7-to-database-extension'),
+            'CanSeeSubmitDataViaShortcode' => array(__('Can See Submission when using shortcodes', 'contact-form-7-to-database-extension'),
                                                     'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
             'CanChangeSubmitData' => array(__('Can Delete Submission data', 'contact-form-7-to-database-extension'),
                                            'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
@@ -148,13 +148,14 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         add_action('fsctf_menu_links', array(&$this, 'fscfMenuLinks'));
 
         // Shortcode to add a table to a page
-        add_shortcode('cf7db-table', array(&$this, 'showTableShortCode'));
+        add_shortcode('cf7db-table', array(&$this, 'showTableShortCode')); // deprecated
+        add_shortcode('cfdb-table', array(&$this, 'showTableShortCode'));
 
         // Shortcode to add a JSON to a page
-        add_shortcode('cf7db-json', array(&$this, 'showJsonShortCode'));
+        add_shortcode('cfdb-json', array(&$this, 'showJsonShortCode'));
 
         // Shortcode to add a value (just text) to a page
-        add_shortcode('cf7db-value', array(&$this, 'showValueShortCode'));
+        add_shortcode('cfdb-value', array(&$this, 'showValueShortCode'));
     }
 
     public function addSettingsSubMenuPage() {
@@ -317,21 +318,21 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     /**
      * Shortcode callback for writing the table of form data. Can be put in a page or post to show that data.
      * Shortcode options:
-     * [cf7db-table form="your-form"]                             (shows the whole table with default options)
+     * [cfdb-table form="your-form"]                             (shows the whole table with default options)
      * Controlling the Display: Apply your CSS to the table; set the table's 'class' or 'id' attribute:
-     * [cf7db-table form="your-form" class="css_class"]           (outputs <table class="css_class"> (default: class="cf7-db-table")
-     * [cf7db-table form="your-form" id="css_id"]                 (outputs <table id="css_id"> (no default id)
-     * [cf7db-table form="your-form" id="css_id" class="css_class"] (outputs <table id="css_id" class="css_class">
+     * [cfdb-table form="your-form" class="css_class"]           (outputs <table class="css_class"> (default: class="cf7-db-table")
+     * [cfdb-table form="your-form" id="css_id"]                 (outputs <table id="css_id"> (no default id)
+     * [cfdb-table form="your-form" id="css_id" class="css_class"] (outputs <table id="css_id" class="css_class">
      * Filtering Columns:
-     * [cf7db-table form="your-form" show="field1,field2,field3"] (optionally show selected fields)
-     * [cf7db-table form="your-form" hide="field1,field2,field3"] (optionally hide selected fields)
-     * [cf7db-table form="your-form" show="f1,f2,f3" hide="f1"]   (hide trumps show)
+     * [cfdb-table form="your-form" show="field1,field2,field3"] (optionally show selected fields)
+     * [cfdb-table form="your-form" hide="field1,field2,field3"] (optionally hide selected fields)
+     * [cfdb-table form="your-form" show="f1,f2,f3" hide="f1"]   (hide trumps show)
      * Filtering Rows:
-     * [cf7db-table form="your-form" filter="field1=value1"]      (show only rows where field1=value1)
-     * [cf7db-table form="your-form" filter="field1!=value1"]      (show only rows where field1!=value1)
-     * [cf7db-table form="your-form" filter="field1=value1&&field2!=value2"] (Logical AND the filters using '&&')
-     * [cf7db-table form="your-form" filter="field1=value1||field2!=value2"] (Logical OR the filters using '||')
-     * [cf7db-table form="your-form" filter="field1=value1&&field2!=value2||field3=value3&&field4=value4"] (Mixed &&, ||)
+     * [cfdb-table form="your-form" filter="field1=value1"]      (show only rows where field1=value1)
+     * [cfdb-table form="your-form" filter="field1!=value1"]      (show only rows where field1!=value1)
+     * [cfdb-table form="your-form" filter="field1=value1&&field2!=value2"] (Logical AND the filters using '&&')
+     * [cfdb-table form="your-form" filter="field1=value1||field2!=value2"] (Logical OR the filters using '||')
+     * [cfdb-table form="your-form" filter="field1=value1&&field2!=value2||field3=value3&&field4=value4"] (Mixed &&, ||)
      * @param  $atts array short code attributes
      * @return HTML output of shortcode
      */
@@ -623,9 +624,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                     <td align="center" colspan="4">
                         <span style="font-size:x-small; font-style: italic;">
                         Did you know: You can add this data to your posts and pages using shortcodes
-                            <a target="_faq" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/#cf7db-table">[cf7db-table]</a>
-                            <a target="_faq" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/#cf7db-value">[cf7db-value]</a>
-                            <a target="_faq" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/#cf7db-json">[cf7db-json]</a>
+                            <a target="_faq" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/#cfdb-table">[cfdb-table]</a>
+                            <a target="_faq" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/#cfdb-value">[cfdb-value]</a>
+                            <a target="_faq" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/#cfdb-json">[cfdb-json]</a>
                         </span>
                     </td>
                 </tr>

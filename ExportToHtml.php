@@ -48,11 +48,11 @@ class ExportToHtml {
      *              'field1=value1&&field2!=value2'  (use && for logical AND)
      *              'field1=value1||field2!=value2'  (use || for logical OR)
      *
-     *      * [cf7db-table form="your-form" filter="field1=value1"]      (show only rows where field1=value1)
-     * [cf7db-table form="your-form" filter="field1!=value1"]      (show only rows where field1!=value1)
-     * [cf7db-table form="your-form" filter="field1=value1&&field2!=value2"] (Logical AND the filters using '&&')
-     * [cf7db-table form="your-form" filter="field1=value1||field2!=value2"] (Logical OR the filters using '||')
-     * [cf7db-table form="your-form" filter="field1=value1&&field2!=value2||field3=value3&&field4=value4"] (Mixed &&, ||)
+     *      * [cfdb-table form="your-form" filter="field1=value1"]      (show only rows where field1=value1)
+     * [cfdb-table form="your-form" filter="field1!=value1"]      (show only rows where field1!=value1)
+     * [cfdb-table form="your-form" filter="field1=value1&&field2!=value2"] (Logical AND the filters using '&&')
+     * [cfdb-table form="your-form" filter="field1=value1||field2!=value2"] (Logical OR the filters using '||')
+     * [cfdb-table form="your-form" filter="field1=value1&&field2!=value2||field3=value3&&field4=value4"] (Mixed &&, ||)
 
      * @return void
      */
