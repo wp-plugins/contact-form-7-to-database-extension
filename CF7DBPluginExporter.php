@@ -21,8 +21,9 @@ require_once('ExportToIqy.php');
 require_once('ExportToGoogleSS.php');
 require_once('ExportToGoogleLiveData.php');
 
-class  CF7DBPluginExporter {
-    static function export($formName, $encoding, $guser=null, $gpwd=null) {
+class CF7DBPluginExporter {
+
+    static function export($formName, $encoding, $guser = null, $gpwd = null) {
 
         switch ($encoding) {
             case 'HTML':

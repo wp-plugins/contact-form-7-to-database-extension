@@ -290,6 +290,22 @@ column-name -> value. Each "cell" is referenced by `jsonVar[row-integer][col-nam
 For example, using `[cfdb-json var="mystuff"]` you would be able to reference an example value
 in Javascript using: `mystuff[0]["Submitted"]` to refer to the first row, "Submitted" column.
 
+= How to make an AJAX call to get JSON =
+<a name="ajax-json"/>The quick way to see what URL you need to make an AJAX, go to the Database admin page and export
+to type JSON. Then look at the URL in the browser. It will be of the following form (in this example our form name
+is "Form Name" so we have to use "Form+Name" in the URL:
+
+`http://mywordpress.com/wp-content/plugins/contact-form-7-to-database-extension/export.php?form=Form+Name&enc=JSON`
+
+Issues: you will run into problems if you not logged in when making this AJAX call because WordPress will redirect you
+to the login form page. To get past that, you need to use the URL for the login page with a `redirect_to` parameter
+that gives the URL that you would have wanted above. The problem is that you have to URL-encode the parameters in
+that URL. In other words,
+
+Example: (You will have to substitute `EncodedFormName` below for the URLEncoded name of your form)
+
+`http://mywordpress.com/wp-login.php?redirect_to=/wp-content/plugins/contact-form-7-to-database-extension/export.php%3Fform%3DEncodedFormName`
+
 = How to use [cfdb-value] shortcode to incorporate form data on posts and pages =
 <a name="cfdb-value"/>Don't want a table or JSON, just want to put a value in the page? Use the `[cfdb-value]` shortcode
 
