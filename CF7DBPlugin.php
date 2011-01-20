@@ -207,7 +207,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
         global $wpdb;
         $time = $_SERVER['REQUEST_TIME'] ? $_SERVER['REQUEST_TIME'] : time();
-        $ip = ($_SERVER['X_FORWARDED_FOR']) ? $_SERVER['X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
+        $ip = (isset($_SERVER['X_FORWARDED_FOR'])) ? $_SERVER['X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
         $tableName = $this->getSubmitsTableName();
         $parametrizedQuery = "INSERT INTO `$tableName` (`submit_time`, `form_name`, `field_name`, `field_value`, `field_order`) VALUES (%s, %s, %s, %s, %s)";
         $parametrizedFileQuery = "UPDATE `$tableName` SET `file` =  '%s' WHERE `submit_time` = '%s' AND `form_name` = '%s' AND `field_name` = '%s' AND `field_value` = '%s'";
@@ -744,7 +744,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         return preg_split('/,|;/', $this->getOption('NoSaveForms'), -1, PREG_SPLIT_NO_EMPTY);
     }
 
-    public function &getSubmitsTableName() {
+    public function getSubmitsTableName() {
         //        $overrideTable = $this->getOption('SubmitTableNameOverride');
         //        if ($overrideTable && "" != $overrideTable) {
         //            return $overrideTable;
