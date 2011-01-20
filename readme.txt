@@ -36,7 +36,7 @@ Notes:
 
 =  Plugin Fails when activated with fatal error =
 
-<a name="php4error"/>This indicates that you have your WordPress site configured to run using PHP4 whereas this plugin requires PHP5.
+<a name="php4error"></a>This indicates that you have your WordPress site configured to run using PHP4 whereas this plugin requires PHP5.
 When using Apache as the web server, you can edit the __.htaccess__ file at the root of your WordPress installation and add these two lines:
 
     AddType x-mapp-php5 .php
@@ -48,11 +48,11 @@ In the admin page, under CF7's top level "Contact" admin menu. Look for "Contact
 
 = What is the Excel Internet Query Export Option? =
 
-<a name="iqy"/>This option exports a file that you can open in MS Excel. Unlike other exports, it is does not contain the data (initially), but creates an internet connection to the plugin page to extract the data.
+<a name="iqy"></a>This option exports a file that you can open in MS Excel. Unlike other exports, it is does not contain the data (initially), but creates an internet connection to the plugin page to extract the data.
 The data can be refreshed from directly within Excel so there is no need to do an export every time there is new data.
 
 = What are the differences among Excel CSV (UTF8-BOM), Excel TSV (UTF16LE-BOM) and Plain CSV (UTF8) Export files? =
-<a name="csv"/>
+<a name="csv"></a>
 
 * For any non-Excel spreadsheet application, use 'Plain CSV (UTF8)'.
 * For Excel, first try 'Excel CSV (UTF8-BOM)' and if that does not work property, try 'Excel TSV (UTF16LE-BOM)'.
@@ -64,11 +64,11 @@ The data can be refreshed from directly within Excel so there is no need to do a
 
 = Can I display form data on a non-admin web page or in a post? =
 
-<a name="shortcodes"/>Yes, see below about shortcodes `[cfdb-table]`, `[cfdb-json]` and `[cfdb-value]`
+<a name="shortcodes"></a>Yes, see below about shortcodes `[cfdb-table]`, `[cfdb-json]` and `[cfdb-value]`
 
 = How to use [cfdb-table] shortcode to incorporate form data on posts and pages =
 
-<a name="cfdb-table"/>Use `[cfdb-table form="your-form"]` with optional `show` and `hide`:
+<a name="cfdb-table"></a>Use `[cfdb-table form="your-form"]` with optional `show` and `hide`:
 
 * `[cfdb-table form="your-form" show="field1,field2,field3"]` (optionally show selected fields),
 * `[cfdb-table form="your-form" hide="field1,field2,field3"]` (optionally hide selected fields)
@@ -77,7 +77,7 @@ The data can be refreshed from directly within Excel so there is no need to do a
 * `[cfdb-table form="your-form"]`                             (shows the whole table with CSS provided by the plugin)
 
 ## Shortcode: Controlling the Display ##
-<a name="shortcode-display"/>Apply your CSS to the table; set the table's 'class' or 'id' attribute:
+<a name="shortcode-display"></a>Apply your CSS to the table; set the table's 'class' or 'id' attribute:
 
 * `[cfdb-table form="your-form" class="css_class"]`           (outputs `<table class="css_class">` (default: class="cf7-db-table")
 * `[cfdb-table form="your-form" id="css_id"]`                 (outputs `<table id="css_id">` (no default id)
@@ -112,14 +112,14 @@ Example CSS selectors:
     Use this to specifically format the text in the table cells
 
 ## Shortcode: Filtering In and Out Columns: ##
-<a name="shortcode-filter-columns"/>
+<a name="shortcode-filter-columns"></a>
 
 * `[cfdb-table form="your-form" show="field1,field2,field3"]` (optionally show selected fields)
 * `[cfdb-table form="your-form" hide="field1,field2,field3"]` (optionally hide selected fields)
 * `[cfdb-table form="your-form" show="f1,f2,f3" hide="f1"]`   (hide trumps show, f1 will be hidden)
 
 ## Shortcode: Filtering In Rows: ##
-<a name="shortcode-filter-rows"/>
+<a name="shortcode-filter-rows"></a>
 
 * `[cfdb-table form="your-form" filter="field1=value1"]`      (show only rows where field1=value1)
 * `[cfdb-table form="your-form" filter="field1=null"]`        (SPECIAL CASE: 'null' is interpreted as null-value (field does has no value)
@@ -130,7 +130,7 @@ Example CSS selectors:
 * `[cfdb-table form="your-form" filter="field1~~/^a/"]`       (Regular expression; shows rows where field1 starts with 'a')
 
 ## Shortcode: Supported Filter Operators ##
-<a name="shortcode-filter-ops"/>
+<a name="shortcode-filter-ops"></a>
 
 * `=` and `==` are the same
 * `!=`, `<>` are the same
@@ -139,7 +139,7 @@ Example CSS selectors:
 * `~~` for regular expressions
 
 ## Shortcode: Filter by Regular Expressions ##
-<a name="shortcode-filter-regex"/>
+<a name="shortcode-filter-regex"></a>
 
 * Use the `~~` operator, and Perl-style delimiters around the pattern, such as `/`
 * `[cfdb-table form="your-form" filter="field1~~/^a/"]`     (shows rows where field1 starts with 'a')
@@ -147,12 +147,12 @@ Example CSS selectors:
 * FYI: uses [preg_match](http://php.net/manual/en/function.preg-match.php "preg_match") to evaluate the regex
 
 ## Shortcode: Filter Limitations ##
-<a name="shortcode-filter-limitations"/>
+<a name="shortcode-filter-limitations"></a>
 
 * Does not support parentheses to control the order of boolean evaluation
 
 ## Shortcode: Filter Variable Substitution: Identifying logged-in user ##
-<a name="shortcode-user-vars"/>
+<a name="shortcode-user-vars"></a>
 
 If the user is logged in when viewing the page with the shortcode, you can try to match a filter value against
 some user information. If the user was logged in when he submitted the form, then 'Submitted Login' will be captured (since version 1.4.4)
@@ -177,7 +177,7 @@ All of the following variables are supported
 * `$id` or `$ID`
 
 ## Shortcode: Filter Variable Substitution: Using HTTP GET, POST and COOKIE variables ##
-<a name="shortcode-filter-params"/>
+<a name="shortcode-filter-params"></a>
 
 When viewing a page or post, you can add HTTP GET parameters on the URL, for example the URL to view post #85
 might be:
@@ -202,7 +202,7 @@ shortcode is located, where the form uses method=GET
 where the form uses method=POST
 * `$COOKIE(http_cookie_name)` to reference Cookies.
 
-<a name="warning-on-name"/>WARNING: Known issue: Avoid using `name` as a GET parameter. This example will not work:
+<a name="warning-on-name"></a>WARNING: Known issue: Avoid using `name` as a GET parameter. This example will not work:
 
 * `http://mywordpress.com/?page_id=128&name=admin` __WILL NOT WORK!!__
 
@@ -230,7 +230,7 @@ and this would result in nested quotes.
 * The leading underscore is dropped for brevity and to be consistent with other variable substitutions (like `$user_login`)
 
 ## Shortcode: Debugging Filter Expressions ##
-<a name="shortcode-filter-debug"/>
+<a name="shortcode-filter-debug"></a>
 
 If you have a complicated filter expression that may not be working right, you can get a printout of the parse tree.
 To do this, you add debug="true", e.g. `[cfdb-table form="your-form" debug="true"]`
@@ -273,7 +273,7 @@ would get a dump like the following, where
     )
 
 = How to use [cfdb-json] shortcode to incorporate form data on posts and pages =
-<a name="cfdb-json"/>Use `[cfdb-table form="your-form"]` with optional `show`, `hide` and `filter` just like `[cfdb-table]`.
+<a name="cfdb-json"></a>Use `[cfdb-table form="your-form"]` with optional `show`, `hide` and `filter` just like `[cfdb-table]`.
 
 The `[cfdb-json]` works much the same as the `[cfdb-table]` tag (see above) but it outputs a `<script>` tag
 in the HTML in which it set a Javascript variable equal to a JSON representation of the data.
@@ -288,7 +288,7 @@ For example, using `[cfdb-json var="mystuff"]` you would be able to reference an
 in Javascript using: `mystuff[0]["Submitted"]` to refer to the first row, "Submitted" column.
 
 = How to make an AJAX call to get JSON =
-<a name="ajax-json"/>The quick way to see what URL you need to make an AJAX, go to the Database admin page and export
+<a name="ajax-json"></a>The quick way to see what URL you need to make an AJAX, go to the Database admin page and export
 to type JSON. Then look at the URL in the browser. It will be of the following form (in this example our form name
 is "Form Name" so we have to use "Form+Name" in the URL:
 
@@ -306,7 +306,7 @@ Example: (You will have to substitute `EncodedFormName` below for the URLEncoded
 NOTE: currently there is no `show`, `hide` or `filter` option for this kind of AJAX call.  
 
 = How to use [cfdb-value] shortcode to incorporate form data on posts and pages =
-<a name="cfdb-value"/>Don't want a table or JSON, just want to put a value in the page? Use the `[cfdb-value]` shortcode
+<a name="cfdb-value"></a>Don't want a table or JSON, just want to put a value in the page? Use the `[cfdb-value]` shortcode
 
 Example: [cfdb-value form="your-form" show="field1" filter="Submitted Login=$user_login"]
 would display the field1 form value for the currently viewing user (who would have needed to be logged in when he
