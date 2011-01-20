@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-"
 "extension\n"
-"POT-Creation-Date: 2011-01-10 16:39:02+00:00\n"
+"POT-Creation-Date: 2011-01-20 16:11:00+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,65 +13,90 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: CF7DBPlugin.php:35
+#: CF7DBPlugin.php:37
 msgid "Can See Submission data"
 msgstr ""
 
-#: CF7DBPlugin.php:36
-msgid "Can Delete Submission data"
-msgstr ""
-
-#: CF7DBPlugin.php:37
-msgid "Show line breaks in submitted data table"
-msgstr ""
-
-#: CF7DBPlugin.php:38
-msgid "Date-Time Display Format"
-msgstr ""
-
 #: CF7DBPlugin.php:39
-msgid "Export URLs instead of file names for uploaded files"
-msgstr ""
-
-#: CF7DBPlugin.php:40
-msgid "Do not save <u>fields</u> in DB named (comma-separated list, no spaces)"
+msgid "Can See Submission when using shortcodes"
 msgstr ""
 
 #: CF7DBPlugin.php:41
+msgid "Can Delete Submission data"
+msgstr ""
+
+#: CF7DBPlugin.php:43
+msgid "Show line breaks in submitted data table"
+msgstr ""
+
+#: CF7DBPlugin.php:44
+msgid "Date-Time Display Format"
+msgstr ""
+
+#: CF7DBPlugin.php:45
+msgid "Export URLs instead of file names for uploaded files"
+msgstr ""
+
+#: CF7DBPlugin.php:46
+msgid "Do not save <u>fields</u> in DB named (comma-separated list, no spaces)"
+msgstr ""
+
+#: CF7DBPlugin.php:47
 msgid "Do not save <u>forms</u> in DB named (comma-separated list, no spaces)"
 msgstr ""
 
-#: CF7DBPlugin.php:324
+#: CF7DBPlugin.php:185
+msgid "Database"
+msgstr ""
+
+#: CF7DBPlugin.php:187
+msgid "Database Options"
+msgstr ""
+
+#: CF7DBPlugin.php:189 CF7DBPlugin.php:464
+msgid "FAQ"
+msgstr ""
+
+#: CF7DBPlugin.php:371 CF7DBPlugin.php:404 CF7DBPlugin.php:433
 msgid "Insufficient privileges to display data from form: "
 msgstr ""
 
-#: CF7DBPlugin.php:357
+#: CF7DBPlugin.php:458
+msgid "Rate this Plugin"
+msgstr ""
+
+#: CF7DBPlugin.php:470
+msgid "Support"
+msgstr ""
+
+#: CF7DBPlugin.php:484
 msgid "No form submissions in the database"
 msgstr ""
 
-#: CF7DBPlugin.php:408
+#: CF7DBPlugin.php:535
 msgid "'Google Login for Upload'"
 msgstr ""
 
-#: CF7DBPlugin.php:449
+#: CF7DBPlugin.php:577
 msgid "Export"
 msgstr ""
 
-#: CF7DBPlugin.php:458
+#: CF7DBPlugin.php:587
 msgid "Delete All This Form's Records"
 msgstr ""
 
-#: CF7DBPlugin.php:497
+#: CF7DBPlugin.php:653
 msgid "Cancel"
 msgstr ""
 
-#: CF7DBPlugin.php:498
+#: CF7DBPlugin.php:655
 msgid "Upload"
 msgstr ""
 
 #: ExportToCsvUtf8.php:38 getFile.php:28 ExportToCsvUtf16le.php:28
 #: CF7DBOptionsManager.php:268 ExportToGoogleLiveData.php:25
-#: ExportToGoogleSS.php:30 ExportToHtml.php:100
+#: ExportToJson.php:61 ExportToValue.php:52 ExportToGoogleSS.php:30
+#: ExportToHtml.php:105
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
@@ -139,6 +164,6 @@ msgstr ""
 msgid "Add these two lines to the file:"
 msgstr ""
 
-#: ExportToHtml.php:181
+#: ExportToHtml.php:192
 msgid "Delete Selected"
 msgstr ""
