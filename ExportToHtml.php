@@ -98,7 +98,7 @@ class ExportToHtml {
 
         // Security Check
         $plugin = new CF7DBPlugin();
-        $securityCheck = $options['fromshortcode'] ?
+        $securityCheck = isset($options['fromshortcode']) ?
                 $plugin->canUserDoRoleOption('CanSeeSubmitDataViaShortcode') :
                 $plugin->canUserDoRoleOption('CanSeeSubmitData');
         if (!$securityCheck) {
