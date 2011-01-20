@@ -19,6 +19,7 @@ require_once('CF7DBPluginLifeCycle.php');
 require_once('CF7DBTableData.php');
 require_once('ExportToHtml.php');
 require_once('ExportToJson.php');
+require_once('ExportToValue.php');
 
 /**
  * Implementation for CF7DBPluginLifeCycle.
@@ -424,7 +425,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                     $options['filter'] = $atts['filter'];
                 }
                 $options['fromshortcode'] = true;
-                $export = new ExportToJson();
+                $export = new ExportToValue();
                 $html = $export->export($atts['form'], $options);
                 return $html;
             }

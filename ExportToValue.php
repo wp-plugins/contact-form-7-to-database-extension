@@ -103,10 +103,13 @@ class ExportToValue {
             }
 
             foreach ($columns as $aCol) {
-                $cell = isset($data[$aCol]) ? $data[$aCol] : "";
-                $outputData[$aCol] = $cell;
+                if (isset($data[$aCol])) {
+                    $outputData[] = $data[$aCol];
+                }
             }
         }
+
+        //print_r($outputData); // debug
 
         if (isset($options['fromshortcode'])) {
             ob_start();
@@ -130,9 +133,6 @@ class ExportToValue {
             $output = ob_get_contents();
             ob_end_clean();
             return $output;
-        }
-        else {
-            echo $output;
         }
     }
 
