@@ -149,8 +149,5 @@ class ExportToJson {
             ob_end_clean();
             return $output;
         }
-        else {
-            echo $output;
-        }
     }
 }
