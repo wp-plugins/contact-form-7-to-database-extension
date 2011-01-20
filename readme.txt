@@ -26,6 +26,7 @@ Disclaimer: I am not the maker of Contact Form 7 nor Fast Secure Contact Form an
 
 1. Your WordPress site must be running PHP5 or better. This plugin will fail to activate if your site is running PHP4.
 1. Be sure that Contact Form 7 and/or Fast Secure Contact Form is installed and activated (this is an extension to them)
+1. Fast Secure Contact Form should be at least version 2.9.7
 
 Notes:
 
@@ -303,7 +304,7 @@ Example: (You will have to substitute `EncodedFormName` below for the URLEncoded
 
 `http://mywordpress.com/wp-login.php?redirect_to=/wp-content/plugins/contact-form-7-to-database-extension/export.php%3Fform%3DEncodedFormName`
 
-NOTE: currently there is no `show`, `hide` or `filter` option for this kind of AJAX call.  
+NOTE: currently there is no `show`, `hide` or `filter` option for this kind of AJAX call.
 
 = How to use [cfdb-value] shortcode to incorporate form data on posts and pages =
 <a id="cfdb-value"></a>Don't want a table or JSON, just want to put a value in the page? Use the `[cfdb-value]` shortcode
@@ -350,7 +351,7 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 * Added a PHP version check. This Plugin Requires PHP5 or later. Often default configurations are PHP4. Now a more informative error is given when the user tries to activate the plugin with PHP4.
 
 = 1.4.4 =
-* If user is logged in when submitting a form, 'Submitted Login' is captured 
+* If user is logged in when submitting a form, 'Submitted Login' is captured
 * `[cfdb-table]` shortcode options for filtering rows including using user variables (see FAQ)
 * `[cfdb-table]` shortcode options for CSS
 * Can exclude forms from being saved to DB by name
@@ -367,7 +368,7 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 
 = 1.3 =
 * Added export to Excel Internet Query
-* "Submitted" now shows time with timezone instead of just the date. 
+* "Submitted" now shows time with timezone instead of just the date.
 * The height of cells in the data display are limited to avoid really tall rows. Overflow cells will get a scroll bar.
 * Protection against HTML-injection
 * Option to show line breaks in multi-line form submissions
