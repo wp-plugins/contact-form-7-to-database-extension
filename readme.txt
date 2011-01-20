@@ -390,4 +390,4 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 == Upgrade Notice ==
 
 = 1.4.6 =
-Now works with [Fast Secure Contact Form] (http://wordpress.org/extend/plugins/si-contact-form/). Plus more and better shortcodes.
+Now works with <a href="http://wordpress.org/extend/plugins/si-contact-form/">Fast Secure Contact Form</a>. Plus more and better shortcodes.
