@@ -273,7 +273,7 @@ would get a dump like the following, where
     )
 
 = How to use [cfdb-json] shortcode to incorporate form data on posts and pages =
-<a name="cfdb-json"/>Use `[cfdb-table form="your-form"]` with optional `show` and `hide`:
+<a name="cfdb-json"/>Use `[cfdb-table form="your-form"]` with optional `show`, `hide` and `filter` just like `[cfdb-table]`.
 
 The `[cfdb-json]` works much the same as the `[cfdb-table]` tag (see above) but it outputs a `<script>` tag
 in the HTML in which it set a Javascript variable equal to a JSON representation of the data.
@@ -302,6 +302,8 @@ that URL. In other words,
 Example: (You will have to substitute `EncodedFormName` below for the URLEncoded name of your form)
 
 `http://mywordpress.com/wp-login.php?redirect_to=/wp-content/plugins/contact-form-7-to-database-extension/export.php%3Fform%3DEncodedFormName`
+
+NOTE: currently there is no `show`, `hide` or `filter` option for this kind of AJAX call.  
 
 = How to use [cfdb-value] shortcode to incorporate form data on posts and pages =
 <a name="cfdb-value"/>Don't want a table or JSON, just want to put a value in the page? Use the `[cfdb-value]` shortcode
