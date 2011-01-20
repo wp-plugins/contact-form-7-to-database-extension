@@ -26,6 +26,7 @@ Disclaimer: I am not the maker of Contact Form 7 nor Fast Secure Contact Form an
 
 1. Your WordPress site must be running PHP5 or better. This plugin will fail to activate if your site is running PHP4.
 1. Be sure that Contact Form 7 and/or Fast Secure Contact Form is installed and activated (this is an extension to them)
+1. Fast Secure Contact Form should be at least version 2.9.7 
 
 Notes:
 
