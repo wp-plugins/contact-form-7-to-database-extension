@@ -50,14 +50,14 @@ class CF7DBOptionsManager {
      *       'CanDoOperationX' => array('Can do Operation X', 'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
      *       'Rating:', 'Excellent', 'Good', 'Fair', 'Poor')
      */
-    public function &getOptionMetaData() {
+    public function getOptionMetaData() {
         return array();
     }
 
     /**
      * @return array of string name of options
      */
-    public function &getOptionNames() {
+    public function getOptionNames() {
         return array_keys($this->getOptionMetaData());
     }
 

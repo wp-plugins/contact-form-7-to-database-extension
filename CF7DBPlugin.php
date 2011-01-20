@@ -27,11 +27,11 @@ require_once('ExportToValue.php');
 
 class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
-    public function &getPluginDisplayName() {
+    public function getPluginDisplayName() {
         return 'Contact Form to DB Extension';
     }
 
-    public function &getOptionMetaData() {
+    public function getOptionMetaData() {
         return array(
             //'_version' => array('Installed Version'), // For testing upgrades
             'CanSeeSubmitData' => array(__('Can See Submission data', 'contact-form-7-to-database-extension'),
@@ -274,7 +274,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * @param  $fieldName field name (should be an upload file field)
      * @return array of (file-name, file-contents) or null if not found
      */
-    public function &getFileFromDB($time, $formName, $fieldName) {
+    public function getFileFromDB($time, $formName, $fieldName) {
         global $wpdb;
         $tableName = $this->getSubmitsTableName();
         $parametrizedQuery = "SELECT `field_value`, `file` FROM `$tableName` WHERE `submit_time` = '%s' AND `form_name` = %s AND `field_name` = '%s'";
@@ -286,7 +286,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         return array($rows[0]->field_value, $rows[0]->file);
     }
 
-    public function &stripSlashes($text) {
+    public function stripSlashes($text) {
         return get_magic_quotes_gpc() ? stripslashes($text) : $text;
     }
 
@@ -337,7 +337,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * @param  $atts array short code attributes
      * @return HTML output of shortcode
      */
-    public function &showTableShortCode($atts) {
+    public function showTableShortCode($atts) {
         if ($atts['form']) {
             if ($this->canUserDoRoleOption('CanSeeSubmitData') ||
                     $this->canUserDoRoleOption('CanSeeSubmitDataViaShortcode')) {
@@ -373,7 +373,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         }
     }
 
-    public function &showJsonShortCode($atts) {
+    public function showJsonShortCode($atts) {
         if ($atts['form']) {
             if ($this->canUserDoRoleOption('CanSeeSubmitData') ||
                     $this->canUserDoRoleOption('CanSeeSubmitDataViaShortcode')) {
@@ -406,7 +406,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         }
     }
 
-    public function &showValueShortCode($atts) {
+    public function showValueShortCode($atts) {
         if ($atts['form']) {
             if ($this->canUserDoRoleOption('CanSeeSubmitData') ||
                     $this->canUserDoRoleOption('CanSeeSubmitDataViaShortcode')) {
@@ -722,25 +722,25 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     /**
      * @return string URL to the Plugin directory. Includes ending "/"
      */
-    public function &getPluginDirUrl() {
+    public function getPluginDirUrl() {
         return WP_PLUGIN_URL . '/' . str_replace(basename(__FILE__), '', plugin_basename(__FILE__));
     }
 
-    public function &formatDate($time) {
+    public function formatDate($time) {
         $dateFormat = $this->getOption('SubmitDateTimeFormat');
         return date($dateFormat, $time);
     }
 
-    public function &getFileUrl($submitTime, $formName, $fileName) {
+    public function getFileUrl($submitTime, $formName, $fileName) {
         $url = $this->getPluginDirUrl() . 'getFile.php?s=%s&form=%s&field=%s';
         return sprintf($url, $submitTime, urlencode($formName), urlencode($fileName));
     }
 
-    public function &getNoSaveFields() {
+    public function getNoSaveFields() {
         return preg_split('/,|;/', $this->getOption('NoSaveFields'), -1, PREG_SPLIT_NO_EMPTY);
     }
 
-    public function &getNoSaveForms() {
+    public function getNoSaveForms() {
         return preg_split('/,|;/', $this->getOption('NoSaveForms'), -1, PREG_SPLIT_NO_EMPTY);
     }
 

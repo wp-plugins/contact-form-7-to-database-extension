@@ -88,7 +88,7 @@ class ExportToCsvUtf16le {
         return $text;
     }
 
-    protected function &encode($text) {
+    protected function encode($text) {
         return mb_convert_encoding($text, 'UTF-16LE', 'UTF-8');
     }
 

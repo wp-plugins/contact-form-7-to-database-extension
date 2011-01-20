@@ -77,7 +77,7 @@ class CJ7DBCheckZendFramework {
      * Taken from: http://www.php.net/manual/en/function.phpinfo.php#87214
      * @return array key => array(values) from phpinfo call
      */
-    private static function &getPhpInfo() {
+    private static function getPhpInfo() {
         ob_start();
         phpinfo(INFO_GENERAL);
         $phpinfo = array('phpinfo' => array());
