@@ -26,9 +26,6 @@ Disclaimer: I am not the maker of Contact Form 7 nor Fast Secure Contact Form an
 
 1. Your WordPress site must be running PHP5 or better. This plugin will fail to activate if your site is running PHP4.
 1. Be sure that Contact Form 7 and/or Fast Secure Contact Form is installed and activated (this is an extension to them)
-1. Import contact-form-7-db.zip via the 'Plugins' menu in WordPress
-1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Adds an Admin menu item for seeing the stored data under "Contact" -> "Database"
 
 Notes:
 
@@ -393,4 +390,4 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 == Upgrade Notice ==
 
 = 1.4.6 =
-Now works with [Fast Secure Contact Form] (http://wordpress.org/extend/plugins/si-contact-form/). More and better shortcodes.
+Now works with [Fast Secure Contact Form] (http://wordpress.org/extend/plugins/si-contact-form/). Plus more and better shortcodes.
