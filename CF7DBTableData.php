@@ -18,8 +18,8 @@
 class CF7DBTableData {
 
     /**
-     * All the table data pivotted from its from how it is represented in the database (where it is one row per entry)
-     * @var array (submitTime, array(column => value)
+     * All the table data pivotted from how it is represented in the database (where it is one row per entry)
+     * @var array (submitTime => array(column => value))
      */
     var $pivot;
 
