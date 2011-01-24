@@ -340,6 +340,10 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 
 == Changelog ==
 
+= 1.5.1 =
+* Better localized date-time format for Submitted field based on WP site configuration with option to override in
+"Database Options" -> "Use custom Date-Time Display Format"
+
 = 1.5 =
 * Now works with Fast Secure Contact Form (FSCF)
 * New shortcode `[cfdb-value]`

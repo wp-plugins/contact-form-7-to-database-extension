@@ -41,7 +41,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             'CanChangeSubmitData' => array(__('Can Delete Submission data', 'contact-form-7-to-database-extension'),
                                            'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
             'ShowLineBreaksInDataTable' => array(__('Show line breaks in submitted data table', 'contact-form-7-to-database-extension'), 'true', 'false'),
-            'SubmitDateTimeFormat' => array('<a target="_blank" href="http://php.net/manual/en/function.date.php">' . __('Date-Time Display Format') . '</a>'),
+            'UseCustomDateTimeFormat' => array(__('Use custom Date-Time Display Format (below)', 'contact-form-7-to-database-extension'), 'false', 'true'),
+            'SubmitDateTimeFormat' => array('<a target="_blank" href="http://php.net/manual/en/function.date.php">' . __('Date-Time Display Format', 'contact-form-7-to-database-extension') . '</a>'),
             'ShowFileUrlsInExport' => array(__('Export URLs instead of file names for uploaded files', 'contact-form-7-to-database-extension'), 'false', 'true'),
             'NoSaveFields' => array(__('Do not save <u>fields</u> in DB named (comma-separated list, no spaces)', 'contact-form-7-to-database-extension')),
             'NoSaveForms' => array(__('Do not save <u>forms</u> in DB named (comma-separated list, no spaces)', 'contact-form-7-to-database-extension'))
@@ -727,8 +728,11 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     }
 
     public function formatDate($time) {
-        $dateFormat = $this->getOption('SubmitDateTimeFormat');
-        return date($dateFormat, $time);
+        if ($this->getOption('UseCustomDateTimeFormat') == 'true') {
+            $dateFormat = $this->getOption('SubmitDateTimeFormat');
+            return date($dateFormat, $time);
+        }
+        return date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $time);
     }
 
     public function getFileUrl($submitTime, $formName, $fileName) {
