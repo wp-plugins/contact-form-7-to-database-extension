@@ -122,11 +122,17 @@ class CF7DBOptionsManager {
      * A wrapper function delegating to WP get_option() but it prefixes the input $optionName
      * to enforce "scoping" the options in the WP options table thereby avoiding name conflicts
      * @param $optionName string defined in settings.php and set as keys of $this->optionMetaData
-     * @return string the value from delegated call to get_option()
+     * @param $default string default value to return if the option is not set
+     * @return string the value from delegated call to get_option(), or optional default value
+     * if option is not set.
      */
-    public function getOption($optionName) {
+    public function getOption($optionName, $default = null) {
         $prefixedOptionName = $this->prefix($optionName); // how it is stored in DB
-        return get_option($prefixedOptionName);
+        $retVal = get_option($prefixedOptionName);
+        if (!$retVal && $default) {
+            $retVal = $default;
+        }
+        return $retVal;
     }
 
     /**
