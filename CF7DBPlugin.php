@@ -270,9 +270,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     }
 
     /**
-     * @param  $time form submit time
-     * @param  $formName form name
-     * @param  $fieldName field name (should be an upload file field)
+     * @param  $time string form submit time
+     * @param  $formName string form name
+     * @param  $fieldName string field name (should be an upload file field)
      * @return array of (file-name, file-contents) or null if not found
      */
     public function getFileFromDB($time, $formName, $fieldName) {
@@ -287,10 +287,19 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         return array($rows[0]->field_value, $rows[0]->file);
     }
 
+    /**
+     * Utility function wrapping call to PHP stripslashes()
+     * @param  $text string
+     * @return string
+     */
     public function stripSlashes($text) {
         return get_magic_quotes_gpc() ? stripslashes($text) : $text;
     }
 
+    /**
+     * Install page for this plugin in WP Admin
+     * @return void
+     */
     public function createAdminMenu() {
         $displayName = $this->getPluginDisplayName();
         $roleAllowed = $this->getRoleOption('CanSeeSubmitData');
@@ -335,7 +344,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * [cfdb-table form="your-form" filter="field1=value1&&field2!=value2"] (Logical AND the filters using '&&')
      * [cfdb-table form="your-form" filter="field1=value1||field2!=value2"] (Logical OR the filters using '||')
      * [cfdb-table form="your-form" filter="field1=value1&&field2!=value2||field3=value3&&field4=value4"] (Mixed &&, ||)
-     * @param  $atts array short code attributes
+     * @param  $atts array of short code attributes
      * @return HTML output of shortcode
      */
     public function showTableShortCode($atts) {
@@ -374,6 +383,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         }
     }
 
+    /**
+     * @param  $atts array of short code attributes
+     * @return string JSON. See ExportToJson.php
+     */
     public function showJsonShortCode($atts) {
         if ($atts['form']) {
             if ($this->canUserDoRoleOption('CanSeeSubmitData') ||
@@ -407,6 +420,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         }
     }
 
+    /**
+     * @param  $atts array of short code attributes
+     * @return string value submitted to a form field as selected by $atts. See ExportToValue.php 
+     */
     public function showValueShortCode($atts) {
         if ($atts['form']) {
             if ($this->canUserDoRoleOption('CanSeeSubmitData') ||
@@ -436,10 +453,17 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         }
     }
 
+    /**
+     * @return string WP Admin slug for page to view DB data
+     */
     public function getDBPageSlug() {
         return get_class($this) . 'Submissions';
     }
 
+    /**
+     * Display the Admin page for this Plugin that show the form data saved in the database
+     * @return void
+     */
     public function whatsInTheDBPage() {
         $canDelete = $this->canUserDoRoleOption('CanChangeSubmitData');
 
@@ -665,7 +689,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     }
 
     /**
-     * @param  $formName
+     * @param  $formName string
      * @return CF7DBTableData
      */
     public function &getRowsPivot($formName) {
@@ -727,6 +751,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         return WP_PLUGIN_URL . '/' . str_replace(basename(__FILE__), '', plugin_basename(__FILE__));
     }
 
+    /**
+     * @param  $time int same as returned from PHP time()
+     * @return string formatted date according to saved options
+     */
     public function formatDate($time) {
         if ($this->getOption('UseCustomDateTimeFormat', 'true') == 'true') {
             $dateFormat = $this->getOption('SubmitDateTimeFormat');
@@ -735,19 +763,34 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         return date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $time);
     }
 
+    /**
+     * @param  $submitTime string PK for form submission
+     * @param  $formName string
+     * @param  $fileName string
+     * @return string URL to download file
+     */
     public function getFileUrl($submitTime, $formName, $fileName) {
         $url = $this->getPluginDirUrl() . 'getFile.php?s=%s&form=%s&field=%s';
         return sprintf($url, $submitTime, urlencode($formName), urlencode($fileName));
     }
 
+    /**
+     * @return array of string
+     */
     public function getNoSaveFields() {
         return preg_split('/,|;/', $this->getOption('NoSaveFields'), -1, PREG_SPLIT_NO_EMPTY);
     }
 
+    /**
+     * @return array of string
+     */
     public function getNoSaveForms() {
         return preg_split('/,|;/', $this->getOption('NoSaveForms'), -1, PREG_SPLIT_NO_EMPTY);
     }
 
+    /**
+     * @return string
+     */
     public function getSubmitsTableName() {
         //        $overrideTable = $this->getOption('SubmitTableNameOverride');
         //        if ($overrideTable && "" != $overrideTable) {
