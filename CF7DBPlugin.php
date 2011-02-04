@@ -677,11 +677,12 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             $options['style'] = "#$tableHtmlId td > div { max-height: 100px; overflow: auto; }"; // don't let cells get too tall
         }
         $exporter->export($currSelection, $options);
-        if ($canDelete) {
-            ?>
-        <?php } ?>
+        ?>
         </div>
-        </form>
+        <?php if ($canDelete) {
+            ?>
+            </form>
+        <?php } ?>
         <div style="margin-top:1em"> <?php // Footer ?>
             <table style="width:100%;">
                 <tbody>
