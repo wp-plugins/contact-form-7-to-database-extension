@@ -40,6 +40,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                                     'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
             'CanChangeSubmitData' => array(__('Can Delete Submission data', 'contact-form-7-to-database-extension'),
                                            'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
+            'UseDataTablesJS' => array(__('Use Javascript-enabled tables in Admin Database page', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'ShowLineBreaksInDataTable' => array(__('Show line breaks in submitted data table', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'UseCustomDateTimeFormat' => array(__('Use Custom Date-Time Display Format (below)', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'SubmitDateTimeFormat' => array('<a target="_blank" href="http://php.net/manual/en/function.date.php">' . __('Date-Time Display Format', 'contact-form-7-to-database-extension') . '</a>'),
@@ -336,8 +337,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         wp_enqueue_script('CF7DBdes', $this->getPluginDirUrl() . 'des.js');
 
         // Datatables http://www.datatables.net
-        wp_enqueue_style('datatables-demo', 'http://www.datatables.net/release-datatables/media/css/demo_table.css');
-        wp_enqueue_script('datatables', 'http://www.datatables.net/release-datatables/media/js/jquery.dataTables.js');
+        if ($this->getOption('UseDataTablesJS', 'true') == 'true') {
+            wp_enqueue_style('datatables-demo', 'http://www.datatables.net/release-datatables/media/css/demo_table.css');
+            wp_enqueue_script('datatables', 'http://www.datatables.net/release-datatables/media/js/jquery.dataTables.js');
+        }
 
         // Put page under CF7's "Contact" page
         add_submenu_page('wpcf7',
@@ -565,9 +568,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         $pluginDirUrl = $this->getPluginDirUrl();
 
         ?>
-        <table width="100%" cellspacing="20">
+        <table width="100%" cellspacing="20" style="margin-bottom:20px">
             <tr>
-                <td>
+                <td align="left">
                     <form method="post" action="" name="<?php echo $htmlFormName ?>" id="<?php echo $htmlFormName ?>">
                         <select name="form_name" id="form_name" onchange="this.form.submit();">
                         <?php foreach ($rows as $aRow) {
@@ -579,7 +582,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                         </select>
                     </form>
                 </td>
-                <td>
+                <td align="center">
                     <script type="text/javascript" language="Javascript">
                         function exportData(encSelect) {
                             jQuery("#GoogleCredentialsDialog").dialog({ autoOpen: false, title: <?php _e("'Google Login for Upload'", 'contact-form-7-to-database-extension')?> });
@@ -645,29 +648,35 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
         <?php
         // Show table of form data
-        $tableHtmlId = 'cf2dbtable';
+        $useDataTables = $this->getOption('UseDataTablesJS', 'true') == 'true';
+
+        if ($useDataTables) {
+            $tableHtmlId = 'cf2dbtable';
         ?>
         <script type="text/javascript" language="Javascript">
             jQuery(document).ready(function() {
                 jQuery('#<?php echo $tableHtmlId ?>').dataTable();
             } );
         </script>
-        <?php if ($canDelete) { ?>
+        <?php
+        }
+        if ($canDelete) { ?>
         <form action="" method="post">
             <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
             <input name="delete" type="hidden" value="rows"/>
         <?php
         }
         ?>
-        <div> <?php //        <div style="overflow:auto; max-height:500px;">    Now letting datatables handle ?>
+        <div style="<?php if (!$useDataTables) echo 'overflow:auto; max-height:500px;' ?>">
         <?php
         $exporter = new ExportToHtml();
-        $exporter->export($currSelection,
-                          array('canDelete' => $canDelete,
-                                'id' => $tableHtmlId,
-                                'class' => '',
-                                // don't let cells get too tall
-                                'style' => "#$tableHtmlId td > div { max-height: 100px; overflow: auto; }"));
+        $options = array('canDelete' => $canDelete);
+        if ($useDataTables) {
+            $options['id'] = $tableHtmlId;
+            $options['class'] = '';
+            $options['style'] = "#$tableHtmlId td > div { max-height: 100px; overflow: auto; }"; // don't let cells get too tall
+        }
+        $exporter->export($currSelection, $options);
         if ($canDelete) {
             ?>
         <?php } ?>
