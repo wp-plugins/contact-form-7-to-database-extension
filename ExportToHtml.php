@@ -64,6 +64,7 @@ class ExportToHtml {
         $hideColumns = null;
         $htmlTableId = null;
         $htmlTableClass = 'cf7-db-table';
+        $style = null;
         $filterParser = new CF7FilterParser;
         $filterParser->setComparisonValuePreprocessor(new DereferenceShortcodeVars);
 
@@ -85,6 +86,9 @@ class ExportToHtml {
             }
             if (isset($options['id'])) {
                 $htmlTableId = $options['id'];
+            }
+            if (isset($options['style'])) {
+                $style = $options['style'];
             }
             if (isset($options['filter'])) {
                 $filterParser->parseFilterString($options['filter']);
@@ -181,6 +185,14 @@ class ExportToHtml {
             </style>
             <?php
 
+        }
+
+        if ($style) {
+            ?>
+            <style type="text/css">
+                <?php echo $style ?>
+            </style>
+            <?php
         }
         ?>
 
