@@ -344,6 +344,7 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 * Option for display of localized date-time format for Submitted field based on WP site configuration in
 "Database Options" -> "Use Custom Date-Time Display Format"
 * Option to save Cookie data along with the form data. "Field names" of cookies will be "Cookie <cookie-name>"
+See "Database Options" -> "Save Cookie Data with Form Submissions" and "Save only cookies in DB named"
 
 = 1.5 =
 * Now works with Fast Secure Contact Form (FSCF)
