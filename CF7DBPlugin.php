@@ -335,6 +335,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         wp_enqueue_script('jquery-ui-dialog');
         wp_enqueue_script('CF7DBdes', $this->getPluginDirUrl() . 'des.js');
 
+        // Datatables http://www.datatables.net
+        wp_enqueue_style('datatables-demo', 'http://www.datatables.net/release-datatables/media/css/demo_table.css');
+        wp_enqueue_script('datatables', 'http://www.datatables.net/release-datatables/media/js/jquery.dataTables.js');
+
         // Put page under CF7's "Contact" page
         add_submenu_page('wpcf7',
                          $displayName . ' Submissions',
@@ -386,6 +390,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 }
                 if ($atts['class']) {
                     $options['class'] = $atts['class'];
+                }
+                if ($atts['style']) {
+                    $options['style'] = $atts['style'];
                 }
                 if ($atts['filter']) {
                     $options['filter'] = $atts['filter'];
@@ -637,10 +644,17 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
 
         <?php
-
         // Show table of form data
+        $tableHtmlId = 'cf2dbtable';
         ?>
-        <div style="overflow:auto; max-height:500px;">
+<?php //        <div style="overflow:auto; max-height:500px;">    Now letting datatables handle ?>
+        <div>
+            <script type="text/javascript" language="Javascript">
+                jQuery(document).ready(function() {
+                    jQuery('#<?php echo $tableHtmlId ?>').dataTable();
+                } );
+            </script>
+
         <?php if ($canDelete) { ?>
         <form action="" method="post">
             <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
@@ -648,7 +662,12 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         <?php
         }
         $exporter = new ExportToHtml();
-        $exporter->export($currSelection, array('canDelete' => $canDelete));
+        $exporter->export($currSelection,
+                          array('canDelete' => $canDelete,
+                                'id' => $tableHtmlId,
+                                'class' => '',
+                                // don't let cells get too tall
+                                'style' => "#$tableHtmlId td > div { max-height: 100px; overflow: auto; }"));
         if ($canDelete) {
             ?>
         </form>
