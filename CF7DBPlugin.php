@@ -647,20 +647,20 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         // Show table of form data
         $tableHtmlId = 'cf2dbtable';
         ?>
-<?php //        <div style="overflow:auto; max-height:500px;">    Now letting datatables handle ?>
-        <div>
-            <script type="text/javascript" language="Javascript">
-                jQuery(document).ready(function() {
-                    jQuery('#<?php echo $tableHtmlId ?>').dataTable();
-                } );
-            </script>
-
+        <script type="text/javascript" language="Javascript">
+            jQuery(document).ready(function() {
+                jQuery('#<?php echo $tableHtmlId ?>').dataTable();
+            } );
+        </script>
         <?php if ($canDelete) { ?>
         <form action="" method="post">
             <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
             <input name="delete" type="hidden" value="rows"/>
         <?php
         }
+        ?>
+        <div> <?php //        <div style="overflow:auto; max-height:500px;">    Now letting datatables handle ?>
+        <?php
         $exporter = new ExportToHtml();
         $exporter->export($currSelection,
                           array('canDelete' => $canDelete,
@@ -670,9 +670,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                 'style' => "#$tableHtmlId td > div { max-height: 100px; overflow: auto; }"));
         if ($canDelete) {
             ?>
-        </form>
         <?php } ?>
         </div>
+        </form>
         <div style="margin-top:1em"> <?php // Footer ?>
             <table style="width:100%;">
                 <tbody>
