@@ -568,7 +568,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         $pluginDirUrl = $this->getPluginDirUrl();
 
         ?>
-        <table width="100%" cellspacing="20" style="margin-bottom:20px">
+        <table width="100%" cellspacing="20">
             <tr>
                 <td align="left">
                     <form method="post" action="" name="<?php echo $htmlFormName ?>" id="<?php echo $htmlFormName ?>">
@@ -655,8 +655,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         ?>
         <script type="text/javascript" language="Javascript">
             jQuery(document).ready(function() {
-                jQuery('#<?php echo $tableHtmlId ?>').dataTable();
-            } );
+                jQuery('#<?php echo $tableHtmlId ?>').dataTable({
+                   "bJQueryUI": true
+                })});
         </script>
         <?php
         }
