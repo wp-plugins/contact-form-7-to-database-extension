@@ -301,7 +301,7 @@ class CF7DBOptionsManager {
                         $displayText = __($displayText, 'contact-form-7-to-database-extension');
                         ?>
                             <tr valign="top">
-                                <th scope="row"><p><?php echo $displayText ?></p></th>
+                                <th scope="row"><p><label for="<?php echo $aOptionKey ?>"><?php echo $displayText ?></label></p></th>
                                 <td>
                                 <?php $this->createFormControl($aOptionKey, $aOptionMeta, $this->getOption($aOptionKey)); ?>
                                 </td>
@@ -351,7 +351,7 @@ class CF7DBOptionsManager {
         else { // Simple input field
             ?>
             <p><input type="text" name="<?php echo $aOptionKey ?>" id="<?php echo $aOptionKey ?>"
-                      value="<?php echo esc_attr($savedOptionValue) ?>"/></p>
+                      value="<?php echo esc_attr($savedOptionValue) ?>" size="50"/></p>
             <?php
 
         }

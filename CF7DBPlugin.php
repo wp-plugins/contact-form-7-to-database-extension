@@ -45,7 +45,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             'SubmitDateTimeFormat' => array('<a target="_blank" href="http://php.net/manual/en/function.date.php">' . __('Date-Time Display Format', 'contact-form-7-to-database-extension') . '</a>'),
             'ShowFileUrlsInExport' => array(__('Export URLs instead of file names for uploaded files', 'contact-form-7-to-database-extension'), 'false', 'true'),
             'NoSaveFields' => array(__('Do not save <u>fields</u> in DB named (comma-separated list, no spaces)', 'contact-form-7-to-database-extension')),
-            'NoSaveForms' => array(__('Do not save <u>forms</u> in DB named (comma-separated list, no spaces)', 'contact-form-7-to-database-extension'))
+            'NoSaveForms' => array(__('Do not save <u>forms</u> in DB named (comma-separated list, no spaces)', 'contact-form-7-to-database-extension')),
+            'SaveCookieData' => array(__('Save Cookie Data with Form Submissions', 'contact-form-7-to-database-extension'), 'false', 'true'),
+            'SaveCookieNames' => array(__('Save only cookies in DB named (comma-separated list, no spaces, and above option must be set to true)', 'contact-form-7-to-database-extension')),
             //'SubmitTableNameOverride' => array(__('Use this table to store submission data rather than the default (leave blank for default)', 'contact-form-7-to-database-extension'))
         );
     }
@@ -243,6 +245,22 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                                 $nameClean,
                                                 $valueClean));
                 }
+            }
+        }
+
+        // Save Cookie data if that option is true
+        if ($this->getOption('SaveCookieData', 'false') == 'true' && is_array($_COOKIE)) {
+            $saveCookies = $this->getSaveCookies();
+            foreach ($_COOKIE as $cookieName => $cookieValue) {
+                if (!empty($saveCookies) && !in_array($cookieName, $saveCookies)) {
+                    continue;
+                }
+                $wpdb->query($wpdb->prepare($parametrizedQuery,
+                                            $time,
+                                            $title,
+                                            'Cookie ' . $cookieName,
+                                            $cookieValue,
+                                            $order++));
             }
         }
 
@@ -786,6 +804,13 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      */
     public function getNoSaveForms() {
         return preg_split('/,|;/', $this->getOption('NoSaveForms'), -1, PREG_SPLIT_NO_EMPTY);
+    }
+
+    /**
+     * @return array of string
+     */
+    public function getSaveCookies() {
+        return preg_split('/,|;/', $this->getOption('SaveCookieNames'), -1, PREG_SPLIT_NO_EMPTY);
     }
 
     /**
