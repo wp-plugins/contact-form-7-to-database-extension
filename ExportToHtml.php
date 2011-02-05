@@ -65,12 +65,17 @@ class ExportToHtml {
         $htmlTableId = null;
         $htmlTableClass = 'cf7-db-table';
         $style = null;
+        $useDT = false;
         $filterParser = new CF7FilterParser;
         $filterParser->setComparisonValuePreprocessor(new DereferenceShortcodeVars);
 
         if ($options && is_array($options)) {
             if (isset($options['debug']) && $options['debug'] != 'false') {
                 $debug = true;
+            }
+            if (isset($options['useDT'])) {
+                $useDT = $options['useDT'];
+                $htmlTableClass = '';
             }
             if (isset($options['canDelete'])) {
                 $canDelete = $options['canDelete'];
@@ -99,6 +104,9 @@ class ExportToHtml {
                 }
             }
         }
+        if ($useDT && !$htmlTableId) {
+            $htmlTableId = 'cftble_' . rand();
+        }
 
         // Security Check
         $plugin = new CF7DBPlugin();
@@ -113,10 +121,16 @@ class ExportToHtml {
             header('Cache-Control: no-store, no-cache, must-revalidate');
             header('Content-Type: text/html; charset=UTF-8');
 
-            // Hoping to keep the browser from timing out if connection from Google SS Live Data
-            // script is calling this page to get information
+            // Hoping to keep the browser from timing out
             header("Keep-Alive: timeout=60"); // Not a standard HTTP header; browsers may disregard
             flush();
+        }
+
+        if ($useDT) {
+            // todo: doesn't work
+            wp_enqueue_script('jquery');
+            wp_enqueue_style('datatables-demo', 'http://www.datatables.net/release-datatables/media/css/demo_table.css');
+            wp_enqueue_script('datatables', 'http://www.datatables.net/release-datatables/media/js/jquery.dataTables.js');
         }
 
         if (isset($options['fromshortcode'])) {
@@ -150,6 +164,35 @@ class ExportToHtml {
             if ($showColumns != null && is_array($showColumns)) {
                 $showSubmitField = in_array('Submitted', $showColumns);
             }
+        }
+
+        if ($useDT) {
+            $dtJsOptions = array();
+            if ($options && is_array($options)) {
+                // find and handle Datatable options: http://www.datatables.net/usage/features
+                foreach ($options as $dtName => $dtValue) {
+                    if (substr($dtName, 0, 2)  == 'dt_') {
+                        if ($dtValue != 'true' && $dtValue != 'false' && !is_numeric($dtValue)) {
+                            $dtValue = '"' . $dtValue . '"';
+                        }
+                        $dtName = '"' .$dtName . '"';
+                        $dtJsOptions[] =  "$dtName: $dtValue";
+                    }
+                }
+            }
+            if (empty($dtJsOptions)) {
+                $dtJsOptions[] = '"bJQueryUI": true';
+            }
+            $dtJsOptions = implode(', ', $dtJsOptions);
+            ?>
+            <script type="text/javascript" language="Javascript">
+                jQuery(document).ready(function() {
+                    jQuery('#<?php echo $htmlTableId ?>').dataTable({
+                        <?php echo $dtJsOptions ?>
+                    })
+                });
+            </script>
+            <?php
         }
 
         if ($htmlTableClass == 'cf7-db-table') {

@@ -155,6 +155,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         // Shortcode to add a table to a page
         add_shortcode('cf7db-table', array(&$this, 'showTableShortCode')); // deprecated
         add_shortcode('cfdb-table', array(&$this, 'showTableShortCode'));
+        add_shortcode('cfdb-datatable', array(&$this, 'showTableDtShortCode'));
 
         // Shortcode to add a JSON to a page
         add_shortcode('cfdb-json', array(&$this, 'showJsonShortCode'));
@@ -376,39 +377,29 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         if ($atts['form']) {
             if ($this->canUserDoRoleOption('CanSeeSubmitData') ||
                     $this->canUserDoRoleOption('CanSeeSubmitDataViaShortcode')) {
-                $options = array('canDelete' => false);
-                if ($atts['debug']) {
-                    $options['debug'] = $atts['debug'];
-                }
+                $atts['canDelete'] = false;
                 if ($atts['show']) {
                     $showColumns = preg_split('/,/', $atts['show'], -1, PREG_SPLIT_NO_EMPTY);
-                    $options['showColumns'] = $showColumns;
+                    $atts['showColumns'] = $showColumns;
                 }
                 if ($atts['hide']) {
                     $hideColumns = preg_split('/,/', $atts['hide'], -1, PREG_SPLIT_NO_EMPTY);
-                    $options['hideColumns'] = $hideColumns;
+                    $atts['hideColumns'] = $hideColumns;
                 }
-                if ($atts['id']) {
-                    $options['id'] = $atts['id'];
-                }
-                if ($atts['class']) {
-                    $options['class'] = $atts['class'];
-                }
-                if ($atts['style']) {
-                    $options['style'] = $atts['style'];
-                }
-                if ($atts['filter']) {
-                    $options['filter'] = $atts['filter'];
-                }
-                $options['fromshortcode'] = true;
+                $atts['fromshortcode'] = true;
                 $export = new ExportToHtml();
-                $html = $export->export($atts['form'], $options);
+                $html = $export->export($atts['form'], $atts);
                 return $html;
             }
             else {
                 echo __('Insufficient privileges to display data from form: ', 'contact-form-7-to-database-extension') . $atts['form'];
             }
         }
+    }
+
+    public function showTableDtShortCode($atts) {
+        $atts['useDT'] = true;
+        return $this->showTableShortCode($atts);
     }
 
     /**
@@ -419,27 +410,18 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         if ($atts['form']) {
             if ($this->canUserDoRoleOption('CanSeeSubmitData') ||
                     $this->canUserDoRoleOption('CanSeeSubmitDataViaShortcode')) {
-                if ($atts['debug']) {
-                    $options['debug'] = $atts['debug'];
-                }
                 if ($atts['show']) {
                     $showColumns = preg_split('/,/', $atts['show'], -1, PREG_SPLIT_NO_EMPTY);
-                    $options['showColumns'] = $showColumns;
+                    $atts['showColumns'] = $showColumns;
                 }
                 if ($atts['hide']) {
                     $hideColumns = preg_split('/,/', $atts['hide'], -1, PREG_SPLIT_NO_EMPTY);
-                    $options['hideColumns'] = $hideColumns;
+                    $atts['hideColumns'] = $hideColumns;
                 }
-                if ($atts['var']) {
-                    $options['var'] = $atts['var'];
-                }
-                if ($atts['filter']) {
-                    $options['filter'] = $atts['filter'];
-                }
-                $options['html'] = true;
-                $options['fromshortcode'] = true;
+                $atts['html'] = true;
+                $atts['fromshortcode'] = true;
                 $export = new ExportToJson();
-                $html = $export->export($atts['form'], $options);
+                $html = $export->export($atts['form'], $atts);
                 return $html;
             }
             else {
@@ -456,23 +438,17 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         if ($atts['form']) {
             if ($this->canUserDoRoleOption('CanSeeSubmitData') ||
                     $this->canUserDoRoleOption('CanSeeSubmitDataViaShortcode')) {
-                if ($atts['debug']) {
-                    $options['debug'] = $atts['debug'];
-                }
                 if ($atts['show']) {
                     $showColumns = preg_split('/,/', $atts['show'], -1, PREG_SPLIT_NO_EMPTY);
-                    $options['showColumns'] = $showColumns;
+                    $atts['showColumns'] = $showColumns;
                 }
                 if ($atts['hide']) {
                     $hideColumns = preg_split('/,/', $atts['hide'], -1, PREG_SPLIT_NO_EMPTY);
-                    $options['hideColumns'] = $hideColumns;
+                    $atts['hideColumns'] = $hideColumns;
                 }
-                if ($atts['filter']) {
-                    $options['filter'] = $atts['filter'];
-                }
-                $options['fromshortcode'] = true;
+                $atts['fromshortcode'] = true;
                 $export = new ExportToValue();
-                $html = $export->export($atts['form'], $options);
+                $html = $export->export($atts['form'], $atts);
                 return $html;
             }
             else {
@@ -796,6 +772,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * @return string URL to the Plugin directory. Includes ending "/"
      */
     public function getPluginDirUrl() {
+        // todo: maybe replace with call to plugins_url()
         return WP_PLUGIN_URL . '/' . str_replace(basename(__FILE__), '', plugin_basename(__FILE__));
     }
 
