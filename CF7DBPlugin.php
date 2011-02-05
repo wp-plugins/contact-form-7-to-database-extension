@@ -335,7 +335,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         wp_enqueue_script('jquery');
         wp_enqueue_style('jquery-ui.css', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/base/jquery-ui.css');
         wp_enqueue_script('jquery-ui-dialog');
-        wp_enqueue_script('CF7DBdes', $this->getPluginDirUrl() . 'des.js');
+        wp_enqueue_script('CF7DBdes', $this->getPluginFileUrl('des.js'));
 
         // Datatables http://www.datatables.net
         if ($this->getOption('UseDataTablesJS', 'true') == 'true') {
@@ -772,8 +772,21 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * @return string URL to the Plugin directory. Includes ending "/"
      */
     public function getPluginDirUrl() {
-        // todo: maybe replace with call to plugins_url()
-        return WP_PLUGIN_URL . '/' . str_replace(basename(__FILE__), '', plugin_basename(__FILE__));
+        //return WP_PLUGIN_URL . '/' . str_replace(basename(__FILE__), '', plugin_basename(__FILE__));
+        return $this->getPluginFileUrl('/');
+    }
+
+
+    /**
+     * @param string $pathRelativeToThisPluginRoot points to a file with relative path from
+     * this plugin's root dir. I.e. file "des.js" in the root of this plugin has
+     * url = $this->getPluginUrl('des.js'); 
+     * If it was in a subfolder "js" then you would use
+     *    $this->getPluginUrl('js/des.js');
+     * @return string full url to input file
+     */
+    public function getPluginFileUrl($pathRelativeToThisPluginRoot = '') {
+        return plugins_url($pathRelativeToThisPluginRoot, __FILE__);
     }
 
     /**
