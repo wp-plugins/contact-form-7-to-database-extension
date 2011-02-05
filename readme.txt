@@ -368,7 +368,7 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 
 == Changelog ==
 
-= 1.5.1 =
+= 1.6 =
 * Admin page for viewing data is not sortable and filterable
 * New shortcode: [cfdb-datatable] to putting sortable & filterable tables on posts and pages.
     This incorporates http://www.datatables.net
@@ -431,7 +431,7 @@ See "Database Options" -> "Save Cookie Data with Form Submissions" and "Save onl
 
 == Upgrade Notice ==
 
-= 1.5.1 =
+= 1.6 =
 New cool DataTable
 
 = 1.5 =
