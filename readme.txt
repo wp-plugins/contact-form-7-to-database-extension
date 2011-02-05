@@ -85,7 +85,7 @@ then you can pass them using the `dt_option` shortcode parameter.
 
     Example:
 
-    `[cfdb-datatable form="your-form" id="mytable" dt_options="bJQueryUI:true, sScrollX='100%', bScrollCollapse=true"]`
+    `[cfdb-datatable form="your-form" id="mytable" dt_options="bJQueryUI:true, sScrollX:'100%', bScrollCollapse:true"]`
 
     Outputs the following. So be sure you are providing valid JavaScript syntax.
 
