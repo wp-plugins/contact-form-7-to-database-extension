@@ -431,5 +431,8 @@ See "Database Options" -> "Save Cookie Data with Form Submissions" and "Save onl
 
 == Upgrade Notice ==
 
+= 1.5.1 =
+New cool DataTable
+
 = 1.5 =
 Now works with <a href="http://wordpress.org/extend/plugins/si-contact-form/">Fast Secure Contact Form</a>. Plus more and better shortcodes.
