@@ -18,7 +18,7 @@ This plugin-to-a-plugin provides that functionality.
 
 You will need to have CF7 and/or FSCF installed along with this plugin.
 This plugin also puts a menu item in the Administration Plugins menu where you can see the data in the database.
-You can also use the [cfdb-table], [cfdb-value] and [cfdb-json] shortcodes to display the data on a non-admin page on your site.
+You can also use the [cfdb-table], [cfdb-datatable], [cfdb-value] and [cfdb-json] shortcodes to display the data on a non-admin page on your site.
 
 Disclaimer: I am not the maker of Contact Form 7 nor Fast Secure Contact Form and am not associated with the development of those plugins.
 
