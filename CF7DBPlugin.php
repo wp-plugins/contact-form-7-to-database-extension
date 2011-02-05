@@ -17,6 +17,10 @@
 
 require_once('CF7DBPluginLifeCycle.php');
 require_once('CF7DBTableData.php');
+require_once('CFDBShortcodeTable.php');
+require_once('CFDBShortcodeDataTable.php');
+require_once('CFDBShortcodeValue.php');
+require_once('CFDBShortcodeJson.php');
 require_once('ExportToHtml.php');
 require_once('ExportToJson.php');
 require_once('ExportToValue.php');
@@ -153,15 +157,20 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         add_action('fsctf_menu_links', array(&$this, 'fscfMenuLinks'));
 
         // Shortcode to add a table to a page
-        add_shortcode('cf7db-table', array(&$this, 'showTableShortCode')); // deprecated
-        add_shortcode('cfdb-table', array(&$this, 'showTableShortCode'));
-        add_shortcode('cfdb-datatable', array(&$this, 'showTableDtShortCode'));
+        $sc = new CFDBShortcodeTable();
+        $sc->register(array('cf7db-table', 'cfdb-table')); // cf7db-table is deprecated
+
+        // Datatable table
+        $sc = new CFDBShortcodeDataTable();
+        $sc->register('cfdb-datatable');
 
         // Shortcode to add a JSON to a page
-        add_shortcode('cfdb-json', array(&$this, 'showJsonShortCode'));
+        $sc = new CFDBShortcodeJson();
+        $sc->register('cfdb-json');
 
         // Shortcode to add a value (just text) to a page
-        add_shortcode('cfdb-value', array(&$this, 'showValueShortCode'));
+        $sc = new CFDBShortcodeValue();
+        $sc->register('cfdb-value');
     }
 
     public function addSettingsSubMenuPage() {
@@ -350,111 +359,6 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                          $this->roleToCapability($roleAllowed),
                          $this->getDBPageSlug(),
                          array(&$this, 'whatsInTheDBPage'));
-    }
-
-    /**
-     * Shortcode callback for writing the table of form data. Can be put in a page or post to show that data.
-     * Shortcode options:
-     * [cfdb-table form="your-form"]                             (shows the whole table with default options)
-     * Controlling the Display: Apply your CSS to the table; set the table's 'class' or 'id' attribute:
-     * [cfdb-table form="your-form" class="css_class"]           (outputs <table class="css_class"> (default: class="cf7-db-table")
-     * [cfdb-table form="your-form" id="css_id"]                 (outputs <table id="css_id"> (no default id)
-     * [cfdb-table form="your-form" id="css_id" class="css_class"] (outputs <table id="css_id" class="css_class">
-     * Filtering Columns:
-     * [cfdb-table form="your-form" show="field1,field2,field3"] (optionally show selected fields)
-     * [cfdb-table form="your-form" hide="field1,field2,field3"] (optionally hide selected fields)
-     * [cfdb-table form="your-form" show="f1,f2,f3" hide="f1"]   (hide trumps show)
-     * Filtering Rows:
-     * [cfdb-table form="your-form" filter="field1=value1"]      (show only rows where field1=value1)
-     * [cfdb-table form="your-form" filter="field1!=value1"]      (show only rows where field1!=value1)
-     * [cfdb-table form="your-form" filter="field1=value1&&field2!=value2"] (Logical AND the filters using '&&')
-     * [cfdb-table form="your-form" filter="field1=value1||field2!=value2"] (Logical OR the filters using '||')
-     * [cfdb-table form="your-form" filter="field1=value1&&field2!=value2||field3=value3&&field4=value4"] (Mixed &&, ||)
-     * @param  $atts array of short code attributes
-     * @return HTML output of shortcode
-     */
-    public function showTableShortCode($atts) {
-        if ($atts['form']) {
-            if ($this->canUserDoRoleOption('CanSeeSubmitData') ||
-                    $this->canUserDoRoleOption('CanSeeSubmitDataViaShortcode')) {
-                $atts['canDelete'] = false;
-                if ($atts['show']) {
-                    $showColumns = preg_split('/,/', $atts['show'], -1, PREG_SPLIT_NO_EMPTY);
-                    $atts['showColumns'] = $showColumns;
-                }
-                if ($atts['hide']) {
-                    $hideColumns = preg_split('/,/', $atts['hide'], -1, PREG_SPLIT_NO_EMPTY);
-                    $atts['hideColumns'] = $hideColumns;
-                }
-                $atts['fromshortcode'] = true;
-                $export = new ExportToHtml();
-                $html = $export->export($atts['form'], $atts);
-                return $html;
-            }
-            else {
-                echo __('Insufficient privileges to display data from form: ', 'contact-form-7-to-database-extension') . $atts['form'];
-            }
-        }
-    }
-
-    public function showTableDtShortCode($atts) {
-        $atts['useDT'] = true;
-        return $this->showTableShortCode($atts);
-    }
-
-    /**
-     * @param  $atts array of short code attributes
-     * @return string JSON. See ExportToJson.php
-     */
-    public function showJsonShortCode($atts) {
-        if ($atts['form']) {
-            if ($this->canUserDoRoleOption('CanSeeSubmitData') ||
-                    $this->canUserDoRoleOption('CanSeeSubmitDataViaShortcode')) {
-                if ($atts['show']) {
-                    $showColumns = preg_split('/,/', $atts['show'], -1, PREG_SPLIT_NO_EMPTY);
-                    $atts['showColumns'] = $showColumns;
-                }
-                if ($atts['hide']) {
-                    $hideColumns = preg_split('/,/', $atts['hide'], -1, PREG_SPLIT_NO_EMPTY);
-                    $atts['hideColumns'] = $hideColumns;
-                }
-                $atts['html'] = true;
-                $atts['fromshortcode'] = true;
-                $export = new ExportToJson();
-                $html = $export->export($atts['form'], $atts);
-                return $html;
-            }
-            else {
-                echo __('Insufficient privileges to display data from form: ', 'contact-form-7-to-database-extension') . $atts['form'];
-            }
-        }
-    }
-
-    /**
-     * @param  $atts array of short code attributes
-     * @return string value submitted to a form field as selected by $atts. See ExportToValue.php 
-     */
-    public function showValueShortCode($atts) {
-        if ($atts['form']) {
-            if ($this->canUserDoRoleOption('CanSeeSubmitData') ||
-                    $this->canUserDoRoleOption('CanSeeSubmitDataViaShortcode')) {
-                if ($atts['show']) {
-                    $showColumns = preg_split('/,/', $atts['show'], -1, PREG_SPLIT_NO_EMPTY);
-                    $atts['showColumns'] = $showColumns;
-                }
-                if ($atts['hide']) {
-                    $hideColumns = preg_split('/,/', $atts['hide'], -1, PREG_SPLIT_NO_EMPTY);
-                    $atts['hideColumns'] = $hideColumns;
-                }
-                $atts['fromshortcode'] = true;
-                $export = new ExportToValue();
-                $html = $export->export($atts['form'], $atts);
-                return $html;
-            }
-            else {
-                echo __('Insufficient privileges to display data from form: ', 'contact-form-7-to-database-extension') . $atts['form'];
-            }
-        }
     }
 
     /**

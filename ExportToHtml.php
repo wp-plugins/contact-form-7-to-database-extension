@@ -126,13 +126,6 @@ class ExportToHtml {
             flush();
         }
 
-        if ($useDT) {
-            // todo: doesn't work
-            wp_enqueue_script('jquery');
-            wp_enqueue_style('datatables-demo', 'http://www.datatables.net/release-datatables/media/css/demo_table.css');
-            wp_enqueue_script('datatables', 'http://www.datatables.net/release-datatables/media/js/jquery.dataTables.js');
-        }
-
         if (isset($options['fromshortcode'])) {
             ob_start();
         }
