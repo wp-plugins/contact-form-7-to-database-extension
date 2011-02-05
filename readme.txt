@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=NEVDJ
 Tags: contact form,database
 Requires at least: 2.9
 Tested up to: 3.0.4
-Stable tag: 1.5
+Stable tag: 1.6
 
 Extension to the Contact Form 7 plugin that saves submitted form data to the database.
 
@@ -18,7 +18,7 @@ This plugin-to-a-plugin provides that functionality.
 
 You will need to have CF7 and/or FSCF installed along with this plugin.
 This plugin also puts a menu item in the Administration Plugins menu where you can see the data in the database.
-You can also use the [cfdb-table], [cfdb-value] and [cfdb-json] shortcodes to display the data on a non-admin page on your site.
+You can also use the [cfdb-table], [cfdb-datatable], [cfdb-value] and [cfdb-json] shortcodes to display the data on a non-admin page on your site.
 
 Disclaimer: I am not the maker of Contact Form 7 nor Fast Secure Contact Form and am not associated with the development of those plugins.
 
@@ -85,7 +85,7 @@ then you can pass them using the `dt_option` shortcode parameter.
 
     Example:
 
-    `[cfdb-datatable form="your-form" id="mytable" dt_options="bJQueryUI:true, sScrollX='100%', bScrollCollapse=true"]`
+    `[cfdb-datatable form="your-form" id="mytable" dt_options="bJQueryUI:true, sScrollX:'100%', bScrollCollapse:true"]`
 
     Outputs the following. So be sure you are providing valid JavaScript syntax.
 
