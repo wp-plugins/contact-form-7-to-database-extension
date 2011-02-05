@@ -164,12 +164,12 @@ class ExportToHtml {
             if ($options && is_array($options)) {
                 // find and handle Datatable options: http://www.datatables.net/usage/features
                 foreach ($options as $dtName => $dtValue) {
-                    if (substr($dtName, 0, 2)  == 'dt_') {
+                    if (substr($dtName, 0, 3) == 'dt_') {
                         if ($dtValue != 'true' && $dtValue != 'false' && !is_numeric($dtValue)) {
                             $dtValue = '"' . $dtValue . '"';
                         }
-                        $dtName = '"' .$dtName . '"';
-                        $dtJsOptions[] =  "$dtName: $dtValue";
+                        $dtName = '"' . substr($dtName, 3) . '"';
+                        $dtJsOptions[] = "$dtName: $dtValue";
                     }
                 }
             }
@@ -181,8 +181,7 @@ class ExportToHtml {
             <script type="text/javascript" language="Javascript">
                 jQuery(document).ready(function() {
                     jQuery('#<?php echo $htmlTableId ?>').dataTable({
-                        <?php echo $dtJsOptions ?>
-                    })
+                        <?php echo $dtJsOptions ?> })
                 });
             </script>
             <?php
