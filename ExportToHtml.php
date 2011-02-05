@@ -160,23 +160,10 @@ class ExportToHtml {
         }
 
         if ($useDT) {
-            $dtJsOptions = array();
-            if ($options && is_array($options)) {
-                // find and handle Datatable options: http://www.datatables.net/usage/features
-                foreach ($options as $dtName => $dtValue) {
-                    if (substr($dtName, 0, 3) == 'dt_') {
-                        if ($dtValue != 'true' && $dtValue != 'false' && !is_numeric($dtValue)) {
-                            $dtValue = '"' . $dtValue . '"';
-                        }
-                        $dtName = '"' . substr($dtName, 3) . '"';
-                        $dtJsOptions[] = "$dtName: $dtValue";
-                    }
-                }
+            $dtJsOptions = $options['dt_options'];
+            if (!$dtJsOptions) {
+                $dtJsOptions = '"bJQueryUI": true';
             }
-            if (empty($dtJsOptions)) {
-                $dtJsOptions[] = '"bJQueryUI": true';
-            }
-            $dtJsOptions = implode(', ', $dtJsOptions);
             ?>
             <script type="text/javascript" language="Javascript">
                 jQuery(document).ready(function() {
