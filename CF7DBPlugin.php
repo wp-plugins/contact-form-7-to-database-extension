@@ -582,6 +582,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                     <td align="center" colspan="4">
                         <span style="font-size:x-small; font-style: italic;">
                         Did you know: You can add this data to your posts and pages using shortcodes
+                            <a target="_faq" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/#cfdb-datatable">[cfdb-datatable]</a>
                             <a target="_faq" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/#cfdb-table">[cfdb-table]</a>
                             <a target="_faq" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/#cfdb-value">[cfdb-value]</a>
                             <a target="_faq" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/#cfdb-json">[cfdb-json]</a>

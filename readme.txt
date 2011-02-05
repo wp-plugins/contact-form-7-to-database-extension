@@ -67,7 +67,35 @@ The data can be refreshed from directly within Excel so there is no need to do a
 
 = Can I display form data on a non-admin web page or in a post? =
 
-<a id="shortcodes"></a>Yes, see below about shortcodes `[cfdb-table]`, `[cfdb-json]` and `[cfdb-value]`
+<a id="shortcodes"></a>Yes, see below about shortcodes `[cfdb-datatable]`, `[cfdb-table]`, `[cfdb-json]` and `[cfdb-value]`
+
+= How to use [cfdb-datatable] shortcode to incorporate form data on posts and pages =
+<a id="cfdb-datatable"></a>Use `[cfdb-datatable form="your-form"]`.
+This shortcode provides a dynamically filterable and sortable table on your page.
+This is different than the `filter` parameter on the shortcode.
+The `filter` parameter (such as in `[cfdb-datatable form="your-form" filter="field1=value1"]` creates a table
+with only the data selected by the filter. But once you have a table showing on a page, you can further dynamically
+filter using the "search" field above the displayed Datatable.
+
+Notes:
+* All options that apply to `[cfdb-table]` also apply to `[cfdb-datatable]`. Refer to the `[cfdb-table]` section.
+* `[cfdb-datatable]` relies on [DataTable](http://www.datatables.net "DataTable") Javascript.
+* If you want to set [DataTable Features](http://www.datatables.net/usage/features "DataTable Features") on your table,
+then you can pass them using the `dt_option` shortcode parameter.
+
+    Example:
+
+    `[cfdb-datatable form="your-form" id="mytable" dt_options="bJQueryUI:true, sScrollX='100%', bScrollCollapse=true"]`
+
+    Outputs the following. So be sure you are providing valid JavaScript syntax.
+
+    `<script type="text/javascript" language="Javascript">
+        jQuery(document).ready(function() {
+            jQuery('#mytable').dataTable({
+                bJQueryUI:true, sScrollX='100%', bScrollCollapse=true
+            })
+        });
+    </script>`
 
 = How to use [cfdb-table] shortcode to incorporate form data on posts and pages =
 
@@ -341,6 +369,9 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 == Changelog ==
 
 = 1.5.1 =
+* Admin page for viewing data is not sortable and filterable
+* New shortcode: [cfdb-datatable] to putting sortable & filterable tables on posts and pages.
+    This incorporates http://www.datatables.net
 * Option for display of localized date-time format for Submitted field based on WP site configuration in
 "Database Options" -> "Use Custom Date-Time Display Format"
 * Option to save Cookie data along with the form data. "Field names" of cookies will be "Cookie <cookie-name>"
