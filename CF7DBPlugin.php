@@ -536,7 +536,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         <script type="text/javascript" language="Javascript">
             jQuery(document).ready(function() {
                 jQuery('#<?php echo $tableHtmlId ?>').dataTable({
-                   "bJQueryUI": true
+                   "bJQueryUI": true,
+                    "sScrollX": "100%",
+                    "bScrollCollapse": true
                 })});
         </script>
         <?php
