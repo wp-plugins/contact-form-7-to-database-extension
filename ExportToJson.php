@@ -15,6 +15,10 @@
     http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 */
 
+require_once('CF7DBPlugin.php');
+require_once('CF7FilterParser.php');
+require_once('DereferenceShortcodeVars.php');
+
 class ExportToJson {
 
     public function export(&$formName, $options = null) {
