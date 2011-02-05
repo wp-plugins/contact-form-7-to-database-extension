@@ -28,7 +28,11 @@ class CFDBShortcodeDataTable extends ShortCodeScriptLoader {
 
     public function register($shortcodeName) {
         parent::register($shortcodeName);
+
         // Unfortunately, can't put styles in the footer so we have to always add this style sheet
+        // There is an article about how one might go about this here:
+        //     http://beerpla.net/2010/01/13/wordpress-plugin-development-how-to-include-css-and-javascript-conditionally-and-only-when-needed-by-the-posts/
+        // But it appears to expects posts on the page and I'm concerned it will not work in all cases
         wp_enqueue_style('datatables-demo', 'http://www.datatables.net/release-datatables/media/css/demo_table.css');
     }
 
