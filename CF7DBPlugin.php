@@ -557,7 +557,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         if ($useDataTables) {
             $options['id'] = $tableHtmlId;
             $options['class'] = '';
-            $options['style'] = "#$tableHtmlId td > div { max-height: 100px; overflow: auto; }"; // don't let cells get too tall
+            $options['style'] =
+                    "#$tableHtmlId td > div { max-height: 100px; overflow: auto; font-size: small; }"; // don't let cells get too tall
         }
         $exporter->export($currSelection, $options);
         ?>
