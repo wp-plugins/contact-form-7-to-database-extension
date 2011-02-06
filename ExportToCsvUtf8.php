@@ -68,7 +68,11 @@ class ExportToCsvUtf8 {
         // Rows
         $showFileUrlsInExport = $this->plugin->getOption('ShowFileUrlsInExport') == 'true';
         foreach ($tableData->pivot as $submitTime => $data) {
-            echo $this->plugin->formatDate($submitTime);
+            $st = $this->plugin->formatDate($submitTime);
+            if (!is_numeric($st)) {
+                $st = $this->prepareCsvValue($st);
+            }
+            echo $st;
             echo $comma;
             foreach ($tableData->columns as $aCol) {
                 $cell = isset($data[$aCol]) ? $data[$aCol] : '';

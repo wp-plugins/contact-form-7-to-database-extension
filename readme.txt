@@ -368,6 +368,10 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 
 == Changelog ==
 
+= 1.6.1 =
+* Bug fix in CSV Exports where Submitted time format had a comma in it, the comma was being interpreted as a
+field delimiter. 
+
 = 1.6 =
 * Admin page for viewing data is not sortable and filterable
 * New shortcode: [cfdb-datatable] to putting sortable & filterable tables on posts and pages.
