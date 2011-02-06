@@ -60,7 +60,10 @@ class ExportToCsvUtf16le {
             if (!is_numeric($st)) {
                 $st = $this->prepareCsvValue($st);
             }
-            echo $this->encode(utf8_encode($st));
+            else {
+                $st = $this->encode($st);
+            }
+            echo $st;
             echo $delimiter;
             foreach ($tableData->columns as $aCol) {
                 $cell = isset($data[$aCol]) ? $data[$aCol] : '';
