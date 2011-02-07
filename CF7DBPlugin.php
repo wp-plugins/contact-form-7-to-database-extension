@@ -702,10 +702,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      */
     public function formatDate($time) {
         // Convert time to local timezone
-        $offset = get_option('gmt_offset');
-        if (is_numeric($offset)) {
-            $time = $time + (3600 * $offset);
-        }
+        date_default_timezone_set(get_option('timezone_string'));
 
         if ($this->getOption('UseCustomDateTimeFormat', 'true') == 'true') {
             $dateFormat = $this->getOption('SubmitDateTimeFormat');
