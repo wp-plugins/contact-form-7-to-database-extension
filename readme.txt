@@ -368,6 +368,9 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 
 == Changelog ==
 
+= 1.6.2 =
+* Bug fix: avoiding inclusion of DataTables CSS in global admin because of style conflicts & efficiency
+
 = 1.6.1 =
 * Bug fix in CSV Exports where Submitted time format had a comma in it, the comma was being interpreted as a
 field delimiter.
