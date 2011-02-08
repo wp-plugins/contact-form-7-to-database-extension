@@ -317,15 +317,6 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     }
 
     /**
-     * Utility function wrapping call to PHP stripslashes()
-     * @param  $text string
-     * @return string
-     */
-    public function stripSlashes($text) {
-        return get_magic_quotes_gpc() ? stripslashes($text) : $text;
-    }
-
-    /**
      * Install page for this plugin in WP Admin
      * @return void
      */
@@ -684,27 +675,6 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         }
 
         return $tableData;
-    }
-
-    /**
-     * @return string URL to the Plugin directory. Includes ending "/"
-     */
-    public function getPluginDirUrl() {
-        //return WP_PLUGIN_URL . '/' . str_replace(basename(__FILE__), '', plugin_basename(__FILE__));
-        return $this->getPluginFileUrl('/');
-    }
-
-
-    /**
-     * @param string $pathRelativeToThisPluginRoot points to a file with relative path from
-     * this plugin's root dir. I.e. file "des.js" in the root of this plugin has
-     * url = $this->getPluginUrl('des.js'); 
-     * If it was in a subfolder "js" then you would use
-     *    $this->getPluginUrl('js/des.js');
-     * @return string full url to input file
-     */
-    public function getPluginFileUrl($pathRelativeToThisPluginRoot = '') {
-        return plugins_url($pathRelativeToThisPluginRoot, __FILE__);
     }
 
     /**
