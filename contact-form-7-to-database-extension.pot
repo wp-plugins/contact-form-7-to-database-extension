@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-"
 "extension\n"
-"POT-Creation-Date: 2011-02-07 14:57:01+00:00\n"
+"POT-Creation-Date: 2011-02-08 14:30:03+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -37,15 +37,22 @@ msgstr ""
 msgid "Add these two lines to the file:"
 msgstr ""
 
-#: ExportToJson.php:65 CF7DBOptionsManager.php:274 ExportToCsvUtf16le.php:28
-#: ExportToGoogleLiveData.php:25 ExportToCsvUtf8.php:38
-#: ExportToGoogleSS.php:30 ExportToHtml.php:118 ExportToValue.php:56
-#: getFile.php:28
+#: ExportToCsvUtf16le.php:28 getFile.php:28 CF7DBOptionsManager.php:274
+#: ExportToHtml.php:118 ExportToGoogleSS.php:30 ExportToGoogleLiveData.php:25
+#: ExportToJson.php:65 ExportToCsvUtf8.php:38 ExportToValue.php:56
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: CJ7DBCheckZendFramework.php:66
-msgid "Missing Zend Framework"
+#: ExportToCsvUtf16le.php:46 ExportToCsvUtf8.php:58
+msgid "Submitted"
+msgstr ""
+
+#: getFile.php:35
+msgid "Missing form parameters"
+msgstr ""
+
+#: getFile.php:40
+msgid "No such file."
 msgstr ""
 
 #: CF7DBOptionsManager.php:292
@@ -56,33 +63,12 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: ExportToCsvUtf16le.php:46 ExportToCsvUtf8.php:58
-msgid "Submitted"
-msgstr ""
-
-#: CFDBShortcodeTable.php:64 CFDBShortcodeJson.php:48
-#: CFDBShortcodeValue.php:46
-msgid "Insufficient privileges to display data from form: "
-msgstr ""
-
-#: ExportToGoogleLiveData.php:160
-msgid "How to Set up Google Spreadsheet to pull data from WordPress"
-msgstr ""
-
-#: ExportToGoogleSS.php:60
-msgid "Login Failed"
-msgstr ""
-
-#: ExportToGoogleSS.php:96
-msgid "New Google Spreadsheet"
-msgstr ""
-
-#: ExportToGoogleSS.php:105
-msgid "Error"
-msgstr ""
-
 #: ExportToHtml.php:227
 msgid "Delete Selected"
+msgstr ""
+
+#: CJ7DBCheckZendFramework.php:66
+msgid "Missing Zend Framework"
 msgstr ""
 
 #: CF7DBPlugin.php:41
@@ -159,30 +145,47 @@ msgstr ""
 msgid "No form submissions in the database"
 msgstr ""
 
-#: CF7DBPlugin.php:469
+#: CF7DBPlugin.php:473
 msgid "'Google Login for Upload'"
 msgstr ""
 
-#: CF7DBPlugin.php:511
-msgid "Export"
+#: CF7DBPlugin.php:482
+msgid "\"Cannot perform operation because jQuery is not loaded in this page\""
 msgstr ""
 
 #: CF7DBPlugin.php:521
+msgid "Export"
+msgstr ""
+
+#: CF7DBPlugin.php:531
 msgid "Delete All This Form's Records"
 msgstr ""
 
-#: CF7DBPlugin.php:610
+#: CF7DBPlugin.php:620
 msgid "Cancel"
 msgstr ""
 
-#: CF7DBPlugin.php:612
+#: CF7DBPlugin.php:622
 msgid "Upload"
 msgstr ""
 
-#: getFile.php:35
-msgid "Missing form parameters"
+#: ExportToGoogleSS.php:60
+msgid "Login Failed"
 msgstr ""
 
-#: getFile.php:40
-msgid "No such file."
+#: ExportToGoogleSS.php:96
+msgid "New Google Spreadsheet"
+msgstr ""
+
+#: ExportToGoogleSS.php:105
+msgid "Error"
+msgstr ""
+
+#: ExportToGoogleLiveData.php:160
+msgid "How to Set up Google Spreadsheet to pull data from WordPress"
+msgstr ""
+
+#: CFDBShortcodeValue.php:46 CFDBShortcodeTable.php:64
+#: CFDBShortcodeJson.php:48
+msgid "Insufficient privileges to display data from form: "
 msgstr ""
