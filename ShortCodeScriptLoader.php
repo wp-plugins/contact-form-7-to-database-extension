@@ -29,26 +29,26 @@ abstract class ShortCodeScriptLoader extends ShortCodeLoader {
     var $doAddScript;
 
     public function register($shortcodeName) {
-        $this->registerShortcodeToFunction($shortcodeName, 'handle_shortcode_wrapper');
+        $this->registerShortcodeToFunction($shortcodeName, 'handleShortcodeWrapper');
 
         // It will be too late to enqueue the script in the header,
         // so have to add it to the footer
-        add_action('wp_footer', array($this, 'add_script_wrapper'));
+        add_action('wp_footer', array($this, 'addScriptWrapper'));
     }
 
-    public function handle_shortcode_wrapper($atts) {
+    public function handleShortcodeWrapper($atts) {
         // Flag that we need to add the script
         $this->doAddScript = true;
-        return $this->handle_shortcode($atts);
+        return $this->handleShortcode($atts);
     }
 
     // Defined in super-class:
-    //public abstract function handle_shortcode($atts);
+    //public abstract function handleShortcode($atts);
 
-    public function add_script_wrapper() {
+    public function addScriptWrapper() {
         // Only add the script if the shortcode was actually called
         if ($this->doAddScript) {
-            $this->add_script();
+            $this->addScript();
         }
     }
 
@@ -59,6 +59,6 @@ abstract class ShortCodeScriptLoader extends ShortCodeLoader {
      *   wp_print_scripts('my-script');
      * @return void
      */
-    public abstract function add_script();
+    public abstract function addScript();
 
 }

@@ -1,7 +1,7 @@
 <?php
 /*
     Contact Form 7 to Database Extension
-    Copyright 2010 Michael Simpson  (email : michael.d.simpson@gmail.com)
+    Copyright 2011 Michael Simpson  (email : michael.d.simpson@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as
@@ -20,10 +20,10 @@ require_once('CFDBShortcodeTable.php');
 
 class CFDBShortcodeDataTable extends ShortCodeScriptLoader {
 
-    public function handle_shortcode($atts) {
+    public function handleShortcode($atts) {
         $atts['useDT'] = true;
         $sc = new CFDBShortcodeTable();
-        return $sc->handle_shortcode($atts);
+        return $sc->handleShortcode($atts);
     }
 
     public function register($shortcodeName) {
@@ -38,7 +38,7 @@ class CFDBShortcodeDataTable extends ShortCodeScriptLoader {
 //        wp_enqueue_style('datatables-demo', 'http://www.datatables.net/release-datatables/media/css/demo_table.css');
     }
 
-    public function add_script() {
+    public function addScript() {
 //        wp_register_style('datatables-demo', 'http://www.datatables.net/release-datatables/media/css/demo_table.css');
 //        wp_print_styles('datatables-demo');
 

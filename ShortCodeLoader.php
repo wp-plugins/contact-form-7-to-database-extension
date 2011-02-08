@@ -25,7 +25,7 @@ abstract class ShortCodeLoader {
      * @return void
      */
     public function register($shortcodeName) {
-        $this->registerShortcodeToFunction($shortcodeName, 'handle_shortcode');
+        $this->registerShortcodeToFunction($shortcodeName, 'handleShortcode');
     }
 
     /**
@@ -53,6 +53,6 @@ abstract class ShortCodeLoader {
      * @param  $atts shortcode inputs
      * @return string shortcode content
      */
-    public abstract function handle_shortcode($atts);
+    public abstract function handleShortcode($atts);
 
 }
