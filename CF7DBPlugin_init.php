@@ -15,7 +15,7 @@
     http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 */
 
-function CF7DBPlugin_init() {
+function CF7DBPlugin_init($file) {
 
     require_once('CF7DBPlugin.php');
     $aPlugin = new CF7DBPlugin();
@@ -37,10 +37,13 @@ function CF7DBPlugin_init() {
     // Add callbacks to hooks
     $aPlugin->addActionsAndFilters();
 
+    if (!$file) {
+        $file = __FILE__;
+    }
     // Register the Plugin Activation Hook
-    register_activation_hook(__FILE__, array(&$aPlugin, 'activate'));
+    register_activation_hook($file, array(&$aPlugin, 'activate'));
 
 
     // Register the Plugin Deactivation Hook
-    register_deactivation_hook(__FILE__, array(&$aPlugin, 'deactivate'));
+    register_deactivation_hook($file, array(&$aPlugin, 'deactivate'));
 }

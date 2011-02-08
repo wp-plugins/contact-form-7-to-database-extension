@@ -37,9 +37,10 @@ AddHandler x-mapp-php5 .php
     else {
         // Only load and run the init function if we know PHP can parse it
         include_once('CF7DBPlugin_init.php');
-        CF7DBPlugin_init();
+        CF7DBPlugin_init(__FILE__);
     }
 }
 
+load_plugin_textdomain('contact-form-7-to-database-extension', false, dirname(plugin_basename(__FILE__)));
 CF7DBPlugin_PhpVersionCheck();
 
