@@ -368,6 +368,9 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 
 == Changelog ==
 
+= 1.6.3 =
+* Handling problem where user is unable to export from Admin page because jQuery fails to be loaded. 
+
 = 1.6.2 =
 * Bug fix: avoiding inclusion of DataTables CSS in global admin because of style conflicts & efficiency
 

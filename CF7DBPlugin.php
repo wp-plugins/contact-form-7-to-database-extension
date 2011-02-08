@@ -466,11 +466,21 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 <td align="center">
                     <script type="text/javascript" language="Javascript">
                         function exportData(encSelect) {
-                            jQuery("#GoogleCredentialsDialog").dialog({ autoOpen: false, title: <?php _e("'Google Login for Upload'", 'contact-form-7-to-database-extension')?> });
                             var enc = encSelect.options[encSelect.selectedIndex].value;
                             if (enc == 'GSS') {
-                                jQuery("#GoogleCredentialsDialog").dialog('open');
-                                jQuery("#guser").focus();
+                                if (typeof jQuery == 'function') {
+                                    try {
+                                        jQuery("#GoogleCredentialsDialog").dialog({ autoOpen: false, title: <?php _e("'Google Login for Upload'", 'contact-form-7-to-database-extension')?> });
+                                        jQuery("#GoogleCredentialsDialog").dialog('open');
+                                        jQuery("#guser").focus();
+                                    }
+                                    catch (e) {
+                                        alert('Error: ' + e.message);
+                                    }
+                                }
+                                else {
+                                    alert(<?php _e('"Cannot perform operation because jQuery is not loaded in this page"','contact-form-7-to-database-extension')?>);
+                                }
                             }
                             else {
                                 location.href = '<?php echo $pluginDirUrl ?>export.php?form=<?php echo urlencode($currSelection) ?>&enc=' + enc;
