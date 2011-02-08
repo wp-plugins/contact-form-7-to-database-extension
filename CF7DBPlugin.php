@@ -35,6 +35,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         return 'Contact Form to DB Extension';
     }
 
+    protected function getMainPluginFileName() {
+        return 'contact-form-7-db.php';
+    }
+
     public function getOptionMetaData() {
         return array(
             //'_version' => array('Installed Version'), // For testing upgrades
@@ -734,4 +738,35 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         //        }
         return $this->prefixTableName('SUBMITS');
     }
+
+    /**
+     * Utility function wrapping call to PHP stripslashes()
+     * @param  $text string
+     * @return string
+     */
+    public function stripSlashes($text) {
+        return get_magic_quotes_gpc() ? stripslashes($text) : $text;
+    }
+
+    /**
+     * @return string URL to the Plugin directory. Includes ending "/"
+     */
+    public function getPluginDirUrl() {
+        //return WP_PLUGIN_URL . '/' . str_replace(basename(__FILE__), '', plugin_basename(__FILE__));
+        return $this->getPluginFileUrl('/');
+    }
+
+
+    /**
+     * @param string $pathRelativeToThisPluginRoot points to a file with relative path from
+     * this plugin's root dir. I.e. file "des.js" in the root of this plugin has
+     * url = $this->getPluginUrl('des.js');
+     * If it was in a subfolder "js" then you would use
+     *    $this->getPluginUrl('js/des.js');
+     * @return string full url to input file
+     */
+    public function getPluginFileUrl($pathRelativeToThisPluginRoot = '') {
+        return plugins_url($pathRelativeToThisPluginRoot, __FILE__);
+    }
+    
 }

@@ -27,9 +27,7 @@
  * @author Michael Simpson
  */
 
-require_once('CF7DBPluginMisc.php');
-
-class CF7DBOptionsManager extends CF7DBPluginMisc {
+class CF7DBOptionsManager {
 
     public function getOptionNamePrefix() {
         return get_class($this) . '_';

@@ -25,7 +25,7 @@ require_once('CF7DBInstallIndicator.php');
  * @author Michael Simpson
  */
 
-class CF7DBPluginLifeCycle extends CF7DBInstallIndicator {
+abstract class CF7DBPluginLifeCycle extends CF7DBInstallIndicator {
 
     public function install() {
 

@@ -23,7 +23,7 @@ require_once('CF7DBOptionsManager.php');
  * @author Michael Simpson
  */
 
-class CF7DBInstallIndicator extends CF7DBOptionsManager {
+abstract class CF7DBInstallIndicator extends CF7DBOptionsManager {
 
     const optionInstalled = '_installed';
     const optionVersion = '_version';
@@ -76,20 +76,39 @@ class CF7DBInstallIndicator extends CF7DBOptionsManager {
     }
 
     /**
+     * @abstract
+     * @return string name of the main plugin file that has the header section with
+     * "Plugin Name", "Version", "Description", "Text Domain", etc.
+     */
+    protected abstract function getMainPluginFileName();
+
+    /**
+     * Get a value for input key in the header section of main plugin file.
+     * E.g. "Plugin Name", "Version", "Description", "Text Domain", etc.
+     * @return string if found, otherwise null
+     */
+    public function getPluginHeaderValue($key) {
+        // Read the string from the comment header of the main plugin file
+        $data = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . $this->getMainPluginFileName());
+        $match = array();
+        preg_match('/' . $key . ':\s*(\S+)/', $data, $match);
+        if (count($match) >= 1) {
+            return $match[1];
+        }
+        return null;
+    }
+
+    /**
      * Version of this code.
-     * Override this function to set your current release version, e.g. '1.0', 1.1.1'
      * Best practice: define version strings to be easily compared using version_compare()
      * (http://php.net/manual/en/function.version-compare.php)
      * NOTE: You should manually make this match the SVN tag for your main plugin file 'Version' release and 'Stable tag' in readme.txt
      * @return string
      */
     public function getVersion() {
-        // Read the version string from the comment header of the main plugin file
-        $data = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'contact-form-7-db.php');
-        $match = array();
-        preg_match('/Version:\s*(\S+)/', $data, $match);
-        return $match[1];
+        return $this->getPluginHeaderValue('Version');
     }
+
 
     /**
      * Useful when checking for upgrades, can tell if the currently installed version is earlier than the
