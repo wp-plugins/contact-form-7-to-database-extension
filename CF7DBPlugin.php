@@ -344,13 +344,13 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         if (strpos($_SERVER['REQUEST_URI'], $this->getDBPageSlug()) !== false) {
             wp_enqueue_script('jquery');
             wp_enqueue_style('jquery-ui.css', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/base/jquery-ui.css');
-            wp_enqueue_script('jquery-ui-dialog');
+            wp_enqueue_script('jquery-ui-dialog', false, array('jquery'));
             wp_enqueue_script('CF7DBdes', $this->getPluginFileUrl('des.js'));
 
             // Datatables http://www.datatables.net
             if ($this->getOption('UseDataTablesJS', 'true') == 'true') {
                 wp_enqueue_style('datatables-demo', 'http://www.datatables.net/release-datatables/media/css/demo_table.css');
-                wp_enqueue_script('datatables', 'http://www.datatables.net/release-datatables/media/js/jquery.dataTables.js');
+                wp_enqueue_script('datatables', 'http://www.datatables.net/release-datatables/media/js/jquery.dataTables.js', array('jquery'));
             }
         }
         // Put page under CF7's "Contact" page
