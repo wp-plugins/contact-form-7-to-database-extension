@@ -220,7 +220,7 @@ class ExportToHtml {
         ?>
 
         <table <?php if ($htmlTableId) echo "id=\"$htmlTableId\" "; if ($htmlTableClass) echo "class=\"$htmlTableClass\"" ?> >
-            <thead>
+            <thead><tr>
             <?php if ($canDelete) { ?>
             <th>
                 <input type="image" src="<?php echo $plugin->getPluginDirUrl() ?>delete.gif"
@@ -237,7 +237,7 @@ class ExportToHtml {
                 printf('<th><div title="%s">%s</div></th>', $aCol, $aCol);
             }
             ?>
-            </thead>
+            </tr></thead>
             <tbody>
             <?php foreach ($tableData->pivot as $submitTime => $data) {
                 // Determine if row is filtered
