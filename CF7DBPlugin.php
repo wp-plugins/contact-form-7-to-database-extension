@@ -186,7 +186,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         $displayName = $this->getPluginDisplayName();
         add_submenu_page('wpcf7', //$this->getDBPageSlug(),
                          $displayName . ' Options',
-                         'Database Options',
+                         __('Database Options', 'contact-form-7-to-database-extension'),
                          'manage_options',
                          get_class($this) . 'Settings',
                          array(&$this, 'settingsPage'));
@@ -355,7 +355,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         // Put page under CF7's "Contact" page
         add_submenu_page('wpcf7',
                          $displayName . ' Submissions',
-                         'Database',
+                         __('Database', 'contact-form-7-to-database-extension'),
                          $this->roleToCapability($roleAllowed),
                          $this->getDBPageSlug(),
                          array(&$this, 'whatsInTheDBPage'));
