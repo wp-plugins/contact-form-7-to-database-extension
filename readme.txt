@@ -368,6 +368,10 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 
 == Changelog ==
 
+= 1.6.5 =
+* Admin page DataTable: removed horizontal scrolling because headers do not scroll with columns properly
+* Updated license to GPL3 from GPL2
+
 = 1.6.4 =
 * Fixed bug causing FireFox to not display DataTables correctly.
 
