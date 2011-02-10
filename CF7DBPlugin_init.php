@@ -1,18 +1,22 @@
 <?php
 /*
-    Contact Form 7 to Database Extension
-    Copyright 2011 Michael Simpson  (email : michael.d.simpson@gmail.com)
+    "Contact Form to Database Extension" Copyright (C) 2011 Michael Simpson  (email : michael.d.simpson@gmail.com)
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License, version 2, as
-    published by the Free Software Foundation.
+    This file is part of Contact Form to Database Extension.
 
-    This program is distributed in the hope that it will be useful,
+    Contact Form to Database Extension is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Contact Form to Database Extension is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
-    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+    You should have received a copy of the GNU General Public License
+    along with Contact Form to Database Extension.
+    If not, see <http://www.gnu.org/licenses/>.
 */
 
 function CF7DBPlugin_init($file) {
