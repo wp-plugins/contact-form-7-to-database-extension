@@ -39,10 +39,30 @@ AddHandler x-mapp-php5 .php
     return true;
 }
 
-// Initialize i18n.
-load_plugin_textdomain('contact-form-7-to-database-extension', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 
-// Run the version check. If it is successful, continue with initialization for this plugin
+/**
+ * Initialize internationalization (i18n) for this plugin.
+ * References:
+ *      http://codex.wordpress.org/I18n_for_WordPress_Developers
+ *      http://www.wdmac.com/how-to-create-a-po-language-translation#more-631
+ * @return void
+ */
+function CF7DBPlugin_i18n_init() {
+    $pluginDir = dirname(plugin_basename(__FILE__));
+    load_plugin_textdomain('contact-form-7-to-database-extension', false, $pluginDir . '/languages/');
+}
+
+
+//////////////////////////////////
+// Run initialization
+/////////////////////////////////
+
+// First initialize i18n
+CF7DBPlugin_i18n_init();
+
+
+// Next, run the version check.
+// If it is successful, continue with initialization for this plugin
 if (CF7DBPlugin_PhpVersionCheck()) {
     // Only load and run the init function if we know PHP version can parse it
     include_once('CF7DBPlugin_init.php');
