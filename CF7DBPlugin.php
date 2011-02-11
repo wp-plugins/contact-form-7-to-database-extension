@@ -469,7 +469,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                             if (enc == 'GSS') {
                                 if (typeof jQuery == 'function') {
                                     try {
-                                        jQuery("#GoogleCredentialsDialog").dialog({ autoOpen: false, title: <?php _e("'Google Login for Upload'", 'contact-form-7-to-database-extension')?> });
+                                        jQuery("#GoogleCredentialsDialog").dialog({ autoOpen: false, title: '<?php _e("Google Login for Upload", 'contact-form-7-to-database-extension')?>' });
                                         jQuery("#GoogleCredentialsDialog").dialog('open');
                                         jQuery("#guser").focus();
                                     }
@@ -478,7 +478,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                     }
                                 }
                                 else {
-                                    alert(<?php _e('"Cannot perform operation because jQuery is not loaded in this page"','contact-form-7-to-database-extension')?>);
+                                    alert("<?php _e('Cannot perform operation because jQuery is not loaded in this page','contact-form-7-to-database-extension')?>");
                                 }
                             }
                             else {

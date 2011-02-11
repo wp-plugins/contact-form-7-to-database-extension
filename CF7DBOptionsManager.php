@@ -293,7 +293,7 @@ class CF7DBOptionsManager {
         $settingsGroup = get_class($this) . '-settings-group';
         ?>
         <div class="wrap">
-            <h2><?php echo $this->getPluginDisplayName(); _e(' Settings', 'contact-form-7-to-database-extension'); ?></h2>
+            <h2><?php echo $this->getPluginDisplayName(); echo ' '; _e('Settings', 'contact-form-7-to-database-extension'); ?></h2>
 
             <form method="post" action="">
             <?php settings_fields($settingsGroup); ?>
