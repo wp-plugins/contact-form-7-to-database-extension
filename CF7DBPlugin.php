@@ -585,8 +585,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 <tr>
                     <td align="center" colspan="4">
                         <span style="font-size:x-small; font-style: italic;">
-                        Did you know: This plugin captures data from both
-                        <a target="_cf7" href="http://wordpress.org/extend/plugins/contact-form-7/">Contact Form 7</a> and
+                        <?php _e('Did you know: This plugin captures data from both these plugins:', 'contact-form-7-to-database-extension'); ?>
+                        <a target="_cf7" href="http://wordpress.org/extend/plugins/contact-form-7/">Contact Form 7</a>
                         <a target="_fscf" href="http://wordpress.org/extend/plugins/si-contact-form/">Fast Secure Contact Form</a>
                     </span>
                     </td>
@@ -594,7 +594,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 <tr>
                     <td align="center" colspan="4">
                         <span style="font-size:x-small; font-style: italic;">
-                        Did you know: You can add this data to your posts and pages using shortcodes
+                        <?php _e('Did you know: You can add this data to your posts and pages using these shortcodes:', 'contact-form-7-to-database-extension'); ?>
                             <a target="_faq" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/#cfdb-datatable">[cfdb-datatable]</a>
                             <a target="_faq" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/#cfdb-table">[cfdb-table]</a>
                             <a target="_faq" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/#cfdb-value">[cfdb-value]</a>
