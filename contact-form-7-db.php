@@ -11,7 +11,8 @@
 
 /**
  * Check the PHP version and give a useful error message if the user's version is less than the required version
- * @return void
+ * @return boolean true if version check passed. If false, triggers an error which WP will handle, by displaying
+ * an error message on the Admin page
  */
 function CF7DBPlugin_PhpVersionCheck() {
     $minimalRequiredPhpVersion = '5.0';
@@ -33,14 +34,17 @@ AddType x-mapp-php5 .php
 AddHandler x-mapp-php5 .php
 </pre></code></ul>'
             , E_USER_ERROR); // E_USER_ERROR seems to be handled OK in WP. It gives a notice in the Plugins Page
+        return false;
     }
-    else {
-        // Only load and run the init function if we know PHP can parse it
-        include_once('CF7DBPlugin_init.php');
-        CF7DBPlugin_init(__FILE__);
-    }
+    return true;
 }
 
-load_plugin_textdomain('contact-form-7-to-database-extension', false, dirname(plugin_basename(__FILE__)));
-CF7DBPlugin_PhpVersionCheck();
+// Initialize i18n.
+load_plugin_textdomain('contact-form-7-to-database-extension', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 
+// Run the version check. If it is successful, continue with initialization for this plugin
+if (CF7DBPlugin_PhpVersionCheck()) {
+    // Only load and run the init function if we know PHP version can parse it
+    include_once('CF7DBPlugin_init.php');
+    CF7DBPlugin_init(__FILE__);
+}
