@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-"
 "extension\n"
-"POT-Creation-Date: 2011-02-08 14:30:03+00:00\n"
+"POT-Creation-Date: 2011-02-11 22:39:50+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,179 +13,221 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: contact-form-7-db.php:22
+#: contact-form-7-db.php:23
 msgid "Minimal version of PHP required: "
 msgstr ""
 
-#: contact-form-7-db.php:23
+#: contact-form-7-db.php:24
 msgid "Your server's PHP version: "
 msgstr ""
 
-#: contact-form-7-db.php:26
+#: contact-form-7-db.php:27
 msgid ""
 "When using the Apache web server, typically you can configure it to use PHP5 "
 "by doing the following:"
 msgstr ""
 
-#: contact-form-7-db.php:28
+#: contact-form-7-db.php:29
 msgid ""
 "Locate and edit this file, located at the top directory of your WordPress "
 "installation: "
 msgstr ""
 
-#: contact-form-7-db.php:30
+#: contact-form-7-db.php:31
 msgid "Add these two lines to the file:"
 msgstr ""
 
-#: ExportToCsvUtf16le.php:28 getFile.php:28 CF7DBOptionsManager.php:274
-#: ExportToHtml.php:118 ExportToGoogleSS.php:30 ExportToGoogleLiveData.php:25
-#: ExportToJson.php:65 ExportToCsvUtf8.php:38 ExportToValue.php:56
+#: ExportToJson.php:69 CF7DBOptionsManager.php:278 ExportToCsvUtf16le.php:32
+#: ExportToGoogleLiveData.php:29 ExportToCsvUtf8.php:42
+#: ExportToGoogleSS.php:34 ExportToHtml.php:122 ExportToValue.php:60
+#: getFile.php:32
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: ExportToCsvUtf16le.php:46 ExportToCsvUtf8.php:58
-msgid "Submitted"
-msgstr ""
-
-#: getFile.php:35
-msgid "Missing form parameters"
-msgstr ""
-
-#: getFile.php:40
-msgid "No such file."
-msgstr ""
-
-#: CF7DBOptionsManager.php:292
-msgid " Settings"
-msgstr ""
-
-#: CF7DBOptionsManager.php:317
-msgid "Save Changes"
-msgstr ""
-
-#: ExportToHtml.php:227
-msgid "Delete Selected"
-msgstr ""
-
-#: CJ7DBCheckZendFramework.php:66
+#: CJ7DBCheckZendFramework.php:70
 msgid "Missing Zend Framework"
 msgstr ""
 
-#: CF7DBPlugin.php:41
-msgid "Can See Submission data"
+#: CF7DBOptionsManager.php:296
+msgid "Settings"
 msgstr ""
 
-#: CF7DBPlugin.php:43
-msgid "Can See Submission when using shortcodes"
+#: CF7DBOptionsManager.php:321
+msgid "Save Changes"
 msgstr ""
 
-#: CF7DBPlugin.php:45
-msgid "Can Delete Submission data"
+#: CF7DBOptionsManager.php:380 CF7DBPlugin.php:71
+msgid "true"
 msgstr ""
 
-#: CF7DBPlugin.php:47
-msgid "Use Javascript-enabled tables in Admin Database page"
+#: CF7DBOptionsManager.php:381 CF7DBPlugin.php:73
+msgid "false"
 msgstr ""
 
-#: CF7DBPlugin.php:48
-msgid "Show line breaks in submitted data table"
+#: ExportToCsvUtf16le.php:50 ExportToCsvUtf8.php:62
+msgid "Submitted"
+msgstr ""
+
+#: ExportToGoogleLiveData.php:164
+msgid "How to Set up Google Spreadsheet to pull data from WordPress"
+msgstr ""
+
+#: ExportToGoogleSS.php:64
+msgid "Login Failed"
+msgstr ""
+
+#: ExportToGoogleSS.php:100
+msgid "New Google Spreadsheet"
+msgstr ""
+
+#: ExportToGoogleSS.php:109
+msgid "Error"
+msgstr ""
+
+#: ExportToHtml.php:235
+msgid "Delete Selected"
 msgstr ""
 
 #: CF7DBPlugin.php:49
-msgid "Use Custom Date-Time Display Format (below)"
-msgstr ""
-
-#: CF7DBPlugin.php:50
-msgid "Date-Time Display Format"
+msgid "Can See Submission data"
 msgstr ""
 
 #: CF7DBPlugin.php:51
-msgid "Export URLs instead of file names for uploaded files"
-msgstr ""
-
-#: CF7DBPlugin.php:52
-msgid "Do not save <u>fields</u> in DB named (comma-separated list, no spaces)"
+msgid "Can See Submission when using shortcodes"
 msgstr ""
 
 #: CF7DBPlugin.php:53
-msgid "Do not save <u>forms</u> in DB named (comma-separated list, no spaces)"
-msgstr ""
-
-#: CF7DBPlugin.php:54
-msgid "Save Cookie Data with Form Submissions"
+msgid "Can Delete Submission data"
 msgstr ""
 
 #: CF7DBPlugin.php:55
+msgid "Use Javascript-enabled tables in Admin Database page"
+msgstr ""
+
+#: CF7DBPlugin.php:56
+msgid "Show line breaks in submitted data table"
+msgstr ""
+
+#: CF7DBPlugin.php:57
+msgid "Use Custom Date-Time Display Format (below)"
+msgstr ""
+
+#: CF7DBPlugin.php:58
+msgid "Date-Time Display Format"
+msgstr ""
+
+#: CF7DBPlugin.php:59
+msgid "Export URLs instead of file names for uploaded files"
+msgstr ""
+
+#: CF7DBPlugin.php:60
+msgid "Do not save <u>fields</u> in DB named (comma-separated list, no spaces)"
+msgstr ""
+
+#: CF7DBPlugin.php:61
+msgid "Do not save <u>forms</u> in DB named (comma-separated list, no spaces)"
+msgstr ""
+
+#: CF7DBPlugin.php:62
+msgid "Save Cookie Data with Form Submissions"
+msgstr ""
+
+#: CF7DBPlugin.php:63
 msgid ""
 "Save only cookies in DB named (comma-separated list, no spaces, and above "
 "option must be set to true)"
 msgstr ""
 
-#: CF7DBPlugin.php:199
-msgid "Database"
+#: CF7DBPlugin.php:76
+msgid "Administrator"
 msgstr ""
 
-#: CF7DBPlugin.php:201
+#: CF7DBPlugin.php:78
+msgid "Editor"
+msgstr ""
+
+#: CF7DBPlugin.php:80
+msgid "Author"
+msgstr ""
+
+#: CF7DBPlugin.php:82
+msgid "Contributor"
+msgstr ""
+
+#: CF7DBPlugin.php:84
+msgid "Subscriber"
+msgstr ""
+
+#: CF7DBPlugin.php:86
+msgid "Anyone"
+msgstr ""
+
+#: CF7DBPlugin.php:212 CF7DBPlugin.php:232
 msgid "Database Options"
 msgstr ""
 
-#: CF7DBPlugin.php:203 CF7DBPlugin.php:398
+#: CF7DBPlugin.php:230 CF7DBPlugin.php:381
+msgid "Database"
+msgstr ""
+
+#: CF7DBPlugin.php:234 CF7DBPlugin.php:420
 msgid "FAQ"
 msgstr ""
 
-#: CF7DBPlugin.php:392
+#: CF7DBPlugin.php:414
 msgid "Rate this Plugin"
 msgstr ""
 
-#: CF7DBPlugin.php:404
+#: CF7DBPlugin.php:426
 msgid "Support"
 msgstr ""
 
-#: CF7DBPlugin.php:418
+#: CF7DBPlugin.php:440
 msgid "No form submissions in the database"
 msgstr ""
 
-#: CF7DBPlugin.php:473
-msgid "'Google Login for Upload'"
+#: CF7DBPlugin.php:495
+msgid "Google Login for Upload"
 msgstr ""
 
-#: CF7DBPlugin.php:482
-msgid "\"Cannot perform operation because jQuery is not loaded in this page\""
+#: CF7DBPlugin.php:504
+msgid "Cannot perform operation because jQuery is not loaded in this page"
 msgstr ""
 
-#: CF7DBPlugin.php:521
+#: CF7DBPlugin.php:543
 msgid "Export"
 msgstr ""
 
-#: CF7DBPlugin.php:531
+#: CF7DBPlugin.php:553
 msgid "Delete All This Form's Records"
 msgstr ""
 
+#: CF7DBPlugin.php:611
+msgid "Did you know: This plugin captures data from both these plugins:"
+msgstr ""
+
 #: CF7DBPlugin.php:620
+msgid ""
+"Did you know: You can add this data to your posts and pages using these "
+"shortcodes:"
+msgstr ""
+
+#: CF7DBPlugin.php:645
 msgid "Cancel"
 msgstr ""
 
-#: CF7DBPlugin.php:622
+#: CF7DBPlugin.php:647
 msgid "Upload"
 msgstr ""
 
-#: ExportToGoogleSS.php:60
-msgid "Login Failed"
+#: getFile.php:39
+msgid "Missing form parameters"
 msgstr ""
 
-#: ExportToGoogleSS.php:96
-msgid "New Google Spreadsheet"
+#: getFile.php:44
+msgid "No such file."
 msgstr ""
 
-#: ExportToGoogleSS.php:105
-msgid "Error"
-msgstr ""
-
-#: ExportToGoogleLiveData.php:160
-msgid "How to Set up Google Spreadsheet to pull data from WordPress"
-msgstr ""
-
-#: CFDBShortcodeValue.php:46 CFDBShortcodeTable.php:64
-#: CFDBShortcodeJson.php:48
+#: CFDBShortCodeLoaderSecurityCheck.php:34
 msgid "Insufficient privileges to display data from form: "
 msgstr ""
