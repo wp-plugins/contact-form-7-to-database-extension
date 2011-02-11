@@ -168,6 +168,10 @@ class ExportToHtml {
             $dtJsOptions = $options['dt_options'];
             if (!$dtJsOptions) {
                 $dtJsOptions = '"bJQueryUI": true';
+                $i18nUrl = $plugin->getDataTableTranslationUrl();
+                if ($i18nUrl) {
+                    $dtJsOptions = $dtJsOptions . ", \"oLanguage\": { \"sUrl\":  \"$i18nUrl\" }";
+                }
             }
             ?>
             <script type="text/javascript" language="Javascript">

@@ -542,12 +542,16 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
         if ($useDataTables) {
             $tableHtmlId = 'cf2dbtable';
+            $i18nUrl = $this->getDataTableTranslationUrl();
         ?>
         <script type="text/javascript" language="Javascript">
             jQuery(document).ready(function() {
                 jQuery('#<?php echo $tableHtmlId ?>').dataTable({
                    "bJQueryUI": true,
-                    "bScrollCollapse": true
+                   "bScrollCollapse": true
+                <?php if ($i18nUrl) {
+                    echo ", \"oLanguage\": { \"sUrl\":  \"$i18nUrl\" }";
+                } ?>
                 })});
         </script>
         <?php
@@ -771,5 +775,39 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     public function getPluginFileUrl($pathRelativeToThisPluginRoot = '') {
         return plugins_url($pathRelativeToThisPluginRoot, __FILE__);
     }
-    
+
+
+    /**
+     * @return string URL of the language translation file for DataTables oLanguage.sUrl parameter
+     * or null if it does not exist.
+     */
+    public function getDataTableTranslationUrl() {
+        $url = null;
+        $locale = get_locale();
+        $i18nDir = dirname(__FILE__) . '/dt_i18n/';
+
+        // See if there is a local file
+        if (is_readable($i18nDir . $locale . '.json')) {
+            $url = $this->getPluginFileUrl() . "dt_i18n/$locale.json";
+        }
+        else {
+            // Pull the language code from the $local string
+            // which is expected to look like "en_US"
+            // where the first 2 or 3 letters are for lang followed by "_"
+            $lang = null;
+            if (substr($locale, 2, 1) == "_") {
+                // 2-letter language codes
+                $lang = substr($locale, 0, 2);
+            }
+            else if (substr($locale, 3, 1) == "_") {
+                // 3-letter language codes
+                $lang = substr($locale, 0, 3);
+            }
+            if ($lang && is_readable($i18nDir . $lang . '.json')) {
+                $url = $this->getPluginFileUrl() . "/dt_i18n/$lang.json";
+            }
+        }
+        return $url;
+    }
+
 }
