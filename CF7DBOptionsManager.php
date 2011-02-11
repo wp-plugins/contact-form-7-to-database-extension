@@ -343,7 +343,7 @@ class CF7DBOptionsManager {
                             foreach ($choices as $aChoice) {
                 $selected = ($aChoice == $savedOptionValue) ? "selected" : "";
                 ?>
-                    <option value="<?php echo $aChoice ?>" <?php echo $selected ?>><?php echo $aChoice ?></option>
+                    <option value="<?php echo $aChoice ?>" <?php echo $selected ?>><?php echo $this->getOptionValueI18nString($aChoice) ?></option>
                 <?php
 
             }
@@ -359,7 +359,28 @@ class CF7DBOptionsManager {
             <?php
 
         }
+    }
 
+    /**
+     * Override this method and follow its format.
+     * The purpose of this method is to provide i18n display strings for the values of options.
+     * For example, you may create a options with values 'true' or 'false'.
+     * In the options page, this will show as a drop down list with these choices.
+     * But when the the language is not English, you would like to display different strings
+     * for 'true' and 'false' while still keeping the value of that option that is actually saved in
+     * the DB as 'true' or 'false'.
+     * To do this, follow the convention of defining option values in getOptionMetaData() as canonical names
+     * (what you want them to literally be, like 'true') and then add each one to the switch statement in this
+     * function, returning the "__()" i18n name of that string.
+     * @param  $optionValue string
+     * @return string __($optionValue) if it is listed in this method, otherwise just returns $optionValue
+     */
+    protected function getOptionValueI18nString($optionValue) {
+        switch ($optionValue) {
+            case 'true': return __('true', 'contact-form-7-to-database-extension');
+            case 'false': return __('false', 'contact-form-7-to-database-extension');
+        }
+        return $optionValue;
     }
 
 }

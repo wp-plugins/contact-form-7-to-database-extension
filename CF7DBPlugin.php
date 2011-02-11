@@ -65,6 +65,29 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         );
     }
 
+    protected function getOptionValueI18nString($optionValue) {
+        switch ($optionValue) {
+            case 'true':
+                return __('true', 'contact-form-7-to-database-extension');
+            case 'false':
+                return __('false', 'contact-form-7-to-database-extension');
+
+            case 'Administrator':
+                return __('Administrator', 'contact-form-7-to-database-extension');
+            case 'Editor':
+                return __('Editor', 'contact-form-7-to-database-extension');
+            case 'Author':
+                return __('Author', 'contact-form-7-to-database-extension');
+            case 'Contributor':
+                return __('Contributor', 'contact-form-7-to-database-extension');
+            case 'Subscriber':
+                return __('Subscriber', 'contact-form-7-to-database-extension');
+            case 'Anyone':
+                return __('Anyone', 'contact-form-7-to-database-extension');
+        }
+        return $optionValue;
+    }
+
     public function upgrade() {
         global $wpdb;
         $upgradeOk = true;
