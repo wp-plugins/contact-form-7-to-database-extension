@@ -1,0 +1,236 @@
+# Copyright (C) 2011
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-extension\n"
+"POT-Creation-Date: 2011-02-12 12:49:58+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2011-02-12 10:48-0500\n"
+"Last-Translator: oya <oya.simpson@gmail.com>\n"
+"Language-Team: \n"
+
+#: contact-form-7-db.php:23
+msgid "Minimal version of PHP required: "
+msgstr "PHP Minimal versiyon gereklidir:"
+
+#: contact-form-7-db.php:24
+msgid "Your server's PHP version: "
+msgstr "Kullanılan PHP Minimal versiyon:"
+
+#: contact-form-7-db.php:27
+msgid "When using the Apache web server, typically you can configure it to use PHP5 by doing the following:"
+msgstr "Apache web server kulananlar, genellikle aşağıdakini yaparak PHP5 kullanacak şekilde yapılandırabilirsiniz:"
+
+#: contact-form-7-db.php:29
+msgid "Locate and edit this file, located at the top directory of your WordPress installation: "
+msgstr "Bulun ve WordPress kurulum üst dizininde bulunan bu dosyayı düzenleyin:"
+
+#: contact-form-7-db.php:31
+msgid "Add these two lines to the file:"
+msgstr "Dosyaya şu iki satırı ekleyin:"
+
+#: ExportToJson.php:69
+#: CF7DBOptionsManager.php:278
+#: ExportToCsvUtf16le.php:32
+#: ExportToGoogleLiveData.php:29
+#: ExportToCsvUtf8.php:42
+#: ExportToGoogleSS.php:34
+#: ExportToHtml.php:122
+#: ExportToValue.php:60
+#: getFile.php:32
+msgid "You do not have sufficient permissions to access this page."
+msgstr "Bu sayfaya erişmek için yeterli izinlere sahip değilsiniz."
+
+#: CJ7DBCheckZendFramework.php:70
+msgid "Missing Zend Framework"
+msgstr "Eksik Çerçeve Zend"
+
+#: CF7DBOptionsManager.php:296
+msgid "Settings"
+msgstr "Ayarları"
+
+#: CF7DBOptionsManager.php:321
+msgid "Save Changes"
+msgstr "Değişiklikleri Kaydet"
+
+#: CF7DBOptionsManager.php:380
+#: CF7DBPlugin.php:71
+msgid "true"
+msgstr "gerçek"
+
+#: CF7DBOptionsManager.php:381
+#: CF7DBPlugin.php:73
+msgid "false"
+msgstr "yanlış"
+
+#: ExportToCsvUtf16le.php:50
+#: ExportToCsvUtf8.php:62
+msgid "Submitted"
+msgstr "Teslim"
+
+#: ExportToGoogleLiveData.php:164
+msgid "How to Set up Google Spreadsheet to pull data from WordPress"
+msgstr " WordPress'den Google Spreadsheet'e veri çekme  nasıl kurulur?"
+
+#: ExportToGoogleSS.php:64
+msgid "Login Failed"
+msgstr "Giriş Başarısız"
+
+#: ExportToGoogleSS.php:100
+msgid "New Google Spreadsheet"
+msgstr "Yeni Google Tablo-Spreadsheet"
+
+#: ExportToGoogleSS.php:109
+msgid "Error"
+msgstr "Hata"
+
+#: ExportToHtml.php:234
+msgid "Delete"
+msgstr "Silmek"
+
+#: CF7DBPlugin.php:49
+msgid "Can See Submission data"
+msgstr "Teslim DATA Gör"
+
+#: CF7DBPlugin.php:51
+msgid "Can See Submission when using shortcodes"
+msgstr " Kod kullanırken Gönderme Görebililirsiniz"
+
+#: CF7DBPlugin.php:53
+msgid "Can Delete Submission data"
+msgstr "Gönderilen DATA Silmek"
+
+#: CF7DBPlugin.php:55
+msgid "Use Javascript-enabled tables in Admin Database page"
+msgstr "Admin Veritabaninda Javascript Yönetici tablosu kullanın"
+
+#: CF7DBPlugin.php:56
+msgid "Show line breaks in submitted data table"
+msgstr "Gönderilen veri tablosunda satır sonları göster"
+
+#: CF7DBPlugin.php:57
+msgid "Use Custom Date-Time Display Format (below)"
+msgstr "Özel Tarih Kullanım Format (aşağıda)"
+
+#: CF7DBPlugin.php:58
+msgid "Date-Time Display Format"
+msgstr "Tarih-Zaman Gosterimi"
+
+#: CF7DBPlugin.php:59
+msgid "Export URLs instead of file names for uploaded files"
+msgstr "Ihracat URL'ler yerine dosyanın yüklenen dosyalar için isimler"
+
+#: CF7DBPlugin.php:60
+msgid "Do not save <u>fields</u> in DB named (comma-separated list, no spaces)"
+msgstr "DB'de bu isimli <u> alanları </ u> (virgülle ayrılmış liste, boşluksuz) Kaydetmeyin"
+
+#: CF7DBPlugin.php:61
+msgid "Do not save <u>forms</u> in DB named (comma-separated list, no spaces)"
+msgstr "DB'de <u> formları </ u> (virgülle ayrılmış liste, boşluksuz) Kaydetmeyin"
+
+#: CF7DBPlugin.php:62
+msgid "Save Cookie Data with Form Submissions"
+msgstr "Verileri Gönderme Formunda Koru"
+
+#: CF7DBPlugin.php:63
+msgid "Save only cookies in DB named (comma-separated list, no spaces, and above option must be set to true)"
+msgstr "Sadece DATAbase isimli cookie'leri kaydet (virgülle ayrılmış bir liste, herhangi bir boşluk ve yukarıdaki seçeneği doğru ayarlanması gerekir)"
+
+#: CF7DBPlugin.php:76
+msgid "Administrator"
+msgstr "Yönetici"
+
+#: CF7DBPlugin.php:78
+msgid "Editor"
+msgstr "Editör"
+
+#: CF7DBPlugin.php:80
+msgid "Author"
+msgstr "Yazar"
+
+#: CF7DBPlugin.php:82
+msgid "Contributor"
+msgstr "Katılımcı"
+
+#: CF7DBPlugin.php:84
+msgid "Subscriber"
+msgstr "Abone"
+
+#: CF7DBPlugin.php:86
+msgid "Anyone"
+msgstr "Herkes"
+
+#: CF7DBPlugin.php:212
+#: CF7DBPlugin.php:232
+msgid "Database Options"
+msgstr "Veritabanı Seçenekleri"
+
+#: CF7DBPlugin.php:230
+#: CF7DBPlugin.php:381
+msgid "Database"
+msgstr "Veritabanı"
+
+#: CF7DBPlugin.php:234
+#: CF7DBPlugin.php:420
+msgid "FAQ"
+msgstr "Yardim"
+
+#: CF7DBPlugin.php:414
+msgid "Rate this Plugin"
+msgstr "Bu Plugin'i değerlendirin"
+
+#: CF7DBPlugin.php:426
+msgid "Support"
+msgstr "Destek"
+
+#: CF7DBPlugin.php:440
+msgid "No form submissions in the database"
+msgstr "veritabanında Form gönderimleri yok"
+
+#: CF7DBPlugin.php:495
+msgid "Google Login for Upload"
+msgstr "Yüklemek için Google Giriş"
+
+#: CF7DBPlugin.php:504
+msgid "Cannot perform operation because jQuery is not loaded in this page"
+msgstr "JQuery Bu sayfada yüklü olmadığı için işlemi olmaz"
+
+#: CF7DBPlugin.php:543
+msgid "Export"
+msgstr "ihracat"
+
+#: CF7DBPlugin.php:553
+msgid "Delete All This Form's Records"
+msgstr "Bu Formu Rekorlarınin Tümünü Sil"
+
+#: CF7DBPlugin.php:611
+msgid "Did you know: This plugin captures data from both these plugins:"
+msgstr "Bunu biliyor muydunuz: Bu, plugin bu iki plugin'den data alabilir:"
+
+#: CF7DBPlugin.php:620
+msgid "Did you know: You can add this data to your posts and pages using these shortcodes:"
+msgstr "Bunu biliyor muydunuz: Siz postalarınıza bu verileri bu shortcodelarla ekleyebilirsiniz:"
+
+#: CF7DBPlugin.php:645
+msgid "Cancel"
+msgstr "Iptal"
+
+#: CF7DBPlugin.php:647
+msgid "Upload"
+msgstr "Yükle"
+
+#: getFile.php:39
+msgid "Missing form parameters"
+msgstr "Eksik form parametreleri"
+
+#: getFile.php:44
+msgid "No such file."
+msgstr "Böyle bir dosya yok"
+
+#: CFDBShortCodeLoaderSecurityCheck.php:34
+msgid "Insufficient privileges to display data from form: "
+msgstr "Görüntülemek için yetersiz yetki:"
+
