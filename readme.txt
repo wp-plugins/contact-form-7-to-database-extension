@@ -369,6 +369,8 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 == Changelog ==
 
 = 1.6.5 =
+* Now fully supports internationalization (i18n) but we need people to contribute more translation files.
+* DataTables (including those created by shortcodes) will automatically i18n based on translations available from DataTables.net
 * Admin page DataTable: removed horizontal scrolling because headers do not scroll with columns properly
 * Updated license to GPL3 from GPL2
 
