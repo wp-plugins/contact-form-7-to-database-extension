@@ -231,9 +231,7 @@ class ExportToHtml {
             <thead><tr>
             <?php if ($canDelete) { ?>
             <th>
-                <input type="image" src="<?php echo $plugin->getPluginDirUrl() ?>delete.gif"
-                       alt="<?php _e('Delete Selected', 'contact-form-7-to-database-extension')?>"
-                       onchange="this.form.submit()"/>
+                <button id="delete" name="delete" onclick="this.form.submit()"><?php _e('Delete', 'contact-form-7-to-database-extension')?></button>
             </th>
             <?php
 
