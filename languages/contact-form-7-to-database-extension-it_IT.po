@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Contact Form 7 to Database Extension in italiano\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-extension\n"
-"POT-Creation-Date: 2011-02-11 22:39:50+00:00\n"
-"PO-Revision-Date: 2011-02-12 01:17+0100\n"
+"POT-Creation-Date: 2011-02-12 12:49:58+00:00\n"
+"PO-Revision-Date: 2011-02-12 22:18+0100\n"
 "Last-Translator: Gianni Diurno (aka gidibao) <gidibao[at]gmail[dot]com>\n"
 "Language-Team: Gianni Diurno | gidibao.net\n"
 "MIME-Version: 1.0\n"
@@ -89,9 +89,9 @@ msgstr "New Google Spreadsheet"
 msgid "Error"
 msgstr "Errore"
 
-#: ExportToHtml.php:235
-msgid "Delete Selected"
-msgstr "Cancella selezionati"
+#: ExportToHtml.php:234
+msgid "Delete"
+msgstr "Elimina"
 
 #: CF7DBPlugin.php:49
 msgid "Can See Submission data"
@@ -236,3 +236,5 @@ msgstr "Nessun file."
 msgid "Insufficient privileges to display data from form: "
 msgstr "Non hai il permesso per mostrare i dati del modulo:"
 
+#~ msgid "Delete Selected"
+#~ msgstr "Cancella selezionati"
