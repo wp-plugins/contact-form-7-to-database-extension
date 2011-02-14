@@ -329,9 +329,9 @@ class CF7DBOptionsManager {
 
     /**
      * Helper-function outputs the correct form element (input tag, select tag) for the given item
-     * @param  $aOptionKey name of the option (un-prefixed)
+     * @param  $aOptionKey string name of the option (un-prefixed)
      * @param  $aOptionMeta mixed meta-data for $aOptionKey (either a string display-name or an array(display-name, option1, option2, ...)
-     * @param  $savedOptionValue current value for $aOptionKey
+     * @param  $savedOptionValue string current value for $aOptionKey
      * @return void
      */
     protected function createFormControl($aOptionKey, $aOptionMeta, $savedOptionValue) {
