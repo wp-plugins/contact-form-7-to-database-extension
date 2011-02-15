@@ -47,14 +47,6 @@ class CFDBShortcodeTable extends CFDBShortCodeLoaderSecurityCheck {
      */
     public function handleShortcodePostSecurityCheck($atts) {
         $atts['canDelete'] = false;
-        if ($atts['show']) {
-            $showColumns = preg_split('/,/', $atts['show'], -1, PREG_SPLIT_NO_EMPTY);
-            $atts['showColumns'] = $showColumns;
-        }
-        if ($atts['hide']) {
-            $hideColumns = preg_split('/,/', $atts['hide'], -1, PREG_SPLIT_NO_EMPTY);
-            $atts['hideColumns'] = $hideColumns;
-        }
         $atts['fromshortcode'] = true;
         $export = new ExportToHtml();
         $html = $export->export($atts['form'], $atts);

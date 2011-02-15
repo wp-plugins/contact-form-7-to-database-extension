@@ -79,28 +79,42 @@ class ExportToHtml implements CFDBExport {
             if (isset($options['debug']) && $options['debug'] != 'false') {
                 $debug = true;
             }
+
             if (isset($options['useDT'])) {
                 $useDT = $options['useDT'];
                 $htmlTableClass = '';
             }
+
             if (isset($options['canDelete'])) {
                 $canDelete = $options['canDelete'];
             }
+
             if (isset($options['showColumns'])) {
                 $showColumns = $options['showColumns'];
+            }
+            else if (isset($options['show'])) {
+                $showColumns = preg_split('/,/', $options['show'], -1, PREG_SPLIT_NO_EMPTY);
+            }
+
+            if (isset($options['hide'])) {
+                $hideColumns = preg_split('/,/', $options['hide'], -1, PREG_SPLIT_NO_EMPTY);
             }
             if (isset($options['hideColumns'])) {
                 $hideColumns = $options['hideColumns'];
             }
+
             if (isset($options['class'])) {
                 $htmlTableClass = $options['class'];
             }
+
             if (isset($options['id'])) {
                 $htmlTableId = $options['id'];
             }
+
             if (isset($options['style'])) {
                 $style = $options['style'];
             }
+
             if (isset($options['filter'])) {
                 $filterParser->parseFilterString($options['filter']);
                 if ($debug) {

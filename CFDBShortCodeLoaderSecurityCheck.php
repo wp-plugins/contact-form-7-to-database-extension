@@ -24,11 +24,11 @@ require_once('ShortCodeLoader.php');
 abstract class CFDBShortCodeLoaderSecurityCheck extends ShortCodeLoader {
 
     public function handleShortcode($atts) {
-        if ($atts['form']) {
+        if (isset($atts['form'])) {
             $plugin = new CF7DBPlugin();
             if ($plugin->canUserDoRoleOption('CanSeeSubmitData') ||
                     $plugin->canUserDoRoleOption('CanSeeSubmitDataViaShortcode')) {
-                return $this-> handleShortcodePostSecurityCheck($atts);
+                return $this->handleShortcodePostSecurityCheck($atts);
             }
             else {
                 echo __('Insufficient privileges to display data from form: ', 'contact-form-7-to-database-extension') . $atts['form'];

@@ -29,14 +29,6 @@ class CFDBShortcodeJson extends CFDBShortCodeLoaderSecurityCheck {
      * @return string JSON. See ExportToJson.php
      */
     public function handleShortcodePostSecurityCheck($atts) {
-        if ($atts['show']) {
-            $showColumns = preg_split('/,/', $atts['show'], -1, PREG_SPLIT_NO_EMPTY);
-            $atts['showColumns'] = $showColumns;
-        }
-        if ($atts['hide']) {
-            $hideColumns = preg_split('/,/', $atts['hide'], -1, PREG_SPLIT_NO_EMPTY);
-            $atts['hideColumns'] = $hideColumns;
-        }
         $atts['html'] = true;
         $atts['fromshortcode'] = true;
         $export = new ExportToJson();

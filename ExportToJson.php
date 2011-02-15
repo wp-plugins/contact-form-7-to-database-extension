@@ -39,18 +39,29 @@ class ExportToJson implements CFDBExport {
             if (isset($options['debug']) && $options['debug'] != 'false') {
                 $debug = true;
             }
+
             if (isset($options['html'])) {
                 $html = $options['html'];
             }
+
             if (isset($options['var'])) {
                 $varName = $options['var'];
             }
+
             if (isset($options['showColumns'])) {
                 $showColumns = $options['showColumns'];
             }
+            else if (isset($options['show'])) {
+                $showColumns = preg_split('/,/', $options['show'], -1, PREG_SPLIT_NO_EMPTY);
+            }
+
             if (isset($options['hideColumns'])) {
                 $hideColumns = $options['hideColumns'];
             }
+            else if (isset($options['hide'])) {
+                $hideColumns = preg_split('/,/', $options['hide'], -1, PREG_SPLIT_NO_EMPTY);
+            }
+
             if (isset($options['filter'])) {
                 $filterParser->parseFilterString($options['filter']);
                 if ($debug) {

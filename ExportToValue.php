@@ -36,12 +36,21 @@ class ExportToValue implements CFDBExport {
             if (isset($options['debug']) && $options['debug'] != 'false') {
                 $debug = true;
             }
+
             if (isset($options['showColumns'])) {
                 $showColumns = $options['showColumns'];
             }
+            if (isset($options['show'])) {
+                $showColumns = preg_split('/,/', $options['show'], -1, PREG_SPLIT_NO_EMPTY);
+            }
+
             if (isset($options['hideColumns'])) {
                 $hideColumns = $options['hideColumns'];
             }
+            if (isset($options['hide'])) {
+                $hideColumns = preg_split('/,/', $options['hide'], -1, PREG_SPLIT_NO_EMPTY);
+            }
+
             if (isset($options['filter'])) {
                 $filterParser->parseFilterString($options['filter']);
                 if ($debug) {
