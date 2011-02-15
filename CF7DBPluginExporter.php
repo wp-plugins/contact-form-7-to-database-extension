@@ -19,51 +19,58 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('ExportToCsvUtf8.php');
-require_once('ExportToCsvUtf16le.php');
-require_once('ExportToIqy.php');
-require_once('ExportToGoogleSS.php');
-require_once('ExportToGoogleLiveData.php');
-
 class CF7DBPluginExporter {
 
-    static function export($formName, $encoding, $guser = null, $gpwd = null) {
+    static function export($formName, $encoding, $options) {
 
         switch ($encoding) {
             case 'HTML':
+                require_once('ExportToHtml.php');
                 $exporter = new ExportToHtml();
-                $exporter->export($formName);
+                $exporter->export($formName, $options);
                 break;
             case 'IQY':
+                require_once('ExportToIqy.php');
                 $exporter = new ExportToIqy();
-                $exporter->export($formName);
+                $exporter->export($formName, $options);
                 break;
             case 'CSVUTF8BOM':
+                require_once('ExportToCsvUtf8.php');
                 $exporter = new ExportToCsvUtf8();
                 $exporter->setUseBom(true);
-                $exporter->export($formName);
+                $exporter->export($formName, $options);
                 break;
             case 'TSVUTF16LEBOM':
+                require_once('ExportToCsvUtf16le.php');
                 $exporter = new ExportToCsvUtf16le();
-                $exporter->export($formName);
+                $exporter->export($formName, $options);
                 break;
             case 'GLD':
+                require_once('ExportToGoogleLiveData.php');
                 $exporter = new ExportToGoogleLiveData();
-                $exporter->export($formName);
+                $exporter->export($formName, $options);
                 break;
             case 'GSS':
+                require_once('ExportToGoogleSS.php');
                 $exporter = new ExportToGoogleSS();
-                $exporter->export($formName, $guser, $gpwd);
+                $exporter->export($formName, $options);
                 break;
             case 'JSON':
+                require_once('ExportToJson.php');
                 $exporter = new ExportToJson();
-                $exporter->export($formName);
+                $exporter->export($formName, $options);
+                break;
+            case 'VALUE':
+                require_once('ExportToValue.php');
+                $exporter = new ExportToValue();
+                $exporter->export($formName, $options);
                 break;
             case 'CSVUTF8':
             default:
+                require_once('ExportToCsvUtf8.php');
                 $exporter = new ExportToCsvUtf8();
                 $exporter->setUseBom(false);
-                $exporter->export($formName);
+                $exporter->export($formName, $options);
                 break;
         }
     }

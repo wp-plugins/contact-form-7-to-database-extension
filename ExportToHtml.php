@@ -22,8 +22,9 @@
 require_once('CF7DBPlugin.php');
 require_once('CF7FilterParser.php');
 require_once('DereferenceShortcodeVars.php');
+require_once('CFDBExport.php');
 
-class ExportToHtml {
+class ExportToHtml implements CFDBExport {
 
     /**
      * Echo a table of submitted form data
@@ -61,7 +62,7 @@ class ExportToHtml {
 
      * @return void
      */
-    public function export(&$formName, $options = null) {
+    public function export($formName, $options = null) {
 
         $debug = false;
         $canDelete = false;

@@ -20,10 +20,11 @@
 */
 
 require_once('CF7DBPlugin.php');
+require_once('CFDBExport.php');
 
-class ExportToIqy {
+class ExportToIqy implements CFDBExport {
 
-    public function export($formName) {
+    public function export($formName, $options = null) {
         header('Content-Type: text/x-ms-iqy');
         header("Content-Disposition: attachment; filename=\"$formName.iqy\"");
 

@@ -19,12 +19,10 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once('../../../wp-config.php');
-include_once('../../../wp-includes/functions.php');
-require_wp_db();
 require_once('CF7DBPlugin.php');
+require_once('CFDBExport.php');
 
-class ExportToCsvUtf8 {
+class ExportToCsvUtf8 implements CFDBExport{
 
     var $useBom = false;
     var $plugin;
@@ -37,7 +35,7 @@ class ExportToCsvUtf8 {
         $this->useBom = $use;
     }
 
-    public function export($formName) {
+    public function export($formName, $options = null) {
         if (!$this->plugin->canUserDoRoleOption('CanSeeSubmitData')) {
             wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
         }

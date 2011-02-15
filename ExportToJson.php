@@ -22,10 +22,11 @@
 require_once('CF7DBPlugin.php');
 require_once('CF7FilterParser.php');
 require_once('DereferenceShortcodeVars.php');
+require_once('CFDBExport.php');
 
-class ExportToJson {
+class ExportToJson implements CFDBExport {
 
-    public function export(&$formName, $options = null) {
+    public function export($formName, $options = null) {
         $debug = false;
         $varName = 'cf7db';
         $html = false; // i.e. create an HTML script tag and Javascript variable

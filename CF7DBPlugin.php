@@ -515,8 +515,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                             jQuery("#GoogleCredentialsDialog").dialog('close');
                             var form = document.createElement("form");
                             form.setAttribute("method", 'POST');
-                            form.setAttribute("action", '<?php echo $pluginDirUrl ?>export.php?form=<?php echo urlencode($currSelection) ?>');
-                            var params = {enc: 'GSS', guser: encodeURI(guser), gpwd: encodeURI(gpwd)};
+                            form.setAttribute("action", '<?php echo $pluginDirUrl ?>export.php?form=<?php echo urlencode($currSelection) ?>&enc=GSS');
+                            var params = {guser: encodeURI(guser), gpwd: encodeURI(gpwd)};
                             for (var pkey in params) {
                                 var hiddenField = document.createElement("input");
                                 hiddenField.setAttribute("type", "hidden");

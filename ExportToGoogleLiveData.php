@@ -20,10 +20,11 @@
 */
 
 require_once('CF7DBPlugin.php');
+require_once('CFDBExport.php');
 
-class ExportToGoogleLiveData {
+class ExportToGoogleLiveData implements CFDBExport {
 
-    public function export($formName) {
+    public function export($formName, $options = null) {
         $plugin = new CF7DBPlugin();
         if (!$plugin->canUserDoRoleOption('CanSeeSubmitData')) {
             wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));

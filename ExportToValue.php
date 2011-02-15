@@ -22,9 +22,10 @@
 require_once('CF7DBPlugin.php');
 require_once('CF7FilterParser.php');
 require_once('DereferenceShortcodeVars.php');
+require_once('CFDBExport.php');
 
-class ExportToValue {
-    public function export(&$formName, $options = null) {
+class ExportToValue implements CFDBExport {
+    public function export($formName, $options = null) {
         $debug = false;
         $showColumns = null;
         $hideColumns = null;

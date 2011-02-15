@@ -19,44 +19,44 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
+include_once('../../../wp-config.php');
+include_once('../../../wp-includes/functions.php');
+require_wp_db();
+
 require_once('CF7DBPluginExporter.php');
-require_once('CF7DBUtil.php');
 
 function cF7DBExport_export() {
-    $form = CF7DBUtil::getParam('form');
-    if (!$form) {
-        ?>
-        <html>
-        <body>Error: No "form" parameter submitted</body>
-        </html>
-        <?php
+
+    // Consolidate GET and POST parameters. Allow GET to override POST.
+    $params = array_merge($_POST, $_GET);
+
+    //print_r($params);
+
+    if (!isset($params['form'])) {
+        wp_die(__('Error: No "form" parameter submitted', 'contact-form-7-to-database-extension'));
         return;
     }
 
-    $guser = CF7DBUtil::getParam('guser');
-    $gpwd = CF7DBUtil::getParam('gpwd');
-
-    // Assumes session started in CF7DBPlugin::whatsInTheDBPage()
+    // Assumes coming from CF7DBPlugin::whatsInTheDBPage()
     $key = '3fde789a'; //substr($_COOKIE['PHPSESSID'], - 5); // session_id() doesn't work
-    if ($guser) {
-        $guser = mcrypt_decrypt(MCRYPT_3DES, $key, hexToStr($guser), 'ecb');
+    if (isset($params['guser'])) {
+        $params['guser'] = mcrypt_decrypt(MCRYPT_3DES, $key, hexToStr($params['guser']), 'ecb');
     }
-    if ($gpwd) {
-        $gpwd = mcrypt_decrypt(MCRYPT_3DES, $key, hexToStr($gpwd), 'ecb');
+    if (isset($params['gpwd'])) {
+        $params['gpwd'] = mcrypt_decrypt(MCRYPT_3DES, $key, hexToStr($params['gpwd']), 'ecb');
     }
 
     CF7DBPluginExporter::export(
-       $form,
-       CF7DBUtil::getParam('enc'),
-       $guser,
-       $gpwd);
+        $params['form'],
+        $params['enc'],
+        $params);
 }
 
 // Taken from http://ditio.net/2008/11/04/php-string-to-hex-and-hex-to-string-functions/
 function hexToStr($hex) {
-    $string='';
-    for ($i=0; $i < strlen($hex)-1; $i+=2) {
-        $string .= chr(hexdec($hex[$i].$hex[$i+1]));
+    $string = '';
+    for ($i = 0; $i < strlen($hex) - 1; $i += 2) {
+        $string .= chr(hexdec($hex[$i] . $hex[$i + 1]));
     }
     return $string;
 }

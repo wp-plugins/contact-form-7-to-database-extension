@@ -19,16 +19,17 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once('../../../wp-config.php');
-include_once('../../../wp-includes/functions.php');
-require_wp_db();
 require_once('CF7DBPlugin.php');
 require_once('CJ7DBCheckZendFramework.php');
 require_once('ExportToCsvUtf8.php');
+require_once('CFDBExport.php');
 
-class ExportToGoogleSS {
+class ExportToGoogleSS implements CFDBExport {
 
-    public function export($formName, $guser, $gpwd) {
+    public function export($formName, $options = null) {
+        $guser = $options['guser'];
+        $gpwd = $options['gpwd'];
+
         $plugin = new CF7DBPlugin();
         if (!$plugin->canUserDoRoleOption('CanSeeSubmitData')) {
             wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
