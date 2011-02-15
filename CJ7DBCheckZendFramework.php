@@ -45,10 +45,11 @@ class CJ7DBCheckZendFramework {
                     "</code><br/>
             </p>
             <ol>
-                <li>locate the the <b>Zend</b> directory on your computer</li>
+                <li>locate the the <span style="font-weight: bold;">Zend</span> directory on your computer</li>
                 <li>If found, here is one way to put it on the include path</li>
                 <ol>
-                    <li style="list-style: lower-roman">copy the <b>php.ini</b> file to your WordPress installation to <b>[wp-dir]/wp-content/plugins/contact-form-7-to-database-extension/php.ini</b>
+                    <li style="list-style: lower-roman">copy the <span style="font-weight: bold;">php.ini</span> file to your WordPress installation to
+                        <span style="font-weight: bold;">[wp-dir]/wp-content/plugins/contact-form-7-to-database-extension/php.ini</span>
                     </li>
                     <li style="list-style: lower-roman">add a line to this new file:<br/>
                         <code>include_path="<?php echo(ini_get('include_path') . PATH_SEPARATOR . "[Zend-parent-directory]");?>"</code>
