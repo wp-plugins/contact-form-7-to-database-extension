@@ -27,8 +27,6 @@ require_once('CFDBExport.php');
 class ExportToGoogleSS extends ExportBase implements CFDBExport {
 
     public function export($formName, $options = null) {
-        $guser = $options['guser'];
-        $gpwd = $options['gpwd'];
 
         // Security Check
         if (!$this->isAuthorized($options)) {
@@ -50,6 +48,8 @@ class ExportToGoogleSS extends ExportBase implements CFDBExport {
         Zend_Loader::loadClass('Zend_Http_Client');
         Zend_Loader::loadClass('Zend_Gdata_Docs');
 
+        $guser = $options['guser'];
+        $gpwd = $options['gpwd'];
         try {
             $client = Zend_Gdata_ClientLogin::getHttpClient(
                 $guser, $gpwd,
