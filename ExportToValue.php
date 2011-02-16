@@ -64,7 +64,10 @@ class ExportToValue extends ExportBase implements CFDBExport {
         }
 
         // Security Check
-        $this->assertSecurityCheck($options);
+        if (!$this->isAuthorized($options)) {
+            $this->assertSecurityErrorMessage($options);
+            return;
+        }
 
         // Headers
         $this->echoHeaders('Content-Type: text/plain; charset=UTF-8');

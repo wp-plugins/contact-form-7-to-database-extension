@@ -37,8 +37,12 @@ class ExportToCsvUtf8 extends ExportBase implements CFDBExport {
     }
 
     public function export($formName, $options = null) {
+
         // Security Check
-        $this->assertSecurityCheck($options);
+        if (!$this->isAuthorized($options)) {
+            $this->assertSecurityErrorMessage($options);
+            return;
+        }
 
         // Headers
         $this->echoHeaders(

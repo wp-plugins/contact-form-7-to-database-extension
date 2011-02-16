@@ -74,7 +74,10 @@ class ExportToJson extends ExportBase implements CFDBExport {
         }
 
         // Security Check
-        $this->assertSecurityCheck($options);
+        if (!$this->isAuthorized($options)) {
+            $this->assertSecurityErrorMessage($options);
+            return;
+        }
 
         // Headers
         $contentType = $html ? 'Content-Type: text/html; charset=UTF-8' : 'Content-Type: application/json';

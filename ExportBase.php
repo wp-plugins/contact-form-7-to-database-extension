@@ -23,13 +23,20 @@ require_once('CF7DBPlugin.php');
 
 class ExportBase {
 
-    protected function assertSecurityCheck($options = null) {
+    protected function isAuthorized($options = null) {
         $plugin = new CF7DBPlugin();
-        $securityCheck = (isset($options['fromshortcode']) && $options['fromshortcode'] === true) ?
+        return (isset($options['fromshortcode']) && $options['fromshortcode'] === true) ?
                 $plugin->canUserDoRoleOption('CanSeeSubmitDataViaShortcode') :
                 $plugin->canUserDoRoleOption('CanSeeSubmitData');
-        if (!$securityCheck) {
-            wp_die(__('You do not have sufficient permissions to access this data.', 'contact-form-7-to-database-extension'));
+    }
+
+    protected function assertSecurityErrorMessage($options = null) {
+        $errMsg = __('You do not have sufficient permissions to access this data.', 'contact-form-7-to-database-extension');
+        if (isset($options['fromshortcode']) && $options['fromshortcode'] === true) {
+           echo $errMsg;
+        }
+        else {
+            wp_die($errMsg);
         }
     }
 
