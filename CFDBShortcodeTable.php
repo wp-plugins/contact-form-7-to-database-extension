@@ -19,10 +19,10 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('CFDBShortCodeLoaderSecurityCheck.php');
+require_once('ShortCodeLoader.php');
 require_once('CF7DBPlugin.php');
 
-class CFDBShortcodeTable extends CFDBShortCodeLoaderSecurityCheck {
+class CFDBShortcodeTable extends ShortCodeLoader {
 
     /**
      * Shortcode callback for writing the table of form data. Can be put in a page or post to show that data.
@@ -45,7 +45,7 @@ class CFDBShortcodeTable extends CFDBShortCodeLoaderSecurityCheck {
      * @param  $atts array of short code attributes
      * @return HTML output of shortcode
      */
-    public function handleShortcodePostSecurityCheck($atts) {
+    public function handleShortcode($atts) {
         $atts['canDelete'] = false;
         $atts['fromshortcode'] = true;
         $export = new ExportToHtml();

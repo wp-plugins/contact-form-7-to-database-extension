@@ -22,9 +22,11 @@
 require_once('CF7DBPlugin.php');
 require_once('CF7FilterParser.php');
 require_once('DereferenceShortcodeVars.php');
+require_once('ExportBase.php');
 require_once('CFDBExport.php');
 
-class ExportToValue implements CFDBExport {
+class ExportToValue extends ExportBase implements CFDBExport {
+
     public function export($formName, $options = null) {
         $debug = false;
         $showColumns = null;
@@ -62,25 +64,13 @@ class ExportToValue implements CFDBExport {
         }
 
         // Security Check
-        $plugin = new CF7DBPlugin();
-        $securityCheck = $options['fromshortcode'] ?
-                $plugin->canUserDoRoleOption('CanSeeSubmitDataViaShortcode') :
-                $plugin->canUserDoRoleOption('CanSeeSubmitData');
-        if (!$securityCheck) {
-            wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
-        }
-        if (!headers_sent()) {
-            header('Expires: 0');
-            header('Cache-Control: no-store, no-cache, must-revalidate');
-            header('Content-Type: text/plain; charset=UTF-8');
+        $this->assertSecurityCheck($options);
 
-            // Hoping to keep the browser from timing out if connection from Google SS Live Data
-            // script is calling this page to get information
-            header("Keep-Alive: timeout=60"); // Not a standard HTTP header; browsers may disregard
-            flush();
-        }
+        // Headers
+        $this->echoHeaders('Content-Type: text/plain; charset=UTF-8');
 
         // Query DB for the data for that form
+        $plugin = new CF7DBPlugin();
         $tableData = $plugin->getRowsPivot($formName);
 
         // Get the columns to display

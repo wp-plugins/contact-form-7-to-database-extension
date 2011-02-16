@@ -20,22 +20,22 @@
 */
 
 require_once('CF7DBPlugin.php');
+require_once('ExportBase.php');
 require_once('CFDBExport.php');
 
-class ExportToCsvUtf16le implements CFDBExport {
+class ExportToCsvUtf16le extends ExportBase implements CFDBExport {
 
     public function export($formName, $options = null) {
-        $plugin = new CF7DBPlugin();
-        if (!$plugin->canUserDoRoleOption('CanSeeSubmitData')) {
-            wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
-        }
-        header('Expires: 0');
-        header('Cache-Control: no-store, no-cache, must-revalidate');
-        header('Content-Type: text/csv; charset=UTF-16LE');
-        $fileName = $formName . '.csv';
-        header("Content-Disposition: attachment; filename=\"$fileName\"");
 
+        // Security Check
+        $this->assertSecurityCheck($options);
+
+        // Headers
+        $this->echoHeaders(
+            array('Content-Type: text/csv; charset=UTF-16LE',
+                 "Content-Disposition: attachment; filename=\"$formName.csv\""));
         // todo: make this work
+//        $fileName = $formName . '.csv';
 //        $fileName = $this->encodeWordRfc2231($formName) . '.csv';
 //        header("Content-Disposition: attachment; filename*=UTF-8''$fileName");
 
@@ -47,6 +47,7 @@ class ExportToCsvUtf16le implements CFDBExport {
         // Column Headers
         echo $this->prepareCsvValue(utf8_encode(__('Submitted', 'contact-form-7-to-database-extension', 'contact-form-7-to-database-extension')));
         echo $delimiter;
+        $plugin = new CF7DBPlugin();
         $tableData = $plugin->getRowsPivot($formName);
         foreach ($tableData->columns as $aCol) {
             echo $this->prepareCsvValue($aCol);

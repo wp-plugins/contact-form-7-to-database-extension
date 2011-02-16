@@ -19,15 +19,15 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('CFDBShortCodeLoaderSecurityCheck.php');
+require_once('ShortCodeLoader.php');
 
-class CFDBShortcodeValue extends CFDBShortCodeLoaderSecurityCheck {
+class CFDBShortcodeValue extends ShortCodeLoader {
 
     /**
      * @param  $atts array of short code attributes
      * @return string value submitted to a form field as selected by $atts. See ExportToValue.php
      */
-    public function handleShortcodePostSecurityCheck($atts) {
+    public function handleShortcode($atts) {
         $atts['fromshortcode'] = true;
         $export = new ExportToValue();
         $html = $export->export($atts['form'], $atts);

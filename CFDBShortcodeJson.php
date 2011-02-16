@@ -19,16 +19,16 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('CFDBShortCodeLoaderSecurityCheck.php');
+require_once('ShortCodeLoader.php');
 require_once('ExportToJson.php');
 
-class CFDBShortcodeJson extends CFDBShortCodeLoaderSecurityCheck {
+class CFDBShortcodeJson extends ShortCodeLoader {
 
     /**
      * @param  $atts array of short code attributes
      * @return string JSON. See ExportToJson.php
      */
-    public function handleShortcodePostSecurityCheck($atts) {
+    public function handleShortcode($atts) {
         $atts['html'] = true;
         $atts['fromshortcode'] = true;
         $export = new ExportToJson();

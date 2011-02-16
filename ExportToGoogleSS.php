@@ -19,24 +19,22 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('CF7DBPlugin.php');
 require_once('CJ7DBCheckZendFramework.php');
 require_once('ExportToCsvUtf8.php');
+require_once('ExportBase.php');
 require_once('CFDBExport.php');
 
-class ExportToGoogleSS implements CFDBExport {
+class ExportToGoogleSS extends ExportBase implements CFDBExport {
 
     public function export($formName, $options = null) {
         $guser = $options['guser'];
         $gpwd = $options['gpwd'];
 
-        $plugin = new CF7DBPlugin();
-        if (!$plugin->canUserDoRoleOption('CanSeeSubmitData')) {
-            wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
-        }
-        header('Expires: 0');
-        header('Cache-Control: no-store, no-cache, must-revalidate');
-        header('Content-Type: text/html; charset=UTF-8');
+        // Security Check
+        $this->assertSecurityCheck($options);
+
+        // Headers
+        $this->echoHeaders('Content-Type: text/html; charset=UTF-8');
 
         // Hoping to keep the browser from timing out if connection to Google Docs is slow
         // Not a standard HTTP header; browsers may disregard

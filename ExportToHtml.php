@@ -22,9 +22,10 @@
 require_once('CF7DBPlugin.php');
 require_once('CF7FilterParser.php');
 require_once('DereferenceShortcodeVars.php');
+require_once('ExportBase.php');
 require_once('CFDBExport.php');
 
-class ExportToHtml implements CFDBExport {
+class ExportToHtml extends ExportBase implements CFDBExport {
 
     /**
      * Echo a table of submitted form data
@@ -129,28 +130,17 @@ class ExportToHtml implements CFDBExport {
         }
 
         // Security Check
-        $plugin = new CF7DBPlugin();
-        $securityCheck = isset($options['fromshortcode']) ?
-                $plugin->canUserDoRoleOption('CanSeeSubmitDataViaShortcode') :
-                $plugin->canUserDoRoleOption('CanSeeSubmitData');
-        if (!$securityCheck) {
-            wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
-        }
-        if (!headers_sent()) {
-            header('Expires: 0');
-            header('Cache-Control: no-store, no-cache, must-revalidate');
-            header('Content-Type: text/html; charset=UTF-8');
+        $this->assertSecurityCheck($options);
 
-            // Hoping to keep the browser from timing out
-            header("Keep-Alive: timeout=60"); // Not a standard HTTP header; browsers may disregard
-            flush();
-        }
+        // Headers
+        $this->echoHeaders('Content-Type: text/html; charset=UTF-8');
 
-        if (isset($options['fromshortcode'])) {
+        if (isset($options['fromshortcode']) && $options['fromshortcode'] === true) {
             ob_start();
         }
 
         // Query DB for the data for that form
+        $plugin = new CF7DBPlugin();
         $tableData = $plugin->getRowsPivot($formName);
 
         // Get the columns to display

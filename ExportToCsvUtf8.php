@@ -20,9 +20,10 @@
 */
 
 require_once('CF7DBPlugin.php');
+require_once('ExportBase.php');
 require_once('CFDBExport.php');
 
-class ExportToCsvUtf8 implements CFDBExport{
+class ExportToCsvUtf8 extends ExportBase implements CFDBExport {
 
     var $useBom = false;
     var $plugin;
@@ -36,13 +37,13 @@ class ExportToCsvUtf8 implements CFDBExport{
     }
 
     public function export($formName, $options = null) {
-        if (!$this->plugin->canUserDoRoleOption('CanSeeSubmitData')) {
-            wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
-        }
-        header('Expires: 0');
-        header('Cache-Control: no-store, no-cache, must-revalidate');
-        header('Content-Type: text/csv; charset=UTF-8');
-        header("Content-Disposition: attachment; filename=\"$formName.csv\"");
+        // Security Check
+        $this->assertSecurityCheck($options);
+
+        // Headers
+        $this->echoHeaders(
+            array('Content-Type: text/html; charset=UTF-8',
+                 "Content-Disposition: attachment; filename=\"$formName.csv\""));
 
         $this->echoCsv($formName);
     }
