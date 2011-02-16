@@ -35,7 +35,7 @@ class ExportBase {
 
 
     /**
-     * @param null $headers mixed string header-string or array of header strings.
+     * @param string|array|null $headers mixed string header-string or array of header strings.
      * E.g. Content-Type, Content-Disposition, etc.
      * @return void
      */
