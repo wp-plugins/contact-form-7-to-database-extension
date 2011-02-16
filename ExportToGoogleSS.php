@@ -39,12 +39,6 @@ class ExportToGoogleSS extends ExportBase implements CFDBExport {
         // Headers
         $this->echoHeaders('Content-Type: text/html; charset=UTF-8');
 
-        // Hoping to keep the browser from timing out if connection to Google Docs is slow
-        // Not a standard HTTP header; browsers may disregard
-        header("Keep-Alive: timeout=60");
-
-        flush(); // try to prevent the browser from timing out on slow uploads by giving it something
-
         if (!CJ7DBCheckZendFramework::checkIncludeZend()) {
             return;
         }
