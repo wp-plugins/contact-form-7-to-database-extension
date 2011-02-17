@@ -416,8 +416,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 </td>
                 <td width="25%" style="font-size:x-small;">
                     <a target="_cf7todb"
-                       href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/">
-                    <?php _e('FAQ', 'contact-form-7-to-database-extension') ?>
+                       href="http://cfdbplugin.com/">
+                    <?php _e('Documentation', 'contact-form-7-to-database-extension') ?>
                     </a>
                 </td>
                 <td width="25%" style="font-size:x-small;">
@@ -618,10 +618,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                     <td align="center" colspan="4">
                         <span style="font-size:x-small; font-style: italic;">
                         <?php _e('Did you know: You can add this data to your posts and pages using these shortcodes:', 'contact-form-7-to-database-extension'); ?>
-                            <a target="_faq" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/#cfdb-datatable">[cfdb-datatable]</a>
-                            <a target="_faq" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/#cfdb-table">[cfdb-table]</a>
-                            <a target="_faq" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/#cfdb-value">[cfdb-value]</a>
-                            <a target="_faq" href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/#cfdb-json">[cfdb-json]</a>
+                            <a target="_faq" href="http://cfdbplugin.com/?page_id=91">[cfdb-datatable]</a>
+                            <a target="_faq" href="http://cfdbplugin.com/?page_id=93">[cfdb-table]</a>
+                            <a target="_faq" href="http://cfdbplugin.com/?page_id=98">[cfdb-value]</a>
+                            <a target="_faq" href="http://cfdbplugin.com/?page_id=96">[cfdb-json]</a>
                         </span>
                     </td>
                 </tr>
