@@ -625,6 +625,14 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                         </span>
                     </td>
                 </tr>
+                <tr>
+                    <td align="center" colspan="4">
+                        <span style="font-size:x-small; font-style: italic;">
+                            <?php _e('Would you like to help translate this plugin into your language?', 'contact-form-7-to-database-extension'); ?>
+                            <a target="_i18n" href="http://cfdbplugin.com/?page_id=7"><?php _e('How to create a translation', 'contact-form-7-to-database-extension'); ?></a>
+                        </span>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>
