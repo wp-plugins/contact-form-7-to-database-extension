@@ -368,6 +368,9 @@ It now under CF7's top level "Contact" admin menu. Look for "Contact" -> "Databa
 
 == Changelog ==
 
+= 1.7 =
+* Fixed bug where "Submitted" column would sometimes appear twice.
+
 = 1.6.5 =
 * Now fully supports internationalization (i18n) but we need people to contribute more translation files.
 * DataTables (including those created by shortcodes) will automatically i18n based on translations available from DataTables.net
