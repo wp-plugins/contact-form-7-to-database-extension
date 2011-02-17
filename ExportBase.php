@@ -67,4 +67,37 @@ class ExportBase {
             flush();
         }
     }
+
+    protected function getColumnsToDisplay($hideColumns, $showColumns, &$dataColumns) {
+        // Get the columns to display
+        $columns = array();
+        if ($hideColumns == null || !is_array($hideColumns)) { // no hidden cols specified
+            $tmpArray = ($showColumns != null) ? $showColumns : $dataColumns;
+            foreach ($tmpArray as $aCol) {
+                if ($aCol != 'Submitted') {
+                    $columns[] = $aCol;
+                }
+            }
+        }
+        else {
+            $tmpArray = ($showColumns != null) ? $showColumns : $dataColumns;
+            foreach ($tmpArray as $aCol) {
+                if ($aCol != 'Submitted' && !in_array($aCol, $hideColumns)) {
+                    $columns[] = $aCol;
+                }
+            }
+        }
+        return $columns;
+    }
+
+    protected function getShowSubmitField($hideColumns, $showColumns) {
+        $showSubmitField = true;
+        if ($hideColumns != null && is_array($hideColumns) && in_array('Submitted', $hideColumns)) {
+            $showSubmitField = false;
+        }
+        else if ($showColumns != null && is_array($showColumns)) {
+            $showSubmitField = in_array('Submitted', $showColumns);
+        }
+        return $showSubmitField;
+    }
 }

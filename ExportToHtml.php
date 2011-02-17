@@ -147,30 +147,8 @@ class ExportToHtml extends ExportBase implements CFDBExport {
         $tableData = $plugin->getRowsPivot($formName);
 
         // Get the columns to display
-        if ($hideColumns == null || !is_array($hideColumns)) { // no hidden cols specified
-            $columns = ($showColumns != null) ? $showColumns : $tableData->columns;
-        }
-        else {
-            $tmpArray = ($showColumns != null) ? $showColumns : $tableData->columns;
-            $columns = array();
-            foreach ($tmpArray as $aCol) {
-                if (!in_array($aCol, $hideColumns)) {
-                    $columns[] = $aCol;
-                }
-            }
-        }
-
-        $showSubmitField = true;
-        {
-            if ($hideColumns != null && is_array($hideColumns)) {
-                if (in_array('Submitted', $hideColumns)) {
-                    $showSubmitField = false;
-                }
-            }
-            if ($showColumns != null && is_array($showColumns)) {
-                $showSubmitField = in_array('Submitted', $showColumns);
-            }
-        }
+        $columns = $this->getColumnsToDisplay($hideColumns, $showColumns, $tableData->columns);
+        $showSubmitField = $this->getShowSubmitField($hideColumns, $showColumns);
 
         if ($useDT) {
             $dtJsOptions = $options['dt_options'];
