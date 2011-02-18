@@ -530,14 +530,30 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                     </script>
                     <form name="exportcsv" action="">
                         <select size="1" name="enc">
-                            <option id="IQY" value="IQY">Excel Internet Query</option>
-                            <option id="CSVUTF8BOM" value="CSVUTF8BOM">Excel CVS (UTF8-BOM)</option>
-                            <option id="TSVUTF16LEBOM" value="TSVUTF16LEBOM">Excel TSV (UTF16LE-BOM)</option>
-                            <option id="CSVUTF8" value="CSVUTF8">Plain CVS (UTF-8)</option>
-                            <option id="GSS" value="GSS">Google Spreadsheet</option>
-                            <option id="GLD" value="GLD">Google Spreadsheet Live Data</option>
-                            <option id="HTML" value="HTML">HTML</option>
-                            <option id="JSON" value="JSON">JSON</option>
+                            <option id="IQY" value="IQY">
+                                <?php _e('Excel Internet Query', 'contact-form-7-to-database-extension'); ?>
+                            </option>
+                            <option id="CSVUTF8BOM" value="CSVUTF8BOM">
+                                <?php _e('Excel CSV (UTF8-BOM)', 'contact-form-7-to-database-extension'); ?>
+                            </option>
+                            <option id="TSVUTF16LEBOM" value="TSVUTF16LEBOM">
+                                <?php _e('Excel TSV (UTF16LE-BOM)', 'contact-form-7-to-database-extension'); ?>
+                            </option>
+                            <option id="CSVUTF8" value="CSVUTF8">
+                                <?php _e('Plain CSV (UTF-8)', 'contact-form-7-to-database-extension'); ?>
+                            </option>
+                            <option id="GSS" value="GSS">
+                                <?php _e('Google Spreadsheet', 'contact-form-7-to-database-extension'); ?>
+                            </option>
+                            <option id="GLD" value="GLD">
+                                <?php _e('Google Spreadsheet Live Data', 'contact-form-7-to-database-extension'); ?>
+                            </option>
+                            <option id="HTML" value="HTML">
+                                <?php _e('HTML', 'contact-form-7-to-database-extension'); ?>
+                            </option>
+                            <option id="JSON" value="JSON">
+                                <?php _e('JSON', 'contact-form-7-to-database-extension'); ?>
+                            </option>
                         </select>
                         <input name="exportButton" type="button"
                                value="<?php _e('Export', 'contact-form-7-to-database-extension'); ?>"
