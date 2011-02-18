@@ -27,10 +27,11 @@ require_once('CFDBExport.php');
 class ExportToGoogleSS extends ExportBase implements CFDBExport {
 
     public function export($formName, $options = null) {
+        $this->setOptions($options);
 
         // Security Check
-        if (!$this->isAuthorized($options)) {
-            $this->assertSecurityErrorMessage($options);
+        if (!$this->isAuthorized()) {
+            $this->assertSecurityErrorMessage();
             return;
         }
 

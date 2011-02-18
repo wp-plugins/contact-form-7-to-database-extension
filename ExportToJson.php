@@ -28,18 +28,13 @@ require_once('CFDBExport.php');
 class ExportToJson extends ExportBase implements CFDBExport {
 
     public function export($formName, $options = null) {
-        $debug = false;
+        $this->setOptions($options);
+        $this->setCommonOptions($options);
+
         $varName = 'cf7db';
         $html = false; // i.e. create an HTML script tag and Javascript variable
-        $showColumns = null;
-        $hideColumns = null;
-        $filterParser = new CF7FilterParser;
-        $filterParser->setComparisonValuePreprocessor(new DereferenceShortcodeVars);
 
         if ($options && is_array($options)) {
-            if (isset($options['debug']) && $options['debug'] != 'false') {
-                $debug = true;
-            }
 
             if (isset($options['html'])) {
                 $html = $options['html'];
@@ -48,34 +43,11 @@ class ExportToJson extends ExportBase implements CFDBExport {
             if (isset($options['var'])) {
                 $varName = $options['var'];
             }
-
-            if (isset($options['showColumns'])) {
-                $showColumns = $options['showColumns'];
-            }
-            else if (isset($options['show'])) {
-                $showColumns = preg_split('/,/', $options['show'], -1, PREG_SPLIT_NO_EMPTY);
-            }
-
-            if (isset($options['hideColumns'])) {
-                $hideColumns = $options['hideColumns'];
-            }
-            else if (isset($options['hide'])) {
-                $hideColumns = preg_split('/,/', $options['hide'], -1, PREG_SPLIT_NO_EMPTY);
-            }
-
-            if (isset($options['filter'])) {
-                $filterParser->parseFilterString($options['filter']);
-                if ($debug) {
-                    echo '<pre>';
-                    print_r($filterParser->getFilterTree());
-                    echo '</pre>';
-                }
-            }
         }
 
         // Security Check
-        if (!$this->isAuthorized($options)) {
-            $this->assertSecurityErrorMessage($options);
+        if (!$this->isAuthorized()) {
+            $this->assertSecurityErrorMessage();
             return;
         }
 
@@ -88,13 +60,13 @@ class ExportToJson extends ExportBase implements CFDBExport {
         $tableData = $plugin->getRowsPivot($formName);
 
         // Get the columns to display
-        $columns = $this->getColumnsToDisplay($hideColumns, $showColumns, $tableData->columns);
-        $showSubmitField = $this->getShowSubmitField($hideColumns, $showColumns);
+        $columns = $this->getColumnsToDisplay($tableData->columns);
+        $showSubmitField = $this->getShowSubmitField();
 
         $jsonData = array();
         foreach ($tableData->pivot as $submitTime => $data) {
             // Determine if row is filtered
-            if (!$filterParser->evaluate($data)) {
+            if (!$this->filterParser->evaluate($data)) {
                 continue;
             }
             $row = array();

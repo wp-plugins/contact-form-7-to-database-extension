@@ -613,7 +613,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         <?php
         }
         ?>
-        <div style="<?php if (!$useDataTables) echo 'overflow:auto; max-height:500px;' ?>">
+        <div <?php if (!$useDataTables) echo 'style="overflow:auto; max-height:500px;"' ?>>
         <?php
         $exporter = new ExportToHtml();
         $options = array('canDelete' => $canDelete);

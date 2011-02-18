@@ -55,7 +55,7 @@ class ExportToHtml extends ExportBase implements CFDBExport {
      *              'field1=value1&&field2!=value2'  (use && for logical AND)
      *              'field1=value1||field2!=value2'  (use || for logical OR)
      *
-     *      * [cfdb-table form="your-form" filter="field1=value1"]      (show only rows where field1=value1)
+     * [cfdb-table form="your-form" filter="field1=value1"]      (show only rows where field1=value1)
      * [cfdb-table form="your-form" filter="field1!=value1"]      (show only rows where field1!=value1)
      * [cfdb-table form="your-form" filter="field1=value1&&field2!=value2"] (Logical AND the filters using '&&')
      * [cfdb-table form="your-form" filter="field1=value1||field2!=value2"] (Logical OR the filters using '||')
@@ -64,74 +64,29 @@ class ExportToHtml extends ExportBase implements CFDBExport {
      * @return void
      */
     public function export($formName, $options = null) {
+        $this->setOptions($options);
+        $this->setCommonOptions(true);
 
-        $debug = false;
         $canDelete = false;
-        $showColumns = null;
-        $hideColumns = null;
-        $htmlTableId = null;
-        $htmlTableClass = 'cf7-db-table';
-        $style = null;
         $useDT = false;
-        $filterParser = new CF7FilterParser;
-        $filterParser->setComparisonValuePreprocessor(new DereferenceShortcodeVars);
 
         if ($options && is_array($options)) {
-            if (isset($options['debug']) && $options['debug'] != 'false') {
-                $debug = true;
-            }
-
             if (isset($options['useDT'])) {
                 $useDT = $options['useDT'];
-                $htmlTableClass = '';
+                $this->htmlTableClass = '';
             }
 
             if (isset($options['canDelete'])) {
                 $canDelete = $options['canDelete'];
             }
-
-            if (isset($options['showColumns'])) {
-                $showColumns = $options['showColumns'];
-            }
-            else if (isset($options['show'])) {
-                $showColumns = preg_split('/,/', $options['show'], -1, PREG_SPLIT_NO_EMPTY);
-            }
-
-            if (isset($options['hide'])) {
-                $hideColumns = preg_split('/,/', $options['hide'], -1, PREG_SPLIT_NO_EMPTY);
-            }
-            if (isset($options['hideColumns'])) {
-                $hideColumns = $options['hideColumns'];
-            }
-
-            if (isset($options['class'])) {
-                $htmlTableClass = $options['class'];
-            }
-
-            if (isset($options['id'])) {
-                $htmlTableId = $options['id'];
-            }
-
-            if (isset($options['style'])) {
-                $style = $options['style'];
-            }
-
-            if (isset($options['filter'])) {
-                $filterParser->parseFilterString($options['filter']);
-                if ($debug) {
-                    echo '<pre>';
-                    print_r($filterParser->getFilterTree());
-                    echo '</pre>';
-                }
-            }
         }
-        if ($useDT && !$htmlTableId) {
-            $htmlTableId = 'cftble_' . rand();
+        if ($useDT && !$this->htmlTableId) {
+            $this->htmlTableId = 'cftble_' . rand();
         }
 
         // Security Check
-        if (!$this->isAuthorized($options)) {
-            $this->assertSecurityErrorMessage($options);
+        if (!$this->isAuthorized()) {
+            $this->assertSecurityErrorMessage();
             return;
         }
 
@@ -147,8 +102,8 @@ class ExportToHtml extends ExportBase implements CFDBExport {
         $tableData = $plugin->getRowsPivot($formName);
 
         // Get the columns to display
-        $columns = $this->getColumnsToDisplay($hideColumns, $showColumns, $tableData->columns);
-        $showSubmitField = $this->getShowSubmitField($hideColumns, $showColumns);
+        $columns = $this->getColumnsToDisplay($tableData->columns);
+        $showSubmitField = $this->getShowSubmitField();
 
         if ($useDT) {
             $dtJsOptions = $options['dt_options'];
@@ -162,14 +117,14 @@ class ExportToHtml extends ExportBase implements CFDBExport {
             ?>
             <script type="text/javascript" language="Javascript">
                 jQuery(document).ready(function() {
-                    jQuery('#<?php echo $htmlTableId ?>').dataTable({
+                    jQuery('#<?php echo $this->htmlTableId ?>').dataTable({
                         <?php echo $dtJsOptions ?> })
                 });
             </script>
             <?php
         }
 
-        if ($htmlTableClass == 'cf7-db-table') {
+        if ($this->htmlTableClass == 'cf7-db-table') {
             ?>
             <style type="text/css">
                 table.cf7-db-table {
@@ -204,16 +159,16 @@ class ExportToHtml extends ExportBase implements CFDBExport {
 
         }
 
-        if ($style) {
+        if ($this->style) {
             ?>
             <style type="text/css">
-                <?php echo $style ?>
+                <?php echo $this->style ?>
             </style>
             <?php
         }
         ?>
 
-        <table <?php if ($htmlTableId) echo "id=\"$htmlTableId\" "; if ($htmlTableClass) echo "class=\"$htmlTableClass\"" ?> >
+        <table <?php if ($this->htmlTableId) echo "id=\"$this->htmlTableId\" "; if ($this->htmlTableClass) echo "class=\"$this->htmlTableClass\"" ?> >
             <thead><tr>
             <?php if ($canDelete) { ?>
             <th>
@@ -233,7 +188,7 @@ class ExportToHtml extends ExportBase implements CFDBExport {
             <tbody>
             <?php foreach ($tableData->pivot as $submitTime => $data) {
                 // Determine if row is filtered
-                if (!$filterParser->evaluate($data)) {
+                if (!$this->filterParser->evaluate($data)) {
                     continue;
                 }
                 ?>

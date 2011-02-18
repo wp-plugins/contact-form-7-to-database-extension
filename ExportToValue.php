@@ -28,44 +28,12 @@ require_once('CFDBExport.php');
 class ExportToValue extends ExportBase implements CFDBExport {
 
     public function export($formName, $options = null) {
-        $debug = false;
-        $showColumns = null;
-        $hideColumns = null;
-        $filterParser = new CF7FilterParser;
-        $filterParser->setComparisonValuePreprocessor(new DereferenceShortcodeVars);
-
-        if ($options && is_array($options)) {
-            if (isset($options['debug']) && $options['debug'] != 'false') {
-                $debug = true;
-            }
-
-            if (isset($options['showColumns'])) {
-                $showColumns = $options['showColumns'];
-            }
-            if (isset($options['show'])) {
-                $showColumns = preg_split('/,/', $options['show'], -1, PREG_SPLIT_NO_EMPTY);
-            }
-
-            if (isset($options['hideColumns'])) {
-                $hideColumns = $options['hideColumns'];
-            }
-            if (isset($options['hide'])) {
-                $hideColumns = preg_split('/,/', $options['hide'], -1, PREG_SPLIT_NO_EMPTY);
-            }
-
-            if (isset($options['filter'])) {
-                $filterParser->parseFilterString($options['filter']);
-                if ($debug) {
-                    echo '<pre>';
-                    print_r($filterParser->getFilterTree());
-                    echo '</pre>';
-                }
-            }
-        }
+        $this->setOptions($options);
+        $this->setCommonOptions($options);
 
         // Security Check
-        if (!$this->isAuthorized($options)) {
-            $this->assertSecurityErrorMessage($options);
+        if (!$this->isAuthorized()) {
+            $this->assertSecurityErrorMessage();
             return;
         }
 
@@ -77,13 +45,13 @@ class ExportToValue extends ExportBase implements CFDBExport {
         $tableData = $plugin->getRowsPivot($formName);
 
         // Get the columns to display
-        $columns = $this->getColumnsToDisplay($hideColumns, $showColumns, $tableData->columns);
-        $showSubmitField = $this->getShowSubmitField($hideColumns, $showColumns);
+        $columns = $this->getColumnsToDisplay($tableData->columns);
+        $showSubmitField = $this->getShowSubmitField();
 
         $outputData = array();
         foreach ($tableData->pivot as $submitTime => $data) {
             // Determine if row is filtered
-            if (!$filterParser->evaluate($data)) {
+            if (!$this->filterParser->evaluate($data)) {
                 continue;
             }
 

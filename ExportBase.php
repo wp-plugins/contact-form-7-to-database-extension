@@ -23,17 +23,87 @@ require_once('CF7DBPlugin.php');
 
 class ExportBase {
 
-    protected function isAuthorized($options = null) {
+    var $options;
+    var $debug = false;
+    var $showColumns;
+    var $hideColumns;
+    var $htmlTableId;
+    var $htmlTableClass;
+    var $style;
+    var $filterParser;
+
+    /**
+     * This method is the first thing to call after construction to set state for other methods to work
+     * @param  $options array
+     * @return void
+     */
+    protected function setOptions($options) {
+        $this->options = $options;
+    }
+
+    protected function setCommonOptions($htmlOptions = false) {
+        $this->filterParser = new CF7FilterParser;
+        $this->filterParser->setComparisonValuePreprocessor(new DereferenceShortcodeVars);
+
+        if ($this->options && is_array($this->options)) {
+            if (isset($this->options['debug']) && $this->options['debug'] != 'false') {
+                $this->debug = true;
+            }
+
+            if (isset($this->options['showColumns'])) {
+                $this->showColumns = $this->options['showColumns'];
+            }
+            else if (isset($this->options['show'])) {
+                $this->showColumns = preg_split('/,/', $this->options['show'], -1, PREG_SPLIT_NO_EMPTY);
+            }
+
+            if (isset($this->options['hideColumns'])) {
+                $this->hideColumns = $this->options['hideColumns'];
+            }
+            else if (isset($this->options['hide'])) {
+                $this->hideColumns = preg_split('/,/', $this->options['hide'], -1, PREG_SPLIT_NO_EMPTY);
+            }
+
+            if ($htmlOptions) {
+                if (isset($this->options['class'])) {
+                    $this->htmlTableClass = $this->options['class'];
+                }
+                else {
+                    $this->htmlTableClass = 'cfdb-table';
+                }
+
+                if (isset($this->options['id'])) {
+                    $this->htmlTableId = $this->options['id'];
+                }
+
+                if (isset($this->options['style'])) {
+                    $this->style = $this->options['style'];
+                }
+            }
+
+
+            if (isset($this->options['filter'])) {
+                $this->filterParser->parseFilterString($this->options['filter']);
+                if ($this->debug) {
+                    echo '<pre>';
+                    print_r($this->filterParser->getFilterTree());
+                    echo '</pre>';
+                }
+            }
+        }
+    }
+
+    protected function isAuthorized() {
         $plugin = new CF7DBPlugin();
-        return (isset($options['fromshortcode']) && $options['fromshortcode'] === true) ?
+        return (isset($this->options['fromshortcode']) && $this->options['fromshortcode'] === true) ?
                 $plugin->canUserDoRoleOption('CanSeeSubmitDataViaShortcode') :
                 $plugin->canUserDoRoleOption('CanSeeSubmitData');
     }
 
-    protected function assertSecurityErrorMessage($options = null) {
+    protected function assertSecurityErrorMessage() {
         $errMsg = __('You do not have sufficient permissions to access this data.', 'contact-form-7-to-database-extension');
-        if (isset($options['fromshortcode']) && $options['fromshortcode'] === true) {
-           echo $errMsg;
+        if (isset($this->options['fromshortcode']) && $this->options['fromshortcode'] === true) {
+            echo $errMsg;
         }
         else {
             wp_die($errMsg);
@@ -68,11 +138,11 @@ class ExportBase {
         }
     }
 
-    protected function getColumnsToDisplay($hideColumns, $showColumns, &$dataColumns) {
+    protected function getColumnsToDisplay(&$dataColumns) {
         // Get the columns to display
         $columns = array();
-        if ($hideColumns == null || !is_array($hideColumns)) { // no hidden cols specified
-            $tmpArray = ($showColumns != null) ? $showColumns : $dataColumns;
+        if ($this->hideColumns == null || !is_array($this->hideColumns)) { // no hidden cols specified
+            $tmpArray = ($this->showColumns != null) ? $this->showColumns : $dataColumns;
             foreach ($tmpArray as $aCol) {
                 if ($aCol != 'Submitted') {
                     $columns[] = $aCol;
@@ -80,9 +150,9 @@ class ExportBase {
             }
         }
         else {
-            $tmpArray = ($showColumns != null) ? $showColumns : $dataColumns;
+            $tmpArray = ($this->showColumns != null) ? $this->showColumns : $dataColumns;
             foreach ($tmpArray as $aCol) {
-                if ($aCol != 'Submitted' && !in_array($aCol, $hideColumns)) {
+                if ($aCol != 'Submitted' && !in_array($aCol, $this->hideColumns)) {
                     $columns[] = $aCol;
                 }
             }
@@ -90,14 +160,15 @@ class ExportBase {
         return $columns;
     }
 
-    protected function getShowSubmitField($hideColumns, $showColumns) {
+    protected function getShowSubmitField() {
         $showSubmitField = true;
-        if ($hideColumns != null && is_array($hideColumns) && in_array('Submitted', $hideColumns)) {
+        if ($this->hideColumns != null && is_array($this->hideColumns) && in_array('Submitted', $this->hideColumns)) {
             $showSubmitField = false;
         }
-        else if ($showColumns != null && is_array($showColumns)) {
-            $showSubmitField = in_array('Submitted', $showColumns);
+        else if ($this->showColumns != null && is_array($this->showColumns)) {
+            $showSubmitField = in_array('Submitted', $this->showColumns);
         }
         return $showSubmitField;
     }
+
 }

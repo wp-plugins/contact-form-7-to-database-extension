@@ -37,10 +37,12 @@ class ExportToCsvUtf8 extends ExportBase implements CFDBExport {
     }
 
     public function export($formName, $options = null) {
+        $this->setOptions($options);
+        $this->setCommonOptions();
 
         // Security Check
-        if (!$this->isAuthorized($options)) {
-            $this->assertSecurityErrorMessage($options);
+        if (!$this->isAuthorized()) {
+            $this->assertSecurityErrorMessage();
             return;
         }
 
@@ -75,6 +77,11 @@ class ExportToCsvUtf8 extends ExportBase implements CFDBExport {
         // Rows
         $showFileUrlsInExport = $this->plugin->getOption('ShowFileUrlsInExport') == 'true';
         foreach ($tableData->pivot as $submitTime => $data) {
+            // Determine if row is filtered
+            if (!$this->filterParser->evaluate($data)) {
+                continue;
+            }
+
             $st = $this->plugin->formatDate($submitTime);
             if (!is_numeric($st)) {
                 $st = $this->prepareCsvValue($st);
