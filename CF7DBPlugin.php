@@ -433,6 +433,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
         global $wpdb;
         $tableName = $this->getSubmitsTableName();
+        $useDataTables = $this->getOption('UseDataTablesJS', 'true') == 'true';
+        $tableHtmlId = 'cf2dbtable';
 
         // Identify which forms have data in the database
         $rows = $wpdb->get_results("select distinct `form_name` from `$tableName` order by `form_name`");
@@ -505,7 +507,18 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                 }
                             }
                             else {
-                                location.href = '<?php echo $pluginDirUrl ?>export.php?form=<?php echo urlencode($currSelection) ?>&enc=' + enc;
+                                url = '<?php echo $pluginDirUrl ?>export.php?form=<?php echo urlencode($currSelection) ?>&enc=' + enc;
+                                if (enc != 'IQY' && enc != 'GLD' && typeof jQuery == 'function') {
+                                    try {
+                                        searchVal = jQuery('#<?php echo $tableHtmlId;?>_filter input').val();
+                                        if (searchVal != null && searchVal != "") {
+                                            url += '&search=' + encodeURIComponent(searchVal);
+                                        }
+                                    }
+                                    catch (e) {
+                                    }
+                                }
+                                location.href = url;
                             }
                         }
                         function uploadGoogleSS() {
@@ -577,10 +590,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
         <?php
         // Show table of form data
-        $useDataTables = $this->getOption('UseDataTablesJS', 'true') == 'true';
 
         if ($useDataTables) {
-            $tableHtmlId = 'cf2dbtable';
             $i18nUrl = $this->getDataTableTranslationUrl();
         ?>
         <script type="text/javascript" language="Javascript">
