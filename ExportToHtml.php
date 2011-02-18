@@ -93,7 +93,7 @@ class ExportToHtml extends ExportBase implements CFDBExport {
         // Headers
         $this->echoHeaders('Content-Type: text/html; charset=UTF-8');
 
-        if (isset($options['fromshortcode']) && $options['fromshortcode'] === true) {
+        if ($this->isFromShortCode) {
             ob_start();
         }
 
@@ -225,7 +225,7 @@ class ExportToHtml extends ExportBase implements CFDBExport {
         </table>
         <?php
 
-        if (isset($options['fromshortcode'])) {
+        if ($this->isFromShortCode) {
             // If called from a shortcode, need to return the text,
             // otherwise it can appear out of order on the page
             $output = ob_get_contents();

@@ -68,7 +68,7 @@ class ExportToValue extends ExportBase implements CFDBExport {
 
         //print_r($outputData); // debug
 
-        if (isset($options['fromshortcode'])) {
+        if ($this->isFromShortCode) {
             ob_start();
         }
 
@@ -84,7 +84,7 @@ class ExportToValue extends ExportBase implements CFDBExport {
                 break;
         }
 
-        if (isset($options['fromshortcode'])) {
+        if ($this->isFromShortCode) {
             // If called from a shortcode, need to return the text,
             // otherwise it can appear out of order on the page
             $output = ob_get_contents();

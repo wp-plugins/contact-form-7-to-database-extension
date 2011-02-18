@@ -31,6 +31,7 @@ class ExportBase {
     var $htmlTableClass;
     var $style;
     var $filterParser;
+    var $isFromShortCode = false;
 
     /**
      * This method is the first thing to call after construction to set state for other methods to work
@@ -64,6 +65,9 @@ class ExportBase {
                 $this->hideColumns = preg_split('/,/', $this->options['hide'], -1, PREG_SPLIT_NO_EMPTY);
             }
 
+            $this->isFromShortCode = isset($this->options['fromshortcode']) &&
+                    $this->options['fromshortcode'] === true;
+
             if ($htmlOptions) {
                 if (isset($this->options['class'])) {
                     $this->htmlTableClass = $this->options['class'];
@@ -95,14 +99,14 @@ class ExportBase {
 
     protected function isAuthorized() {
         $plugin = new CF7DBPlugin();
-        return (isset($this->options['fromshortcode']) && $this->options['fromshortcode'] === true) ?
+        return $this->isFromShortCode ?
                 $plugin->canUserDoRoleOption('CanSeeSubmitDataViaShortcode') :
                 $plugin->canUserDoRoleOption('CanSeeSubmitData');
     }
 
     protected function assertSecurityErrorMessage() {
         $errMsg = __('You do not have sufficient permissions to access this data.', 'contact-form-7-to-database-extension');
-        if (isset($this->options['fromshortcode']) && $this->options['fromshortcode'] === true) {
+        if ($this->isFromShortCode) {
             echo $errMsg;
         }
         else {
@@ -169,6 +173,33 @@ class ExportBase {
             $showSubmitField = in_array('Submitted', $this->showColumns);
         }
         return $showSubmitField;
+    }
+
+    protected function &getFilteredData($formName) {
+        $plugin = new CF7DBPlugin();
+        $tableData = $plugin->getRowsPivot($formName);
+        $columns = $this->getColumnsToDisplay($tableData->columns);
+        $showSubmitField = $this->getShowSubmitField();
+        $filteredData = array();
+
+        foreach ($tableData->pivot as $submitTime => $data) {
+            // Determine if row is filtered
+            if (!$this->filterParser->evaluate($data)) {
+                continue;
+            }
+            $row = array();
+
+            if ($showSubmitField) {
+                $row['Submitted'] = $plugin->formatDate($submitTime);
+            }
+
+            foreach ($columns as $aCol) {
+                $cell = isset($data[$aCol]) ? $data[$aCol] : "";
+                $row[$aCol] = $cell;
+            }
+            $filteredData[] = $row;
+        }
+        return $filteredData;
     }
 
 }

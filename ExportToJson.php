@@ -55,34 +55,10 @@ class ExportToJson extends ExportBase implements CFDBExport {
         $contentType = $html ? 'Content-Type: text/html; charset=UTF-8' : 'Content-Type: application/json';
         $this->echoHeaders($contentType);
 
-        // Query DB for the data for that form
-        $plugin = new CF7DBPlugin();
-        $tableData = $plugin->getRowsPivot($formName);
+        // Get the data
+        $jsonData = $this->getFilteredData($formName);
 
-        // Get the columns to display
-        $columns = $this->getColumnsToDisplay($tableData->columns);
-        $showSubmitField = $this->getShowSubmitField();
-
-        $jsonData = array();
-        foreach ($tableData->pivot as $submitTime => $data) {
-            // Determine if row is filtered
-            if (!$this->filterParser->evaluate($data)) {
-                continue;
-            }
-            $row = array();
-
-            if ($showSubmitField) {
-                $row['Submitted'] = $plugin->formatDate($submitTime);
-            }
-
-            foreach ($columns as $aCol) {
-                $cell = isset($data[$aCol]) ? $data[$aCol] : "";
-                $row[$aCol] = $cell;
-            }
-            $jsonData[] = $row;
-        }
-
-        if (isset($options['fromshortcode'])) {
+        if ($this->isFromShortCode) {
             ob_start();
         }
 
@@ -100,7 +76,7 @@ class ExportToJson extends ExportBase implements CFDBExport {
             echo json_encode($jsonData);
         }
 
-        if (isset($options['fromshortcode'])) {
+        if ($this->isFromShortCode) {
             // If called from a shortcode, need to return the text,
             // otherwise it can appear out of order on the page
             $output = ob_get_contents();
