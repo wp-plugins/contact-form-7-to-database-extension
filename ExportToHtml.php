@@ -19,7 +19,6 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('CF7DBPlugin.php');
 require_once('CF7FilterParser.php');
 require_once('DereferenceShortcodeVars.php');
 require_once('ExportBase.php');
@@ -30,37 +29,7 @@ class ExportToHtml extends ExportBase implements CFDBExport {
     /**
      * Echo a table of submitted form data
      * @param string $formName
-     * @param array $options an optional map of options with keys (each one optional):
-     *  'canDelete' = true|false,
-     *  'showColumns' = array of string column names to explicitly show
-     *  'hideColumns' = array of string column names to explicitly hide (which trumps showColumns)
-     *  'class' = string html table class, i.e. <table class="$class"> so you can override the default table styles
-     *  'id' = string html table id, i.e. <table id="$id"> (a hook for you to define CSS based on that #id)
-     *  'filter' = string of format "column-name=value" used to filter rows of the table
-     *           SPECIAL CASE: if a value is 'null', then it is interpreted to be the value null, not the string 'null'
-     *  'filter' operators in the expression are the same as PHP Comparison Operators with the exception that you can
-     *           use '=' to mean '=='
-     *           Examples:
-     *              'field1=value1'
-     *              'field1==value1'
-     *              'field1===value1'
-     *              'field1!=value1'
-     *              'field1!==value1'
-     *              'field1<>value1'
-     *              'field1<value1'
-     *              'field1<=value1'
-     *              'field1>value1'
-     *              'field1>=value1'
-     *  'filter' can have boolean expressions such as:
-     *              'field1=value1&&field2!=value2'  (use && for logical AND)
-     *              'field1=value1||field2!=value2'  (use || for logical OR)
-     *
-     * [cfdb-table form="your-form" filter="field1=value1"]      (show only rows where field1=value1)
-     * [cfdb-table form="your-form" filter="field1!=value1"]      (show only rows where field1!=value1)
-     * [cfdb-table form="your-form" filter="field1=value1&&field2!=value2"] (Logical AND the filters using '&&')
-     * [cfdb-table form="your-form" filter="field1=value1||field2!=value2"] (Logical OR the filters using '||')
-     * [cfdb-table form="your-form" filter="field1=value1&&field2!=value2||field3=value3&&field4=value4"] (Mixed &&, ||)
-
+     * @param array $options
      * @return void
      */
     public function export($formName, $options = null) {
@@ -80,9 +49,6 @@ class ExportToHtml extends ExportBase implements CFDBExport {
                 $canDelete = $options['canDelete'];
             }
         }
-        if ($useDT && !$this->htmlTableId) {
-            $this->htmlTableId = 'cftble_' . rand();
-        }
 
         // Security Check
         if (!$this->isAuthorized()) {
@@ -98,18 +64,14 @@ class ExportToHtml extends ExportBase implements CFDBExport {
         }
 
         // Query DB for the data for that form
-        $plugin = new CF7DBPlugin();
-        $tableData = $plugin->getRowsPivot($formName);
-
-        // Get the columns to display
-        $columns = $this->getColumnsToDisplay($tableData->columns);
-        $showSubmitField = $this->getShowSubmitField();
+        $submitTimeKeyName = "Submit_Time_Key";
+        $this->setFilteredData($formName, $submitTimeKeyName);
 
         if ($useDT) {
             $dtJsOptions = $options['dt_options'];
             if (!$dtJsOptions) {
                 $dtJsOptions = '"bJQueryUI": true';
-                $i18nUrl = $plugin->getDataTableTranslationUrl();
+                $i18nUrl = $this->plugin->getDataTableTranslationUrl();
                 if ($i18nUrl) {
                     $dtJsOptions = $dtJsOptions . ", \"oLanguage\": { \"sUrl\":  \"$i18nUrl\" }";
                 }
@@ -124,33 +86,33 @@ class ExportToHtml extends ExportBase implements CFDBExport {
             <?php
         }
 
-        if ($this->htmlTableClass == 'cf7-db-table') {
+        if ($this->htmlTableClass == $this->defaultTableClass) {
             ?>
             <style type="text/css">
-                table.cf7-db-table {
+                table.<?php echo $this->defaultTableClass ?> {
                     margin-top: 1em;
                     border-spacing: 0;
                     border: 0 solid gray;
                     font-size: x-small;
                 }
 
-                table.cf7-db-table th {
+                table.<?php echo $this->defaultTableClass ?> th {
                     padding: 5px;
                     border: 1px solid gray;
                 }
 
-                table.cf7-db-table th > td {
+                table.<?php echo $this->defaultTableClass ?> th > td {
                     font-size: x-small;
                     background-color: #E8E8E8;
                 }
 
-                table.cf7-db-table td {
+                table.<?php echo $this->defaultTableClass ?> tbody td {
                     padding: 5px;
                     border: 1px solid gray;
                     font-size: x-small;
                 }
 
-                table.cf7-db-table td > div {
+                table.<?php echo $this->defaultTableClass ?> tbody td > div {
                     max-height: 100px;
                     overflow: auto;
                 }
@@ -177,43 +139,34 @@ class ExportToHtml extends ExportBase implements CFDBExport {
             <?php
 
             }
-            if ($showSubmitField) {
-                echo '<th title="Submitted"><div>Submitted</div></th>';
-            }
-            foreach ($columns as $aCol) {
+            foreach ($this->columns as $aCol) {
                 printf('<th><div title="%s">%s</div></th>', $aCol, $aCol);
             }
             ?>
             </tr></thead>
             <tbody>
-            <?php foreach ($tableData->pivot as $submitTime => $data) {
-                // Determine if row is filtered
-                if (!$this->filterParser->evaluate($data)) {
-                    continue;
-                }
+            <?php
+            $showLineBreaks = $this->plugin->getOption('ShowLineBreaksInDataTable');
+            $showLineBreaks = 'false' != $showLineBreaks;
+            foreach ($this->filteredData as $aRow) {
                 ?>
                 <tr>
                 <?php if ($canDelete) { // Put in the delete checkbox ?>
                     <td align="center">
-                        <input type="checkbox" name="<?php echo $submitTime ?>" value="row"/>
+                        <input type="checkbox" name="<?php echo $aRow[$submitTimeKeyName] ?>" value="row"/>
                     </td>
                 <?php
 
                 }
-                if ($showSubmitField) {
-                    printf('<td title="Submitted"><div>%s</div></td>', $plugin->formatDate($submitTime));
-                }
-                $showLineBreaks = $plugin->getOption('ShowLineBreaksInDataTable');
-                $showLineBreaks = 'false' != $showLineBreaks;
-                foreach ($columns as $aCol) {
-                    $cell = isset($data[$aCol]) ? $data[$aCol] : "";
-                    $cell = htmlentities($cell, null, 'UTF-8'); // no HTML injection
+                //foreach ($row as $cell) {
+                foreach ($this->columns as $aCol) {
+                    $cell = htmlentities($aRow[$aCol], null, 'UTF-8'); // no HTML injection
                     if ($showLineBreaks) {
-                        $cell = str_replace("\r\n", "<br/>", $cell); // preserve DOS line breaks
-                        $cell = str_replace("\n", "<br/>", $cell); // preserve UNIX line breaks
+                        $cell = str_replace("\r\n", '<br/>', $cell); // preserve DOS line breaks
+                        $cell = str_replace("\n", '<br/>', $cell); // preserve UNIX line breaks
                     }
-                    if (isset($tableData->files[$aCol]) && "" != $cell) {
-                        $fileUrl = $plugin->getFileUrl($submitTime, $formName, $aCol);
+                    if (isset($this->tableData->files[$aCol]) && '' != $cell) {
+                        $fileUrl = $this->plugin->getFileUrl($aRow[$submitTimeKeyName], $formName, $aCol);
                         $cell = "<a href=\"$fileUrl\">$cell</a>";
                     }
                     printf('<td title="%s"><div>%s</div></td>', $aCol, $cell);

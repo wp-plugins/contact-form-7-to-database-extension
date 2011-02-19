@@ -23,6 +23,7 @@ require_once('CF7DBPlugin.php');
 
 class ExportBase {
 
+    var $defaultTableClass = 'cf7-db-table';
     var $options;
     var $debug = false;
     var $showColumns;
@@ -32,6 +33,12 @@ class ExportBase {
     var $style;
     var $filterParser;
     var $isFromShortCode = false;
+
+    var $columns;
+    var $showSubmitField;
+    var $tableData;
+    var $filteredData;
+    var $plugin;
 
     /**
      * This method is the first thing to call after construction to set state for other methods to work
@@ -73,11 +80,14 @@ class ExportBase {
                     $this->htmlTableClass = $this->options['class'];
                 }
                 else {
-                    $this->htmlTableClass = 'cfdb-table';
+                    $this->htmlTableClass = $this->defaultTableClass;
                 }
 
                 if (isset($this->options['id'])) {
                     $this->htmlTableId = $this->options['id'];
+                }
+                else {
+                    $this->htmlTableId = 'cftble_' . rand();
                 }
 
                 if (isset($this->options['style'])) {
@@ -142,21 +152,20 @@ class ExportBase {
         }
     }
 
-    protected function getColumnsToDisplay(&$dataColumns) {
-        // Get the columns to display
+    protected function &getColumnsToDisplay($dataColumns) {
+
+        $dataColumns = array_merge(array('Submitted'), $dataColumns);
         $columns = array();
         if ($this->hideColumns == null || !is_array($this->hideColumns)) { // no hidden cols specified
             $tmpArray = ($this->showColumns != null) ? $this->showColumns : $dataColumns;
             foreach ($tmpArray as $aCol) {
-                if ($aCol != 'Submitted') {
-                    $columns[] = $aCol;
-                }
+                $columns[] = $aCol;
             }
         }
         else {
             $tmpArray = ($this->showColumns != null) ? $this->showColumns : $dataColumns;
             foreach ($tmpArray as $aCol) {
-                if ($aCol != 'Submitted' && !in_array($aCol, $this->hideColumns)) {
+                if (!in_array($aCol, $this->hideColumns)) {
                     $columns[] = $aCol;
                 }
             }
@@ -175,31 +184,34 @@ class ExportBase {
         return $showSubmitField;
     }
 
-    protected function &getFilteredData($formName) {
-        $plugin = new CF7DBPlugin();
-        $tableData = $plugin->getRowsPivot($formName);
-        $columns = $this->getColumnsToDisplay($tableData->columns);
-        $showSubmitField = $this->getShowSubmitField();
-        $filteredData = array();
+    protected function setFilteredData($formName, $submitTimeKeyName = null) {
+        $this->plugin = new CF7DBPlugin();
+        $this->tableData = $this->plugin->getRowsPivot($formName);
+        $this->showSubmitField = $this->getShowSubmitField();
+        $this->columns = $this->getColumnsToDisplay($this->tableData->columns);
+        $this->filteredData = array();
 
-        foreach ($tableData->pivot as $submitTime => $data) {
+        foreach ($this->tableData->pivot as $submitTime => $data) {
             // Determine if row is filtered
             if (!$this->filterParser->evaluate($data)) {
                 continue;
             }
+
             $row = array();
-
-            if ($showSubmitField) {
-                $row['Submitted'] = $plugin->formatDate($submitTime);
+            if ($submitTimeKeyName) {
+                $row[$submitTimeKeyName] = $submitTime;
             }
-
-            foreach ($columns as $aCol) {
-                $cell = isset($data[$aCol]) ? $data[$aCol] : "";
+            foreach ($this->columns as $aCol) {
+                if ($aCol == 'Submitted') {
+                    $cell = $this->plugin->formatDate($submitTime);
+                }
+                else {
+                    $cell = isset($data[$aCol]) ? $data[$aCol] : "";
+                }
                 $row[$aCol] = $cell;
             }
-            $filteredData[] = $row;
+            $this->filteredData[] = $row;
         }
-        return $filteredData;
     }
 
 }

@@ -19,18 +19,12 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('CF7DBPlugin.php');
 require_once('ExportBase.php');
 require_once('CFDBExport.php');
 
 class ExportToCsvUtf8 extends ExportBase implements CFDBExport {
 
     var $useBom = false;
-    var $plugin;
-
-    function __construct() {
-        $this->plugin = new CF7DBPlugin();
-    }
 
     public function setUseBom($use) {
         $this->useBom = $use;
@@ -63,11 +57,12 @@ class ExportToCsvUtf8 extends ExportBase implements CFDBExport {
         $eol = "\n";
         $comma = ',';
 
+        // Query DB for the data for that form
+        $submitTimeKeyName = "Submit_Time_Key";
+        $this->setFilteredData($formName, $submitTimeKeyName);
+
         // Column Headers
-        echo $this->prepareCsvValue(__('Submitted', 'contact-form-7-to-database-extension'));
-        echo $comma;
-        $tableData = $this->plugin->getRowsPivot($formName);
-        foreach ($tableData->columns as $aCol) {
+        foreach ($this->columns as $aCol) {
             echo $this->prepareCsvValue($aCol);
             echo $comma;
         }
@@ -76,22 +71,11 @@ class ExportToCsvUtf8 extends ExportBase implements CFDBExport {
 
         // Rows
         $showFileUrlsInExport = $this->plugin->getOption('ShowFileUrlsInExport') == 'true';
-        foreach ($tableData->pivot as $submitTime => $data) {
-            // Determine if row is filtered
-            if (!$this->filterParser->evaluate($data)) {
-                continue;
-            }
-
-            $st = $this->plugin->formatDate($submitTime);
-            if (!is_numeric($st)) {
-                $st = $this->prepareCsvValue($st);
-            }
-            echo $st;
-            echo $comma;
-            foreach ($tableData->columns as $aCol) {
-                $cell = isset($data[$aCol]) ? $data[$aCol] : '';
-                if ($showFileUrlsInExport && $tableData->files[$aCol] && '' != $cell) {
-                    $cell = $this->plugin->getFileUrl($submitTime, $formName, $aCol);
+        foreach ($this->filteredData as $aRow) {
+            foreach ($this->columns as $aCol) {
+                $cell = isset($aRow[$aCol]) ? $aRow[$aCol] : '';
+                if ($showFileUrlsInExport && $this->tableData->files[$aCol] && $cell) {
+                    $cell = $this->plugin->getFileUrl($aRow[$submitTimeKeyName], $formName, $aCol);
                 }
                 echo $this->prepareCsvValue($cell);
                 echo $comma;

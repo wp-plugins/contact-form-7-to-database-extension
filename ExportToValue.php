@@ -19,7 +19,6 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('CF7DBPlugin.php');
 require_once('CF7FilterParser.php');
 require_once('DereferenceShortcodeVars.php');
 require_once('ExportBase.php');
@@ -40,32 +39,17 @@ class ExportToValue extends ExportBase implements CFDBExport {
         // Headers
         $this->echoHeaders('Content-Type: text/plain; charset=UTF-8');
 
-        // Query DB for the data for that form
-        $plugin = new CF7DBPlugin();
-        $tableData = $plugin->getRowsPivot($formName);
-
-        // Get the columns to display
-        $columns = $this->getColumnsToDisplay($tableData->columns);
-        $showSubmitField = $this->getShowSubmitField();
+        // Get the data
+        $this->setFilteredData($formName);
 
         $outputData = array();
-        foreach ($tableData->pivot as $submitTime => $data) {
-            // Determine if row is filtered
-            if (!$this->filterParser->evaluate($data)) {
-                continue;
-            }
-
-            if ($showSubmitField) {
-                $outputData[] = $plugin->formatDate($submitTime);
-            }
-
-            foreach ($columns as $aCol) {
-                if (isset($data[$aCol])) {
-                    $outputData[] = $data[$aCol];
+        foreach ($this->filteredData as $row) {
+            foreach ($row as $aCell) {
+                if ($aCell) {
+                    $outputData[] = $aCell;
                 }
             }
         }
-
         //print_r($outputData); // debug
 
         if ($this->isFromShortCode) {

@@ -19,7 +19,6 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('CF7DBPlugin.php');
 require_once('CF7FilterParser.php');
 require_once('DereferenceShortcodeVars.php');
 require_once('ExportBase.php');
@@ -56,7 +55,7 @@ class ExportToJson extends ExportBase implements CFDBExport {
         $this->echoHeaders($contentType);
 
         // Get the data
-        $jsonData = $this->getFilteredData($formName);
+        $this->setFilteredData($formName);
 
         if ($this->isFromShortCode) {
             ob_start();
@@ -66,14 +65,14 @@ class ExportToJson extends ExportBase implements CFDBExport {
             ?>
             <script type="text/javascript" language="JavaScript">
                 <!--
-                var <?php echo $varName; ?> = <?php echo json_encode($jsonData); ?>;
+                var <?php echo $varName; ?> = <?php echo json_encode($this->filteredData); ?>;
                 //-->
             </script>
             <?php
 
         }
         else {
-            echo json_encode($jsonData);
+            echo json_encode($this->filteredData);
         }
 
         if ($this->isFromShortCode) {
