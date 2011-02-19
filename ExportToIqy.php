@@ -31,7 +31,11 @@ class ExportToIqy implements CFDBExport {
         $url = get_bloginfo('url');
         $plugin = new CF7DBPlugin();
         $encFormName = urlencode($formName);
-        $encRedir = urlencode($plugin->getPluginDirUrl() . "export.php?form=$encFormName&enc=HTML");
+        $uri = "export.php?form=$encFormName&enc=HTML";
+        if (isset($options['search'])) {
+           $uri = $uri . '&search=' . urlencode($options['search']);
+        }
+        $encRedir = urlencode($plugin->getPluginDirUrl() . $uri);
 
         // To get this to work right, we have to submit to the same page that the login form does and post
         // the same parameters that the login form does. This includes "log" and "pwd" for the login and

@@ -65,7 +65,10 @@ class ExportToGoogleSS extends ExportBase implements CFDBExport {
         try {
             // Generate CSV file contents into buffer
             $exporter = new ExportToCsvUtf8;
+            $exporter->setOptions($options);
+            $exporter->setCommonOptions();
             $exporter->setUseBom(false);
+
             ob_start();
             $exporter->echoCsv($formName);
             $csvFileContents = ob_get_contents();

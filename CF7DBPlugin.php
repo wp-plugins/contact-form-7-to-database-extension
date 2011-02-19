@@ -489,6 +489,17 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 </td>
                 <td align="center">
                     <script type="text/javascript" language="Javascript">
+                        function getSearchFieldValue() {
+                            var searchVal = '';
+                            if (typeof jQuery == 'function') {
+                                try {
+                                    searchVal = jQuery('#<?php echo $tableHtmlId;?>_filter input').val();
+                                }
+                                catch (e) {
+                                }
+                            }
+                            return searchVal;
+                        }
                         function exportData(encSelect) {
                             var enc = encSelect.options[encSelect.selectedIndex].value;
                             if (enc == 'GSS') {
@@ -507,16 +518,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                 }
                             }
                             else {
-                                url = '<?php echo $pluginDirUrl ?>export.php?form=<?php echo urlencode($currSelection) ?>&enc=' + enc;
-                                if (enc != 'IQY' && enc != 'GLD' && typeof jQuery == 'function') {
-                                    try {
-                                        searchVal = jQuery('#<?php echo $tableHtmlId;?>_filter input').val();
-                                        if (searchVal != null && searchVal != "") {
-                                            url += '&search=' + encodeURIComponent(searchVal);
-                                        }
-                                    }
-                                    catch (e) {
-                                    }
+                                var url = '<?php echo $pluginDirUrl ?>export.php?form=<?php echo urlencode($currSelection) ?>&enc=' + enc;
+                                var searchVal = getSearchFieldValue();
+                                if (searchVal != null && searchVal != "") {
+                                    url += '&search=' + encodeURIComponent(searchVal);
                                 }
                                 location.href = url;
                             }
@@ -528,7 +533,12 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                             jQuery("#GoogleCredentialsDialog").dialog('close');
                             var form = document.createElement("form");
                             form.setAttribute("method", 'POST');
-                            form.setAttribute("action", '<?php echo $pluginDirUrl ?>export.php?form=<?php echo urlencode($currSelection) ?>&enc=GSS');
+                            var url = '<?php echo $pluginDirUrl ?>export.php?form=<?php echo urlencode($currSelection) ?>&enc=GSS';
+                            var searchVal = getSearchFieldValue();
+                            if (searchVal != null && searchVal != "") {
+                                url += '&search=' + encodeURI(searchVal);
+                            }
+                            form.setAttribute("action", url);
                             var params = {guser: encodeURI(guser), gpwd: encodeURI(gpwd)};
                             for (var pkey in params) {
                                 var hiddenField = document.createElement("input");
