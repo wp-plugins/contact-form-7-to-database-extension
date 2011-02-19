@@ -19,8 +19,6 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('CF7FilterParser.php');
-require_once('DereferenceShortcodeVars.php');
 require_once('ExportBase.php');
 require_once('CFDBExport.php');
 

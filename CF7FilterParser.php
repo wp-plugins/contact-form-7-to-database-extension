@@ -19,6 +19,7 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
+include_once('CF7DBEvalutator.php');
 include_once('CF7DBValueConverter.php');
 
 /**
@@ -28,7 +29,7 @@ include_once('CF7DBValueConverter.php');
  * $operator is any PHP comparison operator or '=' which is interpreted as '=='.
  * $value has a special case where if it is 'null' it is interpreted as the value null
  */
-class CF7FilterParser {
+class CF7FilterParser implements CF7DBEvalutator {
 
     /**
      * @var array of arrays of string where the top level array is broken down on the || delimiters
@@ -151,7 +152,7 @@ class CF7FilterParser {
      * @param  $data array [ key => value]
      * @return boolean result of evaluating $data against expression tree
      */
-    public function evaluate($data) {
+    public function evaluate(&$data) {
         $retVal = true;
         if ($this->tree) {
             $retVal = false;

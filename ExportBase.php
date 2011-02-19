@@ -31,7 +31,7 @@ class ExportBase {
     var $htmlTableId;
     var $htmlTableClass;
     var $style;
-    var $filterParser;
+    var $rowFilter;
     var $isFromShortCode = false;
 
     var $columns;
@@ -50,8 +50,6 @@ class ExportBase {
     }
 
     protected function setCommonOptions($htmlOptions = false) {
-        $this->filterParser = new CF7FilterParser;
-        $this->filterParser->setComparisonValuePreprocessor(new DereferenceShortcodeVars);
 
         if ($this->options && is_array($this->options)) {
             if (isset($this->options['debug']) && $this->options['debug'] != 'false') {
@@ -97,12 +95,21 @@ class ExportBase {
 
 
             if (isset($this->options['filter'])) {
-                $this->filterParser->parseFilterString($this->options['filter']);
+                require_once('CF7FilterParser.php');
+                require_once('DereferenceShortcodeVars.php');
+                $this->rowFilter = new CF7FilterParser;
+                $this->rowFilter->setComparisonValuePreprocessor(new DereferenceShortcodeVars);
+                $this->rowFilter->parseFilterString($this->options['filter']);
                 if ($this->debug) {
                     echo '<pre>';
-                    print_r($this->filterParser->getFilterTree());
+                    print_r($this->rowFilter->getFilterTree());
                     echo '</pre>';
                 }
+            }
+            else if (isset($this->options['search'])) {
+                require_once('CF7SearchEvaluator.php');
+                $this->rowFilter = new CF7SearchEvaluator;
+                $this->rowFilter->setSearch($this->options['search']);
             }
         }
     }
@@ -193,7 +200,8 @@ class ExportBase {
 
         foreach ($this->tableData->pivot as $submitTime => $data) {
             // Determine if row is filtered
-            if (!$this->filterParser->evaluate($data)) {
+            // todo: $data does not include submitTime, so you can't filter on it
+            if ($this->rowFilter && !$this->rowFilter->evaluate($data)) {
                 continue;
             }
 
