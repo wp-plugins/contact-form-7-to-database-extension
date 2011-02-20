@@ -34,6 +34,14 @@ class ExportToValue extends ExportBase implements CFDBExport {
             return;
         }
 
+        // See if a function is to be applied
+        $funct = null;
+        if ($this->options && is_array($this->options)) {
+            if (isset($this->options['function'])) {
+                $funct = $this->options['function'];
+            }
+        }
+
         // Headers
         $this->echoHeaders('Content-Type: text/plain; charset=UTF-8');
 
@@ -41,14 +49,80 @@ class ExportToValue extends ExportBase implements CFDBExport {
         $this->setFilteredData($formName);
 
         $outputData = array();
-        foreach ($this->filteredData as $row) {
-            foreach ($row as $aCell) {
-                if ($aCell) {
-                    $outputData[] = $aCell;
+
+        if ($funct == 'count' && count($this->showColumns) == 0) {
+            // special case
+            $outputData[] = count($this->filteredData);
+            $funct = null;
+        }
+        else {
+            foreach ($this->filteredData as $row) {
+                foreach ($row as $aCell) {
+                    if ($aCell) {
+                        $outputData[] = $aCell;
+                    }
                 }
             }
         }
         //print_r($outputData); // debug
+
+        if ($funct && count($outputData) > 0) {
+            // Apply function to dataset
+            switch ($funct) {
+                case 'count':
+                    // Note special case in code above
+                    $outputData = array(count($outputData));
+                    break;
+
+                case 'min':
+                    $min = null;
+                    foreach ($outputData as $val) {
+                        if ($min === null) {
+                            $min = $val;
+                        }
+                        else {
+                            if ($val < $min) {
+                                $min = $val;
+                            }
+                        }
+                    }
+                    $outputData = array($min);
+                    break;
+
+                case 'max':
+                    $max = null;
+                    foreach ($outputData as $val) {
+                        if ($max === null) {
+                            $max = $val;
+                        }
+                        else {
+                            if ($val > $max) {
+                                $max = $val;
+                            }
+                        }
+                    }
+                    $outputData = array($max);
+                    break;
+
+                case 'sum':
+                    $sum = 0;
+                    foreach ($outputData as $val) {
+                        $sum = $sum + $val;
+                    }
+                    $outputData = array($sum);
+                    break;
+
+                case 'mean':
+                    $sum = 0;
+                    $count = 0;
+                    foreach ($outputData as $val) {
+                        $count = $count + 1;
+                        $sum = $sum + $val;
+                    }
+                    $outputData = array($sum / $count);
+                    break;
+            }
+        }
 
         if ($this->isFromShortCode) {
             ob_start();
