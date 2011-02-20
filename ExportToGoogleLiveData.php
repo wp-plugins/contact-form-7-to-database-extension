@@ -34,6 +34,7 @@ class ExportToGoogleLiveData implements CFDBExport {
 
         $scriptLink = $plugin->getPluginDirUrl() . 'Cf7ToDBGGoogleSS.js.php';
         $siteUrl = get_option('home');
+        $search = isset($options['search']) ? $options['search'] : '';
         ob_start();
         ?>
         <style type="text/css">
@@ -146,7 +147,7 @@ class ExportToGoogleLiveData implements CFDBExport {
                 <td>
                     <p>Click on a cell A1 in the Spreadsheet (or any cell)</p>
                     <p>Enter in the cell the formula:</p>
-                    <p><code><?php echo("=CF7ToDBData(\"$siteUrl\", \"$formName\", \"user\", \"pwd\")") ?></code></p>
+                    <p><code><?php echo("=CF7ToDBData(\"$siteUrl\", \"$formName\", \"$search\", \"user\", \"pwd\")") ?></code></p>
                     <p>Replacing <b>user</b> and <b>pwd</b> with your <u>WordPress</u> site user name and password</p>
                 </td>
             </tr>

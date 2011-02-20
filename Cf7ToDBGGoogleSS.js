@@ -26,7 +26,7 @@
 4. Save and close the script editor.
 5. Click on a cell A1 in the Spreadsheet (or any cell)
 6. Enter in the cell the formula: 
-   =CF7ToDBData("siteUrl", "formName", "user", "pwd")
+   =CF7ToDBData("siteUrl", "formName", "optional search", "user", "pwd")
   Where the parameters are (be sure to quote them):
     siteUrl: the URL of you site, e.g. "http://www.mywordpress.com"
     formName: name of the form
@@ -34,13 +34,16 @@
     pwd: password
 */
 
-function CF7ToDBData(siteUrl, formName, user, pwd) {
-  return csvToArray(fetchCF7ToDBCSVText(siteUrl, formName, user, pwd));
+function CF7ToDBData(siteUrl, formName, search, user, pwd) {
+  return csvToArray(fetchCF7ToDBCSVText(siteUrl, formName, search, user, pwd));
 }
 
-function fetchCF7ToDBCSVText(siteUrl, formName, user, pwd) {
+function fetchCF7ToDBCSVText(siteUrl, formName, search, user, pwd) {
   var encformName = encodeURI(formName).replace(new RegExp("%20", "g"), "%2B");
   var url = siteUrl + "/wp-login.php?redirect_to=/wp-content/plugins/contact-form-7-to-database-extension/export.php%3Fform%3D" + encformName;
+  if (search != null && search != '') {
+      url += '%26search%3D' + encodeURI(search);
+  }
   var postData = "log=" + encodeURI(user) + "&pwd=" + encodeURI(pwd);  
   var response = UrlFetchApp.fetch(
     url,
