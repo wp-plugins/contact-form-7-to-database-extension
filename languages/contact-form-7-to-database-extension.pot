@@ -1,11 +1,11 @@
-# Copyright (C) 2011
+# Copyright (C) 2011 
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-"
 "extension\n"
-"POT-Creation-Date: 2011-02-12 12:49:58+00:00\n"
+"POT-Creation-Date: 2011-02-20 05:13:58+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -37,15 +37,16 @@ msgstr ""
 msgid "Add these two lines to the file:"
 msgstr ""
 
-#: ExportToJson.php:69 CF7DBOptionsManager.php:278 ExportToCsvUtf16le.php:32
-#: ExportToGoogleLiveData.php:29 ExportToCsvUtf8.php:42
-#: ExportToGoogleSS.php:34 ExportToHtml.php:122 ExportToValue.php:60
-#: getFile.php:32
-msgid "You do not have sufficient permissions to access this page."
+#: ExportBase.php:125
+msgid "You do not have sufficient permissions to access this data."
 msgstr ""
 
-#: CJ7DBCheckZendFramework.php:70
+#: CJ7DBCheckZendFramework.php:71
 msgid "Missing Zend Framework"
+msgstr ""
+
+#: CF7DBOptionsManager.php:278 ExportToGoogleLiveData.php:30 getFile.php:32
+msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
 #: CF7DBOptionsManager.php:296
@@ -64,15 +65,15 @@ msgstr ""
 msgid "false"
 msgstr ""
 
-#: ExportToCsvUtf16le.php:50 ExportToCsvUtf8.php:62
-msgid "Submitted"
-msgstr ""
-
-#: ExportToGoogleLiveData.php:164
+#: ExportToGoogleLiveData.php:166
 msgid "How to Set up Google Spreadsheet to pull data from WordPress"
 msgstr ""
 
-#: ExportToGoogleSS.php:64
+#: export.php:36
+msgid "Error: No \"form\" parameter submitted"
+msgstr ""
+
+#: ExportToGoogleSS.php:61
 msgid "Login Failed"
 msgstr ""
 
@@ -84,7 +85,7 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: ExportToHtml.php:234
+#: ExportToHtml.php:135
 msgid "Delete"
 msgstr ""
 
@@ -170,7 +171,7 @@ msgstr ""
 msgid "Database"
 msgstr ""
 
-#: CF7DBPlugin.php:234 CF7DBPlugin.php:420
+#: CF7DBPlugin.php:234
 msgid "FAQ"
 msgstr ""
 
@@ -178,45 +179,89 @@ msgstr ""
 msgid "Rate this Plugin"
 msgstr ""
 
+#: CF7DBPlugin.php:420
+msgid "Documentation"
+msgstr ""
+
 #: CF7DBPlugin.php:426
 msgid "Support"
 msgstr ""
 
-#: CF7DBPlugin.php:440
+#: CF7DBPlugin.php:442
 msgid "No form submissions in the database"
 msgstr ""
 
-#: CF7DBPlugin.php:495
+#: CF7DBPlugin.php:508
 msgid "Google Login for Upload"
 msgstr ""
 
-#: CF7DBPlugin.php:504
+#: CF7DBPlugin.php:517
 msgid "Cannot perform operation because jQuery is not loaded in this page"
 msgstr ""
 
-#: CF7DBPlugin.php:543
+#: CF7DBPlugin.php:557
+msgid "Excel Internet Query"
+msgstr ""
+
+#: CF7DBPlugin.php:560
+msgid "Excel CSV (UTF8-BOM)"
+msgstr ""
+
+#: CF7DBPlugin.php:563
+msgid "Excel TSV (UTF16LE-BOM)"
+msgstr ""
+
+#: CF7DBPlugin.php:566
+msgid "Plain CSV (UTF-8)"
+msgstr ""
+
+#: CF7DBPlugin.php:569
+msgid "Google Spreadsheet"
+msgstr ""
+
+#: CF7DBPlugin.php:572
+msgid "Google Spreadsheet Live Data"
+msgstr ""
+
+#: CF7DBPlugin.php:575
+msgid "HTML"
+msgstr ""
+
+#: CF7DBPlugin.php:578
+msgid "JSON"
+msgstr ""
+
+#: CF7DBPlugin.php:582
 msgid "Export"
 msgstr ""
 
-#: CF7DBPlugin.php:553
+#: CF7DBPlugin.php:592
 msgid "Delete All This Form's Records"
 msgstr ""
 
-#: CF7DBPlugin.php:611
+#: CF7DBPlugin.php:648
 msgid "Did you know: This plugin captures data from both these plugins:"
 msgstr ""
 
-#: CF7DBPlugin.php:620
+#: CF7DBPlugin.php:657
 msgid ""
 "Did you know: You can add this data to your posts and pages using these "
 "shortcodes:"
 msgstr ""
 
-#: CF7DBPlugin.php:645
+#: CF7DBPlugin.php:668
+msgid "Would you like to help translate this plugin into your language?"
+msgstr ""
+
+#: CF7DBPlugin.php:669
+msgid "How to create a translation"
+msgstr ""
+
+#: CF7DBPlugin.php:690
 msgid "Cancel"
 msgstr ""
 
-#: CF7DBPlugin.php:647
+#: CF7DBPlugin.php:692
 msgid "Upload"
 msgstr ""
 
@@ -226,8 +271,4 @@ msgstr ""
 
 #: getFile.php:44
 msgid "No such file."
-msgstr ""
-
-#: CFDBShortCodeLoaderSecurityCheck.php:34
-msgid "Insufficient privileges to display data from form: "
 msgstr ""
