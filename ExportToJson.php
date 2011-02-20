@@ -63,14 +63,14 @@ class ExportToJson extends ExportBase implements CFDBExport {
             ?>
             <script type="text/javascript" language="JavaScript">
                 <!--
-                var <?php echo $varName; ?> = <?php echo json_encode($this->filteredData); ?>;
+                var <?php echo $varName; ?> = <?php $this->echoJsonEncode(); ?>;
                 //-->
             </script>
             <?php
 
         }
         else {
-            echo json_encode($this->filteredData);
+            echo $this->echoJsonEncode();
         }
 
         if ($this->isFromShortCode) {
@@ -79,6 +79,30 @@ class ExportToJson extends ExportBase implements CFDBExport {
             $output = ob_get_contents();
             ob_end_clean();
             return $output;
+        }
+    }
+
+    protected function echoJsonEncode() {
+        if ($this->options && isset($this->options['format']) &&
+                ($this->options['format'] == 'array' || $this->options['format'] == 'arraynoheader')) {
+
+            $arrayData = array();
+            if ($this->options['format'] == 'array') {
+                // include column headers
+                $arrayData[] = $this->columns;
+            }
+
+            foreach ($this->filteredData as $aDataRow) {
+                $row = array();
+                foreach ($this->columns as $aCol) {
+                    $row[] = $aDataRow[$aCol];
+                }
+                $arrayData[] = $row;
+            }
+            echo json_encode($arrayData);
+        }
+        else {
+            echo json_encode($this->filteredData);
         }
     }
 }
