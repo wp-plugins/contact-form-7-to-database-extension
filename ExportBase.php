@@ -199,8 +199,10 @@ class ExportBase {
         $this->filteredData = array();
 
         foreach ($this->tableData->pivot as $submitTime => $data) {
+            // $data does not include submitTime; have to add it
+            $data['Submitted'] = $this->plugin->formatDate($submitTime);
+
             // Determine if row is filtered
-            // todo: $data does not include submitTime, so you can't filter on it
             if ($this->rowFilter && !$this->rowFilter->evaluate($data)) {
                 continue;
             }
@@ -210,13 +212,7 @@ class ExportBase {
                 $row[$submitTimeKeyName] = $submitTime;
             }
             foreach ($this->columns as $aCol) {
-                if ($aCol == 'Submitted') {
-                    $cell = $this->plugin->formatDate($submitTime);
-                }
-                else {
-                    $cell = isset($data[$aCol]) ? $data[$aCol] : "";
-                }
-                $row[$aCol] = $cell;
+                $row[$aCol] = isset($data[$aCol]) ? $data[$aCol] : "";
             }
             $this->filteredData[] = $row;
         }
