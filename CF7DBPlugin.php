@@ -443,14 +443,14 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             return;
         }
         $htmlFormName = $this->prefix('form');
-        $currSelection = $rows[0]->form_name;
+        $currSelection = null; //$rows[0]->form_name;
         if (isset($_POST['form_name'])) {
             $currSelection = $_POST['form_name'];
         }
         else if (isset($_GET['form_name'])) {
             $currSelection = $_GET['form_name'];
         }
-        if (isset($currSelection)) {
+        if ($currSelection) {
             // Check for delete operation
             if (isset($_POST['delete']) && $canDelete) {
                 if (isset($_POST['submit_time'])) {
@@ -478,6 +478,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 <td align="left">
                     <form method="post" action="" name="<?php echo $htmlFormName ?>" id="<?php echo $htmlFormName ?>">
                         <select name="form_name" id="form_name" onchange="this.form.submit();">
+                        <option value=""><?php _e('* Select a form *', 'contact-form-7-to-database-extension') ?></option>
                         <?php foreach ($rows as $aRow) {
                             $formName = $aRow->form_name;
                             $selected = ($formName == $currSelection) ? "selected" : "";
@@ -488,6 +489,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                     </form>
                 </td>
                 <td align="center">
+                    <?php if ($currSelection) { ?>
                     <script type="text/javascript" language="Javascript">
                         function getSearchFieldValue() {
                             var searchVal = '';
@@ -582,9 +584,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                value="<?php _e('Export', 'contact-form-7-to-database-extension'); ?>"
                                onclick="exportData(this.form.elements['enc'])"/>
                     </form>
+            <?php } ?>
                 </td>
                 <td align="right">
-                <?php if ($canDelete) { ?>
+                <?php if ($currSelection && $canDelete) { ?>
                     <form action="" method="post">
                         <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
                         <input name="all" type="hidden" value="y"/>
@@ -599,12 +602,12 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
 
         <?php
-        // Show table of form data
-
-        if ($useDataTables) {
-            $i18nUrl = $this->getDataTableTranslationUrl();
-        ?>
-        <script type="text/javascript" language="Javascript">
+        if ($currSelection) {
+            // Show table of form data
+            if ($useDataTables) {
+                $i18nUrl = $this->getDataTableTranslationUrl();
+                ?>
+            <script type="text/javascript" language="Javascript">
             jQuery(document).ready(function() {
                 jQuery('#<?php echo $tableHtmlId ?>').dataTable({
                    "bJQueryUI": true,
@@ -614,31 +617,37 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 } ?>
                 })});
         </script>
-        <?php
-        }
-        if ($canDelete) { ?>
+            <?php
+
+            }
+            if ($canDelete) {
+                ?>
         <form action="" method="post">
             <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
             <input name="delete" type="hidden" value="rows"/>
-        <?php
-        }
-        ?>
-        <div <?php if (!$useDataTables) echo 'style="overflow:auto; max-height:500px;"' ?>>
-        <?php
-        $exporter = new ExportToHtml();
-        $options = array('canDelete' => $canDelete);
-        if ($useDataTables) {
-            $options['id'] = $tableHtmlId;
-            $options['class'] = '';
-            $options['style'] = "#$tableHtmlId td > div { max-height: 100px; overflow: auto; font-size: small; }"; // don't let cells get too tall
-        }
-        $exporter->export($currSelection, $options);
-        ?>
-        </div>
-        <?php if ($canDelete) {
+                <?php
+
+            }
             ?>
+            <div <?php if (!$useDataTables) echo 'style="overflow:auto; max-height:500px;"' ?>>
+                <?php
+                        $exporter = new ExportToHtml();
+                $options = array('canDelete' => $canDelete);
+                if ($useDataTables) {
+                    $options['id'] = $tableHtmlId;
+                    $options['class'] = '';
+                    $options['style'] = "#$tableHtmlId td > div { max-height: 100px; overflow: auto; font-size: small; }"; // don't let cells get too tall
+                }
+                $exporter->export($currSelection, $options);
+                ?>
+            </div>
+            <?php if ($canDelete) {
+                ?>
             </form>
-        <?php } ?>
+        <?php
+            }
+        }
+        ?>
         <div style="margin-top:1em"> <?php // Footer ?>
             <table style="width:100%;">
                 <tbody>
@@ -673,6 +682,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 </tbody>
             </table>
         </div>
+        <?php
+        if ($currSelection) {
+            ?>
         <div id="GoogleCredentialsDialog" style="display:none; background-color:#EEEEEE;">
             <table>
                 <tbody>
@@ -698,6 +710,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         </div>
         <?php
 
+        }
     }
 
     /**
