@@ -68,8 +68,9 @@ The table and all its data are deleted when you uninstall. You can deactivate th
 = 1.7 =
 * Creating an export from the admin panel now filters rows based on text in the DataTable "Search" field.
 * [cfdb-json] now has "format" option.
-* Fixed bug where "Submitted" column would sometimes appear twice.
+* Fixed bug where "Submitted" column would sometimes appear twice in shortcodes
 * Now can filter on "Submitted" column.
+* Admin Database page is now blank by default and you have to select a form to display.
 
 = 1.6.5 =
 * Now fully supports internationalization (i18n) but we need people to contribute more translation files.
