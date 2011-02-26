@@ -40,6 +40,12 @@ class ExportToCsvUtf8 extends ExportBase implements CFDBExport {
             return;
         }
 
+        if ($this->options && is_array($this->options)) {
+            if (isset($this->options['bom'])) {
+                $this->useBom = $this->options['bom'] == 'true';
+            }
+        }
+
         // Headers
         $this->echoHeaders(
             array('Content-Type: text/html; charset=UTF-8',
