@@ -3,7 +3,7 @@ Contributors: msimpson
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=NEVDJ792HKGFN&lc=US&item_name=Wordpress%20Plugin&item_number=cf7%2dto%2ddb%2dextension&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 Tags: contact form,database
 Requires at least: 2.9
-Tested up to: 3.0.5
+Tested up to: 3.1
 Stable tag: 1.7
 
 Extension to the Contact Form 7 plugin that saves submitted form data to the database.
