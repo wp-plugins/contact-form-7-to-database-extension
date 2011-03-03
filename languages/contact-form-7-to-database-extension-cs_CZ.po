@@ -1,0 +1,277 @@
+# Copyright (C) 2011 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Contact Form 7 - database\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-extension\n"
+"POT-Creation-Date: 2011-02-25 21:50:57+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2011-03-03 20:47+0100\n"
+"Last-Translator: GG\n"
+"Language-Team: Ateliér Gadjukin <atelier@gadjukin.net>\n"
+"X-Poedit-Language: Czech\n"
+
+#: CF7DBPlugin.php:49
+msgid "Can See Submission data"
+msgstr "Může vidět uložená data"
+
+#: CF7DBPlugin.php:51
+msgid "Can See Submission when using shortcodes"
+msgstr "Může vidět uložená data při použití zkratek"
+
+#: CF7DBPlugin.php:53
+msgid "Can Delete Submission data"
+msgstr "Může bymazat uložená data"
+
+#: CF7DBPlugin.php:55
+msgid "Use Javascript-enabled tables in Admin Database page"
+msgstr "Použít Javascript"
+
+#: CF7DBPlugin.php:56
+msgid "Show line breaks in submitted data table"
+msgstr "Zobrazovat zalomení řádku v datové tabulce"
+
+#: CF7DBPlugin.php:57
+msgid "Use Custom Date-Time Display Format (below)"
+msgstr "Použít uživatelské zobrazení datumu a času (níže)"
+
+#: CF7DBPlugin.php:58
+msgid "Date-Time Display Format"
+msgstr "Formát zobrazení datumu a času"
+
+#: CF7DBPlugin.php:59
+msgid "Export URLs instead of file names for uploaded files"
+msgstr "Exportovat URL adresu místo jména uplodovaného souboru"
+
+#: CF7DBPlugin.php:60
+msgid "Do not save <u>fields</u> in DB named (comma-separated list, no spaces)"
+msgstr "Neukládat <u>pole</u> do databáze (čárkou oddělený seznam, bez mezer)"
+
+#: CF7DBPlugin.php:61
+msgid "Do not save <u>forms</u> in DB named (comma-separated list, no spaces)"
+msgstr "Neukládat <u>formuláře</u> do databáze (čárkou oddělený seznam, bez mezer)"
+
+#: CF7DBPlugin.php:62
+msgid "Save Cookie Data with Form Submissions"
+msgstr "Uložit data cookie"
+
+#: CF7DBPlugin.php:63
+msgid "Save only cookies in DB named (comma-separated list, no spaces, and above option must be set to true)"
+msgstr "Uložit do databáze pouze cookies (čárkou oddělený seznam, bez mezer, musí být povolena předchozí volba)"
+
+#: CF7DBPlugin.php:71
+#: CF7DBOptionsManager.php:380
+msgid "true"
+msgstr "ano"
+
+#: CF7DBPlugin.php:73
+#: CF7DBOptionsManager.php:381
+msgid "false"
+msgstr "ne"
+
+#: CF7DBPlugin.php:76
+msgid "Administrator"
+msgstr "Administrátor"
+
+#: CF7DBPlugin.php:78
+msgid "Editor"
+msgstr "Redaktor"
+
+#: CF7DBPlugin.php:80
+msgid "Author"
+msgstr "Autor"
+
+#: CF7DBPlugin.php:82
+msgid "Contributor"
+msgstr "Přispěvatel"
+
+#: CF7DBPlugin.php:84
+msgid "Subscriber"
+msgstr "Odběratel"
+
+#: CF7DBPlugin.php:86
+msgid "Anyone"
+msgstr "kdokoliv"
+
+#: CF7DBPlugin.php:212
+#: CF7DBPlugin.php:232
+msgid "Database Options"
+msgstr "Volby databáze"
+
+#: CF7DBPlugin.php:230
+#: CF7DBPlugin.php:381
+msgid "Database"
+msgstr "Databáze"
+
+#: CF7DBPlugin.php:234
+msgid "FAQ"
+msgstr "FAQ"
+
+#: CF7DBPlugin.php:414
+msgid "Rate this Plugin"
+msgstr "Ohodnoťte tento plugin"
+
+#: CF7DBPlugin.php:420
+msgid "Documentation"
+msgstr "Dokumentace"
+
+#: CF7DBPlugin.php:426
+msgid "Support"
+msgstr "Podpora"
+
+#: CF7DBPlugin.php:442
+msgid "No form submissions in the database"
+msgstr "V databázi není žádný formulář"
+
+#: CF7DBPlugin.php:481
+msgid "* Select a form *"
+msgstr "* Vyberte formulář *"
+
+#: CF7DBPlugin.php:510
+msgid "Google Login for Upload"
+msgstr "Google přihlášení pro nahrání"
+
+#: CF7DBPlugin.php:519
+msgid "Cannot perform operation because jQuery is not loaded in this page"
+msgstr "Nelze vykonat tuto operaci, protože jQuery není na této stránce načteno"
+
+#: CF7DBPlugin.php:559
+msgid "Excel Internet Query"
+msgstr "Excel Internet Query"
+
+#: CF7DBPlugin.php:562
+msgid "Excel CSV (UTF8-BOM)"
+msgstr "Excel CSV (UTF8-BOM)"
+
+#: CF7DBPlugin.php:565
+msgid "Excel TSV (UTF16LE-BOM)"
+msgstr "Excel TSV (UTF16LE-BOM)"
+
+#: CF7DBPlugin.php:568
+msgid "Plain CSV (UTF-8)"
+msgstr "Prostý CSV (UTF-8)"
+
+#: CF7DBPlugin.php:571
+msgid "Google Spreadsheet"
+msgstr "Tabulka Google"
+
+#: CF7DBPlugin.php:574
+msgid "Google Spreadsheet Live Data"
+msgstr "Tabulka Google Live Data"
+
+#: CF7DBPlugin.php:577
+msgid "HTML"
+msgstr "HTML"
+
+#: CF7DBPlugin.php:580
+msgid "JSON"
+msgstr "JSON"
+
+#: CF7DBPlugin.php:584
+msgid "Export"
+msgstr "Exportovat"
+
+#: CF7DBPlugin.php:595
+msgid "Delete All This Form's Records"
+msgstr "Vymazat všechny záznamy tohoto formuláře"
+
+#: CF7DBPlugin.php:657
+msgid "Did you know: This plugin captures data from both these plugins:"
+msgstr "Věděli jste, že: Tento plugin získává data z obou těchto pluginů:"
+
+#: CF7DBPlugin.php:666
+msgid "Did you know: You can add this data to your posts and pages using these shortcodes:"
+msgstr "Věděli jste, že: můžete přidat tato data do vašich příspěvků a stránek pomocí těchto zkratek:"
+
+#: CF7DBPlugin.php:677
+msgid "Would you like to help translate this plugin into your language?"
+msgstr "Chtěli byste pomoci s překladem tohoto pluginu do vašeho jazyka?"
+
+#: CF7DBPlugin.php:678
+msgid "How to create a translation"
+msgstr "Jak vytvořit překlad"
+
+#: CF7DBPlugin.php:702
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: CF7DBPlugin.php:704
+msgid "Upload"
+msgstr "Nahrát"
+
+#: ExportBase.php:125
+msgid "You do not have sufficient permissions to access this data."
+msgstr "Nemáte dostatečná oprávnění  přístupu k těmto datům."
+
+#: getFile.php:32
+#: CF7DBOptionsManager.php:278
+#: ExportToGoogleLiveData.php:30
+msgid "You do not have sufficient permissions to access this page."
+msgstr "Nemáte dostatečná oprávnění pro přístup na tuto stránku."
+
+#: getFile.php:39
+msgid "Missing form parameters"
+msgstr "Chybějící parametry formuláře"
+
+#: getFile.php:44
+msgid "No such file."
+msgstr "Žádný soubor"
+
+#: export.php:36
+msgid "Error: No \"form\" parameter submitted"
+msgstr "Chyba: Žádný parametr \"form\""
+
+#: CF7DBOptionsManager.php:296
+msgid "Settings"
+msgstr "Nastavení"
+
+#: CF7DBOptionsManager.php:321
+msgid "Save Changes"
+msgstr "Uložit změny"
+
+#: ExportToGoogleLiveData.php:166
+msgid "How to Set up Google Spreadsheet to pull data from WordPress"
+msgstr "Jak nastavit tabulky Google pro získání dat z WordPressu"
+
+#: CJ7DBCheckZendFramework.php:71
+msgid "Missing Zend Framework"
+msgstr "Chybějící Zend Framework"
+
+#: ExportToGoogleSS.php:61
+msgid "Login Failed"
+msgstr "Přihlášení selhalo"
+
+#: ExportToGoogleSS.php:100
+msgid "New Google Spreadsheet"
+msgstr "Nová Google tabulka"
+
+#: ExportToGoogleSS.php:109
+msgid "Error"
+msgstr "Chyba"
+
+#: contact-form-7-db.php:23
+msgid "Minimal version of PHP required: "
+msgstr "Minimální vyžadovaná verze PHP:"
+
+#: contact-form-7-db.php:24
+msgid "Your server's PHP version: "
+msgstr "Verze PHP vašeho serveru:"
+
+#: contact-form-7-db.php:27
+msgid "When using the Apache web server, typically you can configure it to use PHP5 by doing the following:"
+msgstr "Při použití webového serveru Apache, si obvykle můžete nakonfigurovat tak, aby používal PHP5 následujícím způsobem:"
+
+#: contact-form-7-db.php:29
+msgid "Locate and edit this file, located at the top directory of your WordPress installation: "
+msgstr "Vyhledejte a upravte tento soubor, který se nachází v kořenovém adresáři instalace WordPress:"
+
+#: contact-form-7-db.php:31
+msgid "Add these two lines to the file:"
+msgstr "Přidat tyto dva řádky do souboru:"
+
+#: ExportToHtml.php:135
+msgid "Delete"
+msgstr "Smazat"
+
