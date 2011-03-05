@@ -19,7 +19,13 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once('../../../wp-config.php');
+if (is_readable('../../../wp-config.php')) {
+    include_once('../../../wp-config.php');
+}
+else if (is_readable('../../../../wp-config.php')) {
+    //http://www.groovypost.com/howto/how-to/improve-wordpress-securitty-wp-config-php-location/
+    include_once('../../../../wp-config.php');
+}
 include_once('../../../wp-includes/functions.php');
 require_wp_db();
 require_once('CF7DBTableData.php');
