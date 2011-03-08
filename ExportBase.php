@@ -23,21 +23,79 @@ require_once('CF7DBPlugin.php');
 
 class ExportBase {
 
+    /**
+     * @var string
+     */
     var $defaultTableClass = 'cf7-db-table';
+
+    /**
+     * @var array
+     */
     var $options;
+
+    /**
+     * @var bool
+     */
     var $debug = false;
+
+    /**
+     * @var array
+     */
     var $showColumns;
+
+    /**
+     * @var array
+     */
     var $hideColumns;
+
+    /**
+     * @var string
+     */
     var $htmlTableId;
+
+    /**
+     * @var string
+     */
     var $htmlTableClass;
+
+    /**
+     * @var string
+     */
     var $style;
+
+    /**
+     * @var CF7DBEvalutator|CF7FilterParser|CF7SearchEvaluator
+     */
     var $rowFilter;
+
+    /**
+     * @var bool
+     */
     var $isFromShortCode = false;
 
+    /**
+     * @var array
+     */
     var $columns;
+
+    /**
+     * @var bool
+     */
     var $showSubmitField;
+
+    /**
+     * @var CF7DBTableData
+     */
     var $tableData;
+
+    /**
+     * @var array
+     */
     var $filteredData;
+
+    /**
+     * @var CF7DBPlugin
+     */
     var $plugin;
 
     /**
@@ -180,6 +238,9 @@ class ExportBase {
         return $columns;
     }
 
+    /**
+     * @return bool
+     */
     protected function getShowSubmitField() {
         $showSubmitField = true;
         if ($this->hideColumns != null && is_array($this->hideColumns) && in_array('Submitted', $this->hideColumns)) {
