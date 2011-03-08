@@ -251,7 +251,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         }
 
         global $wpdb;
-        $time = $_SERVER['REQUEST_TIME'] ? $_SERVER['REQUEST_TIME'] : time();
+        $time = function_exists('microtime') ? microtime(true) : time();
+
         $ip = (isset($_SERVER['X_FORWARDED_FOR'])) ? $_SERVER['X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
         $tableName = $this->getSubmitsTableName();
         $parametrizedQuery = "INSERT INTO `$tableName` (`submit_time`, `form_name`, `field_name`, `field_value`, `field_order`) VALUES (%s, %s, %s, %s, %s)";
