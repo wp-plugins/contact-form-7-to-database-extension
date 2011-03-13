@@ -49,7 +49,7 @@ class ExportToJson extends ExportBase implements CFDBExport {
         }
 
         // Headers
-        $contentType = $html ? 'Content-Type: text/html; charset=UTF-8' : 'Content-Type: application/json';
+        $contentType = $html ? 'Content-Type: text/html; charset=UTF-8' : 'Content-Type: application/json; charset=UTF-8';
         $this->echoHeaders($contentType);
 
         // Get the data
