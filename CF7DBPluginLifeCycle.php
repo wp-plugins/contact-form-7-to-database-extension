@@ -100,8 +100,8 @@ abstract class CF7DBPluginLifeCycle extends CF7DBInstallIndicator {
 
 
     protected function requireExtraPluginFiles() {
-        require_once(plugin_dir_path(__FILE__) . '../../../wp-includes/pluggable.php');
-        require_once(plugin_dir_path(__FILE__) . '../../../wp-admin/includes/plugin.php');
+        require_once(ABSPATH . 'wp-includes/pluggable.php');
+        require_once(ABSPATH . 'wp-admin/includes/plugin.php');
     }
 
     protected function addSettingsSubMenuPageToPluginsMenu() {
