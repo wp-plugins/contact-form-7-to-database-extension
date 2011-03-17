@@ -86,7 +86,7 @@ class ExportToJson extends ExportBase implements CFDBExport {
         $format = 'map';
         if ($this->options && isset($this->options['format'])) {
             if ($this->options['format'] == 'array' || $this->options['format'] == 'arraynoheader') {
-                $format = $this->options['format'] == 'array';
+                $format = $this->options['format'];
             }
         }
 
