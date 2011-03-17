@@ -163,6 +163,6 @@ class ExportToJson extends ExportBase implements CFDBExport {
     }
 
     protected function prepareJsonValue($text) {
-        return '"' . str_replace('"', '\"', $text) . '"';
+        return '"' . str_replace("\n", '\\n', str_replace('"', '\"', $text)) . '"';
     }
 }
