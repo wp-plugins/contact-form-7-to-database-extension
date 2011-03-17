@@ -179,7 +179,8 @@ class ExportBase {
             echo $errMsg;
         }
         else {
-            wp_die($errMsg);
+            include_once('CFDBDie.php');
+            CFDBDie::wp_die($errMsg);
         }
     }
 

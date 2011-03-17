@@ -23,23 +23,24 @@ include_once('../../../wp-load.php');
 require_wp_db();
 require_once('CF7DBPlugin.php');
 require_once('CF7DBUtil.php');
+require_once('CFDBDie.php');
 
 function cF7ToDBGetFile() {
     $plugin = new CF7DBPlugin();
     if (!$plugin->canUserDoRoleOption('CanSeeSubmitData')) {
-        wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
+        CFDBDie::wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
     }
 
     $submitTime = CF7DBUtil::getParam('s');
     $formName = CF7DBUtil::getParam('form');
     $fieldName = CF7DBUtil::getParam('field');
     if (!$submitTime || !$formName || !$fieldName) {
-        wp_die(__('Missing form parameters', 'contact-form-7-to-database-extension'));
+        CFDBDie::wp_die(__('Missing form parameters', 'contact-form-7-to-database-extension'));
     }
 
     $fileInfo = (array) $plugin->getFileFromDB($submitTime, $formName, $fieldName);
     if ($fileInfo == null) {
-        wp_die(__('No such file.', 'contact-form-7-to-database-extension'));
+        CFDBDie::wp_die(__('No such file.', 'contact-form-7-to-database-extension'));
     }
 
     header("Content-Disposition: attachment; filename=\"$fileInfo[0]\"");

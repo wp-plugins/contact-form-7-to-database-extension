@@ -21,20 +21,24 @@
 
 require_once('CF7DBPlugin.php');
 require_once('CFDBExport.php');
+include_once('CFDBDie.php');
 
 class ExportToGoogleLiveData implements CFDBExport {
 
     public function export($formName, $options = null) {
         $plugin = new CF7DBPlugin();
         if (!$plugin->canUserDoRoleOption('CanSeeSubmitData')) {
-            wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
+            CFDBDie::wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
         }
         header('Expires: 0');
         header('Cache-Control: no-store, no-cache, must-revalidate');
 
-        $scriptLink = $plugin->getPluginDirUrl() . 'Cf7ToDBGGoogleSS.js.php';
+        $pluginUrlDir = $plugin->getPluginDirUrl();
+        $scriptLink = $pluginUrlDir . 'Cf7ToDBGGoogleSS.js.php';
+        $imageUrlDir = $pluginUrlDir . "help";
         $siteUrl = get_option('home');
         $search = isset($options['search']) ? $options['search'] : '';
+
         ob_start();
         ?>
         <style type="text/css">
@@ -73,11 +77,11 @@ class ExportToGoogleLiveData implements CFDBExport {
             <tr>
                 <td>
                     <div class="popup-trigger">
-                        <a>
-                            <img src="help/GoogleNewSS.png" alt="Create a new spreadsheet" height="100px" width="61px"/>
+                        <a href="<?php echo $imageUrlDir ?>/GoogleNewSS.png">
+                            <img src="<?php echo $imageUrlDir ?>/GoogleNewSS.png" alt="Create a new spreadsheet" height="100px" width="61px"/>
 
                             <div class="popup-content">
-                                <img src="help/GoogleNewSS.png" alt="Create a new spreadsheet"/>
+                                <img src="<?php echo $imageUrlDir ?>/GoogleNewSS.png" alt="Create a new spreadsheet"/>
                             </div>
                         </a>
                     </div>
@@ -87,11 +91,11 @@ class ExportToGoogleLiveData implements CFDBExport {
             <tr>
                 <td>
                     <div class="popup-trigger">
-                        <a>
-                            <img src="help/GoogleOpenScriptEditor.png" alt="Create a new spreadsheet" height="69px" width="100px"/>
+                        <a href="<?php echo $imageUrlDir ?>/GoogleOpenScriptEditor.png">
+                            <img src="<?php echo $imageUrlDir ?>/GoogleOpenScriptEditor.png" alt="Create a new spreadsheet" height="69px" width="100px"/>
 
                             <div class="popup-content">
-                                <img src="help/GoogleOpenScriptEditor.png" alt="Create a new spreadsheet"/>
+                                <img src="<?php echo $imageUrlDir ?>/GoogleOpenScriptEditor.png" alt="Create a new spreadsheet"/>
                             </div>
                         </a>
                     </div>
@@ -101,11 +105,11 @@ class ExportToGoogleLiveData implements CFDBExport {
             <tr>
                 <td>
                     <div class="popup-trigger">
-                        <a>
-                            <img src="help/GooglePasteScriptEditor.png" alt="Paste script text" height="68px" width="100px"/>
+                        <a href="<?php echo $imageUrlDir ?>/GooglePasteScriptEditor.png">
+                            <img src="<?php echo $imageUrlDir ?>/GooglePasteScriptEditor.png" alt="Paste script text" height="68px" width="100px"/>
 
                             <div class="popup-content">
-                                <img src="help/GooglePasteScriptEditor.png" alt="Paste script text"/>
+                                <img src="<?php echo $imageUrlDir ?>/GooglePasteScriptEditor.png" alt="Paste script text"/>
                             </div>
                         </a>
                     </div>
@@ -119,11 +123,11 @@ class ExportToGoogleLiveData implements CFDBExport {
             <tr>
                 <td>
                     <div class="popup-trigger">
-                        <a>
-                            <img src="help/GoogleSaveScriptEditor.png" alt="Create a new spreadsheet" height="100px" width="83px"/>
+                        <a href="<?php echo $imageUrlDir ?>/GoogleSaveScriptEditor.png">
+                            <img src="<?php echo $imageUrlDir ?>/GoogleSaveScriptEditor.png" alt="Create a new spreadsheet" height="100px" width="83px"/>
 
                             <div class="popup-content">
-                                <img src="help/GoogleSaveScriptEditor.png" alt="Create a new spreadsheet"/>
+                                <img src="<?php echo $imageUrlDir ?>/GoogleSaveScriptEditor.png" alt="Create a new spreadsheet"/>
                             </div>
                         </a>
                     </div>
@@ -135,11 +139,11 @@ class ExportToGoogleLiveData implements CFDBExport {
             <tr>
                 <td>
                     <div class="popup-trigger">
-                        <a>
-                            <img src="help/GoogleEnterFormula.png" alt="Create a new spreadsheet" height="43px" width="100px"/>
+                        <a href="<?php echo $imageUrlDir ?>/GoogleEnterFormula.png">
+                            <img src="<?php echo $imageUrlDir ?>/GoogleEnterFormula.png" alt="Create a new spreadsheet" height="43px" width="100px"/>
 
                             <div class="popup-content">
-                                <img src="help/GoogleEnterFormula.png" alt="Create a new spreadsheet"/>
+                                <img src="<?php echo $imageUrlDir ?>/GoogleEnterFormula.png" alt="Create a new spreadsheet"/>
                             </div>
                         </a>
                     </div>
@@ -162,7 +166,7 @@ class ExportToGoogleLiveData implements CFDBExport {
         <?php
             $html = ob_get_contents();
         ob_end_clean();
-        wp_die($html,
+        CFDBDie::wp_die($html,
                __('How to Set up Google Spreadsheet to pull data from WordPress', 'contact-form-7-to-database-extension'),
                array('response' => 200, 'back_link' => true));
     }

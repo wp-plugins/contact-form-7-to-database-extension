@@ -23,6 +23,7 @@ require_once('CJ7DBCheckZendFramework.php');
 require_once('ExportToCsvUtf8.php');
 require_once('ExportBase.php');
 require_once('CFDBExport.php');
+require_once('CFDBDie.php');
 
 class ExportToGoogleSS extends ExportBase implements CFDBExport {
 
@@ -57,9 +58,9 @@ class ExportToGoogleSS extends ExportBase implements CFDBExport {
                 Zend_Gdata_Docs::AUTH_SERVICE_NAME); //Zend_Gdata_Spreadsheets::AUTH_SERVICE_NAME
         }
         catch (Zend_Gdata_App_AuthException $ae) {
-            wp_die("<p>Login failed for: '$guser' </p><p>Error: " . $ae->getMessage() . '</p>',
-                   __('Login Failed', 'contact-form-7-to-database-extension'),
-                   array('response' => 200, 'back_link' => true));
+            CFDBDie::wp_die("<p>Login failed for: '$guser' </p><p>Error: " . $ae->getMessage() . '</p>',
+                            __('Login Failed', 'contact-form-7-to-database-extension'),
+                            array('response' => 200, 'back_link' => true));
         }
 
         try {
@@ -102,12 +103,12 @@ class ExportToGoogleSS extends ExportBase implements CFDBExport {
                     utf8_encode("$title: <a target=\"_blank\" href=\"$alternateLink\">") .
                             $formName .
                             utf8_encode('</a>');
-            wp_die($output, $title,  array('response' => 200, 'back_link' => true));
+            CFDBDie::wp_die($output, $title,  array('response' => 200, 'back_link' => true));
         }
         catch (Exception $ex) {
-            wp_die($ex->getMessage() . '<pre>' . $ex->getTraceAsString() . '</pre>',
-                   __('Error', 'contact-form-7-to-database-extension'),
-                   array('back_link' => true));
+            CFDBDie::wp_die($ex->getMessage() . '<pre>' . $ex->getTraceAsString() . '</pre>',
+                            __('Error', 'contact-form-7-to-database-extension'),
+                            array('back_link' => true));
         }
     }
 }

@@ -19,7 +19,6 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('CF7DBPlugin.php');
 require_once('CFDBExport.php');
 
 class ExportToIqy implements CFDBExport {
@@ -29,20 +28,19 @@ class ExportToIqy implements CFDBExport {
         header("Content-Disposition: attachment; filename=\"$formName.iqy\"");
 
         $url = get_bloginfo('url');
-        $plugin = new CF7DBPlugin();
         $encFormName = urlencode($formName);
-        $uri = "export.php?form=$encFormName&enc=HTML";
+        $uri = "?action=cfdb-export&form=$encFormName&enc=HTML";
         if (isset($options['search'])) {
            $uri = $uri . '&search=' . urlencode($options['search']);
         }
-        $encRedir = urlencode($plugin->getPluginDirUrl() . $uri);
+        $encRedir = urlencode('wp-admin/admin-ajax.php' . $uri);
 
         // To get this to work right, we have to submit to the same page that the login form does and post
         // the same parameters that the login form does. This includes "log" and "pwd" for the login and
         // also "redirect_to" which is the URL of the page where we want to end up including a "form_name" parameter
         // to tell that final page to select which contact form data is to be displayed.
         //
-        // "Selection=3" references the 3rd table in the page which is the data table.
+        // "Selection=1" references the 1st HTML table in the page which is the data table.
         // "Formatting" can be "None", "All", or "RTF"
         echo (
 "WEB

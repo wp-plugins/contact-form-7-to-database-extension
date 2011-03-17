@@ -19,46 +19,14 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * @deprecated This file is deprecated as of version 1.8.
+ * But it remains here for backward compatibility with Excel IQuery and Google Live Data
+ * exports from older versions which reference this file directly via URL.
+ */
+
 include_once('../../../wp-load.php');
 require_wp_db();
 
 require_once('CF7DBPluginExporter.php');
-
-function cF7DBExport_export() {
-
-    // Consolidate GET and POST parameters. Allow GET to override POST.
-    $params = array_merge($_POST, $_GET);
-
-    //print_r($params);
-
-    if (!isset($params['form'])) {
-        wp_die(__('Error: No "form" parameter submitted', 'contact-form-7-to-database-extension'));
-        return;
-    }
-
-    // Assumes coming from CF7DBPlugin::whatsInTheDBPage()
-    $key = '3fde789a'; //substr($_COOKIE['PHPSESSID'], - 5); // session_id() doesn't work
-    if (isset($params['guser'])) {
-        $params['guser'] = mcrypt_decrypt(MCRYPT_3DES, $key, hexToStr($params['guser']), 'ecb');
-    }
-    if (isset($params['gpwd'])) {
-        $params['gpwd'] = mcrypt_decrypt(MCRYPT_3DES, $key, hexToStr($params['gpwd']), 'ecb');
-    }
-
-    CF7DBPluginExporter::export(
-        $params['form'],
-        $params['enc'],
-        $params);
-}
-
-// Taken from http://ditio.net/2008/11/04/php-string-to-hex-and-hex-to-string-functions/
-function hexToStr($hex) {
-    $string = '';
-    for ($i = 0; $i < strlen($hex) - 1; $i += 2) {
-        $string .= chr(hexdec($hex[$i] . $hex[$i + 1]));
-    }
-    return $string;
-}
-
-
-cF7DBExport_export();
+CF7DBPluginExporter::doExportFromPost();

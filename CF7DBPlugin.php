@@ -198,11 +198,18 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         add_action('fsctf_mail_sent', array(&$this, 'saveFormData'));
         add_action('fsctf_menu_links', array(&$this, 'fscfMenuLinks'));
 
+        // Register Export URL
+        add_action('wp_ajax_nopriv_cfdb-export', array(&$this, 'ajaxExport'));
+        add_action('wp_ajax_cfdb-export', array(&$this, 'ajaxExport'));
+
+        // Register Get File URL
+        // todo
+
         // Shortcode to add a table to a page
         $sc = new CFDBShortcodeTable();
         $sc->register(array('cf7db-table', 'cfdb-table')); // cf7db-table is deprecated
 
-        // Datatable table
+        // Shortcode to add a DataTable
         $sc = new CFDBShortcodeDataTable();
         $sc->register('cfdb-datatable');
 
@@ -214,6 +221,13 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         $sc = new CFDBShortcodeValue();
         $sc->register('cfdb-value');
     }
+
+    public function ajaxExport() {
+        require_once('CF7DBPluginExporter.php');
+        CF7DBPluginExporter::doExportFromPost();
+        die();
+    }
+
 
     public function addSettingsSubMenuPage() {
         $this->requireExtraPluginFiles();
@@ -539,7 +553,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                 }
                             }
                             else {
-                                var url = '<?php echo $pluginDirUrl ?>export.php?form=<?php echo urlencode($currSelection) ?>&enc=' + enc;
+                                var url = '<?php echo admin_url('admin-ajax.php') ?>?action=cfdb-export&form=<?php echo urlencode($currSelection) ?>&enc=' + enc;
                                 var searchVal = getSearchFieldValue();
                                 if (searchVal != null && searchVal != "") {
                                     url += '&search=' + encodeURIComponent(searchVal);
