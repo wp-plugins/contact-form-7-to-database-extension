@@ -65,8 +65,9 @@ The table and all its data are deleted when you uninstall. You can deactivate th
 
 == Changelog ==
 
-= 1.7.1 =
+= 1.8 =
 * Now capturing form submission times with microseconds to avoid collision of two submissions during the same second
+* Handling situation where wp-content is not at the standard location
 * Accounting for the wp-config.php file to be one directory above it's regular location in "include" statements
 to support "hardening" as described in http://www.groovypost.com/howto/how-to/improve-wordpress-securitty-wp-config-php-location
 

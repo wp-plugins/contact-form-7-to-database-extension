@@ -63,7 +63,7 @@ class ExportToHtml extends ExportBase implements CFDBExport {
 
         // Query DB for the data for that form
         $submitTimeKeyName = "Submit_Time_Key";
-        $this->setFilteredData($formName, $submitTimeKeyName);
+        $this->setDataIterator($formName, $submitTimeKeyName);
 
         if ($useDT) {
             $dtJsOptions = $options['dt_options'];
@@ -137,7 +137,7 @@ class ExportToHtml extends ExportBase implements CFDBExport {
             <?php
 
             }
-            foreach ($this->columns as $aCol) {
+            foreach ($this->dataIterator->columns as $aCol) {
                 printf('<th><div title="%s">%s</div></th>', $aCol, $aCol);
             }
             ?>
@@ -146,25 +146,29 @@ class ExportToHtml extends ExportBase implements CFDBExport {
             <?php
             $showLineBreaks = $this->plugin->getOption('ShowLineBreaksInDataTable');
             $showLineBreaks = 'false' != $showLineBreaks;
-            foreach ($this->filteredData as $aRow) {
+            while ($this->dataIterator->nextRow()) {
                 ?>
                 <tr>
                 <?php if ($canDelete) { // Put in the delete checkbox ?>
                     <td align="center">
-                        <input type="checkbox" name="<?php echo $aRow[$submitTimeKeyName] ?>" value="row"/>
+                        <input type="checkbox" name="<?php echo $this->dataIterator->row[$submitTimeKeyName] ?>" value="row"/>
                     </td>
                 <?php
 
                 }
-                //foreach ($row as $cell) {
-                foreach ($this->columns as $aCol) {
-                    $cell = htmlentities($aRow[$aCol], null, 'UTF-8'); // no HTML injection
+
+                $fields_with_file = null;
+                if (isset($this->dataIterator->row['fields_with_file']) && $this->dataIterator->row['fields_with_file'] != null) {
+                    $fields_with_file = explode(',', $this->dataIterator->row['fields_with_file']);
+                }
+                foreach ($this->dataIterator->columns as $aCol) {
+                    $cell = htmlentities($this->dataIterator->row[$aCol], null, 'UTF-8'); // no HTML injection
                     if ($showLineBreaks) {
                         $cell = str_replace("\r\n", '<br/>', $cell); // preserve DOS line breaks
                         $cell = str_replace("\n", '<br/>', $cell); // preserve UNIX line breaks
                     }
-                    if (isset($this->tableData->files[$aCol]) && '' != $cell) {
-                        $fileUrl = $this->plugin->getFileUrl($aRow[$submitTimeKeyName], $formName, $aCol);
+                    if ($fields_with_file && in_array($aCol, $fields_with_file)) {
+                        $fileUrl = $this->plugin->getFileUrl($this->dataIterator->row[$submitTimeKeyName], $formName, $aCol);
                         $cell = "<a href=\"$fileUrl\">$cell</a>";
                     }
                     printf('<td title="%s"><div>%s</div></td>', $aCol, $cell);

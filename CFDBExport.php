@@ -21,6 +21,12 @@
 
 interface CFDBExport {
 
+    /**
+     * @abstract
+     * @param $formName string
+     * @param $options array of option_name => option_value
+     * @return void
+     */
     public function export($formName, $options = null);
 
 }

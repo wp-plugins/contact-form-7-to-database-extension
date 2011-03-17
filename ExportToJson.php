@@ -29,7 +29,7 @@ class ExportToJson extends ExportBase implements CFDBExport {
         $this->setCommonOptions($options);
 
         $varName = 'cf7db';
-        $html = false; // i.e. create an HTML script tag and Javascript variable
+        $html = false; // i.e. whether to create an HTML script tag and Javascript variable
 
         if ($options && is_array($options)) {
 
@@ -53,7 +53,7 @@ class ExportToJson extends ExportBase implements CFDBExport {
         $this->echoHeaders($contentType);
 
         // Get the data
-        $this->setFilteredData($formName);
+        $this->setDataIterator($formName);
 
         if ($this->isFromShortCode) {
             ob_start();
@@ -83,26 +83,86 @@ class ExportToJson extends ExportBase implements CFDBExport {
     }
 
     protected function echoJsonEncode() {
-        if ($this->options && isset($this->options['format']) &&
-                ($this->options['format'] == 'array' || $this->options['format'] == 'arraynoheader')) {
-
-            $arrayData = array();
-            if ($this->options['format'] == 'array') {
-                // include column headers
-                $arrayData[] = $this->columns;
+        $format = 'map';
+        if ($this->options && isset($this->options['format'])) {
+            if ($this->options['format'] == 'array' || $this->options['format'] == 'arraynoheader') {
+                $format = $this->options['format'] == 'array';
             }
+        }
 
-            foreach ($this->filteredData as $aDataRow) {
-                $row = array();
-                foreach ($this->columns as $aCol) {
-                    $row[] = $aDataRow[$aCol];
+        // Avoid use of json_encode() so we don't have to buffer all the data
+        if ($format == 'map') {
+            echo "[\n";
+            $firstRow = true;
+            while ($this->dataIterator->nextRow()) {
+                if ($firstRow) {
+                    $firstRow = false;
                 }
-                $arrayData[] = $row;
+                else {
+                    echo ",\n";
+                }
+                echo '{';
+                $firstCol = true;
+                foreach ($this->dataIterator->columns as $col) {
+                    if ($firstCol) {
+                        $firstCol = false;
+                    }
+                    else {
+                        echo ',';
+                    }
+                    echo $this->prepareJsonValue($col);
+                    echo ':';
+                    echo $this->prepareJsonValue($this->dataIterator->row[$col]);
+                }
+                echo '}';
             }
-            echo json_encode($arrayData);
+            echo "\n]";
         }
-        else {
-            echo json_encode($this->filteredData);
+        else { // 'array' || 'arraynoheader'
+            echo "[\n";
+            $firstRow = true;
+            if ($format == 'array') {
+                // Add header
+                $firstCol = true;
+                echo '[';
+                foreach ($this->dataIterator->columns as $col) {
+                    if ($firstCol) {
+                        $firstCol = false;
+                    }
+                    else {
+                        echo ',';
+                    }
+                    echo $this->prepareJsonValue($col);
+                }
+                echo ']';
+                $firstRow = false;
+            }
+            // Export data rows
+            while ($this->dataIterator->nextRow()) {
+                if ($firstRow) {
+                    $firstRow = false;
+                }
+                else {
+                    echo ",\n";
+                }
+                $firstCol = true;
+                echo '[';
+                foreach ($this->dataIterator->columns as $col) {
+                    if ($firstCol) {
+                        $firstCol = false;
+                    }
+                    else {
+                        echo ',';
+                    }
+                    echo $this->prepareJsonValue($this->dataIterator->row[$col]);
+                }
+                echo "]";
+            }
+            echo "\n]";
         }
+    }
+
+    protected function prepareJsonValue($text) {
+        return '"' . str_replace('"', '\"', $text) . '"';
     }
 }

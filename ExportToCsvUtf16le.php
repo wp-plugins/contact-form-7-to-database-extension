@@ -50,10 +50,10 @@ class ExportToCsvUtf16le extends ExportBase implements CFDBExport {
 
         // Query DB for the data for that form
         $submitTimeKeyName = "Submit_Time_Key";
-        $this->setFilteredData($formName, $submitTimeKeyName);
+        $this->setDataIterator($formName, $submitTimeKeyName);
 
         // Column Headers
-        foreach ($this->columns as $aCol) {
+        foreach ($this->dataIterator->columns as $aCol) {
             echo $this->prepareCsvValue($aCol);
             echo $delimiter;
         }
@@ -61,11 +61,20 @@ class ExportToCsvUtf16le extends ExportBase implements CFDBExport {
 
         // Rows
         $showFileUrlsInExport = $this->plugin->getOption('ShowFileUrlsInExport') == 'true';
-        foreach ($this->filteredData as $aRow) {
-            foreach ($this->columns as $aCol) {
-                $cell = isset($aRow[$aCol]) ? $aRow[$aCol] : '';
-                if ($showFileUrlsInExport && $this->tableData->files[$aCol] && $cell) {
-                    $cell = $this->plugin->getFileUrl($aRow[$submitTimeKeyName], $formName, $aCol);
+        while ($this->dataIterator->nextRow()) {
+            $fields_with_file = null;
+            if ($showFileUrlsInExport &&
+                    isset($this->dataIterator->row['fields_with_file']) &&
+                    $this->dataIterator->row['fields_with_file'] != null) {
+                $fields_with_file = explode(',', $this->dataIterator->row['fields_with_file']);
+            }
+            foreach ($this->dataIterator->columns as $aCol) {
+                $cell = isset($this->dataIterator->row[$aCol]) ? $this->dataIterator->row[$aCol] : '';
+                if ($showFileUrlsInExport &&
+                        $fields_with_file &&
+                        $cell &&
+                        in_array($aCol, $fields_with_file)) {
+                    $cell = $this->plugin->getFileUrl($this->dataIterator->row[$submitTimeKeyName], $formName, $aCol);
                 }
                 echo $this->prepareCsvValue($cell);
                 echo $delimiter;
@@ -80,11 +89,10 @@ class ExportToCsvUtf16le extends ExportBase implements CFDBExport {
         $text = str_replace("\n", ' ', $text);
 
         // In CSV, escape double-quotes by putting two double quotes together
-        $quote = '"';
-        $text = str_replace($quote, $quote . $quote, $text);
+        $text = str_replace('"', '""', $text);
 
         // Quote it to escape delimiters
-        $text = $quote . $text . $quote;
+        $text = '"' . $text . '"';
 
         // Encode UTF-16LE
         $text = $this->encode($text);

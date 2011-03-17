@@ -20,14 +20,11 @@
 */
 
 require_once('CF7DBPluginLifeCycle.php');
-require_once('CF7DBTableData.php');
 require_once('CFDBShortcodeTable.php');
 require_once('CFDBShortcodeDataTable.php');
 require_once('CFDBShortcodeValue.php');
 require_once('CFDBShortcodeJson.php');
 require_once('ExportToHtml.php');
-require_once('ExportToJson.php');
-require_once('ExportToValue.php');
 
 /**
  * Implementation for CF7DBPluginLifeCycle.
@@ -52,6 +49,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                                     'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
             'CanChangeSubmitData' => array(__('Can Delete Submission data', 'contact-form-7-to-database-extension'),
                                            'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
+            'MaxRows' => array(__('Maximum number of rows to retrieve from the DB for the Admin display', 'contact-form-7-to-database-extension')),
             'UseDataTablesJS' => array(__('Use Javascript-enabled tables in Admin Database page', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'ShowLineBreaksInDataTable' => array(__('Show line breaks in submitted data table', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'UseCustomDateTimeFormat' => array(__('Use Custom Date-Time Display Format (below)', 'contact-form-7-to-database-extension'), 'true', 'false'),
@@ -61,6 +59,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             'NoSaveForms' => array(__('Do not save <u>forms</u> in DB named (comma-separated list, no spaces)', 'contact-form-7-to-database-extension')),
             'SaveCookieData' => array(__('Save Cookie Data with Form Submissions', 'contact-form-7-to-database-extension'), 'false', 'true'),
             'SaveCookieNames' => array(__('Save only cookies in DB named (comma-separated list, no spaces, and above option must be set to true)', 'contact-form-7-to-database-extension')),
+            'ShowQuery' => array(__('Show the query used to display results', 'contact-form-7-to-database-extension'), 'false', 'true'),
             //'SubmitTableNameOverride' => array(__('Use this table to store submission data rather than the default (leave blank for default)', 'contact-form-7-to-database-extension'))
         );
     }
@@ -111,7 +110,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             $this->addOption('SubmitDateTimeFormat', 'Y-m-d H:i:s P');
         }
 
-        if ($this->isSavedVersionLessThan('1.3.1')) {
+        if ($this->isVersionLessThan($version, '1.3.1')) {
             $tableName = $this->getSubmitsTableName();
             $wpdb->show_errors();
             $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` ADD COLUMN `field_order` INTEGER");
@@ -120,8 +119,18 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             $wpdb->hide_errors();
         }
 
-        if ($this->isSavedVersionLessThanEqual('1.4.5') && !$this->getOption('CanSeeSubmitDataViaShortcode')) {
+        if ($this->isVersionLessThanEqual($version, '1.4.5') && !$this->getOption('CanSeeSubmitDataViaShortcode')) {
             $this->addOption('CanSeeSubmitDataViaShortcode', 'Anyone');
+        }
+
+        if ($this->isVersionLessThan($version, '1.7.1RC2')) {
+            if (!$this->getOption('MaxRows')) {
+                $this->addOption('MaxRows', '100');
+            }
+            $tableName = $this->getSubmitsTableName();
+            $wpdb->query("ALTER TABLE `$tableName` MODIFY COLUMN submit_time DECIMAL(16,4) NOT NULL");
+            $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `form_name_idx` ( `form_name` )");
+            $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `form_name_field_name_idx` ( `form_name`, `field_name` )");
         }
 
         // Post-upgrade, set the current version in the options
@@ -142,13 +151,15 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         $tableName = $this->getSubmitsTableName();
         $wpdb->show_errors();
         $wpdb->query("CREATE TABLE IF NOT EXISTS `$tableName` (
-            `submit_time` INTEGER NOT NULL,
+            `submit_time` DECIMAL(16,4) NOT NULL,
             `form_name` VARCHAR(127) CHARACTER SET utf8,
             `field_name` VARCHAR(127) CHARACTER SET utf8,
             `field_value` LONGTEXT CHARACTER SET utf8,
             `field_order` INTEGER,
             `file` LONGBLOB)");
         $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `submit_time_idx` ( `submit_time` )");
+        $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `form_name_idx` ( `form_name` )");
+        $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `form_name_field_name_idx` ( `form_name`, `field_name` )");
         $wpdb->hide_errors();
     }
 
@@ -240,7 +251,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * Callback from Contact Form 7. CF7 passes an object with the posted data which is inserted into the database
      * by this function.
      * Also callback from Fast Secure Contact Form
-     * @param  $cf7 object either WPCF7_ContactForm object when coming from CF7 or $fsctf_posted_data object variable
+     * @param $cf7 WPCF7_ContactForm|object the former when coming from CF7, the latter $fsctf_posted_data object variable
      * if coming from FSCF
      * @return void
      */
@@ -276,10 +287,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                         $order++));
 
             // Store uploaded files - Do as a separate query in case it fails due to max size or other issue
-            if ($cf7->uploaded_files) {
+            if ($cf7->uploaded_files && isset($cf7->uploaded_files[$nameClean])) {
                 $filePath = $cf7->uploaded_files[$nameClean];
                 if ($filePath) {
-                    // $content=$wpdb->escape_by_ref(file_get_contents($filePath));
                     $content = file_get_contents($filePath);
                     $wpdb->query($wpdb->prepare($parametrizedFileQuery,
                                                 $content,
@@ -444,6 +454,13 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             return;
         }
         $htmlFormName = $this->prefix('form');
+        $page = 1;
+        if (isset($_POST['dbpage'])) {
+            $page = $_POST['dbpage'];
+        }
+        else if (isset($_GET['dbpage'])) {
+            $page = $_GET['dbpage'];
+        }
         $currSelection = null; //$rows[0]->form_name;
         if (isset($_POST['form_name'])) {
             $currSelection = $_POST['form_name'];
@@ -477,8 +494,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         <table width="100%" cellspacing="20">
             <tr>
                 <td align="left">
-                    <form method="post" action="" name="<?php echo $htmlFormName ?>" id="<?php echo $htmlFormName ?>">
-                        <select name="form_name" id="form_name" onchange="this.form.submit();">
+                    <form method="post" action="" name="displayform" id="displayform">
+                        <select name="form_name" id="form_name" onchange="document.getElementById('dbpage').value='1'; this.form.submit();">
                         <option value=""><?php _e('* Select a form *', 'contact-form-7-to-database-extension') ?></option>
                         <?php foreach ($rows as $aRow) {
                             $formName = $aRow->form_name;
@@ -487,6 +504,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                 <option value="<?php echo $formName ?>" <?php echo $selected ?>><?php echo $formName ?></option>
                             <?php } ?>
                         </select>
+                        <input id="dbpage" name="dbpage" type="hidden" value="<?php echo $page ?>">
                     </form>
                 </td>
                 <td align="center">
@@ -630,10 +648,18 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
             }
             ?>
+            <?php
+                $exporter = new ExportToHtml();
+                $dbRowCount = $exporter->getDBRowCount($currSelection);
+                $maxRows = $this->getOption('MaxRows');
+                $startRow = $this->paginationDiv($dbRowCount, $maxRows, $page);
+            ?>
             <div <?php if (!$useDataTables) echo 'style="overflow:auto; max-height:500px;"' ?>>
                 <?php
-                        $exporter = new ExportToHtml();
                 $options = array('canDelete' => $canDelete);
+                if ($maxRows) {
+                    $options['limit'] = ($startRow - 1) . ',' . ($maxRows);
+                }
                 if ($useDataTables) {
                     $options['id'] = $tableHtmlId;
                     $options['class'] = '';
@@ -684,6 +710,14 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             </table>
         </div>
         <?php
+       if ($currSelection && 'true' == $this->getOption('ShowQuery')) {
+            ?>
+        <div id="query">
+            <strong><?php _e('Query:', 'contact-form-7-to-database-extension' ) ?></strong><br/>
+            <pre><?php echo $exporter->getPivotQuery($currSelection); ?></pre>
+        </div>
+        <?php
+        }
         if ($currSelection) {
             ?>
         <div id="GoogleCredentialsDialog" style="display:none; background-color:#EEEEEE;">
@@ -712,62 +746,6 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         <?php
 
         }
-    }
-
-    /**
-     * @param  $formName string
-     * @return CF7DBTableData
-     */
-    public function &getRowsPivot($formName) {
-        global $wpdb;
-        $tableName = $this->getSubmitsTableName();
-        $rows = $wpdb->get_results("select `submit_time`, `field_name`, `field_value`, `file` IS NOT NULL AS has_file from `$tableName` where `form_name` = '$formName' order by `submit_time` desc, `field_order` asc");
-
-        $tableData = new CF7DBTableData();
-        $latestSubmitTime = null;
-        $columnsSeen = array();
-        foreach ($rows as $aRow) {
-            if (!isset($tableData->pivot[$aRow->submit_time])) {
-                $tableData->pivot[$aRow->submit_time] = array();
-            }
-            $tableData->pivot[$aRow->submit_time][$aRow->field_name] = $aRow->field_value;
-            if ($aRow->has_file) {
-                $tableData->files[$aRow->field_name] = $aRow->field_value;
-            }
-
-            // Keep track of all column names seen
-            if (!in_array($aRow->field_name, $columnsSeen)) {
-                $columnsSeen[] = $aRow->field_name;
-            }
-
-            if ($latestSubmitTime == null) {
-                // assumes query sorted by submit_time in descending order
-                $latestSubmitTime = $aRow->submit_time;
-            }
-            if ($aRow->submit_time == $latestSubmitTime) {
-                // Get the column order of the last posted submission
-                $tableData->columns[] = $aRow->field_name;
-            }
-        }
-
-        // We want to maintain the same order of fields as in the CF7 Form
-        // The form post parameters are in the order defined in the HTML and we
-        // save that order in the DB. But CF7 form definition may change over time,
-        // for example:
-        // 1. Form elements may be re-ordered
-        // 2. Form elements may be added
-        // So we use the order of form elements seen in the last form submission.
-        // But it is possible the last form no longer has fields that appeared in
-        // an earlier version of it and appear in the DB in older form submissions.
-        // We track all seen in $columnsSeen and append any that are missed to the
-        // end of the ordering.
-        foreach ($columnsSeen as $colSeen) {
-            if (!in_array($colSeen, $tableData->columns)) {
-                $tableData->columns[] = $colSeen;
-            }
-        }
-
-        return $tableData;
     }
 
     /**
@@ -890,6 +868,126 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             }
         }
         return $url;
+    }
+
+    protected function paginationDiv($totalRows, $rowsPerPage, $page) {
+
+        $nextLabel = __('next »', 'contact-form-7-to-database-extension');
+        $prevLabel = __('« prev', 'contact-form-7-to-database-extension');
+
+        echo '<link rel="stylesheet" href="';
+        echo $this->getPluginFileUrl();
+        echo '/css/paginate.css';
+        echo '" type="text/css"/>';
+        //        echo '<style type="text/css">';
+        //        include('css/paginate.css');
+        //        echo '</style>';
+
+
+        if (!$page || $page < 1) $page = 1; //default to 1.
+        $startRow = $rowsPerPage * ($page - 1) + 1;
+
+
+        $endRow = min($startRow + $rowsPerPage - 1, $totalRows);
+        echo '<span style="margin-bottom:5px;">';
+        printf(__('Returned entries %s to %s of %s entries in the database', 'contact-form-7-to-database-extension'),
+               $startRow, $endRow, $totalRows);
+        echo '</span>';
+        echo '<div class="cfdb_paginate">';
+
+        $numPages = ceil($totalRows / $rowsPerPage);
+        $adjacents = 3;
+
+        /* Setup page vars for display. */
+        $prev = $page - 1; //previous page is page - 1
+        $next = $page + 1; //next page is page + 1
+        $lastpage = $numPages;
+        $lpm1 = $lastpage - 1; //last page minus 1
+
+        /*
+            Now we apply our rules and draw the pagination object.
+            We're actually saving the code to a variable in case we want to draw it more than once.
+        */
+        if ($lastpage > 1) {
+            echo  "<div class=\"pagination\">";
+            //previous button
+            if ($page > 1)
+                echo  $this->paginateLink($prev, $prevLabel);
+            else
+                echo  "<span class=\"disabled\">$prevLabel</span>";
+
+            if ($lastpage < 7 + ($adjacents * 2)) //not enough pages to bother breaking it up
+            {
+                for ($counter = 1; $counter <= $lastpage; $counter++)
+                {
+                    if ($counter == $page)
+                        echo  "<span class=\"current\">$counter</span>";
+                    else
+                        echo  $this->paginateLink($counter, $counter);
+                }
+            }
+            elseif ($lastpage > 5 + ($adjacents * 2)) //enough pages to hide some
+            {
+                //close to beginning; only hide later pages
+                if ($page < 1 + ($adjacents * 2)) {
+                    for ($counter = 1; $counter < 4 + ($adjacents * 2); $counter++)
+                    {
+                        if ($counter == $page)
+                            echo  "<span class=\"current\">$counter</span>";
+                        else
+                            echo  $this->paginateLink($counter, $counter);
+                    }
+                    echo  "...";
+                    echo  $this->paginateLink($lpm1, $lpm1);
+                    echo  $this->paginateLink($lastpage, $lastpage);
+                }
+                    //in middle; hide some front and some back
+                elseif ($lastpage - ($adjacents * 2) > $page && $page > ($adjacents * 2))
+                {
+                    echo  $this->paginateLink(1, 1);
+                    echo  $this->paginateLink(2, 2);
+                    echo  "...";
+                    for ($counter = $page - $adjacents; $counter <= $page + $adjacents; $counter++)
+                    {
+                        if ($counter == $page)
+                            echo  "<span class=\"current\">$counter</span>";
+                        else
+                            echo  $this->paginateLink($counter, $counter);
+                    }
+                    echo  "...";
+                    echo  $this->paginateLink($lpm1, $lpm1);
+                    echo  $this->paginateLink($lastpage, $lastpage);
+                }
+                    //close to end; only hide early pages
+                else
+                {
+                    echo  $this->paginateLink(1, 1);
+                    echo  $this->paginateLink(2, 2);
+                    echo  "...";
+                    for ($counter = $lastpage - (2 + ($adjacents * 2)); $counter <= $lastpage; $counter++)
+                    {
+                        if ($counter == $page)
+                            echo  "<span class=\"current\">$counter</span>";
+                        else
+                            echo  $this->paginateLink($counter, $counter);
+                    }
+                }
+            }
+
+            //next button
+            if ($page < $counter - 1)
+                echo  $this->paginateLink($next, $nextLabel);
+            else
+                echo  "<span class=\"disabled\">$nextLabel</span>";
+            echo  "</div>\n";
+        }
+
+        echo '</div>';
+        return $startRow;
+    }
+
+    protected function paginateLink($page, $label) {
+        return "<a href=\"#\" onclick=\"document.getElementById('dbpage').value='$page'; document.forms['displayform'].submit()\">$label</a>";
     }
 
 }

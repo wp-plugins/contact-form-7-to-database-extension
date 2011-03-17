@@ -61,45 +61,41 @@ class ExportToCsvUtf8 extends ExportBase implements CFDBExport {
         }
 
         $eol = "\n";
-        $comma = ',';
 
         // Query DB for the data for that form
         $submitTimeKeyName = "Submit_Time_Key";
-        $this->setFilteredData($formName, $submitTimeKeyName);
+        $this->setDataIterator($formName, $submitTimeKeyName);
+
 
         // Column Headers
-        foreach ($this->columns as $aCol) {
-            echo $this->prepareCsvValue($aCol);
-            echo $comma;
+        foreach ($this->dataIterator->columns as $aCol) {
+            printf('"%s",', str_replace('"', '""', $aCol));
         }
         echo $eol;
 
 
         // Rows
         $showFileUrlsInExport = $this->plugin->getOption('ShowFileUrlsInExport') == 'true';
-        foreach ($this->filteredData as $aRow) {
-            foreach ($this->columns as $aCol) {
-                $cell = isset($aRow[$aCol]) ? $aRow[$aCol] : '';
-                if ($showFileUrlsInExport && $this->tableData->files[$aCol] && $cell) {
-                    $cell = $this->plugin->getFileUrl($aRow[$submitTimeKeyName], $formName, $aCol);
+        while ($this->dataIterator->nextRow()) {
+            $fields_with_file = null;
+            if ($showFileUrlsInExport &&
+                    isset($this->dataIterator->row['fields_with_file']) &&
+                    $this->dataIterator->row['fields_with_file'] != null) {
+                $fields_with_file = explode(',', $this->dataIterator->row['fields_with_file']);
+            }
+            foreach ($this->dataIterator->columns as $aCol) {
+                $cell = isset($this->dataIterator->row[$aCol]) ? $this->dataIterator->row[$aCol] : '';
+                if ($showFileUrlsInExport &&
+                        $fields_with_file &&
+                        $cell &&
+                        in_array($aCol, $fields_with_file)) {
+                    $cell = $this->plugin->getFileUrl($this->dataIterator->row[$submitTimeKeyName], $formName, $aCol);
                 }
-                echo $this->prepareCsvValue($cell);
-                echo $comma;
+                printf('"%s",', str_replace('"', '""', $cell));
             }
             echo $eol;
         }
     }
 
-
-    protected function &prepareCsvValue($text) {
-        // In CSV, escape double-quotes by putting two double quotes together
-        $quote = '"';
-        $text = str_replace($quote, $quote . $quote, $text);
-
-        // Quote it to escape line breaks
-        $text = $quote . $text . $quote;
-
-        return $text;
-    }
 
 }

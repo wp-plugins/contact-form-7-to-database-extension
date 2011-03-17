@@ -20,6 +20,7 @@
 */
 
 require_once('CF7DBPlugin.php');
+require_once('CFDBQueryResultIterator.php');
 
 class ExportBase {
 
@@ -74,24 +75,9 @@ class ExportBase {
     var $isFromShortCode = false;
 
     /**
-     * @var array
-     */
-    var $columns;
-
-    /**
      * @var bool
      */
     var $showSubmitField;
-
-    /**
-     * @var CF7DBTableData
-     */
-    var $tableData;
-
-    /**
-     * @var array
-     */
-    var $filteredData;
 
     /**
      * @var CF7DBPlugin
@@ -99,8 +85,17 @@ class ExportBase {
     var $plugin;
 
     /**
+     * @var CFDBQueryResultIterator
+     */
+    var $dataIterator;
+
+    function __construct() {
+        $this->plugin = new CF7DBPlugin();
+    }
+
+    /**
      * This method is the first thing to call after construction to set state for other methods to work
-     * @param  $options array
+     * @param  $options array|null
      * @return void
      */
     protected function setOptions($options) {
@@ -173,10 +168,9 @@ class ExportBase {
     }
 
     protected function isAuthorized() {
-        $plugin = new CF7DBPlugin();
         return $this->isFromShortCode ?
-                $plugin->canUserDoRoleOption('CanSeeSubmitDataViaShortcode') :
-                $plugin->canUserDoRoleOption('CanSeeSubmitData');
+                $this->plugin->canUserDoRoleOption('CanSeeSubmitDataViaShortcode') :
+                $this->plugin->canUserDoRoleOption('CanSeeSubmitData');
     }
 
     protected function assertSecurityErrorMessage() {
@@ -252,31 +246,72 @@ class ExportBase {
         return $showSubmitField;
     }
 
-    protected function setFilteredData($formName, $submitTimeKeyName = null) {
-        $this->plugin = new CF7DBPlugin();
-        $this->tableData = $this->plugin->getRowsPivot($formName);
-        $this->showSubmitField = $this->getShowSubmitField();
-        $this->columns = $this->getColumnsToDisplay($this->tableData->columns);
-        $this->filteredData = array();
-
-        foreach ($this->tableData->pivot as $submitTime => $data) {
-            // $data does not include submitTime; have to add it
-            $data['Submitted'] = $this->plugin->formatDate($submitTime);
-
-            // Determine if row is filtered
-            if ($this->rowFilter && !$this->rowFilter->evaluate($data)) {
-                continue;
-            }
-
-            $row = array();
-            if ($submitTimeKeyName) {
-                $row[$submitTimeKeyName] = $submitTime;
-            }
-            foreach ($this->columns as $aCol) {
-                $row[$aCol] = isset($data[$aCol]) ? $data[$aCol] : "";
-            }
-            $this->filteredData[] = $row;
-        }
+    protected function setDataIterator($formName, $submitTimeKeyName = null) {
+        $sql = $this->getPivotQuery($formName);
+        $this->dataIterator = new CFDBQueryResultIterator();
+        $this->dataIterator->fileColumns = $this->getFileMetaData($formName);
+        $this->dataIterator->query($sql, $this->rowFilter, $submitTimeKeyName);
     }
 
+    protected function &getFileMetaData($formName) {
+        global $wpdb;
+        $tableName = $this->plugin->getSubmitsTableName();
+        $rows = $wpdb->get_results(
+            "select distinct `field_name`
+from `$tableName`
+where `form_name` = '$formName'
+and `file` is not null");
+
+        $fileColumns = array();
+        foreach ($rows as $aRow) {
+            $files[] = $aRow->field_name;
+        }
+        return $fileColumns;
+    }
+
+    public function &getPivotQuery($formName, $count = false) {
+        global $wpdb;
+        $tableName = $this->plugin->getSubmitsTableName();
+        $rows = $wpdb->get_results("SELECT DISTINCT `field_name`, `field_order` FROM `$tableName` WHERE `form_name` = '$formName' ORDER BY field_order");
+        $fields = array();
+        foreach ($rows as $aRow) {
+            if (!in_array($aRow->field_name, $fields)) {
+                $fields[] = $aRow->field_name;
+            }
+        }
+        $sql = '';
+        if ($count) {
+            $sql .= 'SELECT count(*) as count FROM (';
+        }
+        $sql .= "SELECT `submit_time` AS 'Submitted'";
+        foreach ($fields as $aCol) {
+            $sql .= ",\n max(if(`field_name`='$aCol', `field_value`, null )) AS '$aCol'";
+        }
+        if (!$count) {
+            $sql .= ",\n GROUP_CONCAT(if(`file` is null, null, `field_name`)) AS fields_with_file";
+        }
+        $sql .=  "\nFROM `$tableName` \nWHERE `form_name` = '$formName' \nGROUP BY `submit_time` ";
+        if ($count) {
+            $sql .= ') form';
+        }
+        else {
+            $sql .= "\nORDER BY `submit_time` DESC";
+            if ($this->options && isset($this->options['limit'])) {
+                $sql .= "\nLIMIT " . $this->options['limit'];
+            }
+        }
+
+        return $sql;
+    }
+
+    public function getDBRowCount($formName) {
+        global $wpdb;
+        $count = 0;
+        $rows = $wpdb->get_results($this->getPivotQuery($formName, true));
+        foreach ($rows as $aRow) {
+            $count = $aRow->count;
+            break;
+        }
+        return $count;
+    }
 }

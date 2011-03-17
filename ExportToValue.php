@@ -46,107 +46,152 @@ class ExportToValue extends ExportBase implements CFDBExport {
         $this->echoHeaders('Content-Type: text/plain; charset=UTF-8');
 
         // Get the data
-        $this->setFilteredData($formName);
+        $this->setDataIterator($formName);
 
-        $outputData = array();
-
-        if ($funct == 'count' && count($this->showColumns) == 0) {
-            // special case
-            $outputData[] = count($this->filteredData);
-            $funct = null;
+        if ($funct == 'count' &&
+                count($this->showColumns) == 0 &&
+                count($this->hideColumns) == 0) {
+            // Just count the number of entries in the database
+            return $this->getDBRowCount($formName);
         }
-        else {
-            foreach ($this->filteredData as $row) {
-                foreach ($row as $aCell) {
-                    if ($aCell) {
-                        $outputData[] = $aCell;
-                    }
-                }
-            }
-        }
-        //print_r($outputData); // debug
 
-        if ($funct && count($outputData) > 0) {
+
+        if ($funct) {
             // Apply function to dataset
             switch ($funct) {
                 case 'count':
-                    // Note special case in code above
-                    $outputData = array(count($outputData));
-                    break;
+                    $count = 0;
+                    while ($this->dataIterator->nextRow()) {
+                        $count += count($this->dataIterator->row);
+                    }
+                    if ($this->isFromShortCode) {
+                        return $count;
+                    }
+                    else {
+                        echo $count;
+                        return;
+                    }
 
                 case 'min':
                     $min = null;
-                    foreach ($outputData as $val) {
-                        if ($min === null) {
-                            $min = $val;
-                        }
-                        else {
-                            if ($val < $min) {
+                    while ($this->dataIterator->nextRow()) {
+                        foreach ($this->dataIterator->row as $val) {
+                            if ($min === null) {
                                 $min = $val;
+                            }
+                            else {
+                                if ($val < $min) {
+                                    $min = $val;
+                                }
                             }
                         }
                     }
-                    $outputData = array($min);
-                    break;
+                    if ($this->isFromShortCode) {
+                        return $min;
+                    }
+                    else {
+                        echo $min;
+                        return;
+                    }
 
                 case 'max':
                     $max = null;
-                    foreach ($outputData as $val) {
-                        if ($max === null) {
-                            $max = $val;
-                        }
-                        else {
-                            if ($val > $max) {
+                    while ($this->dataIterator->nextRow()) {
+                        foreach ($this->dataIterator->row as $val) {
+                            if ($max === null) {
                                 $max = $val;
+                            }
+                            else {
+                                if ($val > $max) {
+                                    $max = $val;
+                                }
                             }
                         }
                     }
-                    $outputData = array($max);
-                    break;
+                    if ($this->isFromShortCode) {
+                        return $max;
+                    }
+                    else {
+                        echo $max;
+                        return;
+                    }
+
 
                 case 'sum':
                     $sum = 0;
-                    foreach ($outputData as $val) {
-                        $sum = $sum + $val;
+                    while ($this->dataIterator->nextRow()) {
+                        foreach ($this->dataIterator->row as $val) {
+                            $sum = $sum + $val;
+                        }
                     }
-                    $outputData = array($sum);
-                    break;
+                    if ($this->isFromShortCode) {
+                        return $sum;
+                    }
+                    else {
+                        echo $sum;
+                        return;
+                    }
 
                 case 'mean':
                     $sum = 0;
                     $count = 0;
-                    foreach ($outputData as $val) {
-                        $count = $count + 1;
-                        $sum = $sum + $val;
+                    while ($this->dataIterator->nextRow()) {
+                        foreach ($this->dataIterator->row as $val) {
+                            $count += 1;
+                            $sum += $val;
+                        }
                     }
-                    $outputData = array($sum / $count);
-                    break;
+                    $mean = $sum / $count;
+                    if ($this->isFromShortCode) {
+                        return $mean;
+                    }
+                    else {
+                        echo $mean;
+                        return;
+                    }
             }
         }
 
+        // At this point in the code: $funct not defined or not recognized
+        // output values for each row/column
         if ($this->isFromShortCode) {
+            $outputData = array();
+            while ($this->dataIterator->nextRow()) {
+                foreach ($this->dataIterator->row as $val) {
+                    $outputData[] = $val;
+                }
+            }
             ob_start();
-        }
-
-        switch(count($outputData)) {
-            case 0:
-                echo '';
-                break;
-            case 1:
-                echo $outputData[0];
-                break;
-            default:
-                echo implode($outputData, ', ');
-                break;
-        }
-
-        if ($this->isFromShortCode) {
-            // If called from a shortcode, need to return the text,
-            // otherwise it can appear out of order on the page
+            switch(count($outputData)) {
+                case 0:
+                    echo '';
+                    break;
+                case 1:
+                    echo $outputData[0];
+                    break;
+                default:
+                    echo implode($outputData, ', ');
+                    break;
+            }
             $output = ob_get_contents();
             ob_end_clean();
+            // If called from a shortcode, need to return the text,
+            // otherwise it can appear out of order on the page
             return $output;
         }
+        else {
+            while ($this->dataIterator->nextRow()) {
+                $first = true;
+                foreach ($this->dataIterator->row as $val) {
+                    if ($first) {
+                        $first = false;
+                    }
+                    else {
+                        echo ', ';
+                    }
+                    echo $val;
+                }
+            }
+        }
     }
-
 }

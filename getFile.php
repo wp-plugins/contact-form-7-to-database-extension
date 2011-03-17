@@ -21,7 +21,6 @@
 
 include_once('../../../wp-load.php');
 require_wp_db();
-require_once('CF7DBTableData.php');
 require_once('CF7DBPlugin.php');
 require_once('CF7DBUtil.php');
 
