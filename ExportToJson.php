@@ -26,7 +26,7 @@ class ExportToJson extends ExportBase implements CFDBExport {
 
     public function export($formName, $options = null) {
         $this->setOptions($options);
-        $this->setCommonOptions($options);
+        $this->setCommonOptions();
 
         $varName = 'cf7db';
         $html = false; // i.e. whether to create an HTML script tag and Javascript variable

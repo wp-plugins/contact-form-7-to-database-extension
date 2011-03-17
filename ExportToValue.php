@@ -26,7 +26,7 @@ class ExportToValue extends ExportBase implements CFDBExport {
 
     public function export($formName, $options = null) {
         $this->setOptions($options);
-        $this->setCommonOptions($options);
+        $this->setCommonOptions();
 
         // Security Check
         if (!$this->isAuthorized()) {
