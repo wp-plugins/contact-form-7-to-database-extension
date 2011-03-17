@@ -91,6 +91,9 @@ class ExportToJson extends ExportBase implements CFDBExport {
         }
 
         // Avoid use of json_encode() so we don't have to buffer all the data
+        $search = array('"', "\n"); // Things we need to escape in JSON
+        $replace = array('\"', '\\n');
+
         if ($format == 'map') {
             echo "[\n";
             $firstRow = true;
@@ -110,9 +113,9 @@ class ExportToJson extends ExportBase implements CFDBExport {
                     else {
                         echo ',';
                     }
-                    echo $this->prepareJsonValue($col);
-                    echo ':';
-                    echo $this->prepareJsonValue($this->dataIterator->row[$col]);
+                    printf('"%s":"%s"',
+                           str_replace($search, $replace, $col),
+                           str_replace($search, $replace, $this->dataIterator->row[$col]));
                 }
                 echo '}';
             }
@@ -132,7 +135,7 @@ class ExportToJson extends ExportBase implements CFDBExport {
                     else {
                         echo ',';
                     }
-                    echo $this->prepareJsonValue($col);
+                    printf('"%s"', str_replace($search, $replace, $col));
                 }
                 echo ']';
                 $firstRow = false;
@@ -154,7 +157,7 @@ class ExportToJson extends ExportBase implements CFDBExport {
                     else {
                         echo ',';
                     }
-                    echo $this->prepareJsonValue($this->dataIterator->row[$col]);
+                    printf('"%s"', str_replace($search, $replace, $this->dataIterator->row[$col]));
                 }
                 echo "]";
             }
@@ -162,7 +165,4 @@ class ExportToJson extends ExportBase implements CFDBExport {
         }
     }
 
-    protected function prepareJsonValue($text) {
-        return '"' . str_replace("\n", '\\n', str_replace('"', '\"', $text)) . '"';
-    }
 }
