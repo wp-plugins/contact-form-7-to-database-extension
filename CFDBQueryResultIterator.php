@@ -42,6 +42,11 @@ class CFDBQueryResultIterator {
     var $columns;
 
     /**
+     * @var array
+     */
+    var $displayColumns;
+
+    /**
      * @var CF7DBPlugin
      */
     var $plugin;

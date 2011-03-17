@@ -212,6 +212,10 @@ class ExportBase {
         }
     }
 
+    /**
+     * @param  $dataColumns array
+     * @return array
+     */
     protected function &getColumnsToDisplay($dataColumns) {
 
         $dataColumns = array_merge(array('Submitted'), $dataColumns);
@@ -252,6 +256,7 @@ class ExportBase {
         $this->dataIterator = new CFDBQueryResultIterator();
         $this->dataIterator->fileColumns = $this->getFileMetaData($formName);
         $this->dataIterator->query($sql, $this->rowFilter, $submitTimeKeyName);
+        $this->dataIterator->displayColumns = $this->getColumnsToDisplay($this->dataIterator->columns);
     }
 
     protected function &getFileMetaData($formName) {

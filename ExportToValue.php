@@ -61,8 +61,9 @@ class ExportToValue extends ExportBase implements CFDBExport {
             switch ($funct) {
                 case 'count':
                     $count = 0;
+                    $colsPerRow = count($this->dataIterator->displayColumns);
                     while ($this->dataIterator->nextRow()) {
-                        $count += count($this->dataIterator->row);
+                        $count += $colsPerRow;
                     }
                     if ($this->isFromShortCode) {
                         return $count;
@@ -75,7 +76,8 @@ class ExportToValue extends ExportBase implements CFDBExport {
                 case 'min':
                     $min = null;
                     while ($this->dataIterator->nextRow()) {
-                        foreach ($this->dataIterator->row as $val) {
+                        foreach ($this->dataIterator->displayColumns as $col) {
+                            $val = $this->dataIterator->row[$col];
                             if ($min === null) {
                                 $min = $val;
                             }
@@ -97,7 +99,8 @@ class ExportToValue extends ExportBase implements CFDBExport {
                 case 'max':
                     $max = null;
                     while ($this->dataIterator->nextRow()) {
-                        foreach ($this->dataIterator->row as $val) {
+                        foreach ($this->dataIterator->displayColumns as $col) {
+                            $val = $this->dataIterator->row[$col];
                             if ($max === null) {
                                 $max = $val;
                             }
@@ -120,8 +123,8 @@ class ExportToValue extends ExportBase implements CFDBExport {
                 case 'sum':
                     $sum = 0;
                     while ($this->dataIterator->nextRow()) {
-                        foreach ($this->dataIterator->row as $val) {
-                            $sum = $sum + $val;
+                        foreach ($this->dataIterator->displayColumns as $col) {
+                            $sum = $sum + $this->dataIterator->row[$col];
                         }
                     }
                     if ($this->isFromShortCode) {
@@ -136,9 +139,9 @@ class ExportToValue extends ExportBase implements CFDBExport {
                     $sum = 0;
                     $count = 0;
                     while ($this->dataIterator->nextRow()) {
-                        foreach ($this->dataIterator->row as $val) {
+                        foreach ($this->dataIterator->displayColumns as $col) {
                             $count += 1;
-                            $sum += $val;
+                            $sum += $this->dataIterator->row[$col];
                         }
                     }
                     $mean = $sum / $count;
@@ -157,12 +160,12 @@ class ExportToValue extends ExportBase implements CFDBExport {
         if ($this->isFromShortCode) {
             $outputData = array();
             while ($this->dataIterator->nextRow()) {
-                foreach ($this->dataIterator->row as $val) {
-                    $outputData[] = $val;
+                foreach ($this->dataIterator->displayColumns as $col) {
+                    $outputData[] = $this->dataIterator->row[$col];
                 }
             }
             ob_start();
-            switch(count($outputData)) {
+            switch (count($outputData)) {
                 case 0:
                     echo '';
                     break;

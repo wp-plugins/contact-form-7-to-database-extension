@@ -137,7 +137,7 @@ class ExportToHtml extends ExportBase implements CFDBExport {
             <?php
 
             }
-            foreach ($this->dataIterator->columns as $aCol) {
+            foreach ($this->dataIterator->displayColumns as $aCol) {
                 printf('<th><div title="%s">%s</div></th>', $aCol, $aCol);
             }
             ?>
@@ -161,7 +161,7 @@ class ExportToHtml extends ExportBase implements CFDBExport {
                 if (isset($this->dataIterator->row['fields_with_file']) && $this->dataIterator->row['fields_with_file'] != null) {
                     $fields_with_file = explode(',', $this->dataIterator->row['fields_with_file']);
                 }
-                foreach ($this->dataIterator->columns as $aCol) {
+                foreach ($this->dataIterator->displayColumns as $aCol) {
                     $cell = htmlentities($this->dataIterator->row[$aCol], null, 'UTF-8'); // no HTML injection
                     if ($showLineBreaks) {
                         $cell = str_replace("\r\n", '<br/>', $cell); // preserve DOS line breaks

@@ -53,7 +53,7 @@ class ExportToCsvUtf16le extends ExportBase implements CFDBExport {
         $this->setDataIterator($formName, $submitTimeKeyName);
 
         // Column Headers
-        foreach ($this->dataIterator->columns as $aCol) {
+        foreach ($this->dataIterator->displayColumns as $aCol) {
             echo $this->prepareCsvValue($aCol);
             echo $delimiter;
         }
@@ -68,7 +68,7 @@ class ExportToCsvUtf16le extends ExportBase implements CFDBExport {
                     $this->dataIterator->row['fields_with_file'] != null) {
                 $fields_with_file = explode(',', $this->dataIterator->row['fields_with_file']);
             }
-            foreach ($this->dataIterator->columns as $aCol) {
+            foreach ($this->dataIterator->displayColumns as $aCol) {
                 $cell = isset($this->dataIterator->row[$aCol]) ? $this->dataIterator->row[$aCol] : '';
                 if ($showFileUrlsInExport &&
                         $fields_with_file &&
