@@ -203,7 +203,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         add_action('wp_ajax_cfdb-export', array(&$this, 'ajaxExport'));
 
         // Register Get File URL
-        // todo
+        add_action('wp_ajax_nopriv_cfdb-file', array(&$this, 'ajaxFile'));
+        add_action('wp_ajax_cfdb-file', array(&$this, 'ajaxFile'));
 
         // Shortcode to add a table to a page
         $sc = new CFDBShortcodeTable();
@@ -225,6 +226,25 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     public function ajaxExport() {
         require_once('CF7DBPluginExporter.php');
         CF7DBPluginExporter::doExportFromPost();
+        die();
+    }
+
+    public function ajaxFile() {
+        if (!$this->canUserDoRoleOption('CanSeeSubmitData')) {
+            CFDBDie::wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
+        }
+        $submitTime = $_REQUEST['s'];
+        $formName = $_REQUEST['form'];
+        $fieldName = $_REQUEST['field'];
+        if (!$submitTime || !$formName || !$fieldName) {
+            CFDBDie::wp_die(__('Missing form parameters', 'contact-form-7-to-database-extension'));
+        }
+        $fileInfo = (array) $this->getFileFromDB($submitTime, $formName, $fieldName);
+        if ($fileInfo == null) {
+            CFDBDie::wp_die(__('No such file.', 'contact-form-7-to-database-extension'));
+        }
+        header("Content-Disposition: attachment; filename=\"$fileInfo[0]\"");
+        echo($fileInfo[1]);
         die();
     }
 
@@ -784,8 +804,11 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * @return string URL to download file
      */
     public function getFileUrl($submitTime, $formName, $fileName) {
-        $url = $this->getPluginDirUrl() . 'getFile.php?s=%s&form=%s&field=%s';
-        return sprintf($url, $submitTime, urlencode($formName), urlencode($fileName));
+        return sprintf('%s?action=cfdb-file&s=%s&form=%s&field=%s',
+                       admin_url('admin-ajax.php'),
+                       $submitTime,
+                       urlencode($formName),
+                       urlencode($fileName));
     }
 
     /**
