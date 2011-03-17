@@ -95,6 +95,13 @@ class ExportToJson extends ExportBase implements CFDBExport {
         $replace = array('\"', '\\n');
 
         if ($format == 'map') {
+
+            // Create the column name JSON values only once
+            $jsonEscapedColumns = array();
+            foreach ($this->dataIterator->columns as $aCol) {
+                $jsonEscapedColumns[$aCol] = str_replace($search, $replace, $aCol);
+            }
+
             echo "[\n";
             $firstRow = true;
             while ($this->dataIterator->nextRow()) {
@@ -114,7 +121,7 @@ class ExportToJson extends ExportBase implements CFDBExport {
                         echo ',';
                     }
                     printf('"%s":"%s"',
-                           str_replace($search, $replace, $col),
+                           $jsonEscapedColumns[$aCol],
                            str_replace($search, $replace, $this->dataIterator->row[$col]));
                 }
                 echo '}';
