@@ -274,7 +274,19 @@ class ExportBase {
         $sql = $this->getPivotQuery($formName);
         $this->dataIterator = new CFDBQueryResultIterator();
         $this->dataIterator->fileColumns = $this->getFileMetaData($formName);
-        $this->dataIterator->query($sql, $this->rowFilter, $submitTimeKeyName);
+
+        $queryOptions = array();
+        if ($submitTimeKeyName) {
+            $queryOptions['submitTimeKeyName'] = $submitTimeKeyName;
+        }
+        if (!empty($this->rowFilter) && isset($this->options['limit'])) {
+            // have data iterator apply the limit if it is not areadly
+            // being applied in SQL directly, which we do where there are
+            // no filter constraints.
+            $queryOptions['limit'] = $this->options['limit'];
+        }
+
+        $this->dataIterator->query($sql, $this->rowFilter, $queryOptions);
         $this->dataIterator->displayColumns = $this->getColumnsToDisplay($this->dataIterator->columns);
     }
 
@@ -321,7 +333,8 @@ and `file` is not null");
         }
         else {
             $sql .= "\nORDER BY `submit_time` DESC";
-            if ($this->options && isset($this->options['limit'])) {
+            if (empty($this->rowFilter) && $this->options && isset($this->options['limit'])) {
+                // If no filter constraints and have a limit, add limit to the SQL
                 $sql .= "\nLIMIT " . $this->options['limit'];
             }
         }

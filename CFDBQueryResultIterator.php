@@ -37,6 +37,21 @@ class CFDBQueryResultIterator {
     var $submitTimeKeyName;
 
     /**
+     * @var int
+     */
+    var $limitEnd;
+
+    /**
+     * @var int
+     */
+    var $idx;
+
+    /**
+     * @var int
+     */
+    var $limitStart;
+
+    /**
      * @var array
      */
     var $columns;
@@ -67,12 +82,23 @@ class CFDBQueryResultIterator {
     var $onFirstRow = false;
 
 
-    public function query(&$sql, &$rowFilter, $submitTimeKeyName = null) {
-        $this->submitTimeKeyName = $submitTimeKeyName;
+    public function query(&$sql, &$rowFilter, $queryOptions = array()) {
         $this->rowFilter = $rowFilter;
         $this->results = null;
         $this->row = null;
         $this->plugin = new CF7DBPlugin();
+        $this->submitTimeKeyName = isset($queryOptions['submitTimeKeyName']) ? $queryOptions['submitTimeKeyName'] : null;
+        if (isset($queryOptions['limit'])) {
+            $limitVals = explode(',', $queryOptions['limit']);
+            if (isset($limitVals[1])) {
+                $this->limitStart = trim($limitVals[0]);
+                $this->limitEnd = $this->limitStart + trim($limitVals[1]);
+            }
+            else if (isset($limitVals[0])) {
+                $this->limitEnd = trim($limitVals[0]);
+            }
+        }
+        $this->idx = -1;
 
         // For performance reasons, we bypass $wpdb so we can call mysql_unbuffered_query
         $con = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD, true);
@@ -131,6 +157,17 @@ class CFDBQueryResultIterator {
                 // Determine if row is filtered
                 if ($this->rowFilter && !$this->rowFilter->evaluate($this->row)) {
                     continue;
+                }
+
+                $this->idx += 1;
+                if ($this->limitStart && $this->idx < $this->limitStart) {
+                    continue;
+                }
+                if ($this->limitEnd && $this->idx >= $this->limitEnd) {
+                    while (mysql_fetch_array($this->results));
+                    mysql_free_result($this->results);
+                    $this->row = null;
+                    return false;
                 }
 
                 // Keep the unformatted submitTime if needed
