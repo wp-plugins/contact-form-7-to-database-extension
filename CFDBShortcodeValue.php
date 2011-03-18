@@ -31,8 +31,7 @@ class CFDBShortcodeValue extends ShortCodeLoader {
     public function handleShortcode($atts) {
         $atts['fromshortcode'] = true;
         $export = new ExportToValue();
-        $html = $export->export($atts['form'], $atts);
-        return $html;
+        return $export->export($atts['form'], $atts);
     }
 
 }

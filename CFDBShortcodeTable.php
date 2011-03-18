@@ -49,8 +49,7 @@ class CFDBShortcodeTable extends ShortCodeLoader {
         $atts['canDelete'] = false;
         $atts['fromshortcode'] = true;
         $export = new ExportToHtml();
-        $html = $export->export($atts['form'], $atts);
-        return $html;
+        return $export->export($atts['form'], $atts);
     }
 
 }
