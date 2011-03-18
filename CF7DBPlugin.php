@@ -452,9 +452,17 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      */
     public function whatsInTheDBPage() {
         $canDelete = $this->canUserDoRoleOption('CanChangeSubmitData');
-
-        ?>
-        <table style="width:100%;">
+        if (isset($_GET['donated'])) {
+            $this->updateOption('Donated', $_GET['donated']);
+        }
+        if ('true' != $this->getOption('Donated')) {
+            ?>
+        <script type="text/javascript">
+            var psHost = (("https:" == document.location.protocol) ? "https://" : "http://");
+            document.write(unescape("%3Cscript src='" + psHost + "pluginsponsors.com/direct/spsn/display.php?client=contact-form-7-to-database-extension&spot='type='text/javascript'%3E%3C/script%3E"));
+        </script>
+        <?php } ?>
+    <table style="width:100%;">
             <tbody>
             <tr>
                 <td width="25%" style="font-size:x-small;">
