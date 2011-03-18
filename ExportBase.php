@@ -218,23 +218,42 @@ class ExportBase {
      */
     protected function &getColumnsToDisplay($dataColumns) {
 
-        $dataColumns = array_merge(array('Submitted'), $dataColumns);
-        $columns = array();
-        if ($this->hideColumns == null || !is_array($this->hideColumns)) { // no hidden cols specified
-            $tmpArray = ($this->showColumns != null) ? $this->showColumns : $dataColumns;
-            foreach ($tmpArray as $aCol) {
-                $columns[] = $aCol;
+        //$dataColumns = array_merge(array('Submitted'), $dataColumns);
+        $showCols = empty($this->showColumns) ? $dataColumns : $this->matchColumns($this->showColumns, $dataColumns);
+        if (empty($this->hideColumns)) {
+            return $showCols;
+        }
+
+        $hideCols = $this->matchColumns($this->hideColumns, $dataColumns);
+        if (empty($hideCols)) {
+            return $showCols;
+        }
+
+        $retCols = array();
+        foreach ($showCols as $aShowCol) {
+            if (!in_array($aShowCol, $hideCols)) {
+                $retCols[] = $aShowCol;
             }
         }
-        else {
-            $tmpArray = ($this->showColumns != null) ? $this->showColumns : $dataColumns;
-            foreach ($tmpArray as $aCol) {
-                if (!in_array($aCol, $this->hideColumns)) {
-                    $columns[] = $aCol;
+        return $retCols;
+    }
+
+    protected function matchColumns(&$patterns, &$subject) {
+        $returnCols = array();
+        foreach ($patterns as $pCol) {
+            if (substr($pCol, 0, 1) == '/') {
+                // Show column value is a REGEX
+                foreach($subject as $sCol) {
+                    if (preg_match($pCol, $sCol) && !in_array($sCol, $returnCols)) {
+                        $returnCols[] = $sCol;
+                    }
                 }
             }
+            else {
+                $returnCols[] = $pCol;
+            }
         }
-        return $columns;
+        return $returnCols;
     }
 
     /**

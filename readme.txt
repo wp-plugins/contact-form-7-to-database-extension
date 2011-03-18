@@ -66,10 +66,10 @@ The table and all its data are deleted when you uninstall. You can deactivate th
 == Changelog ==
 
 = 1.8 =
+* Performance/memory enhancements to enable plugin to handle large data volumes
 * Now capturing form submission times with microseconds to avoid collision of two submissions during the same second
-* Handling situation where wp-content is not at the standard location
-* Accounting for the wp-config.php file to be one directory above it's regular location in "include" statements
-to support "hardening" as described in http://www.groovypost.com/howto/how-to/improve-wordpress-securitty-wp-config-php-location
+* Fixed to work with installations where wp-content is not at the standard location
+* Shortcode "show" and "hide" values can now use regular expressions to identify columns
 
 = 1.7 =
 * Creating an export from the admin panel now filters rows based on text in the DataTable "Search" field.
