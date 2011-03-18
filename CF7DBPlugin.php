@@ -23,7 +23,9 @@ require_once('CF7DBPluginLifeCycle.php');
 require_once('CFDBShortcodeTable.php');
 require_once('CFDBShortcodeDataTable.php');
 require_once('CFDBShortcodeValue.php');
+require_once('CFDBShortcodeCount.php');
 require_once('CFDBShortcodeJson.php');
+require_once('CFDBShortcodeHtml.php');
 require_once('ExportToHtml.php');
 
 /**
@@ -221,6 +223,14 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         // Shortcode to add a value (just text) to a page
         $sc = new CFDBShortcodeValue();
         $sc->register('cfdb-value');
+
+        // Shortcode to add entry count to a page
+        $sc = new CFDBShortcodeCount();
+        $sc->register('cfdb-count');
+
+        // Shortcode to add values wrapped in user-defined html
+        $sc = new CFDBShortcodeHtml();
+        $sc->register('cfdb-html');
     }
 
     public function ajaxExport() {

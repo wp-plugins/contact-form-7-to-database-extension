@@ -66,6 +66,7 @@ The table and all its data are deleted when you uninstall. You can deactivate th
 == Changelog ==
 
 = 1.8 =
+* New shortcodes [cfdb-html] and [cfdb-count]
 * Performance/memory enhancements to enable plugin to handle large data volumes
 * Now capturing form submission times with microseconds to avoid collision of two submissions during the same second
 * Fixed to work with installations where wp-content is not at the standard location
