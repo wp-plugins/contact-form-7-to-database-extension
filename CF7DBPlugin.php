@@ -505,17 +505,16 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             _e('No form submissions in the database', 'contact-form-7-to-database-extension');
             return;
         }
-        $htmlFormName = $this->prefix('form');
         $page = 1;
-        if (isset($_POST['dbpage'])) {
-            $page = $_POST['dbpage'];
+        if (isset($_REQUEST['dbpage'])) {
+            $page = $_REQUEST['dbpage'];
         }
         else if (isset($_GET['dbpage'])) {
             $page = $_GET['dbpage'];
         }
         $currSelection = null; //$rows[0]->form_name;
-        if (isset($_POST['form_name'])) {
-            $currSelection = $_POST['form_name'];
+        if (isset($_REQUEST['form_name'])) {
+            $currSelection = $_REQUEST['form_name'];
         }
         else if (isset($_GET['form_name'])) {
             $currSelection = $_GET['form_name'];
@@ -546,8 +545,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         <table width="100%" cellspacing="20">
             <tr>
                 <td align="left">
-                    <form method="post" action="" name="displayform" id="displayform">
-                        <select name="form_name" id="form_name" onchange="document.getElementById('dbpage').value='1'; this.form.submit();">
+                    <form method="get" action="" name="displayform" id="displayform">
+                        <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>"/>
+                        <select name="form_name" id="form_name" onchange="this.form.submit();">
                         <option value=""><?php _e('* Select a form *', 'contact-form-7-to-database-extension') ?></option>
                         <?php foreach ($rows as $aRow) {
                             $formName = $aRow->form_name;
@@ -556,12 +556,18 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                 <option value="<?php echo $formName ?>" <?php echo $selected ?>><?php echo $formName ?></option>
                             <?php } ?>
                         </select>
-                        <input id="dbpage" name="dbpage" type="hidden" value="<?php echo $page ?>">
                     </form>
                 </td>
                 <td align="center">
                     <?php if ($currSelection) { ?>
                     <script type="text/javascript" language="Javascript">
+                        function changeDbPage(page) {
+                            var newdiv = document.createElement('div');
+                            newdiv.innerHTML = "<input id='dbpage' name='dbpage' type='hidden' value='" + page + "'>";
+                            var dispForm = document.forms['displayform'];
+                            dispForm.appendChild(newdiv);
+                            dispForm.submit();
+                        }
                         function getSearchFieldValue() {
                             var searchVal = '';
                             if (typeof jQuery == 'function') {
@@ -1042,7 +1048,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     }
 
     protected function paginateLink($page, $label) {
-        return "<a href=\"#\" onclick=\"document.getElementById('dbpage').value='$page'; document.forms['displayform'].submit()\">$label</a>";
+        return "<a href=\"#\" onclick=\"changeDbPage('$page');\">$label</a>";
     }
 
 }
