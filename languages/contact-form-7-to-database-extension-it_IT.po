@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Contact Form 7 to Database Extension in italiano\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-extension\n"
-"POT-Creation-Date: 2011-02-25 21:50:57+00:00\n"
-"PO-Revision-Date: 2011-03-16 22:19+0100\n"
+"POT-Creation-Date: 2011-03-19 19:17:28+00:00\n"
+"PO-Revision-Date: 2011-03-19 23:06+0100\n"
 "Last-Translator: Gianni Diurno (aka gidibao) <gidibao[at]gmail[dot]com>\n"
 "Language-Team: Gianni Diurno | gidibao.net\n"
 "MIME-Version: 1.0\n"
@@ -14,17 +14,81 @@ msgstr ""
 "X-Poedit-Language: Italian\n"
 "X-Poedit-Country: ITALY\n"
 
-#: CF7DBPlugin.php:49
+#: CF7DBPluginExporter.php:33
+msgid "Error: No \"form\" parameter submitted"
+msgstr "Errore: nessun parametro \"form\" inserito"
+
+#: contact-form-7-db.php:23
+msgid "Minimal version of PHP required: "
+msgstr "Versione minima PHP richiesta:"
+
+#: contact-form-7-db.php:24
+msgid "Your server's PHP version: "
+msgstr "La versione PHP del tuo server:"
+
+#: contact-form-7-db.php:27
+msgid "When using the Apache web server, typically you can configure it to use PHP5 by doing the following:"
+msgstr "Facessi uso di un web server Apache, puoi configurarlo a PHP5 facendo quanto segue:"
+
+#: contact-form-7-db.php:29
+msgid "Locate and edit this file, located at the top directory of your WordPress installation: "
+msgstr "Individua e modifica questo file allocato nella cartella principale della tua installazione WordPress: "
+
+#: contact-form-7-db.php:31
+msgid "Add these two lines to the file:"
+msgstr "Aggiungi al file queste due righe:"
+
+#: CJ7DBCheckZendFramework.php:72
+msgid "Missing Zend Framework"
+msgstr "Manca il Zend Framework"
+
+#: ExportBase.php:177
+msgid "You do not have sufficient permissions to access this data."
+msgstr "Non hai i permessi necessari per potere accedere a questo dato."
+
+#: ExportToHtml.php:135
+msgid "Delete"
+msgstr "Elimina"
+
+#: CF7DBOptionsManager.php:278
+#: CF7DBPlugin.php:244
+#: ExportToGoogleLiveData.php:31
+msgid "You do not have sufficient permissions to access this page."
+msgstr "Non hai i permessi necessari per potere accedere a questa pagina."
+
+#: CF7DBOptionsManager.php:296
+msgid "Settings"
+msgstr "Impostazioni"
+
+#: CF7DBOptionsManager.php:321
+msgid "Save Changes"
+msgstr "Salva le modifiche"
+
+#: CF7DBOptionsManager.php:380
+#: CF7DBPlugin.php:72
+msgid "true"
+msgstr "sì"
+
+#: CF7DBOptionsManager.php:381
+#: CF7DBPlugin.php:74
+msgid "false"
+msgstr "no"
+
+#: CF7DBPlugin.php:48
 msgid "Can See Submission data"
 msgstr "Può vedere i dati"
 
-#: CF7DBPlugin.php:51
+#: CF7DBPlugin.php:50
 msgid "Can See Submission when using shortcodes"
 msgstr "Può vedere i dati (via shortcode)"
 
-#: CF7DBPlugin.php:53
+#: CF7DBPlugin.php:52
 msgid "Can Delete Submission data"
 msgstr "Può cancellare i dati"
+
+#: CF7DBPlugin.php:54
+msgid "Maximum number of rows to retrieve from the DB for the Admin display"
+msgstr "Numero massimo di record da estrarre dal DB (per visualizzazione admin)"
 
 #: CF7DBPlugin.php:55
 msgid "Use Javascript-enabled tables in Admin Database page"
@@ -62,219 +126,179 @@ msgstr "Salva dati cookie insieme ai dati modulo"
 msgid "Save only cookies in DB named (comma-separated list, no spaces, and above option must be set to true)"
 msgstr "Salva i soli cookie nel DB a nome (separa con una virgola, no spazi e opzione qui sopra impostata a sì)"
 
-#: CF7DBPlugin.php:71
-#: CF7DBOptionsManager.php:380
-msgid "true"
-msgstr "sì"
+#: CF7DBPlugin.php:64
+msgid "Show the query used to display results"
+msgstr "Mostra la query utilizzata per mostrare i risultati"
 
-#: CF7DBPlugin.php:73
-#: CF7DBOptionsManager.php:381
-msgid "false"
-msgstr "no"
-
-#: CF7DBPlugin.php:76
+#: CF7DBPlugin.php:77
 msgid "Administrator"
 msgstr "Amministratore"
 
-#: CF7DBPlugin.php:78
+#: CF7DBPlugin.php:79
 msgid "Editor"
 msgstr "Editore"
 
-#: CF7DBPlugin.php:80
+#: CF7DBPlugin.php:81
 msgid "Author"
 msgstr "Autore"
 
-#: CF7DBPlugin.php:82
+#: CF7DBPlugin.php:83
 msgid "Contributor"
 msgstr "Collaboratore"
 
-#: CF7DBPlugin.php:84
+#: CF7DBPlugin.php:85
 msgid "Subscriber"
 msgstr "Sottoscrittore"
 
-#: CF7DBPlugin.php:86
+#: CF7DBPlugin.php:87
 msgid "Anyone"
 msgstr "Chiunque"
 
-#: CF7DBPlugin.php:212
-#: CF7DBPlugin.php:232
-msgid "Database Options"
-msgstr "Opzioni database"
-
-#: CF7DBPlugin.php:230
-#: CF7DBPlugin.php:381
-msgid "Database"
-msgstr "Database"
-
-#: CF7DBPlugin.php:234
-msgid "FAQ"
-msgstr "FAQ"
-
-#: CF7DBPlugin.php:414
-msgid "Rate this Plugin"
-msgstr "Vota il plugin"
-
-#: CF7DBPlugin.php:420
-msgid "Documentation"
-msgstr "Documentazione"
-
-#: CF7DBPlugin.php:426
-msgid "Support"
-msgstr "Supporto"
-
-#: CF7DBPlugin.php:442
-msgid "No form submissions in the database"
-msgstr "Nessun dato presente nel database"
-
-#: CF7DBPlugin.php:481
-msgid "* Select a form *"
-msgstr "* Seleziona modulo *"
-
-#: CF7DBPlugin.php:510
-msgid "Google Login for Upload"
-msgstr "Google Login per Upload"
-
-#: CF7DBPlugin.php:519
-msgid "Cannot perform operation because jQuery is not loaded in this page"
-msgstr "Impossibile procedere con l'operazione causa jQuery non caricata in questa pagina"
-
-#: CF7DBPlugin.php:559
-msgid "Excel Internet Query"
-msgstr "Excel Internet Query"
-
-#: CF7DBPlugin.php:562
-msgid "Excel CSV (UTF8-BOM)"
-msgstr "Excel CSV (UTF8-BOM)"
-
-#: CF7DBPlugin.php:565
-msgid "Excel TSV (UTF16LE-BOM)"
-msgstr "Excel TSV (UTF16LE-BOM)"
-
-#: CF7DBPlugin.php:568
-msgid "Plain CSV (UTF-8)"
-msgstr "Plain CSV (UTF-8)"
-
-#: CF7DBPlugin.php:571
-msgid "Google Spreadsheet"
-msgstr "Google Spreadsheet"
-
-#: CF7DBPlugin.php:574
-msgid "Google Spreadsheet Live Data"
-msgstr "Google Spreadsheet Live Data"
-
-#: CF7DBPlugin.php:577
-msgid "HTML"
-msgstr "HTML"
-
-#: CF7DBPlugin.php:580
-msgid "JSON"
-msgstr "JSON"
-
-#: CF7DBPlugin.php:584
-msgid "Export"
-msgstr "Esporta"
-
-#: CF7DBPlugin.php:595
-msgid "Delete All This Form's Records"
-msgstr "Cancella tutti i dati di questo modulo"
-
-#: CF7DBPlugin.php:657
-msgid "Did you know: This plugin captures data from both these plugins:"
-msgstr "Ti ricordo che questo plugin può raccogliere i dati da questi plugin:"
-
-#: CF7DBPlugin.php:666
-msgid "Did you know: You can add this data to your posts and pages using these shortcodes:"
-msgstr "Ti ricordo che puoi inserire questi dati in un articolo/pagina utilizzando questi shortcode:"
-
-#: CF7DBPlugin.php:677
-msgid "Would you like to help translate this plugin into your language?"
-msgstr "Vorresti tradurre questo plugin nella tua lingua?"
-
-#: CF7DBPlugin.php:678
-msgid "How to create a translation"
-msgstr "Come creare una traduzione"
-
-#: CF7DBPlugin.php:702
-msgid "Cancel"
-msgstr "Annulla"
-
-#: CF7DBPlugin.php:704
-msgid "Upload"
-msgstr "Carica"
-
-#: ExportBase.php:125
-msgid "You do not have sufficient permissions to access this data."
-msgstr "Non hai i permessi necessari per potere accedere a questo dato."
-
-#: getFile.php:32
-#: CF7DBOptionsManager.php:278
-#: ExportToGoogleLiveData.php:30
-msgid "You do not have sufficient permissions to access this page."
-msgstr "Non hai i permessi necessari per potere accedere a questa pagina."
-
-#: getFile.php:39
+#: CF7DBPlugin.php:250
 msgid "Missing form parameters"
 msgstr "Mancano i parametri del modulo"
 
-#: getFile.php:44
+#: CF7DBPlugin.php:254
 msgid "No such file."
 msgstr "Nessun file."
 
-#: export.php:36
-msgid "Error: No \"form\" parameter submitted"
-msgstr "Errore: nessun parametro \"form\" inserito"
+#: CF7DBPlugin.php:267
+#: CF7DBPlugin.php:287
+msgid "Database Options"
+msgstr "Opzioni database"
 
-#: CF7DBOptionsManager.php:296
-msgid "Settings"
-msgstr "Impostazioni"
+#: CF7DBPlugin.php:285
+#: CF7DBPlugin.php:436
+msgid "Database"
+msgstr "Database"
 
-#: CF7DBOptionsManager.php:321
-msgid "Save Changes"
-msgstr "Salva le modifiche"
+#: CF7DBPlugin.php:289
+msgid "FAQ"
+msgstr "FAQ"
 
-#: ExportToGoogleLiveData.php:166
+#: CF7DBPlugin.php:477
+msgid "Rate this Plugin"
+msgstr "Vota il plugin"
+
+#: CF7DBPlugin.php:483
+msgid "Documentation"
+msgstr "Documentazione"
+
+#: CF7DBPlugin.php:489
+msgid "Support"
+msgstr "Supporto"
+
+#: CF7DBPlugin.php:505
+msgid "No form submissions in the database"
+msgstr "Nessun dato presente nel database"
+
+#: CF7DBPlugin.php:551
+msgid "* Select a form *"
+msgstr "* Seleziona modulo *"
+
+#: CF7DBPlugin.php:587
+msgid "Google Login for Upload"
+msgstr "Google Login per Upload"
+
+#: CF7DBPlugin.php:596
+msgid "Cannot perform operation because jQuery is not loaded in this page"
+msgstr "Impossibile procedere con l'operazione causa jQuery non caricata in questa pagina"
+
+#: CF7DBPlugin.php:636
+msgid "Excel Internet Query"
+msgstr "Excel Internet Query"
+
+#: CF7DBPlugin.php:639
+msgid "Excel CSV (UTF8-BOM)"
+msgstr "Excel CSV (UTF8-BOM)"
+
+#: CF7DBPlugin.php:642
+msgid "Excel TSV (UTF16LE-BOM)"
+msgstr "Excel TSV (UTF16LE-BOM)"
+
+#: CF7DBPlugin.php:645
+msgid "Plain CSV (UTF-8)"
+msgstr "Plain CSV (UTF-8)"
+
+#: CF7DBPlugin.php:648
+msgid "Google Spreadsheet"
+msgstr "Google Spreadsheet"
+
+#: CF7DBPlugin.php:651
+msgid "Google Spreadsheet Live Data"
+msgstr "Google Spreadsheet Live Data"
+
+#: CF7DBPlugin.php:654
+msgid "HTML"
+msgstr "HTML"
+
+#: CF7DBPlugin.php:657
+msgid "JSON"
+msgstr "JSON"
+
+#: CF7DBPlugin.php:661
+msgid "Export"
+msgstr "Esporta"
+
+#: CF7DBPlugin.php:672
+msgid "Delete All This Form's Records"
+msgstr "Cancella tutti i dati di questo modulo"
+
+#: CF7DBPlugin.php:743
+msgid "Did you know: This plugin captures data from both these plugins:"
+msgstr "Ti ricordo che questo plugin può raccogliere i dati da questi plugin:"
+
+#: CF7DBPlugin.php:752
+msgid "Did you know: You can add this data to your posts and pages using these shortcodes:"
+msgstr "Ti ricordo che puoi inserire questi dati in un articolo/pagina utilizzando questi shortcode:"
+
+#: CF7DBPlugin.php:763
+msgid "Would you like to help translate this plugin into your language?"
+msgstr "Vorresti tradurre questo plugin nella tua lingua?"
+
+#: CF7DBPlugin.php:764
+msgid "How to create a translation"
+msgstr "Come creare una traduzione"
+
+#: CF7DBPlugin.php:775
+msgid "Query:"
+msgstr "Query:"
+
+#: CF7DBPlugin.php:796
+msgid "Cancel"
+msgstr "Annulla"
+
+#: CF7DBPlugin.php:798
+msgid "Upload"
+msgstr "Carica"
+
+#: CF7DBPlugin.php:937
+msgid "next »"
+msgstr "succ »"
+
+#: CF7DBPlugin.php:938
+msgid "« prev"
+msgstr "« prec"
+
+#: CF7DBPlugin.php:955
+msgid "Returned entries %s to %s of %s entries in the database"
+msgstr "Dati di ritorno da %s a %s di %s dati presenti nel database"
+
+#: ExportToGoogleLiveData.php:170
 msgid "How to Set up Google Spreadsheet to pull data from WordPress"
 msgstr "Come impostare Google Spreadsheet per estrarre i dati da WordPress"
 
-#: CJ7DBCheckZendFramework.php:71
-msgid "Missing Zend Framework"
-msgstr "Manca il Zend Framework"
-
-#: ExportToGoogleSS.php:61
+#: ExportToGoogleSS.php:62
 msgid "Login Failed"
 msgstr "Login fallito"
 
-#: ExportToGoogleSS.php:100
+#: ExportToGoogleSS.php:101
 msgid "New Google Spreadsheet"
 msgstr "New Google Spreadsheet"
 
-#: ExportToGoogleSS.php:109
+#: ExportToGoogleSS.php:110
 msgid "Error"
 msgstr "Errore"
-
-#: contact-form-7-db.php:23
-msgid "Minimal version of PHP required: "
-msgstr "Versione minima PHP richiesta:"
-
-#: contact-form-7-db.php:24
-msgid "Your server's PHP version: "
-msgstr "La versione PHP del tuo server:"
-
-#: contact-form-7-db.php:27
-msgid "When using the Apache web server, typically you can configure it to use PHP5 by doing the following:"
-msgstr "Facessi uso di un web server Apache, puoi configurarlo a PHP5 facendo quanto segue:"
-
-#: contact-form-7-db.php:29
-msgid "Locate and edit this file, located at the top directory of your WordPress installation: "
-msgstr "Individua e modifica questo file allocato nella cartella principale della tua installazione WordPress: "
-
-#: contact-form-7-db.php:31
-msgid "Add these two lines to the file:"
-msgstr "Aggiungi al file queste due righe:"
-
-#: ExportToHtml.php:135
-msgid "Delete"
-msgstr "Elimina"
 
 #~ msgid "Submitted"
 #~ msgstr "Inviato"
