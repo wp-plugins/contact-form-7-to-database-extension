@@ -332,13 +332,50 @@ and `file` is not null");
             $sql .= ') form';
         }
         else {
-            $sql .= "\nORDER BY `submit_time` DESC";
+            $orderBys = array();
+            if ($this->options && isset($this->options['orderby'])) {
+                $orderByStrings = explode(',', $this->options['orderby']);
+                foreach ($orderByStrings as $anOrderBy) {
+                    $anOrderBy = trim($anOrderBy);
+                    $ascOrDesc = null;
+                    if (strtoupper(substr($anOrderBy, -5)) == ' DESC'){
+                        $ascOrDesc = " DESC";
+                        $anOrderBy = trim(substr($anOrderBy, 0, -5));
+                    }
+                    else if (strtoupper(substr($anOrderBy, -4)) == ' ASC'){
+                        $ascOrDesc = " ASC";
+                        $anOrderBy = trim(substr($anOrderBy, 0, -4));
+                    }
+                    if ($anOrderBy == 'Submitted') {
+                        $anOrderBy = "submit_time";
+                    }
+                    if (in_array($anOrderBy, $fields)) {
+                        $orderBys[] = '`' . $anOrderBy . '`' . $ascOrDesc;
+                    }
+                }
+            }
+            if (empty($orderBys)) {
+                $sql .= "\nORDER BY `submit_time` DESC";
+            }
+            else {
+                $sql .= "\nORDER BY ";
+                $first = true;
+                foreach ($orderBys as $anOrderBy) {
+                    if ($first) {
+                        $sql .= $anOrderBy;
+                        $first = false;
+                    }
+                    else {
+                        $sql .= ', ' . $anOrderBy;
+                    }
+                }
+            }
+
             if (empty($this->rowFilter) && $this->options && isset($this->options['limit'])) {
                 // If no filter constraints and have a limit, add limit to the SQL
                 $sql .= "\nLIMIT " . $this->options['limit'];
             }
         }
-
         return $sql;
     }
 

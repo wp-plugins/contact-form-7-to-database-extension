@@ -68,7 +68,7 @@ class ExportToHtml extends ExportBase implements CFDBExport {
         if ($useDT) {
             $dtJsOptions = $options['dt_options'];
             if (!$dtJsOptions) {
-                $dtJsOptions = '"bJQueryUI": true';
+                $dtJsOptions = '"bJQueryUI": true, "aaSorting": []';
                 $i18nUrl = $this->plugin->getDataTableTranslationUrl();
                 if ($i18nUrl) {
                     $dtJsOptions = $dtJsOptions . ", \"oLanguage\": { \"sUrl\":  \"$i18nUrl\" }";

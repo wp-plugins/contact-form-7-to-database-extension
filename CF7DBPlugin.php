@@ -688,6 +688,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             jQuery(document).ready(function() {
                 jQuery('#<?php echo $tableHtmlId ?>').dataTable({
                    "bJQueryUI": true,
+                   "aaSorting": [],
                    "bScrollCollapse": true
                 <?php if ($i18nUrl) {
                     echo ", \"oLanguage\": { \"sUrl\":  \"$i18nUrl\" }";
