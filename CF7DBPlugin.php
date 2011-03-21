@@ -45,6 +45,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     public function getOptionMetaData() {
         return array(
             //'_version' => array('Installed Version'), // For testing upgrades
+            'Donated' => array(__('I have donated to this plugin', 'contact-form-7-to-database-extension'), 'false', 'true'),
             'CanSeeSubmitData' => array(__('Can See Submission data', 'contact-form-7-to-database-extension'),
                                         'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
             'CanSeeSubmitDataViaShortcode' => array(__('Can See Submission when using shortcodes', 'contact-form-7-to-database-extension'),
@@ -465,28 +466,34 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     <table style="width:100%;">
             <tbody>
             <tr>
-                <td width="25%" style="font-size:x-small;">
+                <td width="20%" style="font-size:x-small;">
                     <a target="_donate"
                        href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=NEVDJ792HKGFN&lc=US&item_name=Wordpress%20Plugin&item_number=cf7%2dto%2ddb%2dextension&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">
                         <img src="https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif" alt="Donate">
                     </a>
                 </td>
-                <td width="25%" style="font-size:x-small;">
+                <td width="20%" style="font-size:x-small;">
                     <a target="_cf7todb"
                        href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension">
                     <?php _e('Rate this Plugin', 'contact-form-7-to-database-extension') ?>
                     </a>
                 </td>
-                <td width="25%" style="font-size:x-small;">
+                <td width="20%" style="font-size:x-small;">
                     <a target="_cf7todb"
                        href="http://cfdbplugin.com/">
                     <?php _e('Documentation', 'contact-form-7-to-database-extension') ?>
                     </a>
                 </td>
-                <td width="25%" style="font-size:x-small;">
+                <td width="20%" style="font-size:x-small;">
                     <a target="_cf7todb"
                        href="http://wordpress.org/tags/contact-form-7-to-database-extension">
                     <?php _e('Support', 'contact-form-7-to-database-extension') ?>
+                    </a>
+                </td>
+                <td width="20%" style="font-size:x-small;">
+                    <a target="_cf7todb"
+                       href="http://pluginsponsors.com/privacy.html">
+                    <?php _e('Privacy Policy', 'contact-form-7-to-database-extension') ?>
                     </a>
                 </td>
             </tr>
