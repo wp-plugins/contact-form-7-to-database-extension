@@ -65,6 +65,9 @@ The table and all its data are deleted when you uninstall. You can deactivate th
 
 == Changelog ==
 
+= 1.8.1 =
+* Fixed bug introduced in 1.8 where deleting individual rows from the admin page did nothing.
+
 = 1.8 =
 * New shortcodes [cfdb-html] and [cfdb-count]
 * New Shortcode option: 'limit'

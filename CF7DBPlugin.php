@@ -531,15 +531,28 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             if (isset($_POST['delete']) && $canDelete) {
                 if (isset($_POST['submit_time'])) {
                     $submitTime = $_POST['submit_time'];
-                    $wpdb->query("delete from `$tableName` where `form_name` = '$currSelection' and `submit_time` = '$submitTime'");
+                    $wpdb->query(
+                        $wpdb->prepare(
+                            "delete from `$tableName` where `form_name` = '%s' and `submit_time` = '%s'",
+                            $currSelection, $submitTime));
                 }
                 else  if (isset($_POST['all'])) {
-                    $wpdb->query("delete from `$tableName` where `form_name` = '$currSelection'");
+                    $wpdb->query(
+                        $wpdb->prepare(
+                            "delete from `$tableName` where `form_name` = '%s'", $currSelection));
                 }
                 else {
                     foreach ($_POST as $name => $value) { // checkboxes
                         if ($value == 'row') {
-                            $wpdb->query("delete from `$tableName` where `form_name` = '$currSelection' and `submit_time` = '$name'");
+                            // Dots and spaces in variable names are converted to underscores. For example <input name="a.b" /> becomes $_REQUEST["a_b"].
+                            // http://www.php.net/manual/en/language.variables.external.php
+                            // We are expecting a time value like '1300728460.6626' but will instead get '1300728460_6626'
+                            // so we need to put the '.' back in before going to the DB.
+                            $name = str_replace('_', '.', $name);
+                            $wpdb->query(
+                                $wpdb->prepare(
+                                    "delete from `$tableName` where `form_name` = '%s' and `submit_time` = '%s'",
+                                    $currSelection, $name));
                         }
                     }
                 }
