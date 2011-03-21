@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-"
 "extension\n"
-"POT-Creation-Date: 2011-03-19 19:17:28+00:00\n"
+"POT-Creation-Date: 2011-03-21 13:49:35+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -53,7 +53,7 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: CF7DBOptionsManager.php:278 CF7DBPlugin.php:244
+#: CF7DBOptionsManager.php:278 CF7DBPlugin.php:245
 #: ExportToGoogleLiveData.php:31
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
@@ -66,223 +66,231 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: CF7DBOptionsManager.php:380 CF7DBPlugin.php:72
+#: CF7DBOptionsManager.php:380 CF7DBPlugin.php:73
 msgid "true"
 msgstr ""
 
-#: CF7DBOptionsManager.php:381 CF7DBPlugin.php:74
+#: CF7DBOptionsManager.php:381 CF7DBPlugin.php:75
 msgid "false"
 msgstr ""
 
 #: CF7DBPlugin.php:48
+msgid "I have donated to this plugin"
+msgstr ""
+
+#: CF7DBPlugin.php:49
 msgid "Can See Submission data"
 msgstr ""
 
-#: CF7DBPlugin.php:50
+#: CF7DBPlugin.php:51
 msgid "Can See Submission when using shortcodes"
 msgstr ""
 
-#: CF7DBPlugin.php:52
+#: CF7DBPlugin.php:53
 msgid "Can Delete Submission data"
 msgstr ""
 
-#: CF7DBPlugin.php:54
+#: CF7DBPlugin.php:55
 msgid "Maximum number of rows to retrieve from the DB for the Admin display"
 msgstr ""
 
-#: CF7DBPlugin.php:55
+#: CF7DBPlugin.php:56
 msgid "Use Javascript-enabled tables in Admin Database page"
 msgstr ""
 
-#: CF7DBPlugin.php:56
+#: CF7DBPlugin.php:57
 msgid "Show line breaks in submitted data table"
 msgstr ""
 
-#: CF7DBPlugin.php:57
+#: CF7DBPlugin.php:58
 msgid "Use Custom Date-Time Display Format (below)"
 msgstr ""
 
-#: CF7DBPlugin.php:58
+#: CF7DBPlugin.php:59
 msgid "Date-Time Display Format"
 msgstr ""
 
-#: CF7DBPlugin.php:59
+#: CF7DBPlugin.php:60
 msgid "Export URLs instead of file names for uploaded files"
 msgstr ""
 
-#: CF7DBPlugin.php:60
+#: CF7DBPlugin.php:61
 msgid "Do not save <u>fields</u> in DB named (comma-separated list, no spaces)"
 msgstr ""
 
-#: CF7DBPlugin.php:61
+#: CF7DBPlugin.php:62
 msgid "Do not save <u>forms</u> in DB named (comma-separated list, no spaces)"
 msgstr ""
 
-#: CF7DBPlugin.php:62
+#: CF7DBPlugin.php:63
 msgid "Save Cookie Data with Form Submissions"
 msgstr ""
 
-#: CF7DBPlugin.php:63
+#: CF7DBPlugin.php:64
 msgid ""
 "Save only cookies in DB named (comma-separated list, no spaces, and above "
 "option must be set to true)"
 msgstr ""
 
-#: CF7DBPlugin.php:64
+#: CF7DBPlugin.php:65
 msgid "Show the query used to display results"
 msgstr ""
 
-#: CF7DBPlugin.php:77
+#: CF7DBPlugin.php:78
 msgid "Administrator"
 msgstr ""
 
-#: CF7DBPlugin.php:79
+#: CF7DBPlugin.php:80
 msgid "Editor"
 msgstr ""
 
-#: CF7DBPlugin.php:81
+#: CF7DBPlugin.php:82
 msgid "Author"
 msgstr ""
 
-#: CF7DBPlugin.php:83
+#: CF7DBPlugin.php:84
 msgid "Contributor"
 msgstr ""
 
-#: CF7DBPlugin.php:85
+#: CF7DBPlugin.php:86
 msgid "Subscriber"
 msgstr ""
 
-#: CF7DBPlugin.php:87
+#: CF7DBPlugin.php:88
 msgid "Anyone"
 msgstr ""
 
-#: CF7DBPlugin.php:250
+#: CF7DBPlugin.php:251
 msgid "Missing form parameters"
 msgstr ""
 
-#: CF7DBPlugin.php:254
+#: CF7DBPlugin.php:255
 msgid "No such file."
 msgstr ""
 
-#: CF7DBPlugin.php:267 CF7DBPlugin.php:287
+#: CF7DBPlugin.php:268 CF7DBPlugin.php:288
 msgid "Database Options"
 msgstr ""
 
-#: CF7DBPlugin.php:285 CF7DBPlugin.php:436
+#: CF7DBPlugin.php:286 CF7DBPlugin.php:437
 msgid "Database"
 msgstr ""
 
-#: CF7DBPlugin.php:289
+#: CF7DBPlugin.php:290
 msgid "FAQ"
 msgstr ""
 
-#: CF7DBPlugin.php:477
+#: CF7DBPlugin.php:478
 msgid "Rate this Plugin"
 msgstr ""
 
-#: CF7DBPlugin.php:483
+#: CF7DBPlugin.php:484
 msgid "Documentation"
 msgstr ""
 
-#: CF7DBPlugin.php:489
+#: CF7DBPlugin.php:490
 msgid "Support"
 msgstr ""
 
-#: CF7DBPlugin.php:505
+#: CF7DBPlugin.php:496
+msgid "Privacy Policy"
+msgstr ""
+
+#: CF7DBPlugin.php:512
 msgid "No form submissions in the database"
 msgstr ""
 
-#: CF7DBPlugin.php:551
+#: CF7DBPlugin.php:558
 msgid "* Select a form *"
 msgstr ""
 
-#: CF7DBPlugin.php:587
+#: CF7DBPlugin.php:594
 msgid "Google Login for Upload"
 msgstr ""
 
-#: CF7DBPlugin.php:596
+#: CF7DBPlugin.php:603
 msgid "Cannot perform operation because jQuery is not loaded in this page"
 msgstr ""
 
-#: CF7DBPlugin.php:636
+#: CF7DBPlugin.php:643
 msgid "Excel Internet Query"
 msgstr ""
 
-#: CF7DBPlugin.php:639
+#: CF7DBPlugin.php:646
 msgid "Excel CSV (UTF8-BOM)"
 msgstr ""
 
-#: CF7DBPlugin.php:642
+#: CF7DBPlugin.php:649
 msgid "Excel TSV (UTF16LE-BOM)"
 msgstr ""
 
-#: CF7DBPlugin.php:645
+#: CF7DBPlugin.php:652
 msgid "Plain CSV (UTF-8)"
 msgstr ""
 
-#: CF7DBPlugin.php:648
+#: CF7DBPlugin.php:655
 msgid "Google Spreadsheet"
 msgstr ""
 
-#: CF7DBPlugin.php:651
+#: CF7DBPlugin.php:658
 msgid "Google Spreadsheet Live Data"
 msgstr ""
 
-#: CF7DBPlugin.php:654
+#: CF7DBPlugin.php:661
 msgid "HTML"
 msgstr ""
 
-#: CF7DBPlugin.php:657
+#: CF7DBPlugin.php:664
 msgid "JSON"
 msgstr ""
 
-#: CF7DBPlugin.php:661
+#: CF7DBPlugin.php:668
 msgid "Export"
 msgstr ""
 
-#: CF7DBPlugin.php:672
+#: CF7DBPlugin.php:679
 msgid "Delete All This Form's Records"
 msgstr ""
 
-#: CF7DBPlugin.php:743
+#: CF7DBPlugin.php:750
 msgid "Did you know: This plugin captures data from both these plugins:"
 msgstr ""
 
-#: CF7DBPlugin.php:752
+#: CF7DBPlugin.php:759
 msgid ""
 "Did you know: You can add this data to your posts and pages using these "
 "shortcodes:"
 msgstr ""
 
-#: CF7DBPlugin.php:763
+#: CF7DBPlugin.php:770
 msgid "Would you like to help translate this plugin into your language?"
 msgstr ""
 
-#: CF7DBPlugin.php:764
+#: CF7DBPlugin.php:771
 msgid "How to create a translation"
 msgstr ""
 
-#: CF7DBPlugin.php:775
+#: CF7DBPlugin.php:782
 msgid "Query:"
 msgstr ""
 
-#: CF7DBPlugin.php:796
+#: CF7DBPlugin.php:803
 msgid "Cancel"
 msgstr ""
 
-#: CF7DBPlugin.php:798
+#: CF7DBPlugin.php:805
 msgid "Upload"
 msgstr ""
 
-#: CF7DBPlugin.php:937
+#: CF7DBPlugin.php:944
 msgid "next »"
 msgstr ""
 
-#: CF7DBPlugin.php:938
+#: CF7DBPlugin.php:945
 msgid "« prev"
 msgstr ""
 
-#: CF7DBPlugin.php:955
+#: CF7DBPlugin.php:962
 msgid "Returned entries %s to %s of %s entries in the database"
 msgstr ""
 
