@@ -126,7 +126,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             $this->addOption('CanSeeSubmitDataViaShortcode', 'Anyone');
         }
 
-        if ($this->isVersionLessThan($version, '1.7.1RC2')) {
+        if ($this->isVersionLessThan($version, '1.8')) {
             if (!$this->getOption('MaxRows')) {
                 $this->addOption('MaxRows', '100');
             }
@@ -730,7 +730,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             <?php
                 $exporter = new ExportToHtml();
                 $dbRowCount = $exporter->getDBRowCount($currSelection);
-                $maxRows = $this->getOption('MaxRows');
+                $maxRows = $this->getOption('MaxRows', '100');
                 $startRow = $this->paginationDiv($dbRowCount, $maxRows, $page);
             ?>
             <div <?php if (!$useDataTables) echo 'style="overflow:auto; max-height:500px;"' ?>>

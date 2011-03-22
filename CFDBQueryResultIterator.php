@@ -102,7 +102,9 @@ class CFDBQueryResultIterator {
 
         // For performance reasons, we bypass $wpdb so we can call mysql_unbuffered_query
         $con = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD, true);
-        mysql_set_charset('utf8', $con);
+        if (function_exists('mysql_set_charset')) { // PHP 5 >= 5.2.3
+            mysql_set_charset('utf8', $con);
+        }
         if (!$con) {
             trigger_error("MySQL Connection failed: " . mysql_error(), E_USER_NOTICE);
             return;
