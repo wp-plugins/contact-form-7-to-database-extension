@@ -78,7 +78,7 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
             else {
                 $replacements = array();
                 foreach ($colNamesToSub as $aCol) {
-                    $replacements[] = $this->dataIterator->row[$aCol];
+                    $replacements[] = htmlentities($this->dataIterator->row[$aCol], null, 'UTF-8');
                 }
                 echo str_replace($varNamesToSub, $replacements, $options['content']);
             }
