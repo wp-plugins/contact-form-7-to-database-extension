@@ -94,7 +94,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         global $wpdb;
         $upgradeOk = true;
         $version = $this->getVersionSaved();
-        if (!$version || $version == "") { // Prior to storing version in options (pre 1.2)
+        if (!$version) { // Prior to storing version in options (pre 1.2)
             // DB Schema Upgrade to support i18n using UTF-8
             $tableName = $this->getSubmitsTableName();
             $wpdb->show_errors();
@@ -106,35 +106,45 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             // Remove obsolete options
             $this->deleteOption('_displayName');
             $this->deleteOption('_metatdata');
-        }
-
-        $submitDateTimeFormat = $this->getOption('SubmitDateTimeFormat');
-        if (!$submitDateTimeFormat || $submitDateTimeFormat == '') {
-            $this->addOption('SubmitDateTimeFormat', 'Y-m-d H:i:s P');
-        }
-
-        if ($this->isVersionLessThan($version, '1.3.1')) {
-            $tableName = $this->getSubmitsTableName();
-            $wpdb->show_errors();
-            $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` ADD COLUMN `field_order` INTEGER");
-            $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` ADD COLUMN `file` LONGBLOB");
-            $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `submit_time_idx` ( `submit_time` )");
-            $wpdb->hide_errors();
-        }
-
-        if ($this->isVersionLessThanEqual($version, '1.4.5') && !$this->getOption('CanSeeSubmitDataViaShortcode')) {
-            $this->addOption('CanSeeSubmitDataViaShortcode', 'Anyone');
+            $version = '1.0';
         }
 
         if ($this->isVersionLessThan($version, '1.8')) {
+            if ($this->isVersionLessThan($version, '1.4.5')) {
+                if ($this->isVersionLessThan($version, '1.3.1')) {
+                    // Version 1.3.1 update
+                    $tableName = $this->getSubmitsTableName();
+                    $wpdb->show_errors();
+                    $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` ADD COLUMN `field_order` INTEGER");
+                    $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` ADD COLUMN `file` LONGBLOB");
+                    $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `submit_time_idx` ( `submit_time` )");
+                    $wpdb->hide_errors();
+                }
+
+                // Version 1.4.5 update
+                if (!$this->getOption('CanSeeSubmitDataViaShortcode')) {
+                    $this->addOption('CanSeeSubmitDataViaShortcode', 'Anyone');
+                }
+
+                // Misc
+                $submitDateTimeFormat = $this->getOption('SubmitDateTimeFormat');
+                if (!$submitDateTimeFormat || $submitDateTimeFormat == '') {
+                    $this->addOption('SubmitDateTimeFormat', 'Y-m-d H:i:s P');
+                }
+
+            }
+            // Version 1.8 update
             if (!$this->getOption('MaxRows')) {
                 $this->addOption('MaxRows', '100');
             }
             $tableName = $this->getSubmitsTableName();
-            $wpdb->query("ALTER TABLE `$tableName` MODIFY COLUMN submit_time DECIMAL(16,4) NOT NULL");
-            $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `form_name_idx` ( `form_name` )");
-            $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `form_name_field_name_idx` ( `form_name`, `field_name` )");
+            $wpdb->show_errors();
+            $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` MODIFY COLUMN submit_time DECIMAL(16,4) NOT NULL");
+            $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `form_name_idx` ( `form_name` )");
+            $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `form_name_field_name_idx` ( `form_name`, `field_name` )");
+            $wpdb->hide_errors();
         }
+
 
         // Post-upgrade, set the current version in the options
         if ($upgradeOk && $version != $this->getVersion()) {
@@ -836,7 +846,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         date_default_timezone_set(get_option('timezone_string'));
 
         if ($this->getOption('UseCustomDateTimeFormat', 'true') == 'true') {
-            $dateFormat = $this->getOption('SubmitDateTimeFormat');
+            $dateFormat = $this->getOption('SubmitDateTimeFormat', 'Y-m-d H:i:s P');
             return date($dateFormat, $time);
         }
         return date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $time);
