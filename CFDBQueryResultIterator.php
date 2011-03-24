@@ -119,9 +119,9 @@ class CFDBQueryResultIterator {
             return;
         }
 
+        $this->columns = array();
         $this->row = mysql_fetch_assoc($this->results);
         if ($this->row) {
-            $this->columns = array();
             foreach (array_keys($this->row) as $aCol) {
                 // hide this metadata column
                 if ('fields_with_file' != $aCol) {
