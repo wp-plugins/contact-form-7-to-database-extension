@@ -152,6 +152,7 @@ class CFDBQueryResultIterator {
 
             if (!$this->row) {
                 mysql_free_result($this->results);
+                $this->results = null;
                 return false;
             }
 
@@ -171,6 +172,7 @@ class CFDBQueryResultIterator {
             if ($this->limitEnd && $this->idx >= $this->limitEnd) {
                 while (mysql_fetch_array($this->results)) ;
                 mysql_free_result($this->results);
+                $this->results = null;
                 $this->row = null;
                 return false;
             }
@@ -183,6 +185,7 @@ class CFDBQueryResultIterator {
         }
         if (!$this->row) {
             mysql_free_result($this->results);
+            $this->results = null;
         }
         return $this->row ? true : false;
     }
