@@ -140,44 +140,46 @@ class CFDBQueryResultIterator {
      * @return bool if next row exists
      */
     public function nextRow() {
-        if ($this->results) {
-            while (true) {
+        if (!$this->results) {
+            return false;
+        }
 
-                if (!$this->onFirstRow) {
-                    $this->row = mysql_fetch_assoc($this->results);
-                }
-                $this->onFirstRow = false;
-
-                if (!$this->row) {
-                    return false;
-                }
-
-                // Format the date
-                $submitTime = $this->row['Submitted'];
-                $this->row['Submitted'] = $this->plugin->formatDate($submitTime);
-
-                // Determine if row is filtered
-                if ($this->rowFilter && !$this->rowFilter->evaluate($this->row)) {
-                    continue;
-                }
-
-                $this->idx += 1;
-                if ($this->limitStart && $this->idx < $this->limitStart) {
-                    continue;
-                }
-                if ($this->limitEnd && $this->idx >= $this->limitEnd) {
-                    while (mysql_fetch_array($this->results));
-                    mysql_free_result($this->results);
-                    $this->row = null;
-                    return false;
-                }
-
-                // Keep the unformatted submitTime if needed
-                if ($this->submitTimeKeyName) {
-                    $this->row[$this->submitTimeKeyName] = $submitTime;
-                }
-                break;
+        while (true) {
+            if (!$this->onFirstRow) {
+                $this->row = mysql_fetch_assoc($this->results);
             }
+            $this->onFirstRow = false;
+
+            if (!$this->row) {
+                mysql_free_result($this->results);
+                return false;
+            }
+
+            // Format the date
+            $submitTime = $this->row['Submitted'];
+            $this->row['Submitted'] = $this->plugin->formatDate($submitTime);
+
+            // Determine if row is filtered
+            if ($this->rowFilter && !$this->rowFilter->evaluate($this->row)) {
+                continue;
+            }
+
+            $this->idx += 1;
+            if ($this->limitStart && $this->idx < $this->limitStart) {
+                continue;
+            }
+            if ($this->limitEnd && $this->idx >= $this->limitEnd) {
+                while (mysql_fetch_array($this->results)) ;
+                mysql_free_result($this->results);
+                $this->row = null;
+                return false;
+            }
+
+            // Keep the unformatted submitTime if needed
+            if ($this->submitTimeKeyName) {
+                $this->row[$this->submitTimeKeyName] = $submitTime;
+            }
+            break;
         }
         if (!$this->row) {
             mysql_free_result($this->results);
