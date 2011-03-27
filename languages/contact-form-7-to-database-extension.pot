@@ -5,74 +5,13 @@ msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-"
 "extension\n"
-"POT-Creation-Date: 2011-03-21 18:12:08+00:00\n"
+"POT-Creation-Date: 2011-03-27 15:54:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-
-#: CF7DBPluginExporter.php:33
-msgid "Error: No \"form\" parameter submitted"
-msgstr ""
-
-#: contact-form-7-db.php:23
-msgid "Minimal version of PHP required: "
-msgstr ""
-
-#: contact-form-7-db.php:24
-msgid "Your server's PHP version: "
-msgstr ""
-
-#: contact-form-7-db.php:27
-msgid ""
-"When using the Apache web server, typically you can configure it to use PHP5 "
-"by doing the following:"
-msgstr ""
-
-#: contact-form-7-db.php:29
-msgid ""
-"Locate and edit this file, located at the top directory of your WordPress "
-"installation: "
-msgstr ""
-
-#: contact-form-7-db.php:31
-msgid "Add these two lines to the file:"
-msgstr ""
-
-#: CJ7DBCheckZendFramework.php:72
-msgid "Missing Zend Framework"
-msgstr ""
-
-#: ExportBase.php:177
-msgid "You do not have sufficient permissions to access this data."
-msgstr ""
-
-#: ExportToHtml.php:135
-msgid "Delete"
-msgstr ""
-
-#: CF7DBOptionsManager.php:278 CF7DBPlugin.php:245
-#: ExportToGoogleLiveData.php:31
-msgid "You do not have sufficient permissions to access this page."
-msgstr ""
-
-#: CF7DBOptionsManager.php:296
-msgid "Settings"
-msgstr ""
-
-#: CF7DBOptionsManager.php:321
-msgid "Save Changes"
-msgstr ""
-
-#: CF7DBOptionsManager.php:380 CF7DBPlugin.php:73
-msgid "true"
-msgstr ""
-
-#: CF7DBOptionsManager.php:381 CF7DBPlugin.php:75
-msgid "false"
-msgstr ""
 
 #: CF7DBPlugin.php:48
 msgid "I have donated to this plugin"
@@ -136,166 +75,199 @@ msgstr ""
 msgid "Show the query used to display results"
 msgstr ""
 
-#: CF7DBPlugin.php:78
+#: CF7DBPlugin.php:66
+msgid "Drop this plugin's Database table on uninstall"
+msgstr ""
+
+#: CF7DBPlugin.php:74 CF7DBOptionsManager.php:380
+msgid "true"
+msgstr ""
+
+#: CF7DBPlugin.php:76 CF7DBOptionsManager.php:381
+msgid "false"
+msgstr ""
+
+#: CF7DBPlugin.php:79
 msgid "Administrator"
 msgstr ""
 
-#: CF7DBPlugin.php:80
+#: CF7DBPlugin.php:81
 msgid "Editor"
 msgstr ""
 
-#: CF7DBPlugin.php:82
+#: CF7DBPlugin.php:83
 msgid "Author"
 msgstr ""
 
-#: CF7DBPlugin.php:84
+#: CF7DBPlugin.php:85
 msgid "Contributor"
 msgstr ""
 
-#: CF7DBPlugin.php:86
+#: CF7DBPlugin.php:87
 msgid "Subscriber"
 msgstr ""
 
-#: CF7DBPlugin.php:88
+#: CF7DBPlugin.php:89
 msgid "Anyone"
 msgstr ""
 
-#: CF7DBPlugin.php:251
+#: CF7DBPlugin.php:258 CF7DBOptionsManager.php:278
+#: ExportToGoogleLiveData.php:31
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: CF7DBPlugin.php:264
 msgid "Missing form parameters"
 msgstr ""
 
-#: CF7DBPlugin.php:255
+#: CF7DBPlugin.php:268
 msgid "No such file."
 msgstr ""
 
-#: CF7DBPlugin.php:268 CF7DBPlugin.php:288
+#: CF7DBPlugin.php:281 CF7DBPlugin.php:301
 msgid "Database Options"
 msgstr ""
 
-#: CF7DBPlugin.php:286 CF7DBPlugin.php:437
+#: CF7DBPlugin.php:299 CF7DBPlugin.php:450
 msgid "Database"
 msgstr ""
 
-#: CF7DBPlugin.php:290
+#: CF7DBPlugin.php:303
 msgid "FAQ"
 msgstr ""
 
-#: CF7DBPlugin.php:478
+#: CF7DBPlugin.php:491
 msgid "Rate this Plugin"
 msgstr ""
 
-#: CF7DBPlugin.php:484
+#: CF7DBPlugin.php:497
 msgid "Documentation"
 msgstr ""
 
-#: CF7DBPlugin.php:490
+#: CF7DBPlugin.php:503
 msgid "Support"
 msgstr ""
 
-#: CF7DBPlugin.php:496
+#: CF7DBPlugin.php:509
 msgid "Privacy Policy"
 msgstr ""
 
-#: CF7DBPlugin.php:512
+#: CF7DBPlugin.php:525
 msgid "No form submissions in the database"
 msgstr ""
 
-#: CF7DBPlugin.php:571
+#: CF7DBPlugin.php:584
 msgid "* Select a form *"
 msgstr ""
 
-#: CF7DBPlugin.php:607
+#: CF7DBPlugin.php:620
 msgid "Google Login for Upload"
 msgstr ""
 
-#: CF7DBPlugin.php:616
+#: CF7DBPlugin.php:629
 msgid "Cannot perform operation because jQuery is not loaded in this page"
 msgstr ""
 
-#: CF7DBPlugin.php:656
+#: CF7DBPlugin.php:669
 msgid "Excel Internet Query"
 msgstr ""
 
-#: CF7DBPlugin.php:659
+#: CF7DBPlugin.php:672
 msgid "Excel CSV (UTF8-BOM)"
 msgstr ""
 
-#: CF7DBPlugin.php:662
+#: CF7DBPlugin.php:675
 msgid "Excel TSV (UTF16LE-BOM)"
 msgstr ""
 
-#: CF7DBPlugin.php:665
+#: CF7DBPlugin.php:678
 msgid "Plain CSV (UTF-8)"
 msgstr ""
 
-#: CF7DBPlugin.php:668
+#: CF7DBPlugin.php:681
 msgid "Google Spreadsheet"
 msgstr ""
 
-#: CF7DBPlugin.php:671
+#: CF7DBPlugin.php:684
 msgid "Google Spreadsheet Live Data"
 msgstr ""
 
-#: CF7DBPlugin.php:674
+#: CF7DBPlugin.php:687
 msgid "HTML"
 msgstr ""
 
-#: CF7DBPlugin.php:677
+#: CF7DBPlugin.php:690
 msgid "JSON"
 msgstr ""
 
-#: CF7DBPlugin.php:681
+#: CF7DBPlugin.php:694
 msgid "Export"
 msgstr ""
 
-#: CF7DBPlugin.php:692
+#: CF7DBPlugin.php:705
 msgid "Delete All This Form's Records"
 msgstr ""
 
-#: CF7DBPlugin.php:763
+#: CF7DBPlugin.php:776
 msgid "Did you know: This plugin captures data from both these plugins:"
 msgstr ""
 
-#: CF7DBPlugin.php:772
+#: CF7DBPlugin.php:785
 msgid ""
 "Did you know: You can add this data to your posts and pages using these "
 "shortcodes:"
 msgstr ""
 
-#: CF7DBPlugin.php:783
+#: CF7DBPlugin.php:796
 msgid "Would you like to help translate this plugin into your language?"
 msgstr ""
 
-#: CF7DBPlugin.php:784
+#: CF7DBPlugin.php:797
 msgid "How to create a translation"
 msgstr ""
 
-#: CF7DBPlugin.php:795
+#: CF7DBPlugin.php:808
 msgid "Query:"
 msgstr ""
 
-#: CF7DBPlugin.php:816
+#: CF7DBPlugin.php:829
 msgid "Cancel"
 msgstr ""
 
-#: CF7DBPlugin.php:818
+#: CF7DBPlugin.php:831
 msgid "Upload"
 msgstr ""
 
-#: CF7DBPlugin.php:957
+#: CF7DBPlugin.php:970
 msgid "next »"
 msgstr ""
 
-#: CF7DBPlugin.php:958
+#: CF7DBPlugin.php:971
 msgid "« prev"
 msgstr ""
 
-#: CF7DBPlugin.php:975
+#: CF7DBPlugin.php:988
 msgid "Returned entries %s to %s of %s entries in the database"
+msgstr ""
+
+#: ExportBase.php:177
+msgid "You do not have sufficient permissions to access this data."
+msgstr ""
+
+#: CF7DBOptionsManager.php:296
+msgid "Settings"
+msgstr ""
+
+#: CF7DBOptionsManager.php:321
+msgid "Save Changes"
 msgstr ""
 
 #: ExportToGoogleLiveData.php:170
 msgid "How to Set up Google Spreadsheet to pull data from WordPress"
+msgstr ""
+
+#: CJ7DBCheckZendFramework.php:72
+msgid "Missing Zend Framework"
 msgstr ""
 
 #: ExportToGoogleSS.php:62
@@ -308,4 +280,42 @@ msgstr ""
 
 #: ExportToGoogleSS.php:110
 msgid "Error"
+msgstr ""
+
+#: contact-form-7-db.php:21
+msgid ""
+"Error: Contact Form to DB Plugin requires a newer version of PHP to be "
+"running."
+msgstr ""
+
+#: contact-form-7-db.php:23
+msgid "Minimal version of PHP required: "
+msgstr ""
+
+#: contact-form-7-db.php:24
+msgid "Your server's PHP version: "
+msgstr ""
+
+#: contact-form-7-db.php:27
+msgid ""
+"When using the Apache web server, typically you can configure it to use PHP5 "
+"by doing the following:"
+msgstr ""
+
+#: contact-form-7-db.php:29
+msgid ""
+"Locate and edit this file, located at the top directory of your WordPress "
+"installation: "
+msgstr ""
+
+#: contact-form-7-db.php:31
+msgid "Add these two lines to the file:"
+msgstr ""
+
+#: CF7DBPluginExporter.php:33
+msgid "Error: No \"form\" parameter submitted"
+msgstr ""
+
+#: ExportToHtml.php:135
+msgid "Delete"
 msgstr ""
