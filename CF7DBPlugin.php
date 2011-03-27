@@ -189,11 +189,11 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         if ('true' == $this->getOption('DropOnUninstall', 'true')) {
             global $wpdb;
             $tableName = $this->getSubmitsTableName();
-            $wpdb->query("DROP TABLE IF EXISTS $tableName");
+            $wpdb->query("DROP TABLE IF EXISTS `$tableName`");
             //        $tables = array('SUBMITS');
             //        foreach ($tables as $aTable) {
             //            $tableName = $this->prefixTableName($aTable);
-            //            $wpdb->query("DROP TABLE IF EXISTS $tableName");
+            //            $wpdb->query("DROP TABLE IF EXISTS `$tableName`");
             //        }
         }
     }
