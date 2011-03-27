@@ -543,7 +543,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                     $submitTime = $_POST['submit_time'];
                     $wpdb->query(
                         $wpdb->prepare(
-                            "delete from `$tableName` where `form_name` = '%s' and `submit_time` = '%s'",
+                            "delete from `$tableName` where `form_name` = '%s' and `submit_time` = %s",
                             $currSelection, $submitTime));
                 }
                 else  if (isset($_POST['all'])) {
@@ -561,7 +561,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                             $name = str_replace('_', '.', $name);
                             $wpdb->query(
                                 $wpdb->prepare(
-                                    "delete from `$tableName` where `form_name` = '%s' and `submit_time` = '%s'",
+                                    "delete from `$tableName` where `form_name` = '%s' and `submit_time` = %s",
                                     $currSelection, $name));
                         }
                     }
