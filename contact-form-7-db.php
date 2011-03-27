@@ -18,7 +18,7 @@ function CF7DBPlugin_PhpVersionCheck() {
     $minimalRequiredPhpVersion = '5.0';
     if (version_compare(phpversion(), $minimalRequiredPhpVersion) < 0) {
         trigger_error(
-            '<p>Error: Contact Form 7 to DB Plugin requires a newer version of PHP to be running.</p>' .
+            '<p>' . __('Error: Contact Form to DB Plugin requires a newer version of PHP to be running.', 'contact-form-7-to-database-extension') . '</p>' .
                     '<ul>' .
                     '<li>' . __('Minimal version of PHP required: ', 'contact-form-7-to-database-extension') . '<strong>' . $minimalRequiredPhpVersion . '</strong></li>' .
                     '<li>' . __('Your server\'s PHP version: ', 'contact-form-7-to-database-extension') . '<strong>' . phpversion() . '</strong></li>' .
