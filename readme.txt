@@ -67,8 +67,9 @@ The table and all its data are deleted when you uninstall. You can deactivate th
 
 = 1.8.2 =
 * Minor bug fixes.
+* Added option to not delete data on uninstall
 
- = 1.8.1 =
+  = 1.8.1 =
 * Fixed bug introduced in 1.8 where deleting individual rows from the admin page did nothing.
 
 = 1.8 =
