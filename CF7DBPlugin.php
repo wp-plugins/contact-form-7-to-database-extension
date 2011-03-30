@@ -325,7 +325,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         $ip = (isset($_SERVER['X_FORWARDED_FOR'])) ? $_SERVER['X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
         $tableName = $this->getSubmitsTableName();
         $parametrizedQuery = "INSERT INTO `$tableName` (`submit_time`, `form_name`, `field_name`, `field_value`, `field_order`) VALUES (%s, %s, %s, %s, %s)";
-        $parametrizedFileQuery = "UPDATE `$tableName` SET `file` =  '%s' WHERE `submit_time` = '%s' AND `form_name` = '%s' AND `field_name` = '%s' AND `field_value` = '%s'";
+        $parametrizedFileQuery = "UPDATE `$tableName` SET `file` =  '%s' WHERE `submit_time` = %F AND `form_name` = '%s' AND `field_name` = '%s' AND `field_value` = '%s'";
 
         $order = 0;
         $noSaveFields = $this->getNoSaveFields();
@@ -407,7 +407,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     public function getFileFromDB($time, $formName, $fieldName) {
         global $wpdb;
         $tableName = $this->getSubmitsTableName();
-        $parametrizedQuery = "SELECT `field_value`, `file` FROM `$tableName` WHERE `submit_time` = '%s' AND `form_name` = %s AND `field_name` = '%s'";
+        $parametrizedQuery = "SELECT `field_value`, `file` FROM `$tableName` WHERE `submit_time` = %F AND `form_name` = %s AND `field_name` = '%s'";
         $rows = $wpdb->get_results($wpdb->prepare($parametrizedQuery, $time, $formName, $fieldName));
         if ($rows == null || count($rows) == 0) {
             return null;
@@ -546,7 +546,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                     $submitTime = $_POST['submit_time'];
                     $wpdb->query(
                         $wpdb->prepare(
-                            "delete from `$tableName` where `form_name` = '%s' and `submit_time` = %s",
+                            "delete from `$tableName` where `form_name` = '%s' and `submit_time` = %F",
                             $currSelection, $submitTime));
                 }
                 else  if (isset($_POST['all'])) {
@@ -564,7 +564,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                             $name = str_replace('_', '.', $name);
                             $wpdb->query(
                                 $wpdb->prepare(
-                                    "delete from `$tableName` where `form_name` = '%s' and `submit_time` = %s",
+                                    "delete from `$tableName` where `form_name` = '%s' and `submit_time` = %F",
                                     $currSelection, $name));
                         }
                     }
@@ -948,13 +948,13 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         else {
             // Pull the language code from the $local string
             // which is expected to look like "en_US"
-            // where the first 2 or 3 letters are for lang followed by "_"
+            // where the first 2 or 3 letters are for lang followed by '_'
             $lang = null;
-            if (substr($locale, 2, 1) == "_") {
+            if (substr($locale, 2, 1) == '_') {
                 // 2-letter language codes
                 $lang = substr($locale, 0, 2);
             }
-            else if (substr($locale, 3, 1) == "_") {
+            else if (substr($locale, 3, 1) == '_') {
                 // 3-letter language codes
                 $lang = substr($locale, 0, 3);
             }
@@ -1032,7 +1032,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                         else
                             echo  $this->paginateLink($counter, $counter);
                     }
-                    echo  "...";
+                    echo  '...';
                     echo  $this->paginateLink($lpm1, $lpm1);
                     echo  $this->paginateLink($lastpage, $lastpage);
                 }
@@ -1041,7 +1041,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 {
                     echo  $this->paginateLink(1, 1);
                     echo  $this->paginateLink(2, 2);
-                    echo  "...";
+                    echo  '...';
                     for ($counter = $page - $adjacents; $counter <= $page + $adjacents; $counter++)
                     {
                         if ($counter == $page)
@@ -1049,7 +1049,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                         else
                             echo  $this->paginateLink($counter, $counter);
                     }
-                    echo  "...";
+                    echo  '...';
                     echo  $this->paginateLink($lpm1, $lpm1);
                     echo  $this->paginateLink($lastpage, $lastpage);
                 }
@@ -1058,7 +1058,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 {
                     echo  $this->paginateLink(1, 1);
                     echo  $this->paginateLink(2, 2);
-                    echo  "...";
+                    echo  '...';
                     for ($counter = $lastpage - (2 + ($adjacents * 2)); $counter <= $lastpage; $counter++)
                     {
                         if ($counter == $page)
