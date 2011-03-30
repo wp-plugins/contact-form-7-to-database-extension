@@ -140,9 +140,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             }
             $tableName = $this->getSubmitsTableName();
             $wpdb->show_errors();
-            $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` MODIFY COLUMN submit_time DECIMAL(16,4) NOT NULL");
-            $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `form_name_idx` ( `form_name` )");
-            $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `form_name_field_name_idx` ( `form_name`, `field_name` )");
+            /* $upgradeOk &= false !== */ $wpdb->query("ALTER TABLE `$tableName` MODIFY COLUMN submit_time DECIMAL(16,4) NOT NULL");
+            /* $upgradeOk &= false !== */ $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `form_name_idx` ( `form_name` )");
+            /* $upgradeOk &= false !== */ $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `form_name_field_name_idx` ( `form_name`, `field_name` )");
             $wpdb->hide_errors();
         }
 
