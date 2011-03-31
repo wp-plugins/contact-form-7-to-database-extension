@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-"
 "extension\n"
-"POT-Creation-Date: 2011-03-27 15:54:32+00:00\n"
+"POT-Creation-Date: 2011-03-31 16:04:34+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -79,11 +79,11 @@ msgstr ""
 msgid "Drop this plugin's Database table on uninstall"
 msgstr ""
 
-#: CF7DBPlugin.php:74 CF7DBOptionsManager.php:380
+#: CF7DBPlugin.php:74 CF7DBOptionsManager.php:387
 msgid "true"
 msgstr ""
 
-#: CF7DBPlugin.php:76 CF7DBOptionsManager.php:381
+#: CF7DBPlugin.php:76 CF7DBOptionsManager.php:388
 msgid "false"
 msgstr ""
 
@@ -111,142 +111,142 @@ msgstr ""
 msgid "Anyone"
 msgstr ""
 
-#: CF7DBPlugin.php:258 CF7DBOptionsManager.php:278
+#: CF7DBPlugin.php:259 CF7DBOptionsManager.php:278
 #: ExportToGoogleLiveData.php:31
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: CF7DBPlugin.php:264
+#: CF7DBPlugin.php:265
 msgid "Missing form parameters"
 msgstr ""
 
-#: CF7DBPlugin.php:268
+#: CF7DBPlugin.php:269
 msgid "No such file."
 msgstr ""
 
-#: CF7DBPlugin.php:281 CF7DBPlugin.php:301
+#: CF7DBPlugin.php:282 CF7DBPlugin.php:302
 msgid "Database Options"
 msgstr ""
 
-#: CF7DBPlugin.php:299 CF7DBPlugin.php:450
+#: CF7DBPlugin.php:300 CF7DBPlugin.php:451
 msgid "Database"
 msgstr ""
 
-#: CF7DBPlugin.php:303
+#: CF7DBPlugin.php:304
 msgid "FAQ"
 msgstr ""
 
-#: CF7DBPlugin.php:491
+#: CF7DBPlugin.php:492
 msgid "Rate this Plugin"
 msgstr ""
 
-#: CF7DBPlugin.php:497
+#: CF7DBPlugin.php:498
 msgid "Documentation"
 msgstr ""
 
-#: CF7DBPlugin.php:503
+#: CF7DBPlugin.php:504
 msgid "Support"
 msgstr ""
 
-#: CF7DBPlugin.php:509
+#: CF7DBPlugin.php:510
 msgid "Privacy Policy"
 msgstr ""
 
-#: CF7DBPlugin.php:525
+#: CF7DBPlugin.php:526
 msgid "No form submissions in the database"
 msgstr ""
 
-#: CF7DBPlugin.php:584
+#: CF7DBPlugin.php:585
 msgid "* Select a form *"
 msgstr ""
 
-#: CF7DBPlugin.php:620
+#: CF7DBPlugin.php:621
 msgid "Google Login for Upload"
 msgstr ""
 
-#: CF7DBPlugin.php:629
+#: CF7DBPlugin.php:630
 msgid "Cannot perform operation because jQuery is not loaded in this page"
 msgstr ""
 
-#: CF7DBPlugin.php:669
+#: CF7DBPlugin.php:670
 msgid "Excel Internet Query"
 msgstr ""
 
-#: CF7DBPlugin.php:672
+#: CF7DBPlugin.php:673
 msgid "Excel CSV (UTF8-BOM)"
 msgstr ""
 
-#: CF7DBPlugin.php:675
+#: CF7DBPlugin.php:676
 msgid "Excel TSV (UTF16LE-BOM)"
 msgstr ""
 
-#: CF7DBPlugin.php:678
+#: CF7DBPlugin.php:679
 msgid "Plain CSV (UTF-8)"
 msgstr ""
 
-#: CF7DBPlugin.php:681
+#: CF7DBPlugin.php:682
 msgid "Google Spreadsheet"
 msgstr ""
 
-#: CF7DBPlugin.php:684
+#: CF7DBPlugin.php:685
 msgid "Google Spreadsheet Live Data"
 msgstr ""
 
-#: CF7DBPlugin.php:687
+#: CF7DBPlugin.php:688
 msgid "HTML"
 msgstr ""
 
-#: CF7DBPlugin.php:690
+#: CF7DBPlugin.php:691
 msgid "JSON"
 msgstr ""
 
-#: CF7DBPlugin.php:694
+#: CF7DBPlugin.php:695
 msgid "Export"
 msgstr ""
 
-#: CF7DBPlugin.php:705
+#: CF7DBPlugin.php:706
 msgid "Delete All This Form's Records"
 msgstr ""
 
-#: CF7DBPlugin.php:776
+#: CF7DBPlugin.php:777
 msgid "Did you know: This plugin captures data from both these plugins:"
 msgstr ""
 
-#: CF7DBPlugin.php:785
+#: CF7DBPlugin.php:786
 msgid ""
 "Did you know: You can add this data to your posts and pages using these "
 "shortcodes:"
 msgstr ""
 
-#: CF7DBPlugin.php:796
+#: CF7DBPlugin.php:797
 msgid "Would you like to help translate this plugin into your language?"
 msgstr ""
 
-#: CF7DBPlugin.php:797
+#: CF7DBPlugin.php:798
 msgid "How to create a translation"
 msgstr ""
 
-#: CF7DBPlugin.php:808
+#: CF7DBPlugin.php:809
 msgid "Query:"
 msgstr ""
 
-#: CF7DBPlugin.php:829
+#: CF7DBPlugin.php:830
 msgid "Cancel"
 msgstr ""
 
-#: CF7DBPlugin.php:831
+#: CF7DBPlugin.php:832
 msgid "Upload"
 msgstr ""
 
-#: CF7DBPlugin.php:970
+#: CF7DBPlugin.php:971
 msgid "next »"
 msgstr ""
 
-#: CF7DBPlugin.php:971
+#: CF7DBPlugin.php:972
 msgid "« prev"
 msgstr ""
 
-#: CF7DBPlugin.php:988
+#: CF7DBPlugin.php:989
 msgid "Returned entries %s to %s of %s entries in the database"
 msgstr ""
 
@@ -255,10 +255,26 @@ msgid "You do not have sufficient permissions to access this data."
 msgstr ""
 
 #: CF7DBOptionsManager.php:296
+msgid "System Settings"
+msgstr ""
+
+#: CF7DBOptionsManager.php:298
+msgid "System"
+msgstr ""
+
+#: CF7DBOptionsManager.php:299
+msgid "PHP Version"
+msgstr ""
+
+#: CF7DBOptionsManager.php:300
+msgid "MySQL Version"
+msgstr ""
+
+#: CF7DBOptionsManager.php:303
 msgid "Settings"
 msgstr ""
 
-#: CF7DBOptionsManager.php:321
+#: CF7DBOptionsManager.php:328
 msgid "Save Changes"
 msgstr ""
 
