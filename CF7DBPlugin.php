@@ -94,8 +94,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     public function upgrade() {
         global $wpdb;
         $upgradeOk = true;
-        $version = $this->getVersionSaved();
-        if (!$version) { // Prior to storing version in options (pre 1.2)
+        $savedVersion = $this->getVersionSaved();
+        if (!$savedVersion) { // Prior to storing version in options (pre 1.2)
             // DB Schema Upgrade to support i18n using UTF-8
             $tableName = $this->getSubmitsTableName();
             $wpdb->show_errors();
@@ -107,12 +107,12 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             // Remove obsolete options
             $this->deleteOption('_displayName');
             $this->deleteOption('_metatdata');
-            $version = '1.0';
+            $savedVersion = '1.0';
         }
 
-        if ($this->isVersionLessThan($version, '1.8')) {
-            if ($this->isVersionLessThan($version, '1.4.5')) {
-                if ($this->isVersionLessThan($version, '1.3.1')) {
+        if ($this->isVersionLessThan($savedVersion, '1.8')) {
+            if ($this->isVersionLessThan($savedVersion, '1.4.5')) {
+                if ($this->isVersionLessThan($savedVersion, '1.3.1')) {
                     // Version 1.3.1 update
                     $tableName = $this->getSubmitsTableName();
                     $wpdb->show_errors();
@@ -148,7 +148,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
 
         // Post-upgrade, set the current version in the options
-        if ($upgradeOk && $version != $this->getVersion()) {
+        $codeVersion = $this->getVersion();
+        if ($upgradeOk && $savedVersion != $codeVersion) {
             $this->saveInstalledVersion();
         }
     }
