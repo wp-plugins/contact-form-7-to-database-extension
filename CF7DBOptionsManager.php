@@ -293,11 +293,18 @@ class CF7DBOptionsManager {
         $settingsGroup = get_class($this) . '-settings-group';
         ?>
         <div class="wrap">
+            <h2><?php _e('System Settings'); ?></h2>
+            <table class="form-table"><tbody>
+            <tr><td><?php _e('System'); ?></td><td><?php echo php_uname(); ?></td></tr>
+            <tr><td><?php _e('PHP Version'); ?></td><td><?php echo phpversion(); ?></td></tr>
+            <tr><td><?php _e('MySQL Version'); ?></td><td><?php echo $this->getMySqlVersion() ?></td></tr>
+            </tbody></table>
+
             <h2><?php echo $this->getPluginDisplayName(); echo ' '; _e('Settings', 'contact-form-7-to-database-extension'); ?></h2>
 
             <form method="post" action="">
             <?php settings_fields($settingsGroup); ?>
-                <table class="form-table">
+                <table class="form-table"><tbody>
                 <?php
         if ($optionMetaData != null) {
                     foreach ($optionMetaData as $aOptionKey => $aOptionMeta) {
@@ -315,7 +322,7 @@ class CF7DBOptionsManager {
                     }
                 }
                 ?>
-                </table>
+                </tbody></table>
                 <p class="submit">
                     <input type="submit" class="button-primary"
                            value="<?php _e('Save Changes', 'contact-form-7-to-database-extension') ?>"/>
@@ -383,4 +390,16 @@ class CF7DBOptionsManager {
         return $optionValue;
     }
 
+    /**
+     * Query MySQL DB for its version
+     * @return string|false
+     */
+    protected function getMySqlVersion() {
+        global $wpdb;
+        $rows = $wpdb->get_results('select version() as mysqlversion');
+        if (!empty($rows)) {
+             return $rows[0]->mysqlversion;
+        }
+        return false;
+    }
 }
