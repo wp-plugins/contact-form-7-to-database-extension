@@ -65,7 +65,10 @@ The table and all its data are deleted when you uninstall. You can deactivate th
 
 == Changelog ==
 
-= 1.8.2 =
+= 1.8.3 =
+* Minor bug fixes.
+
+ = 1.8.2 =
 * Minor bug fixes.
 * Added option to not delete data on uninstall
 
