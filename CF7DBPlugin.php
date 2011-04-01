@@ -215,6 +215,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         add_action('fsctf_mail_sent', array(&$this, 'saveFormData'));
         add_action('fsctf_menu_links', array(&$this, 'fscfMenuLinks'));
 
+        // Have our own hook to publish data to independent of other plugins
+        add_action('cfdb_submit', array(&$this, 'saveFormData'));
+
         // Register Export URL
         add_action('wp_ajax_nopriv_cfdb-export', array(&$this, 'ajaxExport'));
         add_action('wp_ajax_cfdb-export', array(&$this, 'ajaxExport'));
