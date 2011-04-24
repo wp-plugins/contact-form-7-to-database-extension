@@ -787,9 +787,12 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                     <td align="center" colspan="4">
                         <span style="font-size:x-small; font-style: italic;">
                         <?php _e('Did you know: You can add this data to your posts and pages using these shortcodes:', 'contact-form-7-to-database-extension'); ?>
+                            <br/>
+                            <a target="_faq" href="http://cfdbplugin.com/?page_id=284">[cfdb-html]</a>
                             <a target="_faq" href="http://cfdbplugin.com/?page_id=91">[cfdb-datatable]</a>
                             <a target="_faq" href="http://cfdbplugin.com/?page_id=93">[cfdb-table]</a>
                             <a target="_faq" href="http://cfdbplugin.com/?page_id=98">[cfdb-value]</a>
+                            <a target="_faq" href="http://cfdbplugin.com/?page_id=278">[cfdb-count]</a>
                             <a target="_faq" href="http://cfdbplugin.com/?page_id=96">[cfdb-json]</a>
                         </span>
                     </td>
