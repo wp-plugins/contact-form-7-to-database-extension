@@ -36,9 +36,13 @@ class ExportToValue extends ExportBase implements CFDBExport {
 
         // See if a function is to be applied
         $funct = null;
+        $delimiter = ', ';
         if ($this->options && is_array($this->options)) {
             if (isset($this->options['function'])) {
                 $funct = $this->options['function'];
+            }
+            if (isset($this->options['delimiter'])) {
+                $delimiter = $this->options['delimiter'];
             }
         }
 
@@ -173,7 +177,7 @@ class ExportToValue extends ExportBase implements CFDBExport {
                     echo $outputData[0];
                     break;
                 default:
-                    echo implode($outputData, ', ');
+                    echo implode($delimiter, $outputData);
                     break;
             }
             $output = ob_get_contents();
@@ -190,7 +194,7 @@ class ExportToValue extends ExportBase implements CFDBExport {
                         $first = false;
                     }
                     else {
-                        echo ', ';
+                        echo $delimiter;
                     }
                     echo $val;
                 }
