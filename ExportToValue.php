@@ -187,16 +187,16 @@ class ExportToValue extends ExportBase implements CFDBExport {
             return $output;
         }
         else {
+            $first = true;
             while ($this->dataIterator->nextRow()) {
-                $first = true;
-                foreach ($this->dataIterator->row as $val) {
+                foreach ($this->dataIterator->displayColumns as $col) {
                     if ($first) {
                         $first = false;
                     }
                     else {
                         echo $delimiter;
                     }
-                    echo $val;
+                    echo  $this->dataIterator->row[$col];
                 }
             }
         }
