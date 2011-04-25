@@ -437,15 +437,19 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
         // Needed for dialog in whatsInTheDBPage
         if (strpos($_SERVER['REQUEST_URI'], $this->getDBPageSlug()) !== false) {
+            $pluginUrl = $this->getPluginFileUrl() . '/';
             wp_enqueue_script('jquery');
-            wp_enqueue_style('jquery-ui.css', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/base/jquery-ui.css');
+//            wp_enqueue_style('jquery-ui.css', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/base/jquery-ui.css');
+            wp_enqueue_style('jquery-ui.css', $pluginUrl . 'jquery-ui/jquery-ui.css');
             wp_enqueue_script('jquery-ui-dialog', false, array('jquery'));
-            wp_enqueue_script('CF7DBdes', $this->getPluginFileUrl('des.js'));
+            wp_enqueue_script('CF7DBdes', $pluginUrl . 'des.js');
 
             // Datatables http://www.datatables.net
             if ($this->getOption('UseDataTablesJS', 'true') == 'true') {
-                wp_enqueue_style('datatables-demo', 'http://www.datatables.net/release-datatables/media/css/demo_table.css');
-                wp_enqueue_script('datatables', 'http://www.datatables.net/release-datatables/media/js/jquery.dataTables.js', array('jquery'));
+//                wp_enqueue_style('datatables-demo', 'http://www.datatables.net/release-datatables/media/css/demo_table.css');
+//                wp_enqueue_script('datatables', 'http://www.datatables.net/release-datatables/media/js/jquery.dataTables.js', array('jquery'));
+                wp_enqueue_style('datatables-demo', $pluginUrl .'DataTables/media/css/demo_table.css');
+                wp_enqueue_script('datatables', $pluginUrl . 'DataTables/media/js/jquery.dataTables.min.js', array('jquery'));
             }
         }
         // Put page under CF7's "Contact" page
@@ -929,9 +933,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     /**
      * @param string $pathRelativeToThisPluginRoot points to a file with relative path from
      * this plugin's root dir. I.e. file "des.js" in the root of this plugin has
-     * url = $this->getPluginUrl('des.js');
-     * If it was in a subfolder "js" then you would use
-     *    $this->getPluginUrl('js/des.js');
+     * url = $this->getPluginFileUrl('des.js');
+     * If it was in a sub-folder "js" then you would use
+     *    $this->getPluginFileUrl('js/des.js');
      * @return string full url to input file
      */
     public function getPluginFileUrl($pathRelativeToThisPluginRoot = '') {

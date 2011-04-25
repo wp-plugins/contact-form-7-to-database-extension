@@ -68,6 +68,7 @@ The table and all its data are deleted when you uninstall. You can deactivate th
 = 1.8.4 =
 * Added cfdb_submit hook. See http://cfdbplugin.com/?page_id=377
 * Added delimiter option for [cfdb-value] shortcode, e.g. [cfdb-value delimiter=',']
+* Now including DataTables distribution inside this distribution so that page does not reference scripts from another site.
 
 = 1.8.3 =
 * Minor bug fixes.
