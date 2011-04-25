@@ -17,8 +17,9 @@ And if you get a lot of form submissions, then you end up sorting through a lot 
 This plugin-to-a-plugin provides that functionality.
 
 You will need to have CF7 and/or FSCF installed along with this plugin.
-This plugin also puts a menu item in the Administration Plugins menu where you can see the data in the database.
-You can also use the [cfdb-table], [cfdb-datatable], [cfdb-value] and [cfdb-json] shortcodes to display the data on a non-admin page on your site.
+When using CF7, this plugin also puts a menu item in the Administration Plugins menu where you can see the data in the database.
+When using FSCF, this plugin puts links on its Admin page.
+You can also use the [cfdb-html], [cfdb-table], [cfdb-datatable], [cfdb-value] and [cfdb-json] shortcodes to display the data on a non-admin page on your site.
 
 Disclaimer: I am not the maker of Contact Form 7 nor Fast Secure Contact Form and am not associated with the development of those plugins.
 
@@ -47,7 +48,7 @@ Refer the <a href="http://cfdbplugin.com/">Plugin Site</a>
 
 = Can I display form data on a non-admin web page or in a post? =
 
-Yes, <a href="http://cfdbplugin.com/?page_id=89">documentation on shortcodes</a> `[cfdb-datatable]`, `[cfdb-table]`, `[cfdb-json]` and `[cfdb-value]`
+Yes, <a href="http://cfdbplugin.com/?page_id=89">documentation on shortcodes</a> `[cfdb-html]`, `[cfdb-datatable]`, `[cfdb-table]`, `[cfdb-json]` and `[cfdb-value]`
 
 = What is the name of the table where the data is stored? =
 
@@ -73,11 +74,11 @@ The table and all its data are deleted when you uninstall. You can deactivate th
 = 1.8.3 =
 * Minor bug fixes.
 
- = 1.8.2 =
+= 1.8.2 =
 * Minor bug fixes.
 * Added option to not delete data on uninstall
 
-  = 1.8.1 =
+= 1.8.1 =
 * Fixed bug introduced in 1.8 where deleting individual rows from the admin page did nothing.
 
 = 1.8 =
