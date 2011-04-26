@@ -70,6 +70,7 @@ The table and all its data are deleted when you uninstall. You can deactivate th
 * Added cfdb_submit hook. See http://cfdbplugin.com/?page_id=377
 * Added delimiter option for [cfdb-value] shortcode, e.g. [cfdb-value delimiter=',']
 * Now including DataTables distribution inside this distribution so that page does not reference scripts from another site (so sites using https have everything encrypted on the page)
+* In [cfdb-html] shortcode, now removing undesired leading br tag and ending p tag that WordPress injects. This was messing up table rows (tr tags) in the shortcode because WP was injecting line breaks between the rows.
 
 = 1.8.3 =
 * Minor bug fixes.
