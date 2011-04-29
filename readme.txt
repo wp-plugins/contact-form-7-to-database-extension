@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=NEVDJ
 Tags: contact form,database
 Requires at least: 2.9
 Tested up to: 3.1.2
-Stable tag: 1.8.3
+Stable tag: 1.8.4
 
 Extension to the Contact Form 7 plugin that saves submitted form data to the database.
 
