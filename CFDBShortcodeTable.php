@@ -21,6 +21,7 @@
 
 require_once('ShortCodeLoader.php');
 require_once('CF7DBPlugin.php');
+require_once('ExportToHtml.php');
 
 class CFDBShortcodeTable extends ShortCodeLoader {
 

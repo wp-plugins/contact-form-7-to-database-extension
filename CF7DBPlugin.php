@@ -26,7 +26,6 @@ require_once('CFDBShortcodeValue.php');
 require_once('CFDBShortcodeCount.php');
 require_once('CFDBShortcodeJson.php');
 require_once('CFDBShortcodeHtml.php');
-require_once('ExportToHtml.php');
 
 /**
  * Implementation for CF7DBPluginLifeCycle.
@@ -299,10 +298,12 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         echo '
         <p>
       ' . $displayName .
-                ' | <a href="admin.php?page=CF7DBPluginSubmissions">' .
+                ' | <a href="admin.php?page=' . $this->getDBPageSlug() . '">' .
                 __('Database', 'contact-form-7-to-database-extension') .
                 '</a>  | <a href="admin.php?page=CF7DBPluginSettings">' .
                 __('Database Options', 'contact-form-7-to-database-extension') .
+                '</a>  | <a href="admin.php?page=' . $this->getSortCodeBuilderPageSlug() . '">' .
+                __('Build Short Code', 'contact-form-7-to-database-extension') .
                 '</a> | <a href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/">' .
                 __('FAQ', 'contact-form-7-to-database-extension') . '</a>
        </p>
@@ -450,6 +451,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 //                wp_enqueue_script('datatables', 'http://www.datatables.net/release-datatables/media/js/jquery.dataTables.js', array('jquery'));
                 wp_enqueue_style('datatables-demo', $pluginUrl .'DataTables/media/css/demo_table.css');
                 wp_enqueue_script('datatables', $pluginUrl . 'DataTables/media/js/jquery.dataTables.min.js', array('jquery'));
+
+                // Would like to add ColReorder but it causes slowness and display issues with DataTable footer
+                //wp_enqueue_style('datatables-ColReorder', $pluginUrl .'DataTables/extras/ColReorder/media/css/ColReorder.css');
+                //wp_enqueue_script('datatables-ColReorder', $pluginUrl . 'DataTables/extras/ColReorder/media/js/ColReorder.min.js', array('datatables', 'jquery'));
             }
         }
         // Put page under CF7's "Contact" page
@@ -459,6 +464,14 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                          $this->roleToCapability($roleAllowed),
                          $this->getDBPageSlug(),
                          array(&$this, 'whatsInTheDBPage'));
+
+        // Put page under CF7's "Contact" page
+        add_submenu_page('wpcf7',
+                         $displayName . ' Short Code Builder',
+                         __('Database Short Code', 'contact-form-7-to-database-extension'),
+                         $this->roleToCapability($roleAllowed),
+                         $this->getSortCodeBuilderPageSlug(),
+                         array(&$this, 'showShortCodeBuilderPage'));
     }
 
     /**
@@ -468,387 +481,24 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         return get_class($this) . 'Submissions';
     }
 
+    public function getSortCodeBuilderPageSlug() {
+        return get_class($this) . 'ShortCodeBuilder';
+    }
+
+    public function showShortCodeBuilderPage() {
+        require_once('CFDBViewShortCodeBuilder.php');
+        $view = new CFDBViewShortCodeBuilder;
+        $view->display($this);
+    }
+
     /**
      * Display the Admin page for this Plugin that show the form data saved in the database
      * @return void
      */
     public function whatsInTheDBPage() {
-        $canDelete = $this->canUserDoRoleOption('CanChangeSubmitData');
-        if (isset($_GET['donated'])) {
-            $this->updateOption('Donated', $_GET['donated']);
-        }
-        if ('true' != $this->getOption('Donated')) {
-            ?>
-        <script type="text/javascript">
-            var psHost = (("https:" == document.location.protocol) ? "https://" : "http://");
-            document.write(unescape("%3Cscript src='" + psHost + "pluginsponsors.com/direct/spsn/display.php?client=contact-form-7-to-database-extension&spot='type='text/javascript'%3E%3C/script%3E"));
-        </script>
-        <?php } ?>
-    <table style="width:100%;">
-            <tbody>
-            <tr>
-                <td width="20%" style="font-size:x-small;">
-                    <a target="_donate"
-                       href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=NEVDJ792HKGFN&lc=US&item_name=Wordpress%20Plugin&item_number=cf7%2dto%2ddb%2dextension&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">
-                        <img src="https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif" alt="Donate">
-                    </a>
-                </td>
-                <td width="20%" style="font-size:x-small;">
-                    <a target="_cf7todb"
-                       href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension">
-                    <?php _e('Rate this Plugin', 'contact-form-7-to-database-extension') ?>
-                    </a>
-                </td>
-                <td width="20%" style="font-size:x-small;">
-                    <a target="_cf7todb"
-                       href="http://cfdbplugin.com/">
-                    <?php _e('Documentation', 'contact-form-7-to-database-extension') ?>
-                    </a>
-                </td>
-                <td width="20%" style="font-size:x-small;">
-                    <a target="_cf7todb"
-                       href="http://wordpress.org/tags/contact-form-7-to-database-extension">
-                    <?php _e('Support', 'contact-form-7-to-database-extension') ?>
-                    </a>
-                </td>
-                <td width="20%" style="font-size:x-small;">
-                    <a target="_cf7todb"
-                       href="http://pluginsponsors.com/privacy.html">
-                    <?php _e('Privacy Policy', 'contact-form-7-to-database-extension') ?>
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <?php
-
-        global $wpdb;
-        $tableName = $this->getSubmitsTableName();
-        $useDataTables = $this->getOption('UseDataTablesJS', 'true') == 'true';
-        $tableHtmlId = 'cf2dbtable';
-
-        // Identify which forms have data in the database
-        $rows = $wpdb->get_results("select distinct `form_name` from `$tableName` order by `form_name`");
-        if ($rows == null || count($rows) == 0) {
-            _e('No form submissions in the database', 'contact-form-7-to-database-extension');
-            return;
-        }
-        $page = 1;
-        if (isset($_REQUEST['dbpage'])) {
-            $page = $_REQUEST['dbpage'];
-        }
-        else if (isset($_GET['dbpage'])) {
-            $page = $_GET['dbpage'];
-        }
-        $currSelection = null; //$rows[0]->form_name;
-        if (isset($_REQUEST['form_name'])) {
-            $currSelection = $_REQUEST['form_name'];
-        }
-        else if (isset($_GET['form_name'])) {
-            $currSelection = $_GET['form_name'];
-        }
-        if ($currSelection) {
-            // Check for delete operation
-            if (isset($_POST['delete']) && $canDelete) {
-                if (isset($_POST['submit_time'])) {
-                    $submitTime = $_POST['submit_time'];
-                    $wpdb->query(
-                        $wpdb->prepare(
-                            "delete from `$tableName` where `form_name` = '%s' and `submit_time` = %F",
-                            $currSelection, $submitTime));
-                }
-                else  if (isset($_POST['all'])) {
-                    $wpdb->query(
-                        $wpdb->prepare(
-                            "delete from `$tableName` where `form_name` = '%s'", $currSelection));
-                }
-                else {
-                    foreach ($_POST as $name => $value) { // checkboxes
-                        if ($value == 'row') {
-                            // Dots and spaces in variable names are converted to underscores. For example <input name="a.b" /> becomes $_REQUEST["a_b"].
-                            // http://www.php.net/manual/en/language.variables.external.php
-                            // We are expecting a time value like '1300728460.6626' but will instead get '1300728460_6626'
-                            // so we need to put the '.' back in before going to the DB.
-                            $name = str_replace('_', '.', $name);
-                            $wpdb->query(
-                                $wpdb->prepare(
-                                    "delete from `$tableName` where `form_name` = '%s' and `submit_time` = %F",
-                                    $currSelection, $name));
-                        }
-                    }
-                }
-            }
-        }
-        // Form selection drop-down list
-        $pluginDirUrl = $this->getPluginDirUrl();
-
-        ?>
-        <table width="100%" cellspacing="20">
-            <tr>
-                <td align="left">
-                    <form method="get" action="" name="displayform" id="displayform">
-                        <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>"/>
-                        <select name="form_name" id="form_name" onchange="this.form.submit();">
-                        <option value=""><?php _e('* Select a form *', 'contact-form-7-to-database-extension') ?></option>
-                        <?php foreach ($rows as $aRow) {
-                            $formName = $aRow->form_name;
-                            $selected = ($formName == $currSelection) ? "selected" : "";
-                            ?>
-                                <option value="<?php echo $formName ?>" <?php echo $selected ?>><?php echo $formName ?></option>
-                            <?php } ?>
-                        </select>
-                    </form>
-                </td>
-                <td align="center">
-                    <?php if ($currSelection) { ?>
-                    <script type="text/javascript" language="Javascript">
-                        function changeDbPage(page) {
-                            var newdiv = document.createElement('div');
-                            newdiv.innerHTML = "<input id='dbpage' name='dbpage' type='hidden' value='" + page + "'>";
-                            var dispForm = document.forms['displayform'];
-                            dispForm.appendChild(newdiv);
-                            dispForm.submit();
-                        }
-                        function getSearchFieldValue() {
-                            var searchVal = '';
-                            if (typeof jQuery == 'function') {
-                                try {
-                                    searchVal = jQuery('#<?php echo $tableHtmlId;?>_filter input').val();
-                                }
-                                catch (e) {
-                                }
-                            }
-                            return searchVal;
-                        }
-                        function exportData(encSelect) {
-                            var enc = encSelect.options[encSelect.selectedIndex].value;
-                            if (enc == 'GSS') {
-                                if (typeof jQuery == 'function') {
-                                    try {
-                                        jQuery("#GoogleCredentialsDialog").dialog({ autoOpen: false, title: '<?php _e("Google Login for Upload", 'contact-form-7-to-database-extension')?>' });
-                                        jQuery("#GoogleCredentialsDialog").dialog('open');
-                                        jQuery("#guser").focus();
-                                    }
-                                    catch (e) {
-                                        alert('Error: ' + e.message);
-                                    }
-                                }
-                                else {
-                                    alert("<?php _e('Cannot perform operation because jQuery is not loaded in this page','contact-form-7-to-database-extension')?>");
-                                }
-                            }
-                            else {
-                                var url = '<?php echo admin_url('admin-ajax.php') ?>?action=cfdb-export&form=<?php echo urlencode($currSelection) ?>&enc=' + enc;
-                                var searchVal = getSearchFieldValue();
-                                if (searchVal != null && searchVal != "") {
-                                    url += '&search=' + encodeURIComponent(searchVal);
-                                }
-                                location.href = url;
-                            }
-                        }
-                        function uploadGoogleSS() {
-                            var key = '3fde789a';
-                            var guser = printHex(des(key, jQuery('#guser').attr('value'), 1));
-                            var gpwd = printHex(des(key, jQuery('#gpwd').attr('value'), 1));
-                            jQuery("#GoogleCredentialsDialog").dialog('close');
-                            var form = document.createElement("form");
-                            form.setAttribute("method", 'POST');
-                            var url = '<?php echo $pluginDirUrl ?>export.php?form=<?php echo urlencode($currSelection) ?>&enc=GSS';
-                            var searchVal = getSearchFieldValue();
-                            if (searchVal != null && searchVal != "") {
-                                url += '&search=' + encodeURI(searchVal);
-                            }
-                            form.setAttribute("action", url);
-                            var params = {guser: encodeURI(guser), gpwd: encodeURI(gpwd)};
-                            for (var pkey in params) {
-                                var hiddenField = document.createElement("input");
-                                hiddenField.setAttribute("type", "hidden");
-                                hiddenField.setAttribute("name", pkey);
-                                hiddenField.setAttribute("value", params[pkey]);
-                                form.appendChild(hiddenField);
-                            }
-                            document.body.appendChild(form);
-                            form.submit();
-                        }
-                    </script>
-                    <form name="exportcsv" action="">
-                        <select size="1" name="enc">
-                            <option id="IQY" value="IQY">
-                                <?php _e('Excel Internet Query', 'contact-form-7-to-database-extension'); ?>
-                            </option>
-                            <option id="CSVUTF8BOM" value="CSVUTF8BOM">
-                                <?php _e('Excel CSV (UTF8-BOM)', 'contact-form-7-to-database-extension'); ?>
-                            </option>
-                            <option id="TSVUTF16LEBOM" value="TSVUTF16LEBOM">
-                                <?php _e('Excel TSV (UTF16LE-BOM)', 'contact-form-7-to-database-extension'); ?>
-                            </option>
-                            <option id="CSVUTF8" value="CSVUTF8">
-                                <?php _e('Plain CSV (UTF-8)', 'contact-form-7-to-database-extension'); ?>
-                            </option>
-                            <option id="GSS" value="GSS">
-                                <?php _e('Google Spreadsheet', 'contact-form-7-to-database-extension'); ?>
-                            </option>
-                            <option id="GLD" value="GLD">
-                                <?php _e('Google Spreadsheet Live Data', 'contact-form-7-to-database-extension'); ?>
-                            </option>
-                            <option id="HTML" value="HTML">
-                                <?php _e('HTML', 'contact-form-7-to-database-extension'); ?>
-                            </option>
-                            <option id="JSON" value="JSON">
-                                <?php _e('JSON', 'contact-form-7-to-database-extension'); ?>
-                            </option>
-                        </select>
-                        <input name="exportButton" type="button"
-                               value="<?php _e('Export', 'contact-form-7-to-database-extension'); ?>"
-                               onclick="exportData(this.form.elements['enc'])"/>
-                    </form>
-            <?php } ?>
-                </td>
-                <td align="right">
-                <?php if ($currSelection && $canDelete) { ?>
-                    <form action="" method="post">
-                        <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
-                        <input name="all" type="hidden" value="y"/>
-                        <input name="delete" type="submit"
-                               value="<?php _e('Delete All This Form\'s Records', 'contact-form-7-to-database-extension'); ?>"
-                               onclick="return confirm('Are you sure you want to delete all the data for this form?')"/>
-                    </form>
-                <?php } ?>
-                </td>
-            </tr>
-        </table>
-
-
-        <?php
-        if ($currSelection) {
-            // Show table of form data
-            if ($useDataTables) {
-                $i18nUrl = $this->getDataTableTranslationUrl();
-                ?>
-            <script type="text/javascript" language="Javascript">
-            jQuery(document).ready(function() {
-                jQuery('#<?php echo $tableHtmlId ?>').dataTable({
-                   "bJQueryUI": true,
-                   "aaSorting": [],
-                   "bScrollCollapse": true
-                <?php if ($i18nUrl) {
-                    echo ", \"oLanguage\": { \"sUrl\":  \"$i18nUrl\" }";
-                } ?>
-                })});
-        </script>
-            <?php
-
-            }
-            if ($canDelete) {
-                ?>
-        <form action="" method="post">
-            <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
-            <input name="delete" type="hidden" value="rows"/>
-                <?php
-
-            }
-            ?>
-            <?php
-                $exporter = new ExportToHtml();
-                $dbRowCount = $exporter->getDBRowCount($currSelection);
-                $maxRows = $this->getOption('MaxRows', '100');
-                $startRow = $this->paginationDiv($dbRowCount, $maxRows, $page);
-            ?>
-            <div <?php if (!$useDataTables) echo 'style="overflow:auto; max-height:500px;"' ?>>
-                <?php
-                $options = array('canDelete' => $canDelete);
-                if ($maxRows) {
-                    $options['limit'] = ($startRow - 1) . ',' . ($maxRows);
-                }
-                if ($useDataTables) {
-                    $options['id'] = $tableHtmlId;
-                    $options['class'] = '';
-                    $options['style'] = "#$tableHtmlId td > div { max-height: 100px; overflow: auto; font-size: small; }"; // don't let cells get too tall
-                }
-                $exporter->export($currSelection, $options);
-                ?>
-            </div>
-            <?php if ($canDelete) {
-                ?>
-            </form>
-        <?php
-            }
-        }
-        ?>
-        <div style="margin-top:1em"> <?php // Footer ?>
-            <table style="width:100%;">
-                <tbody>
-                <tr>
-                    <td align="center" colspan="4">
-                        <span style="font-size:x-small; font-style: italic;">
-                        <?php _e('Did you know: This plugin captures data from both these plugins:', 'contact-form-7-to-database-extension'); ?>
-                        <a target="_cf7" href="http://wordpress.org/extend/plugins/contact-form-7/">Contact Form 7</a>
-                        <a target="_fscf" href="http://wordpress.org/extend/plugins/si-contact-form/">Fast Secure Contact Form</a>
-                    </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="center" colspan="4">
-                        <span style="font-size:x-small; font-style: italic;">
-                        <?php _e('Did you know: You can add this data to your posts and pages using these shortcodes:', 'contact-form-7-to-database-extension'); ?>
-                            <br/>
-                            <a target="_faq" href="http://cfdbplugin.com/?page_id=284">[cfdb-html]</a>
-                            <a target="_faq" href="http://cfdbplugin.com/?page_id=91">[cfdb-datatable]</a>
-                            <a target="_faq" href="http://cfdbplugin.com/?page_id=93">[cfdb-table]</a>
-                            <a target="_faq" href="http://cfdbplugin.com/?page_id=98">[cfdb-value]</a>
-                            <a target="_faq" href="http://cfdbplugin.com/?page_id=278">[cfdb-count]</a>
-                            <a target="_faq" href="http://cfdbplugin.com/?page_id=96">[cfdb-json]</a>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="center" colspan="4">
-                        <span style="font-size:x-small; font-style: italic;">
-                            <?php _e('Would you like to help translate this plugin into your language?', 'contact-form-7-to-database-extension'); ?>
-                            <a target="_i18n" href="http://cfdbplugin.com/?page_id=7"><?php _e('How to create a translation', 'contact-form-7-to-database-extension'); ?></a>
-                        </span>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <?php
-       if ($currSelection && 'true' == $this->getOption('ShowQuery')) {
-            ?>
-        <div id="query">
-            <strong><?php _e('Query:', 'contact-form-7-to-database-extension' ) ?></strong><br/>
-            <pre><?php echo $exporter->getPivotQuery($currSelection); ?></pre>
-        </div>
-        <?php
-        }
-        if ($currSelection) {
-            ?>
-        <div id="GoogleCredentialsDialog" style="display:none; background-color:#EEEEEE;">
-            <table>
-                <tbody>
-                <tr>
-                    <td>User</td>
-                    <td><input id="guser" type="text" size="25" value="@gmail.com"/></td>
-                </tr>
-                <tr>
-                    <td>Password</td>
-                    <td><input id="gpwd" type="password" size="25" value=""/></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <input type="button" value="<?php _e("Cancel", 'contact-form-7-to-database-extension') ?>"
-                               onclick="jQuery('#GoogleCredentialsDialog').dialog('close');"/>
-                        <input type="button" value="<?php _e("Upload", 'contact-form-7-to-database-extension') ?>"
-                               onclick="uploadGoogleSS()"/>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <?php
-
-        }
+        require_once('CFDBViewWhatsInDB.php');
+        $view = new CFDBViewWhatsInDB;
+        $view->display($this);
     }
 
     /**
@@ -917,7 +567,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * @param  $text string
      * @return string
      */
-    public function stripSlashes($text) {
+    public function &stripSlashes($text) {
         return get_magic_quotes_gpc() ? stripslashes($text) : $text;
     }
 
@@ -976,124 +626,5 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         return $url;
     }
 
-    protected function paginationDiv($totalRows, $rowsPerPage, $page) {
-
-        $nextLabel = __('next »', 'contact-form-7-to-database-extension');
-        $prevLabel = __('« prev', 'contact-form-7-to-database-extension');
-
-        echo '<link rel="stylesheet" href="';
-        echo $this->getPluginFileUrl();
-        echo '/css/paginate.css';
-        echo '" type="text/css"/>';
-        //        echo '<style type="text/css">';
-        //        include('css/paginate.css');
-        //        echo '</style>';
-
-
-        if (!$page || $page < 1) $page = 1; //default to 1.
-        $startRow = $rowsPerPage * ($page - 1) + 1;
-
-
-        $endRow = min($startRow + $rowsPerPage - 1, $totalRows);
-        echo '<span style="margin-bottom:5px;">';
-        printf(__('Returned entries %s to %s of %s entries in the database', 'contact-form-7-to-database-extension'),
-               $startRow, $endRow, $totalRows);
-        echo '</span>';
-        echo '<div class="cfdb_paginate">';
-
-        $numPages = ceil($totalRows / $rowsPerPage);
-        $adjacents = 3;
-
-        /* Setup page vars for display. */
-        $prev = $page - 1; //previous page is page - 1
-        $next = $page + 1; //next page is page + 1
-        $lastpage = $numPages;
-        $lpm1 = $lastpage - 1; //last page minus 1
-
-        /*
-            Now we apply our rules and draw the pagination object.
-            We're actually saving the code to a variable in case we want to draw it more than once.
-        */
-        if ($lastpage > 1) {
-            echo  "<div class=\"pagination\">";
-            //previous button
-            if ($page > 1)
-                echo  $this->paginateLink($prev, $prevLabel);
-            else
-                echo  "<span class=\"disabled\">$prevLabel</span>";
-
-            if ($lastpage < 7 + ($adjacents * 2)) //not enough pages to bother breaking it up
-            {
-                for ($counter = 1; $counter <= $lastpage; $counter++)
-                {
-                    if ($counter == $page)
-                        echo  "<span class=\"current\">$counter</span>";
-                    else
-                        echo  $this->paginateLink($counter, $counter);
-                }
-            }
-            elseif ($lastpage > 5 + ($adjacents * 2)) //enough pages to hide some
-            {
-                //close to beginning; only hide later pages
-                if ($page < 1 + ($adjacents * 2)) {
-                    for ($counter = 1; $counter < 4 + ($adjacents * 2); $counter++)
-                    {
-                        if ($counter == $page)
-                            echo  "<span class=\"current\">$counter</span>";
-                        else
-                            echo  $this->paginateLink($counter, $counter);
-                    }
-                    echo  '...';
-                    echo  $this->paginateLink($lpm1, $lpm1);
-                    echo  $this->paginateLink($lastpage, $lastpage);
-                }
-                    //in middle; hide some front and some back
-                elseif ($lastpage - ($adjacents * 2) > $page && $page > ($adjacents * 2))
-                {
-                    echo  $this->paginateLink(1, 1);
-                    echo  $this->paginateLink(2, 2);
-                    echo  '...';
-                    for ($counter = $page - $adjacents; $counter <= $page + $adjacents; $counter++)
-                    {
-                        if ($counter == $page)
-                            echo  "<span class=\"current\">$counter</span>";
-                        else
-                            echo  $this->paginateLink($counter, $counter);
-                    }
-                    echo  '...';
-                    echo  $this->paginateLink($lpm1, $lpm1);
-                    echo  $this->paginateLink($lastpage, $lastpage);
-                }
-                    //close to end; only hide early pages
-                else
-                {
-                    echo  $this->paginateLink(1, 1);
-                    echo  $this->paginateLink(2, 2);
-                    echo  '...';
-                    for ($counter = $lastpage - (2 + ($adjacents * 2)); $counter <= $lastpage; $counter++)
-                    {
-                        if ($counter == $page)
-                            echo  "<span class=\"current\">$counter</span>";
-                        else
-                            echo  $this->paginateLink($counter, $counter);
-                    }
-                }
-            }
-
-            //next button
-            if ($page < $counter - 1)
-                echo  $this->paginateLink($next, $nextLabel);
-            else
-                echo  "<span class=\"disabled\">$nextLabel</span>";
-            echo  "</div>\n";
-        }
-
-        echo '</div>';
-        return $startRow;
-    }
-
-    protected function paginateLink($page, $label) {
-        return "<a href=\"#\" onclick=\"changeDbPage('$page');\">$label</a>";
-    }
 
 }
