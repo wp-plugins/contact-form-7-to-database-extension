@@ -22,7 +22,7 @@
 require_once('ExportBase.php');
 require_once('CFDBExport.php');
 
-class ExportToHtml extends ExportBase implements CFDBExport {
+class ExportToHtmlTable extends ExportBase implements CFDBExport {
 
     /**
      * Echo a table of submitted form data
@@ -62,7 +62,7 @@ class ExportToHtml extends ExportBase implements CFDBExport {
         }
 
         // Query DB for the data for that form
-        $submitTimeKeyName = "Submit_Time_Key";
+        $submitTimeKeyName = 'Submit_Time_Key';
         $this->setDataIterator($formName, $submitTimeKeyName);
 
         if ($useDT) {

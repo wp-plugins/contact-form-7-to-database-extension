@@ -270,7 +270,7 @@ msgstr "Localizar y editar este archivo, situado en el directorio principal de s
 msgid "Add these two lines to the file:"
 msgstr "Añade estas dos líneas al archivo:"
 
-#: ExportToHtml.php:135
+#: ExportToHtmlTable.php:135
 msgid "Delete"
 msgstr "Borrar"
 

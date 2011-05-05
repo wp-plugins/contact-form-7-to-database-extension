@@ -46,7 +46,7 @@ msgstr "Nu exista Zend Framework"
 msgid "You do not have sufficient permissions to access this data."
 msgstr "Nu ai suficiente permisiuni pentru a accesa aceste date"
 
-#: ExportToHtml.php:135
+#: ExportToHtmlTable.php:135
 msgid "Delete"
 msgstr "Sterge"
 

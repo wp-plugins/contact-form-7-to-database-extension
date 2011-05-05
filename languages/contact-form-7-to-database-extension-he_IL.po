@@ -273,7 +273,7 @@ msgstr "אתר וערוך קובץ זה, נמצא בראש ספריית ההתק
 msgid "Add these two lines to the file:"
 msgstr "הוסף שורות אלה לקובץ:"
 
-#: ExportToHtml.php:135
+#: ExportToHtmlTable.php:135
 msgid "Delete"
 msgstr "מחק"
 

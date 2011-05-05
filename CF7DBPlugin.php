@@ -214,7 +214,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         add_action('fsctf_mail_sent', array(&$this, 'saveFormData'));
         add_action('fsctf_menu_links', array(&$this, 'fscfMenuLinks'));
 
-        // Have our own hook to publish data to independent of other plugins
+        // Have our own hook to publish data independent of other plugins
         add_action('cfdb_submit', array(&$this, 'saveFormData'));
 
         // Register Export URL
@@ -457,6 +457,11 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 //wp_enqueue_script('datatables-ColReorder', $pluginUrl . 'DataTables/extras/ColReorder/media/js/ColReorder.min.js', array('datatables', 'jquery'));
             }
         }
+
+        if (strpos($_SERVER['REQUEST_URI'], $this->getSortCodeBuilderPageSlug()) !== false) {
+            wp_enqueue_script('jquery');
+        }
+
         // Put page under CF7's "Contact" page
         add_submenu_page('wpcf7',
                          $displayName . ' Submissions',

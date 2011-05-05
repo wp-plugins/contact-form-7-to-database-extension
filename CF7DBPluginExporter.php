@@ -63,8 +63,8 @@ class CF7DBPluginExporter {
 
         switch ($encoding) {
             case 'HTML':
-                require_once('ExportToHtml.php');
-                $exporter = new ExportToHtml();
+                require_once('ExportToHtmlTable.php');
+                $exporter = new ExportToHtmlTable();
                 $exporter->export($formName, $options);
                 break;
             case 'IQY':

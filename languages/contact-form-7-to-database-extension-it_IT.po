@@ -312,7 +312,7 @@ msgstr "Aggiungi al file queste due righe:"
 msgid "Error: No \"form\" parameter submitted"
 msgstr "Errore: nessun parametro \"form\" inserito"
 
-#: ExportToHtml.php:135
+#: ExportToHtmlTable.php:135
 msgid "Delete"
 msgstr "Elimina"
 

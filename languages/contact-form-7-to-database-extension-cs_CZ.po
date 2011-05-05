@@ -271,7 +271,7 @@ msgstr "Vyhledejte a upravte tento soubor, který se nachází v kořenovém adr
 msgid "Add these two lines to the file:"
 msgstr "Přidat tyto dva řádky do souboru:"
 
-#: ExportToHtml.php:135
+#: ExportToHtmlTable.php:135
 msgid "Delete"
 msgstr "Smazat"
 

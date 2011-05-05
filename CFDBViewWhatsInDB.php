@@ -21,7 +21,7 @@
 
 require_once('CF7DBPlugin.php');
 require_once('CFDBView.php');
-require_once('ExportToHtml.php');
+require_once('ExportToHtmlTable.php');
 
 class CFDBViewWhatsInDB extends CFDBView {
 
@@ -261,7 +261,7 @@ class CFDBViewWhatsInDB extends CFDBView {
             }
             ?>
             <?php
-                $exporter = new ExportToHtml();
+                $exporter = new ExportToHtmlTable();
             $dbRowCount = $exporter->getDBRowCount($currSelection);
             $maxRows = $plugin->getOption('MaxRows', '100');
             $startRow = $this->paginationDiv($plugin, $dbRowCount, $maxRows, $page);

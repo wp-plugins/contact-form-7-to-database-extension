@@ -40,7 +40,7 @@ msgstr "Voeg deze twee regels toe aan het bestand:"
 #: ExportToGoogleLiveData.php:29
 #: ExportToCsvUtf8.php:42
 #: ExportToGoogleSS.php:34
-#: ExportToHtml.php:122
+#: ExportToHtmlTable.php:122
 #: ExportToValue.php:60
 #: getFile.php:32
 msgid "You do not have sufficient permissions to access this page."
@@ -89,7 +89,7 @@ msgstr "Nieuwe Google Spreadsheet"
 msgid "Error"
 msgstr "Fout"
 
-#: ExportToHtml.php:234
+#: ExportToHtmlTable.php:234
 msgid "Delete"
 msgstr "Verwijderen"
 
