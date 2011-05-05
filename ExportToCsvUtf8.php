@@ -63,7 +63,7 @@ class ExportToCsvUtf8 extends ExportBase implements CFDBExport {
         $eol = "\n";
 
         // Query DB for the data for that form
-        $submitTimeKeyName = "Submit_Time_Key";
+        $submitTimeKeyName = 'Submit_Time_Key';
         $this->setDataIterator($formName, $submitTimeKeyName);
 
 

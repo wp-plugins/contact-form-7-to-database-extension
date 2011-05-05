@@ -49,7 +49,7 @@ class ExportToCsvUtf16le extends ExportBase implements CFDBExport {
         $delimiter = $this->encode(utf8_encode("\t"));
 
         // Query DB for the data for that form
-        $submitTimeKeyName = "Submit_Time_Key";
+        $submitTimeKeyName = 'Submit_Time_Key';
         $this->setDataIterator($formName, $submitTimeKeyName);
 
         // Column Headers

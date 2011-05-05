@@ -33,6 +33,13 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
         $this->setOptions($options);
         $this->setCommonOptions(true);
 
+        $filelinks = 'url';
+        if ($this->options && is_array($this->options)) {
+            if (isset($this->options['filelinks'])) {
+                $filelinks = $this->options['filelinks'];
+            }
+        }
+
         // Security Check
         if (!$this->isAuthorized()) {
             $this->assertSecurityErrorMessage();
@@ -52,7 +59,8 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
         }
 
         // Get the data
-        $this->setDataIterator($formName);
+        $submitTimeKeyName = 'Submit_Time_Key';
+        $this->setDataIterator($formName, $submitTimeKeyName);
 
 
         $matches = array();
@@ -90,13 +98,47 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
                 echo $options['content'];
             }
             else {
+                $fields_with_file = null;
+                if ($filelinks != 'name' &&
+                        isset($this->dataIterator->row['fields_with_file']) &&
+                        $this->dataIterator->row['fields_with_file'] != null) {
+                    $fields_with_file = explode(',', $this->dataIterator->row['fields_with_file']);
+                }
                 $replacements = array();
                 foreach ($colNamesToSub as $aCol) {
-                    $replacements[] = htmlentities($this->dataIterator->row[$aCol], null, 'UTF-8');
+                    if ($fields_with_file && in_array($aCol, $fields_with_file)) {
+                        switch ($filelinks) {
+                            case 'url':
+                                $replacements[] = $this->plugin->getFileUrl($this->dataIterator->row[$submitTimeKeyName], $formName, $aCol);
+                                break;
+                            case 'link':
+                                $replacements[] =
+                                        '<a href="' .
+                                        $this->plugin->getFileUrl($this->dataIterator->row[$submitTimeKeyName], $formName, $aCol) .
+                                        '">' .
+                                        htmlentities($this->dataIterator->row[$aCol], null, 'UTF-8') .
+                                        '</a>';
+                                break;
+                            case 'image':
+                            case 'img':
+                                $replacements[] =
+                                        '<img src="' .
+                                        $this->plugin->getFileUrl($this->dataIterator->row[$submitTimeKeyName], $formName, $aCol) .
+                                        '" alt="' .
+                                        htmlentities($this->dataIterator->row[$aCol], null, 'UTF-8') .
+                                        '" />';
+                                break;
+                            case 'name':
+                            default:
+                                $replacements[] = htmlentities($this->dataIterator->row[$aCol], null, 'UTF-8');
+                        }
+                    }
+                    else {
+                        $replacements[] = htmlentities($this->dataIterator->row[$aCol], null, 'UTF-8');
+                    }
                 }
                 echo str_replace($varNamesToSub, $replacements, $options['content']);
             }
-
         }
 
         if ($this->isFromShortCode) {

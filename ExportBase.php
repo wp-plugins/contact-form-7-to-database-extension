@@ -273,7 +273,7 @@ class ExportBase {
     protected function setDataIterator($formName, $submitTimeKeyName = null) {
         $sql = $this->getPivotQuery($formName);
         $this->dataIterator = new CFDBQueryResultIterator();
-        $this->dataIterator->fileColumns = $this->getFileMetaData($formName);
+//        $this->dataIterator->fileColumns = $this->getFileMetaData($formName);
 
         $queryOptions = array();
         if ($submitTimeKeyName) {
@@ -290,21 +290,21 @@ class ExportBase {
         $this->dataIterator->displayColumns = $this->getColumnsToDisplay($this->dataIterator->columns);
     }
 
-    protected function &getFileMetaData($formName) {
-        global $wpdb;
-        $tableName = $this->plugin->getSubmitsTableName();
-        $rows = $wpdb->get_results(
-            "select distinct `field_name`
-from `$tableName`
-where `form_name` = '$formName'
-and `file` is not null");
-
-        $fileColumns = array();
-        foreach ($rows as $aRow) {
-            $files[] = $aRow->field_name;
-        }
-        return $fileColumns;
-    }
+//    protected function &getFileMetaData($formName) {
+//        global $wpdb;
+//        $tableName = $this->plugin->getSubmitsTableName();
+//        $rows = $wpdb->get_results(
+//            "select distinct `field_name`
+//from `$tableName`
+//where `form_name` = '$formName'
+//and `file` is not null");
+//
+//        $fileColumns = array();
+//        foreach ($rows as $aRow) {
+//            $files[] = $aRow->field_name;
+//        }
+//        return $fileColumns;
+//    }
 
     public function &getPivotQuery($formName, $count = false) {
         global $wpdb;

@@ -74,7 +74,7 @@ class CFDBQueryResultIterator {
     /**
      * @var array
      */
-    var $fileColumns;
+//    var $fileColumns;
 
     /**
      * @var bool
