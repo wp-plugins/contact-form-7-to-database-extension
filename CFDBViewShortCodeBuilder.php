@@ -239,8 +239,9 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             showHideOptionDivs();
             createShortCode();
             jQuery('#shortcode_ctrl').change(showHideOptionDivs);
-            jQuery('[id$="cntl"]').change(createShortCode);
-            jQuery('input[id$="cntl"]').keypress(createShortCode);
+            jQuery('#shortcode_ctrl').change(createShortCode);
+            jQuery('select[id$="cntl"]').change(createShortCode);
+            jQuery('input[id$="cntl"]').keyup(createShortCode);
         });
 
 
