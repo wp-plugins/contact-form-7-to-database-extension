@@ -121,9 +121,19 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                                         '<?php _e('" should not contain double-quotes (")', 'contact-form-7-to-database-extension'); ?>');
                     value = value.replace('"', "'");
                 }
-                return ' ' + attr + '="' + value + '"';
+                return attr + '="' + value + '"';
             }
             return '';
+        }
+
+        function join(arr) {
+            var tmp = [];
+            for (idx=0; idx<arr.length; idx++) {
+                if (arr[idx] != '') {
+                    tmp.push(arr[idx]);
+                }
+            }
+            return tmp.join(' ');
         }
 
         function chopLastChar(text) {
@@ -173,7 +183,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 else {
                     var limitOption = ' limit="';
                     if (limitStart) {
-                        if (! /^\d+$/.test(limitRows)) {
+                        if (! /^\d+$/.test(limitStart)) {
                             validationErrors.push('<?php _e('Error: "limit": "Start Row" must be a positive integer', 'contact-form-7-to-database-extension'); ?>');
                         }
                         else {
@@ -199,33 +209,33 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 case '[cfdb-html]':
                     scElements.push(getValue('filelinks', jQuery('#filelinks_cntl').val(), validationErrors));
                     var content = jQuery('#content_cntl').val();
-                    scText = chopLastChar(scElements.join(' ')) + ']' + content + '[/cfdb-html]';
+                    scText = join(scElements) + ']' + content + '[/cfdb-html]';
                     break;
                 case '[cfdb-table]':
                     scElements.push(getValue('id', jQuery('#id_cntl').val(), validationErrors));
                     scElements.push(getValue('class', jQuery('#class_cntl').val(), validationErrors));
                     scElements.push(getValue('style', jQuery('#style_cntl').val(), validationErrors));
-                    scText = chopLastChar(scElements.join(' ')) + ']';
+                    scText = join(scElements) + ']';
                     break;
                 case '[cfdb-datatable]':
                     scElements.push(getValue('id', jQuery('#id_cntl').val(), validationErrors));
                     scElements.push(getValue('class', jQuery('#class_cntl').val(), validationErrors));
                     scElements.push(getValue('style', jQuery('#style_cntl').val(), validationErrors));
                     scElements.push(getValue('dt_options', jQuery('#dt_options_cntl').val(), validationErrors));
-                    scText = chopLastChar(scElements.join(' ')) + ']';
+                    scText = join(scElements) + ']';
                     break;
                 case '[cfdb-value]':
                     scElements.push(getValue('function', jQuery('#function_cntl').val(), validationErrors));
                     scElements.push(getValue('delimiter', jQuery('#delimiter_cntl').val(), validationErrors));
-                    scText = chopLastChar(scElements.join(' ')) + ']';
+                    scText = join(scElements) + ']';
                     break;
                 case '[cfdb-count]':
-                    scText = chopLastChar(scElements.join(' ')) + ']';
+                    scText = cjoin(scElements) + ']'; // hopLastChar(scElements.join(' ')) + ']';
                     break;
                 case '[cfdb-json]':
                     scElements.push(getValue('var', jQuery('#var_cntl').val(), validationErrors));
                     scElements.push(getValue('format', jQuery('#format_cntl').val(), validationErrors));
-                    scText = chopLastChar(scElements.join(' ')) + ']';
+                    scText = join(scElements) + ']'; 
                     break;
                 default:
                     scText = shortcode;
