@@ -249,9 +249,13 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         function getFormFields() {
             var formName = jQuery('#form_name_cntl').val();
             var url = getFormFieldsUrlBase + encodeURIComponent(formName);
-//            jQuery.getJSON(url, function(json) {
-//                alert(json);
-//            });
+            jQuery.getJSON(url, function(json) {
+                var optionsHtml = '<option value=""></option>';
+                jQuery(json).each(function() {
+                    optionsHtml += '<option value="' + this + '">' + this + '</option>';
+                });
+                jQuery('[id^=add]').html(optionsHtml);
+            });
         }
 
         jQuery.ajaxSetup({
@@ -330,10 +334,12 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         <?php _e('Which fields/columns do you want to display?', 'contact-form-7-to-database-extension'); ?>
         <div>
             <label for="show_cntl">show</label>
+            Add <select name="add_show" id="add_show"></select>
             <input name="show_cntl" id="show_cntl" type="text" size="100"/>
         </div>
         <div>
             <label for="hide_cntl">hide</label>
+            Add <select name="add_hide" id="add_hide"></select>
             <input name="hide_cntl" id="hide_cntl" type="text" size="100"/>
         </div>
     </div>
@@ -345,6 +351,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         </div>
         <div>
             <label for="filter_cntl">filter</label>
+            Add <select name="add_filter" id="add_filter"></select>
             <input name="filter_cntl" id="filter_cntl" type="text" size="100"/>
         </div>
         <div>
@@ -354,6 +361,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         </div>
         <div id="orderby_div">
             <label for="orderby_cntl">orderby</label>
+            Add <select name="add_orderby" id="add_orderby"></select>
             <input name="orderby_cntl" id="orderby_cntl" type="text" size="100"/>
             <select id="orderbydir_cntl" name="orderbydir_cntl">
                 <option value=""></option>

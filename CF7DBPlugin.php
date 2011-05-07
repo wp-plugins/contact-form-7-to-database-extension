@@ -289,8 +289,11 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         $formName = $_REQUEST['form'];
         $rows = $wpdb->get_results("SELECT DISTINCT `field_name`, `field_order` FROM `$tableName` WHERE `form_name` = '$formName' ORDER BY field_order");
         $fields = array();
-        foreach ($rows as $aRow) {
-            $fields[] = $aRow->field_name;
+        if (!empty($rows)) {
+            $fields[] = 'Submitted';
+            foreach ($rows as $aRow) {
+                $fields[] = $aRow->field_name;
+            }
         }
         echo json_encode($fields);
         die();
