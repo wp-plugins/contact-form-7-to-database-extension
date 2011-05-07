@@ -288,6 +288,20 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             createShortCode();
         }
 
+        function addFieldToFilter() {
+            var value = jQuery('#filter_cntl').val();
+            if (value) {
+                value += jQuery('#filter_bool').val();
+            }
+            value += jQuery('#add_filter').val() + jQuery('#filter_op').val() + jQuery('#filter_val').val();
+            jQuery('#filter_cntl').val(value);
+            createShortCode();
+        }
+
+        function addFieldToContent() {
+            jQuery('#content_cntl').val(jQuery('#content_cntl').val() + '${' + jQuery('#add_content').val() + '}');
+        }
+
         jQuery.ajaxSetup({
             cache: false
         });
@@ -304,6 +318,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#btn_show').click(addFieldToShow);
             jQuery('#btn_hide').click(addFieldToHide);
             jQuery('#btn_orderby').click(addFieldToOrderBy);
+            jQuery('#btn_filter').click(addFieldToFilter);
+            jQuery('#btn_content').click(addFieldToContent);
         });
 
 
@@ -394,7 +410,24 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         </div>
         <div>
             <div class="label_box"><label for="filter_cntl">filter</label></div>
-            <select name="add_filter" id="add_filter"></select><button id="btn_filter">&raquo;</button>
+            <select name="add_filter" id="add_filter"></select>
+            <select name="filter_bool" id="filter_bool">
+                <option value="&&">&&</option>
+                <option value="||">||</option>
+            </select>
+            <select name="filter_op" id="filter_op">
+                <option value="=">=</option>
+                <option value="!=">!=</option>
+                <option value=">">></option>
+                <option value="<"><</option>
+                <option value="<="><=</option>
+                <option value="<="><=</option>
+                <option value="===">===</option>
+                <option value="!==">!==</option>
+                <option value="~~">~~</option>
+            </select>
+            <input name="filter_val" id="filter_val" type="text" size="10"/>
+            <button id="btn_filter">&raquo;</button>
             <input name="filter_cntl" id="filter_cntl" type="text" size="100"/>
         </div>
         <div>
