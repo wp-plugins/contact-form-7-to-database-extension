@@ -247,6 +247,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
 
         var getFormFieldsUrlBase = '<?php echo $plugin->getFormFieldsAjaxUrlBase() ?>';
         function getFormFields() {
+            jQuery('[id^=add]').attr('disabled', 'disabled');
             var formName = jQuery('#form_name_cntl').val();
             var url = getFormFieldsUrlBase + encodeURIComponent(formName);
             jQuery.getJSON(url, function(json) {
@@ -254,7 +255,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 jQuery(json).each(function() {
                     optionsHtml += '<option value="' + this + '">' + this + '</option>';
                 });
-                jQuery('[id^=add]').html(optionsHtml);
+                jQuery('[id^=add]').html(optionsHtml).removeAttr('disabled');
             });
         }
 
