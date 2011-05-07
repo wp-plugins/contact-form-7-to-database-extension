@@ -261,6 +261,33 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             });
         }
 
+        function addFieldToShow() {
+            var value = jQuery('#show_cntl').val();
+            if (value) {
+                value += ',';
+            }
+            jQuery('#show_cntl').val(value + jQuery('#add_show').val());
+            createShortCode();
+        }
+
+        function addFieldToHide() {
+            var value = jQuery('#hide_cntl').val();
+            if (value) {
+                value += ',';
+            }
+            jQuery('#hide_cntl').val(value + jQuery('#add_hide').val());
+            createShortCode();
+        }
+
+        function addFieldToOrderBy() {
+            var value = jQuery('#orderby_cntl').val();
+            if (value) {
+                value += ',';
+            }
+            jQuery('#orderby_cntl').val(value + jQuery('#add_orderby').val());
+            createShortCode();
+        }
+
         jQuery.ajaxSetup({
             cache: false
         });
@@ -274,6 +301,9 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('input[id$="cntl"]').keyup(createShortCode);
             jQuery('textarea[id$="cntl"]').keyup(createShortCode);
             jQuery('#form_name_cntl').change(getFormFields);
+            jQuery('#btn_show').click(addFieldToShow);
+            jQuery('#btn_hide').click(addFieldToHide);
+            jQuery('#btn_orderby').click(addFieldToOrderBy);
         });
 
 
@@ -306,7 +336,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
     </style>
 
     <div id="shortcode_result_div">
-        <pre><code><span id="shortcode_result_text"></span></code></pre>
+        <code><span id="shortcode_result_text"></span></code>
     </div>
     <div id="validations_div">
         <span id="validations_text" style="background-color:#ffff66;"></span>
@@ -347,7 +377,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         <?php _e('Which fields/columns do you want to display?', 'contact-form-7-to-database-extension'); ?>
         <div>
             <div class="label_box"><label for="show_cntl">show</label></div>
-            <select name="add_show" id="add_show"></select><button id="btn_add" onclick="jQuery('#show_cntl').html(jQuery('#show_cntl').html + ',' + jQuery('#add_show').val())">&raquo;</button>
+            <select name="add_show" id="add_show"></select><button id="btn_show"">&raquo;</button>
             <input name="show_cntl" id="show_cntl" type="text" size="100"/>
         </div>
         <div>
