@@ -230,7 +230,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     scText = join(scElements) + ']';
                     break;
                 case '[cfdb-count]':
-                    scText = cjoin(scElements) + ']'; // hopLastChar(scElements.join(' ')) + ']';
+                    scText = join(scElements) + ']'; // hopLastChar(scElements.join(' ')) + ']';
                     break;
                 case '[cfdb-json]':
                     scElements.push(getValue('var', jQuery('#var_cntl').val(), validationErrors));
@@ -245,6 +245,19 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#validations_text').html(validationErrors.join('<br/>'));
         }
 
+        var getFormFieldsUrlBase = '<?php echo $plugin->getFormFieldsAjaxUrlBase() ?>';
+        function getFormFields() {
+            var formName = jQuery('#form_name_cntl').val();
+            var url = getFormFieldsUrlBase + encodeURIComponent(formName);
+//            jQuery.getJSON(url, function(json) {
+//                alert(json);
+//            });
+        }
+
+        jQuery.ajaxSetup({
+            cache: false
+        });
+
         jQuery(document).ready(function() {
             showHideOptionDivs();
             createShortCode();
@@ -252,6 +265,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#shortcode_ctrl').change(createShortCode);
             jQuery('select[id$="cntl"]').change(createShortCode);
             jQuery('input[id$="cntl"]').keyup(createShortCode);
+            jQuery('#form_name_cntl').change(getFormFields);
         });
 
 
@@ -268,7 +282,18 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             font-family: Arial sans-serif;
             margin-top: 5px;
         }
+
+        #shortcode_result_div {
+            margin-top: 1em;
+        }
     </style>
+
+    <div id="shortcode_result_div">
+        <pre><code><span id="shortcode_result_text"></span></code></pre>
+    </div>
+    <div id="validations_div">
+        <span id="validations_text" style="background-color:#ffff66;"></span>
+    </div>
 
     <h2>Short Code Builder</h2>
     <div style="margin-bottom:10px">
@@ -405,14 +430,6 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             <label for="content_cntl">Template text</label><br/>
             <textarea name="content_cntl" id="content_cntl" cols="100" rows="10"></textarea>
         </div>
-    </div>
-
-    <h2>Short Code Text</h2>
-    <div id="shortcode_result_div" class="shortcodeoptions">
-        <pre><code><span id="shortcode_result_text"></span></code></pre>
-    </div>
-    <div id="validations_div">
-        <span id="validations_text" style="background-color:#ffff66;"></span>
     </div>
 
     <?php
