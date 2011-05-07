@@ -248,6 +248,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         var getFormFieldsUrlBase = '<?php echo $plugin->getFormFieldsAjaxUrlBase() ?>';
         function getFormFields() {
             jQuery('[id^=add]').attr('disabled', 'disabled');
+            jQuery('[id^=btn]').attr('disabled', 'disabled');
             var formName = jQuery('#form_name_cntl').val();
             var url = getFormFieldsUrlBase + encodeURIComponent(formName);
             jQuery.getJSON(url, function(json) {
@@ -256,6 +257,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     optionsHtml += '<option value="' + this + '">' + this + '</option>';
                 });
                 jQuery('[id^=add]').html(optionsHtml).removeAttr('disabled');
+                jQuery('[id^=btn]').removeAttr('disabled');
             });
         }
 
@@ -270,6 +272,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#shortcode_ctrl').change(createShortCode);
             jQuery('select[id$="cntl"]').change(createShortCode);
             jQuery('input[id$="cntl"]').keyup(createShortCode);
+            jQuery('textarea[id$="cntl"]').keyup(createShortCode);
             jQuery('#form_name_cntl').change(getFormFields);
         });
 
@@ -291,6 +294,15 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         #shortcode_result_div {
             margin-top: 1em;
         }
+
+        .label_box {
+            display: inline-block;
+            min-width: 50px;
+            padding-left: 2px;
+            padding-right: 2px;
+            border: 1px;
+            margin-right: 5px;
+        }
     </style>
 
     <div id="shortcode_result_div">
@@ -303,7 +315,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
     <h2>Short Code Builder</h2>
     <div style="margin-bottom:10px">
         <span>
-            <label for="shortcode_ctrl">Short Code</label>
+            <div class="label_box"><label for="shortcode_ctrl">Short Code</label></div>
             <select name="shortcode_ctrl" id="shortcode_ctrl">
                 <option value=""><?php _e('* Select a short code *', 'contact-form-7-to-database-extension') ?></option>
                 <option value="[cfdb-html]">[cfdb-html]</option>
@@ -315,7 +327,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             </select>
         </span>
         <span style="margin-left:10px">
-            <label for="form_name_cntl">form</label>
+            <div class="label_box"><label for="form_name_cntl">form</label></div>
             <select name="form_name_cntl" id="form_name_cntl">
                 <option value=""><?php _e('* Select a form *', 'contact-form-7-to-database-extension') ?></option>
                 <?php foreach ($rows as $aRow) {
@@ -334,35 +346,35 @@ class CFDBViewShortCodeBuilder extends CFDBView {
     <div id="show_hide_div" class="shortcodeoptions">
         <?php _e('Which fields/columns do you want to display?', 'contact-form-7-to-database-extension'); ?>
         <div>
-            <label for="show_cntl">show</label>
-            Add <select name="add_show" id="add_show"></select>
+            <div class="label_box"><label for="show_cntl">show</label></div>
+            <select name="add_show" id="add_show"></select><button id="btn_add" onclick="jQuery('#show_cntl').html(jQuery('#show_cntl').html + ',' + jQuery('#add_show').val())">&raquo;</button>
             <input name="show_cntl" id="show_cntl" type="text" size="100"/>
         </div>
         <div>
-            <label for="hide_cntl">hide</label>
-            Add <select name="add_hide" id="add_hide"></select>
+            <div class="label_box"><label for="hide_cntl">hide</label></div>
+            <select name="add_hide" id="add_hide"></select><button id="btn_hide">&raquo;</button>
             <input name="hide_cntl" id="hide_cntl" type="text" size="100"/>
         </div>
     </div>
     <div id="filter_div" class="shortcodeoptions">
         <div><?php _e('Which rows/submissions do you want to display?', 'contact-form-7-to-database-extension'); ?></div>
         <div>
-            <label for="search_cntl">search</label>
+            <div class="label_box"><label for="search_cntl">search</label></div>
             <input name="search_cntl" id="search_cntl" type="text" size="30"/>
         </div>
         <div>
-            <label for="filter_cntl">filter</label>
-            Add <select name="add_filter" id="add_filter"></select>
+            <div class="label_box"><label for="filter_cntl">filter</label></div>
+            <select name="add_filter" id="add_filter"></select><button id="btn_filter">&raquo;</button>
             <input name="filter_cntl" id="filter_cntl" type="text" size="100"/>
         </div>
         <div>
-            <label for="limit_rows_cntl">limit</label>
+            <div class="label_box"><label for="limit_rows_cntl">limit</label></div>
             Num Rows <input name="limit_rows_cntl" id="limit_rows_cntl" type="text" size="10"/>
             Start Row (0)<input name="limit_start_cntl" id="limit_start_cntl" type="text" size="10"/>
         </div>
         <div id="orderby_div">
-            <label for="orderby_cntl">orderby</label>
-            Add <select name="add_orderby" id="add_orderby"></select>
+            <div class="label_box"><label for="orderby_cntl">orderby</label></div>
+            <select name="add_orderby" id="add_orderby"></select><button id="btn_orderby">&raquo;</button>
             <input name="orderby_cntl" id="orderby_cntl" type="text" size="100"/>
             <select id="orderbydir_cntl" name="orderbydir_cntl">
                 <option value=""></option>
@@ -374,31 +386,31 @@ class CFDBViewShortCodeBuilder extends CFDBView {
     <div id="html_format_div" class="shortcodeoptions">
         <div><?php _e('HTML Table Formatting', 'contact-form-7-to-database-extension'); ?></div>
         <div>
-            <td><label for="id_cntl">id</label></td>
-            <td><input name="id_cntl" id="id_cntl" type="text" size="10"/></td>
+            <div class="label_box"><label for="id_cntl">id</label></div>
+            <input name="id_cntl" id="id_cntl" type="text" size="10"/>
         </div>
         <div>
-            <td><label for="class_cntl">class</label></td>
-            <td><input name="class_cntl" id="class_cntl" type="text" size="10"/></td>
+            <div class="label_box"><label for="class_cntl">class</label></div>
+            <input name="class_cntl" id="class_cntl" type="text" size="10"/>
         </div>
         <div>
-            <td><label for="style_cntl">style</label></td>
-            <td><input name="style_cntl" id="style_cntl" type="text" size="100"/></td>
+            <div class="label_box"><label for="style_cntl">style</label></div>
+            <input name="style_cntl" id="style_cntl" type="text" size="100"/>
         </div>
     </div>
     <div id="dt_options_div" class="shortcodeoptions">
         <div><?php _e('DataTable Options', 'contact-form-7-to-database-extension'); ?></div>
-        <label for="dt_options_cntl">dt_options</label>
+        <div class="label_box"><label for="dt_options_cntl">dt_options</label></div>
         <input name="dt_options_cntl" id="dt_options_cntl" type="text" size="100"/>
     </div>
     <div id="json_div" class="shortcodeoptions">
         <div><?php _e('JSON Options', 'contact-form-7-to-database-extension'); ?></div>
         <div>
-            <label for="var_cntl">var</label>
+            <div class="label_box"><label for="var_cntl">var</label></div>
             <input name="var_cntl" id="var_cntl" type="text" size="10"/>
         </div>
         <div>
-            <label for="format_cntl">format</label>
+            <div class="label_box"><label for="format_cntl">format</label></div>
             <select id="format_cntl" name="format_cntl">
                 <option value=""></option>
                 <option value="map">map</option>
@@ -410,7 +422,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
     <div id="value_div" class="shortcodeoptions">
         <div><?php _e('VALUE Options', 'contact-form-7-to-database-extension'); ?></div>
         <div>
-            <label for="function_cntl">function</label>
+            <div class="label_box"><label for="function_cntl">function</label></div>
             <select id="function_cntl" name="function_cntl">
                 <option value=""></option>
                 <option value="min">min</option>
@@ -420,13 +432,13 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             </select>
         </div>
         <div>
-            <label for="delimiter_cntl">delimiter</label>
+            <div class="label_box"><label for="delimiter_cntl">delimiter</label></div>
             <input name="delimiter_cntl" id="delimiter_cntl" type="text" size="10"/>
         </div>
     </div>
     <div id="template_div" class="shortcodeoptions">
         <div>
-            <label for="filelinks_cntl">filelinks</label>
+            <div class="label_box"><label for="filelinks_cntl">filelinks</label></div>
             <select id="filelinks_cntl" name="filelinks_cntl">
                 <option value=""></option>
                 <option value="url">url</option>
@@ -436,7 +448,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             </select>
         </div>
         <div>
-            <label for="content_cntl">Template text</label><br/>
+            <div class="label_box"><label for="content_cntl">Template</label></div>
+            <select name="add_content" id="add_content"></select><button id="btn_content">&raquo;</button><br/>
             <textarea name="content_cntl" id="content_cntl" cols="100" rows="10"></textarea>
         </div>
     </div>
