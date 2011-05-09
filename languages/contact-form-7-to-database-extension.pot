@@ -5,13 +5,111 @@ msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-"
 "extension\n"
-"POT-Creation-Date: 2011-04-29 23:05:44+00:00\n"
+"POT-Creation-Date: 2011-05-09 15:17:28+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: CFDBViewWhatsInDB.php:43
+msgid "No form submissions in the database"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:102 CFDBViewShortCodeBuilder.php:379
+msgid "* Select a form *"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:138
+msgid "Google Login for Upload"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:147
+msgid "Cannot perform operation because jQuery is not loaded in this page"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:187
+msgid "Excel Internet Query"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:190
+msgid "Excel CSV (UTF8-BOM)"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:193
+msgid "Excel TSV (UTF16LE-BOM)"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:196
+msgid "Plain CSV (UTF-8)"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:199
+msgid "Google Spreadsheet"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:202
+msgid "Google Spreadsheet Live Data"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:205
+msgid "HTML"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:208
+msgid "JSON"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:212
+msgid "Export"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:223
+msgid "Delete All This Form's Records"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:301
+msgid "Did you know: This plugin captures data from both these plugins:"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:312
+msgid ""
+"Did you know: You can add this data to your posts and pages using these "
+"shortcodes:"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:326
+msgid "Would you like to help translate this plugin into your language?"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:328
+msgid "How to create a translation"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:339
+msgid "Query:"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:361
+msgid "Cancel"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:363
+msgid "Upload"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:384
+msgid "next »"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:385
+msgid "« prev"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:402
+msgid "Returned entries %s to %s of %s entries in the database"
+msgstr ""
 
 #: contact-form-7-db.php:21
 msgid ""
@@ -43,6 +141,27 @@ msgstr ""
 msgid "Add these two lines to the file:"
 msgstr ""
 
+#: CFDBView.php:63
+msgid "Rate this Plugin"
+msgstr ""
+
+#: CFDBView.php:69 CFDBViewShortCodeBuilder.php:62
+#: CFDBViewShortCodeBuilder.php:391
+msgid "Documentation"
+msgstr ""
+
+#: CFDBView.php:75
+msgid "Support"
+msgstr ""
+
+#: CFDBView.php:81
+msgid "Privacy Policy"
+msgstr ""
+
+#: ExportToHtmlTable.php:135
+msgid "Delete"
+msgstr ""
+
 #: ExportBase.php:177
 msgid "You do not have sufficient permissions to access this data."
 msgstr ""
@@ -56,7 +175,7 @@ msgid "Error: No \"form\" parameter submitted"
 msgstr ""
 
 #: CF7DBOptionsManager.php:278 ExportToGoogleLiveData.php:31
-#: CF7DBPlugin.php:262
+#: CF7DBPlugin.php:265
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
@@ -84,16 +203,76 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: CF7DBOptionsManager.php:387 CF7DBPlugin.php:74
+#: CF7DBOptionsManager.php:387 CF7DBPlugin.php:73
 msgid "true"
 msgstr ""
 
-#: CF7DBOptionsManager.php:388 CF7DBPlugin.php:76
+#: CF7DBOptionsManager.php:388 CF7DBPlugin.php:75
 msgid "false"
 msgstr ""
 
 #: ExportToGoogleLiveData.php:170
 msgid "How to Set up Google Spreadsheet to pull data from WordPress"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:119
+msgid "Error: \""
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:121
+msgid "\" should not contain double-quotes (\")"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:156
+msgid "Error: no form is chosen"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:168
+msgid ""
+"Warning: \"search\" field ignored because \"filter\" is used (use one but "
+"not both)"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:178
+msgid ""
+"Error: \"limit\": if you provide a value for \"Start Row\" then you must "
+"also provide a value for \"Num Rows\""
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:182
+msgid "Error: \"limit\": \"Num Rows\" must be a positive integer"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:188
+msgid "Error: \"limit\": \"Start Row\" must be a positive integer"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:367
+msgid "* Select a short code *"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:394
+msgid "Which fields/columns do you want to display?"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:407
+msgid "Which rows/submissions do you want to display?"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:451
+msgid "HTML Table Formatting"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:466
+msgid "DataTable Options"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:471
+msgid "JSON Options"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:487
+msgid "VALUE Options"
 msgstr ""
 
 #: ExportToGoogleSS.php:62
@@ -108,230 +287,120 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: ExportToHtml.php:135
-msgid "Delete"
-msgstr ""
-
-#: CF7DBPlugin.php:48
+#: CF7DBPlugin.php:47
 msgid "I have donated to this plugin"
 msgstr ""
 
-#: CF7DBPlugin.php:49
+#: CF7DBPlugin.php:48
 msgid "Can See Submission data"
 msgstr ""
 
-#: CF7DBPlugin.php:51
+#: CF7DBPlugin.php:50
 msgid "Can See Submission when using shortcodes"
 msgstr ""
 
-#: CF7DBPlugin.php:53
+#: CF7DBPlugin.php:52
 msgid "Can Delete Submission data"
 msgstr ""
 
-#: CF7DBPlugin.php:55
+#: CF7DBPlugin.php:54
 msgid "Maximum number of rows to retrieve from the DB for the Admin display"
 msgstr ""
 
-#: CF7DBPlugin.php:56
+#: CF7DBPlugin.php:55
 msgid "Use Javascript-enabled tables in Admin Database page"
 msgstr ""
 
-#: CF7DBPlugin.php:57
+#: CF7DBPlugin.php:56
 msgid "Show line breaks in submitted data table"
 msgstr ""
 
-#: CF7DBPlugin.php:58
+#: CF7DBPlugin.php:57
 msgid "Use Custom Date-Time Display Format (below)"
 msgstr ""
 
-#: CF7DBPlugin.php:59
+#: CF7DBPlugin.php:58
 msgid "Date-Time Display Format"
 msgstr ""
 
-#: CF7DBPlugin.php:60
+#: CF7DBPlugin.php:59
 msgid "Export URLs instead of file names for uploaded files"
 msgstr ""
 
-#: CF7DBPlugin.php:61
+#: CF7DBPlugin.php:60
 msgid "Do not save <u>fields</u> in DB named (comma-separated list, no spaces)"
 msgstr ""
 
-#: CF7DBPlugin.php:62
+#: CF7DBPlugin.php:61
 msgid "Do not save <u>forms</u> in DB named (comma-separated list, no spaces)"
 msgstr ""
 
-#: CF7DBPlugin.php:63
+#: CF7DBPlugin.php:62
 msgid "Save Cookie Data with Form Submissions"
 msgstr ""
 
-#: CF7DBPlugin.php:64
+#: CF7DBPlugin.php:63
 msgid ""
 "Save only cookies in DB named (comma-separated list, no spaces, and above "
 "option must be set to true)"
 msgstr ""
 
-#: CF7DBPlugin.php:65
+#: CF7DBPlugin.php:64
 msgid "Show the query used to display results"
 msgstr ""
 
-#: CF7DBPlugin.php:66
+#: CF7DBPlugin.php:65
 msgid "Drop this plugin's Database table on uninstall"
 msgstr ""
 
-#: CF7DBPlugin.php:79
+#: CF7DBPlugin.php:78
 msgid "Administrator"
 msgstr ""
 
-#: CF7DBPlugin.php:81
+#: CF7DBPlugin.php:80
 msgid "Editor"
 msgstr ""
 
-#: CF7DBPlugin.php:83
+#: CF7DBPlugin.php:82
 msgid "Author"
 msgstr ""
 
-#: CF7DBPlugin.php:85
+#: CF7DBPlugin.php:84
 msgid "Contributor"
 msgstr ""
 
-#: CF7DBPlugin.php:87
+#: CF7DBPlugin.php:86
 msgid "Subscriber"
 msgstr ""
 
-#: CF7DBPlugin.php:89
+#: CF7DBPlugin.php:88
 msgid "Anyone"
 msgstr ""
 
-#: CF7DBPlugin.php:268
+#: CF7DBPlugin.php:271
 msgid "Missing form parameters"
 msgstr ""
 
-#: CF7DBPlugin.php:272
+#: CF7DBPlugin.php:275
 msgid "No such file."
 msgstr ""
 
-#: CF7DBPlugin.php:285 CF7DBPlugin.php:305
+#: CF7DBPlugin.php:307 CF7DBPlugin.php:327
 msgid "Database Options"
 msgstr ""
 
-#: CF7DBPlugin.php:303 CF7DBPlugin.php:458
+#: CF7DBPlugin.php:325 CF7DBPlugin.php:491
 msgid "Database"
 msgstr ""
 
-#: CF7DBPlugin.php:307
+#: CF7DBPlugin.php:329
+msgid "Build Short Code"
+msgstr ""
+
+#: CF7DBPlugin.php:331
 msgid "FAQ"
 msgstr ""
 
 #: CF7DBPlugin.php:499
-msgid "Rate this Plugin"
-msgstr ""
-
-#: CF7DBPlugin.php:505
-msgid "Documentation"
-msgstr ""
-
-#: CF7DBPlugin.php:511
-msgid "Support"
-msgstr ""
-
-#: CF7DBPlugin.php:517
-msgid "Privacy Policy"
-msgstr ""
-
-#: CF7DBPlugin.php:533
-msgid "No form submissions in the database"
-msgstr ""
-
-#: CF7DBPlugin.php:592
-msgid "* Select a form *"
-msgstr ""
-
-#: CF7DBPlugin.php:628
-msgid "Google Login for Upload"
-msgstr ""
-
-#: CF7DBPlugin.php:637
-msgid "Cannot perform operation because jQuery is not loaded in this page"
-msgstr ""
-
-#: CF7DBPlugin.php:677
-msgid "Excel Internet Query"
-msgstr ""
-
-#: CF7DBPlugin.php:680
-msgid "Excel CSV (UTF8-BOM)"
-msgstr ""
-
-#: CF7DBPlugin.php:683
-msgid "Excel TSV (UTF16LE-BOM)"
-msgstr ""
-
-#: CF7DBPlugin.php:686
-msgid "Plain CSV (UTF-8)"
-msgstr ""
-
-#: CF7DBPlugin.php:689
-msgid "Google Spreadsheet"
-msgstr ""
-
-#: CF7DBPlugin.php:692
-msgid "Google Spreadsheet Live Data"
-msgstr ""
-
-#: CF7DBPlugin.php:695
-msgid "HTML"
-msgstr ""
-
-#: CF7DBPlugin.php:698
-msgid "JSON"
-msgstr ""
-
-#: CF7DBPlugin.php:702
-msgid "Export"
-msgstr ""
-
-#: CF7DBPlugin.php:713
-msgid "Delete All This Form's Records"
-msgstr ""
-
-#: CF7DBPlugin.php:784
-msgid "Did you know: This plugin captures data from both these plugins:"
-msgstr ""
-
-#: CF7DBPlugin.php:793
-msgid ""
-"Did you know: You can add this data to your posts and pages using these "
-"shortcodes:"
-msgstr ""
-
-#: CF7DBPlugin.php:807
-msgid "Would you like to help translate this plugin into your language?"
-msgstr ""
-
-#: CF7DBPlugin.php:808
-msgid "How to create a translation"
-msgstr ""
-
-#: CF7DBPlugin.php:819
-msgid "Query:"
-msgstr ""
-
-#: CF7DBPlugin.php:840
-msgid "Cancel"
-msgstr ""
-
-#: CF7DBPlugin.php:842
-msgid "Upload"
-msgstr ""
-
-#: CF7DBPlugin.php:981
-msgid "next »"
-msgstr ""
-
-#: CF7DBPlugin.php:982
-msgid "« prev"
-msgstr ""
-
-#: CF7DBPlugin.php:999
-msgid "Returned entries %s to %s of %s entries in the database"
+msgid "Database Short Code"
 msgstr ""
