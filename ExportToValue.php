@@ -25,6 +25,13 @@ require_once('CFDBExport.php');
 class ExportToValue extends ExportBase implements CFDBExport {
 
     public function export($formName, $options = null) {
+
+        // Allow for multiple form name inputs, comma-delimited
+        $tmp = explode(',', $formName);
+        if (count($tmp) > 1) {
+            $formName = &$tmp;
+        }
+
         $this->setOptions($options);
         $this->setCommonOptions();
 

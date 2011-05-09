@@ -270,6 +270,11 @@ class ExportBase {
         return $showSubmitField;
     }
 
+    /**
+     * @param string|array of string $formName
+     * @param null|string $submitTimeKeyName
+     * @return void
+     */
     protected function setDataIterator($formName, $submitTimeKeyName = null) {
         $sql = $this->getPivotQuery($formName);
         $this->dataIterator = new CFDBQueryResultIterator();
@@ -306,10 +311,20 @@ class ExportBase {
 //        return $fileColumns;
 //    }
 
+    /**
+     * @param string|array of string $formName
+     * @param bool $count
+     * @return string
+     */
     public function &getPivotQuery($formName, $count = false) {
         global $wpdb;
         $tableName = $this->plugin->getSubmitsTableName();
-        $rows = $wpdb->get_results("SELECT DISTINCT `field_name`, `field_order` FROM `$tableName` WHERE `form_name` = '$formName' ORDER BY field_order");
+
+        $formNameClause = is_array($formName) ?
+                'in ( \'' . implode('\', \'', $formName) . '\' )' :
+                "= '$formName'";
+
+        $rows = $wpdb->get_results("SELECT DISTINCT `field_name`, `field_order` FROM `$tableName` WHERE `form_name` $formNameClause ORDER BY field_order");
         $fields = array();
         foreach ($rows as $aRow) {
             if (!in_array($aRow->field_name, $fields)) {
@@ -327,7 +342,7 @@ class ExportBase {
         if (!$count) {
             $sql .= ",\n GROUP_CONCAT(if(`file` is null or length(file) = 0, null, `field_name`)) AS fields_with_file";
         }
-        $sql .=  "\nFROM `$tableName` \nWHERE `form_name` = '$formName' \nGROUP BY `submit_time` ";
+        $sql .=  "\nFROM `$tableName` \nWHERE `form_name` $formNameClause \nGROUP BY `submit_time` ";
         if ($count) {
             $sql .= ') form';
         }
@@ -379,6 +394,10 @@ class ExportBase {
         return $sql;
     }
 
+    /**
+     * @param string|array of string $formName
+     * @return int
+     */
     public function getDBRowCount($formName) {
         global $wpdb;
         $count = 0;
