@@ -320,11 +320,15 @@ class ExportBase {
         global $wpdb;
         $tableName = $this->plugin->getSubmitsTableName();
 
-        $formNameClause = is_array($formName) ?
-                'in ( \'' . implode('\', \'', $formName) . '\' )' :
-                "= '$formName'";
+        $formNameClause = '';
+        if (is_array($formName)) {
+            $formNameClause = 'WHERE `form_name` in ( \'' . implode('\', \'', $formName) . '\' )';
+        }
+        else if ($formName !== null) {
+            $formNameClause =  "WHERE `form_name` = '$formName'";
+        }
 
-        $rows = $wpdb->get_results("SELECT DISTINCT `field_name`, `field_order` FROM `$tableName` WHERE `form_name` $formNameClause ORDER BY field_order");
+        $rows = $wpdb->get_results("SELECT DISTINCT `field_name`, `field_order` FROM `$tableName` $formNameClause ORDER BY field_order");
         $fields = array();
         foreach ($rows as $aRow) {
             if (!in_array($aRow->field_name, $fields)) {
@@ -342,7 +346,7 @@ class ExportBase {
         if (!$count) {
             $sql .= ",\n GROUP_CONCAT(if(`file` is null or length(file) = 0, null, `field_name`)) AS fields_with_file";
         }
-        $sql .=  "\nFROM `$tableName` \nWHERE `form_name` $formNameClause \nGROUP BY `submit_time` ";
+        $sql .=  "\nFROM `$tableName` \n$formNameClause \nGROUP BY `submit_time` ";
         if ($count) {
             $sql .= ') form';
         }

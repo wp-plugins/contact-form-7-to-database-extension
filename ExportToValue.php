@@ -31,6 +31,9 @@ class ExportToValue extends ExportBase implements CFDBExport {
         if (count($tmp) > 1) {
             $formName = &$tmp;
         }
+        else if ($formName == '*') {
+            $formName = null; // Allow for no form specified implying all forms
+        }
 
         $this->setOptions($options);
         $this->setCommonOptions();
