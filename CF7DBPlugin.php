@@ -45,6 +45,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         return array(
             //'_version' => array('Installed Version'), // For testing upgrades
             'Donated' => array(__('I have donated to this plugin', 'contact-form-7-to-database-extension'), 'false', 'true'),
+            'IntegrateWithCF7' => array(__('Capture form submissions from Contact Form 7 Plugin', 'contact-form-7-to-database-extension'), 'true', 'false'),
+            'IntegrateWithFSCF' => array(__('Capture form submissions Fast Secure Contact Form Plugin', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'CanSeeSubmitData' => array(__('Can See Submission data', 'contact-form-7-to-database-extension'),
                                         'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
             'CanSeeSubmitDataViaShortcode' => array(__('Can See Submission when using shortcodes', 'contact-form-7-to-database-extension'),
@@ -208,11 +210,15 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         add_action('admin_menu', array(&$this, 'addSettingsSubMenuPage'));
 
         // Hook into Contact Form 7 when a form post is made to save the data to the DB
-        add_action('wpcf7_before_send_mail', array(&$this, 'saveFormData'));
+        if ($this->getOption('IntegrateWithCF7', 'true') == 'true') {
+            add_action('wpcf7_before_send_mail', array(&$this, 'saveFormData'));
+        }
 
         // Hook into Fast Secure Contact Form
-        add_action('fsctf_mail_sent', array(&$this, 'saveFormData'));
-        add_action('fsctf_menu_links', array(&$this, 'fscfMenuLinks'));
+        if ($this->getOption('IntegrateWithFSCF', 'true') == 'true') {
+            add_action('fsctf_mail_sent', array(&$this, 'saveFormData'));
+            add_action('fsctf_menu_links', array(&$this, 'fscfMenuLinks'));
+        }
 
         // Have our own hook to publish data independent of other plugins
         add_action('cfdb_submit', array(&$this, 'saveFormData'));
