@@ -69,6 +69,7 @@ The table and all its data are deleted when you uninstall. You can deactivate th
 = 1.8.5 =
 * Added Shortcode builder page
 * [cf7db-count] shortcode now supports counting all forms using form="*" or a list of forms using form="form1,form2,form3"
+* [cf7db-html] now has "filelinks" option useful for displaying image uploads. 
 * Added options to turn on/off capturing form submissions from CF7 and FSCF
 
 = 1.8.4 =
