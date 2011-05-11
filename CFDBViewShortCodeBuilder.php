@@ -370,6 +370,27 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#content_cntl').val(jQuery('#content_cntl').val() + '${' + jQuery('#add_content').val() + '}');
         }
 
+        function reset() {
+            jQuery('#show_cntl').val('');
+            jQuery('#hide_cntl').val('');
+            jQuery('#search_cntl').val('');
+            jQuery('#filter_cntl').val('');
+            jQuery('#limit_rows_cntl').val('');
+            jQuery('#limit_start_cntl').val('');
+            jQuery('#orderby_cntl').val('');
+            jQuery('#id_cntl').val('');
+            jQuery('#class_cntl').val('');
+            jQuery('#style_cntl').val('');
+            jQuery('#dt_options_cntl').val('');
+            jQuery('#var_cntl').val('');
+            jQuery('#format_cntl').val('');
+            jQuery('#function_cntl').val('');
+            jQuery('#delimiter_cntl').val('');
+            jQuery('#filelinks_cntl').val('');
+            jQuery('#content_cntl').val('');
+            createShortCode();
+        }
+
         jQuery.ajaxSetup({
             cache: false
         });
@@ -388,6 +409,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#btn_orderby').click(addFieldToOrderBy);
             jQuery('#btn_filter').click(addFieldToFilter);
             jQuery('#btn_content').click(addFieldToContent);
+            jQuery('#reset_button').click(reset);
         });
 
 
@@ -454,6 +476,9 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 <option value="<?php echo $formName ?>" <?php echo $selected ?>><?php echo $formName ?></option>
                 <?php } ?>
             </select>
+        </span>
+        <span style="margin-left:10px">
+            <button id="reset_button"><?php echo _e('Reset', 'contact-form-7-to-database-extension') ?></button>
         </span>
     </div>
     <div class="shortcodeoptions">
