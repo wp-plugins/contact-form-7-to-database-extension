@@ -62,6 +62,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#doc_url_tag').html(shortcode + " <?php _e('Documentation', 'contact-form-7-to-database-extension'); ?>");
             switch (shortcode) {
                 case "[cfdb-html]":
+                    jQuery('#show_hide_div').show();
+                    jQuery('#limitorder_div').show();
                     jQuery('#html_format_div').hide();
                     jQuery('#dt_options_div').hide();
                     jQuery('#json_div').hide();
@@ -69,6 +71,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#template_div').show();
                     break;
                 case "[cfdb-table]":
+                    jQuery('#show_hide_div').show();
+                    jQuery('#limitorder_div').show();
                     jQuery('#html_format_div').show();
                     jQuery('#dt_options_div').hide();
                     jQuery('#json_div').hide();
@@ -76,6 +80,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#template_div').hide();
                     break;
                 case "[cfdb-datatable]":
+                    jQuery('#show_hide_div').show();
+                    jQuery('#limitorder_div').show();
                     jQuery('#html_format_div').show();
                     jQuery('#dt_options_div').show();
                     jQuery('#json_div').hide();
@@ -83,6 +89,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#template_div').hide();
                     break;
                 case "[cfdb-value]":
+                    jQuery('#show_hide_div').show();
+                    jQuery('#limitorder_div').show();
                     jQuery('#html_format_div').hide();
                     jQuery('#dt_options_div').hide();
                     jQuery('#json_div').hide();
@@ -90,6 +98,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#template_div').hide();
                     break;
                 case "[cfdb-count]":
+                    jQuery('#show_hide_div').hide();
+                    jQuery('#limitorder_div').hide();
                     jQuery('#html_format_div').hide();
                     jQuery('#dt_options_div').hide();
                     jQuery('#json_div').hide();
@@ -97,6 +107,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#template_div').hide();
                     break;
                 case "[cfdb-json]":
+                    jQuery('#show_hide_div').show();
+                    jQuery('#limitorder_div').show();
                     jQuery('#html_format_div').hide();
                     jQuery('#dt_options_div').hide();
                     jQuery('#json_div').show();
@@ -104,6 +116,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#template_div').hide();
                     break;
                 default:
+                    jQuery('#show_hide_div').show();
+                    jQuery('#limitorder_div').show();
                     jQuery('#html_format_div').hide();
                     jQuery('#dt_options_div').hide();
                     jQuery('#json_div').hide();
@@ -467,11 +481,11 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         </div>
         <div>
             <div class="label_box"><label for="filter_cntl">filter</label></div>
-            <select name="add_filter" id="add_filter"></select>
             <select name="filter_bool" id="filter_bool">
                 <option value="&&">&&</option>
                 <option value="||">||</option>
             </select>
+            <select name="add_filter" id="add_filter"></select>
             <select name="filter_op" id="filter_op">
                 <option value="=">=</option>
                 <option value="!=">!=</option>
@@ -487,6 +501,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             <button id="btn_filter">&raquo;</button>
             <input name="filter_cntl" id="filter_cntl" type="text" size="100"/>
         </div>
+    </div>
+    <div id="limitorder_div" class="shortcodeoptions">
         <div>
             <div class="label_box"><label for="limit_rows_cntl">limit</label></div>
             Num Rows <input name="limit_rows_cntl" id="limit_rows_cntl" type="text" size="10"/>
