@@ -35,6 +35,9 @@
  *
  * </code>
  */
+require_once('ExportBase.php');
+require_once('CFDBExport.php');
+
 class CFDBFormIterator extends ExportBase implements CFDBExport {
 
     /**
