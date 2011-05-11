@@ -36,11 +36,16 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
 
         $canDelete = false;
         $useDT = false;
+        $printScripts = false;
 
         if ($options && is_array($options)) {
             if (isset($options['useDT'])) {
                 $useDT = $options['useDT'];
                 $this->htmlTableClass = '';
+
+                if (isset($options['printScripts'])) {
+                    $printScripts = $options['printScripts'];
+                }
             }
 
             if (isset($options['canDelete'])) {
@@ -59,6 +64,9 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
 
         if ($this->isFromShortCode) {
             ob_start();
+        }
+        else if ($printScripts) {
+            // todo: insert scripts like WP does
         }
 
         // Query DB for the data for that form
