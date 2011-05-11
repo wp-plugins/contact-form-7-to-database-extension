@@ -46,7 +46,8 @@ class CFDBShortcodeDataTable extends ShortCodeScriptLoader {
 //        wp_register_style('datatables-demo', 'http://www.datatables.net/release-datatables/media/css/demo_table.css');
 //        wp_print_styles('datatables-demo');
 
-        wp_register_script('datatables', 'http://www.datatables.net/release-datatables/media/js/jquery.dataTables.js', array('jquery'), false, true);
+//        wp_register_script('datatables', 'http://www.datatables.net/release-datatables/media/js/jquery.dataTables.js', array('jquery'), false, true);
+        wp_enqueue_script('datatables',  plugins_url('/', __FILE__) . 'DataTables/media/js/jquery.dataTables.min.js', array('jquery'));
         wp_print_scripts('datatables');
     }
 
