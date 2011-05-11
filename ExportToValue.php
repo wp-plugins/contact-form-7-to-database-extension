@@ -66,7 +66,11 @@ class ExportToValue extends ExportBase implements CFDBExport {
                 count($this->showColumns) == 0 &&
                 count($this->hideColumns) == 0) {
             // Just count the number of entries in the database
-            return $this->getDBRowCount($formName);
+            $dbRowCount = $this->getDBRowCount($formName);
+            if (!$this->isFromShortCode) {
+                echo $dbRowCount;
+            }
+            return $dbRowCount;
         }
 
 
