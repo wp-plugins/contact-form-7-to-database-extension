@@ -231,7 +231,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         add_action('wp_ajax_nopriv_cfdb-file', array(&$this, 'ajaxFile'));
         add_action('wp_ajax_cfdb-file', array(&$this, 'ajaxFile'));
 
-        // Register Get File URL
+        // Register Get Form Fields URL
         add_action('wp_ajax_nopriv_cfdb-getFormFields', array(&$this, 'ajaxGetFormFields'));
         add_action('wp_ajax_cfdb-getFormFields', array(&$this, 'ajaxGetFormFields'));
 
