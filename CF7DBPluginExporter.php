@@ -76,6 +76,9 @@ class CF7DBPluginExporter {
                 if (!isset($options['printScripts'])) {
                     $options['printScripts'] = true;
                 }
+                if (!isset($options['printStyles'])) {
+                    $options['printStyles'] = 'true';
+                }
                 $exporter = new ExportToHtmlTable();
                 $exporter->export($formName, $options);
                 break;

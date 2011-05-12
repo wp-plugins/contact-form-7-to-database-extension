@@ -37,6 +37,7 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
         $canDelete = false;
         $useDT = false;
         $printScripts = false;
+        $printStyles = false;
 
         if ($options && is_array($options)) {
             if (isset($options['useDT'])) {
@@ -45,6 +46,10 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
 
                 if (isset($options['printScripts'])) {
                     $printScripts = $options['printScripts'];
+                }
+
+                if (isset($options['printStyles'])) {
+                    $printStyles = $options['printStyles'];
                 }
             }
 
@@ -65,15 +70,18 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
         if ($this->isFromShortCode) {
             ob_start();
         }
-        else if ($printScripts) {
-            $pluginUrl = plugins_url('/', __FILE__);
-            wp_enqueue_script('datatables', $pluginUrl . 'DataTables/media/js/jquery.dataTables.min.js', array('jquery'));
-            wp_enqueue_style('datatables-demo', $pluginUrl .'DataTables/media/css/demo_table.css');
-            wp_enqueue_style('jquery-ui.css', $pluginUrl . 'jquery-ui/jquery-ui.css');
-
-            wp_print_scripts('datatables');
-            wp_print_styles('jquery-ui.css');
-            wp_print_styles('datatables-demo');
+        else {
+            if ($printScripts) {
+                $pluginUrl = plugins_url('/', __FILE__);
+                wp_enqueue_script('datatables', $pluginUrl . 'DataTables/media/js/jquery.dataTables.min.js', array('jquery'));
+                wp_print_scripts('datatables');
+            }
+            if ($printStyles) {
+                $pluginUrl = plugins_url('/', __FILE__);
+                wp_enqueue_style('datatables-demo', $pluginUrl .'DataTables/media/css/demo_table.css');
+                wp_enqueue_style('jquery-ui.css', $pluginUrl . 'jquery-ui/jquery-ui.css');
+                wp_print_styles(array('jquery-ui.css', 'datatables-demo'));
+            }
         }
 
         // Query DB for the data for that form
