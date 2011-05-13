@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-"
 "extension\n"
-"POT-Creation-Date: 2011-05-09 15:17:28+00:00\n"
+"POT-Creation-Date: 2011-05-13 00:34:00+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,11 +13,237 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
+#: CFDBView.php:63
+msgid "Rate this Plugin"
+msgstr ""
+
+#: CFDBView.php:69 CFDBViewShortCodeBuilder.php:62
+#: CFDBViewShortCodeBuilder.php:486
+msgid "Documentation"
+msgstr ""
+
+#: CFDBView.php:75
+msgid "Support"
+msgstr ""
+
+#: CFDBView.php:81
+msgid "Privacy Policy"
+msgstr ""
+
+#: CF7DBPluginExporter.php:33
+msgid "Error: No \"form\" parameter submitted"
+msgstr ""
+
+#: contact-form-7-db.php:21
+msgid ""
+"Error: Contact Form to DB Plugin requires a newer version of PHP to be "
+"running."
+msgstr ""
+
+#: contact-form-7-db.php:23
+msgid "Minimal version of PHP required: "
+msgstr ""
+
+#: contact-form-7-db.php:24
+msgid "Your server's PHP version: "
+msgstr ""
+
+#: contact-form-7-db.php:27
+msgid ""
+"When using the Apache web server, typically you can configure it to use PHP5 "
+"by doing the following:"
+msgstr ""
+
+#: contact-form-7-db.php:29
+msgid ""
+"Locate and edit this file, located at the top directory of your WordPress "
+"installation: "
+msgstr ""
+
+#: contact-form-7-db.php:31
+msgid "Add these two lines to the file:"
+msgstr ""
+
+#: CJ7DBCheckZendFramework.php:72
+msgid "Missing Zend Framework"
+msgstr ""
+
+#: ExportBase.php:177
+msgid "You do not have sufficient permissions to access this data."
+msgstr ""
+
+#: CF7DBOptionsManager.php:278 CF7DBPlugin.php:271
+#: ExportToGoogleLiveData.php:31
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: CF7DBOptionsManager.php:296
+msgid "System Settings"
+msgstr ""
+
+#: CF7DBOptionsManager.php:298
+msgid "System"
+msgstr ""
+
+#: CF7DBOptionsManager.php:299
+msgid "PHP Version"
+msgstr ""
+
+#: CF7DBOptionsManager.php:300
+msgid "MySQL Version"
+msgstr ""
+
+#: CF7DBOptionsManager.php:303
+msgid "Settings"
+msgstr ""
+
+#: CF7DBOptionsManager.php:328
+msgid "Save Changes"
+msgstr ""
+
+#: CF7DBOptionsManager.php:387 CF7DBPlugin.php:75
+msgid "true"
+msgstr ""
+
+#: CF7DBOptionsManager.php:388 CF7DBPlugin.php:77
+msgid "false"
+msgstr ""
+
+#: CF7DBPlugin.php:47
+msgid "I have donated to this plugin"
+msgstr ""
+
+#: CF7DBPlugin.php:48
+msgid "Capture form submissions from Contact Form 7 Plugin"
+msgstr ""
+
+#: CF7DBPlugin.php:49
+msgid "Capture form submissions Fast Secure Contact Form Plugin"
+msgstr ""
+
+#: CF7DBPlugin.php:50
+msgid "Can See Submission data"
+msgstr ""
+
+#: CF7DBPlugin.php:52
+msgid "Can See Submission when using shortcodes"
+msgstr ""
+
+#: CF7DBPlugin.php:54
+msgid "Can Delete Submission data"
+msgstr ""
+
+#: CF7DBPlugin.php:56
+msgid "Maximum number of rows to retrieve from the DB for the Admin display"
+msgstr ""
+
+#: CF7DBPlugin.php:57
+msgid "Use Javascript-enabled tables in Admin Database page"
+msgstr ""
+
+#: CF7DBPlugin.php:58
+msgid "Show line breaks in submitted data table"
+msgstr ""
+
+#: CF7DBPlugin.php:59
+msgid "Use Custom Date-Time Display Format (below)"
+msgstr ""
+
+#: CF7DBPlugin.php:60
+msgid "Date-Time Display Format"
+msgstr ""
+
+#: CF7DBPlugin.php:61
+msgid "Export URLs instead of file names for uploaded files"
+msgstr ""
+
+#: CF7DBPlugin.php:62
+msgid "Do not save <u>fields</u> in DB named (comma-separated list, no spaces)"
+msgstr ""
+
+#: CF7DBPlugin.php:63
+msgid "Do not save <u>forms</u> in DB named (comma-separated list, no spaces)"
+msgstr ""
+
+#: CF7DBPlugin.php:64
+msgid "Save Cookie Data with Form Submissions"
+msgstr ""
+
+#: CF7DBPlugin.php:65
+msgid ""
+"Save only cookies in DB named (comma-separated list, no spaces, and above "
+"option must be set to true)"
+msgstr ""
+
+#: CF7DBPlugin.php:66
+msgid "Show the query used to display results"
+msgstr ""
+
+#: CF7DBPlugin.php:67
+msgid "Drop this plugin's Database table on uninstall"
+msgstr ""
+
+#: CF7DBPlugin.php:80
+msgid "Administrator"
+msgstr ""
+
+#: CF7DBPlugin.php:82
+msgid "Editor"
+msgstr ""
+
+#: CF7DBPlugin.php:84
+msgid "Author"
+msgstr ""
+
+#: CF7DBPlugin.php:86
+msgid "Contributor"
+msgstr ""
+
+#: CF7DBPlugin.php:88
+msgid "Subscriber"
+msgstr ""
+
+#: CF7DBPlugin.php:90
+msgid "Anyone"
+msgstr ""
+
+#: CF7DBPlugin.php:277
+msgid "Missing form parameters"
+msgstr ""
+
+#: CF7DBPlugin.php:281
+msgid "No such file."
+msgstr ""
+
+#: CF7DBPlugin.php:313 CF7DBPlugin.php:333
+msgid "Database Options"
+msgstr ""
+
+#: CF7DBPlugin.php:331 CF7DBPlugin.php:497
+msgid "Database"
+msgstr ""
+
+#: CF7DBPlugin.php:335
+msgid "Build Short Code"
+msgstr ""
+
+#: CF7DBPlugin.php:337
+msgid "FAQ"
+msgstr ""
+
+#: CF7DBPlugin.php:505
+msgid "Database Short Code"
+msgstr ""
+
+#: ExportToGoogleLiveData.php:170
+msgid "How to Set up Google Spreadsheet to pull data from WordPress"
+msgstr ""
+
 #: CFDBViewWhatsInDB.php:43
 msgid "No form submissions in the database"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:102 CFDBViewShortCodeBuilder.php:379
+#: CFDBViewWhatsInDB.php:102 CFDBViewShortCodeBuilder.php:471
 msgid "* Select a form *"
 msgstr ""
 
@@ -111,167 +337,67 @@ msgstr ""
 msgid "Returned entries %s to %s of %s entries in the database"
 msgstr ""
 
-#: contact-form-7-db.php:21
-msgid ""
-"Error: Contact Form to DB Plugin requires a newer version of PHP to be "
-"running."
-msgstr ""
-
-#: contact-form-7-db.php:23
-msgid "Minimal version of PHP required: "
-msgstr ""
-
-#: contact-form-7-db.php:24
-msgid "Your server's PHP version: "
-msgstr ""
-
-#: contact-form-7-db.php:27
-msgid ""
-"When using the Apache web server, typically you can configure it to use PHP5 "
-"by doing the following:"
-msgstr ""
-
-#: contact-form-7-db.php:29
-msgid ""
-"Locate and edit this file, located at the top directory of your WordPress "
-"installation: "
-msgstr ""
-
-#: contact-form-7-db.php:31
-msgid "Add these two lines to the file:"
-msgstr ""
-
-#: CFDBView.php:63
-msgid "Rate this Plugin"
-msgstr ""
-
-#: CFDBView.php:69 CFDBViewShortCodeBuilder.php:62
-#: CFDBViewShortCodeBuilder.php:391
-msgid "Documentation"
-msgstr ""
-
-#: CFDBView.php:75
-msgid "Support"
-msgstr ""
-
-#: CFDBView.php:81
-msgid "Privacy Policy"
-msgstr ""
-
-#: ExportToHtmlTable.php:135
-msgid "Delete"
-msgstr ""
-
-#: ExportBase.php:177
-msgid "You do not have sufficient permissions to access this data."
-msgstr ""
-
-#: CJ7DBCheckZendFramework.php:72
-msgid "Missing Zend Framework"
-msgstr ""
-
-#: CF7DBPluginExporter.php:33
-msgid "Error: No \"form\" parameter submitted"
-msgstr ""
-
-#: CF7DBOptionsManager.php:278 ExportToGoogleLiveData.php:31
-#: CF7DBPlugin.php:265
-msgid "You do not have sufficient permissions to access this page."
-msgstr ""
-
-#: CF7DBOptionsManager.php:296
-msgid "System Settings"
-msgstr ""
-
-#: CF7DBOptionsManager.php:298
-msgid "System"
-msgstr ""
-
-#: CF7DBOptionsManager.php:299
-msgid "PHP Version"
-msgstr ""
-
-#: CF7DBOptionsManager.php:300
-msgid "MySQL Version"
-msgstr ""
-
-#: CF7DBOptionsManager.php:303
-msgid "Settings"
-msgstr ""
-
-#: CF7DBOptionsManager.php:328
-msgid "Save Changes"
-msgstr ""
-
-#: CF7DBOptionsManager.php:387 CF7DBPlugin.php:73
-msgid "true"
-msgstr ""
-
-#: CF7DBOptionsManager.php:388 CF7DBPlugin.php:75
-msgid "false"
-msgstr ""
-
-#: ExportToGoogleLiveData.php:170
-msgid "How to Set up Google Spreadsheet to pull data from WordPress"
-msgstr ""
-
-#: CFDBViewShortCodeBuilder.php:119
+#: CFDBViewShortCodeBuilder.php:133
 msgid "Error: \""
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:121
+#: CFDBViewShortCodeBuilder.php:135
 msgid "\" should not contain double-quotes (\")"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:156
+#: CFDBViewShortCodeBuilder.php:182
 msgid "Error: no form is chosen"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:168
+#: CFDBViewShortCodeBuilder.php:203
 msgid ""
 "Warning: \"search\" field ignored because \"filter\" is used (use one but "
 "not both)"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:178
+#: CFDBViewShortCodeBuilder.php:215
 msgid ""
 "Error: \"limit\": if you provide a value for \"Start Row\" then you must "
 "also provide a value for \"Num Rows\""
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:182
+#: CFDBViewShortCodeBuilder.php:219
 msgid "Error: \"limit\": \"Num Rows\" must be a positive integer"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:188
+#: CFDBViewShortCodeBuilder.php:226
 msgid "Error: \"limit\": \"Start Row\" must be a positive integer"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:367
+#: CFDBViewShortCodeBuilder.php:459
 msgid "* Select a short code *"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:394
+#: CFDBViewShortCodeBuilder.php:481
+msgid "Reset"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:489
 msgid "Which fields/columns do you want to display?"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:407
+#: CFDBViewShortCodeBuilder.php:502
 msgid "Which rows/submissions do you want to display?"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:451
+#: CFDBViewShortCodeBuilder.php:548
 msgid "HTML Table Formatting"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:466
+#: CFDBViewShortCodeBuilder.php:563
 msgid "DataTable Options"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:471
+#: CFDBViewShortCodeBuilder.php:568
 msgid "JSON Options"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:487
+#: CFDBViewShortCodeBuilder.php:584
 msgid "VALUE Options"
 msgstr ""
 
@@ -287,120 +413,6 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: CF7DBPlugin.php:47
-msgid "I have donated to this plugin"
-msgstr ""
-
-#: CF7DBPlugin.php:48
-msgid "Can See Submission data"
-msgstr ""
-
-#: CF7DBPlugin.php:50
-msgid "Can See Submission when using shortcodes"
-msgstr ""
-
-#: CF7DBPlugin.php:52
-msgid "Can Delete Submission data"
-msgstr ""
-
-#: CF7DBPlugin.php:54
-msgid "Maximum number of rows to retrieve from the DB for the Admin display"
-msgstr ""
-
-#: CF7DBPlugin.php:55
-msgid "Use Javascript-enabled tables in Admin Database page"
-msgstr ""
-
-#: CF7DBPlugin.php:56
-msgid "Show line breaks in submitted data table"
-msgstr ""
-
-#: CF7DBPlugin.php:57
-msgid "Use Custom Date-Time Display Format (below)"
-msgstr ""
-
-#: CF7DBPlugin.php:58
-msgid "Date-Time Display Format"
-msgstr ""
-
-#: CF7DBPlugin.php:59
-msgid "Export URLs instead of file names for uploaded files"
-msgstr ""
-
-#: CF7DBPlugin.php:60
-msgid "Do not save <u>fields</u> in DB named (comma-separated list, no spaces)"
-msgstr ""
-
-#: CF7DBPlugin.php:61
-msgid "Do not save <u>forms</u> in DB named (comma-separated list, no spaces)"
-msgstr ""
-
-#: CF7DBPlugin.php:62
-msgid "Save Cookie Data with Form Submissions"
-msgstr ""
-
-#: CF7DBPlugin.php:63
-msgid ""
-"Save only cookies in DB named (comma-separated list, no spaces, and above "
-"option must be set to true)"
-msgstr ""
-
-#: CF7DBPlugin.php:64
-msgid "Show the query used to display results"
-msgstr ""
-
-#: CF7DBPlugin.php:65
-msgid "Drop this plugin's Database table on uninstall"
-msgstr ""
-
-#: CF7DBPlugin.php:78
-msgid "Administrator"
-msgstr ""
-
-#: CF7DBPlugin.php:80
-msgid "Editor"
-msgstr ""
-
-#: CF7DBPlugin.php:82
-msgid "Author"
-msgstr ""
-
-#: CF7DBPlugin.php:84
-msgid "Contributor"
-msgstr ""
-
-#: CF7DBPlugin.php:86
-msgid "Subscriber"
-msgstr ""
-
-#: CF7DBPlugin.php:88
-msgid "Anyone"
-msgstr ""
-
-#: CF7DBPlugin.php:271
-msgid "Missing form parameters"
-msgstr ""
-
-#: CF7DBPlugin.php:275
-msgid "No such file."
-msgstr ""
-
-#: CF7DBPlugin.php:307 CF7DBPlugin.php:327
-msgid "Database Options"
-msgstr ""
-
-#: CF7DBPlugin.php:325 CF7DBPlugin.php:491
-msgid "Database"
-msgstr ""
-
-#: CF7DBPlugin.php:329
-msgid "Build Short Code"
-msgstr ""
-
-#: CF7DBPlugin.php:331
-msgid "FAQ"
-msgstr ""
-
-#: CF7DBPlugin.php:499
-msgid "Database Short Code"
+#: ExportToHtmlTable.php:158
+msgid "Delete"
 msgstr ""
