@@ -48,7 +48,7 @@ Refer the <a href="http://cfdbplugin.com/">Plugin Site</a>
 
 = Can I display form data on a non-admin web page or in a post? =
 
-Yes, <a href="http://cfdbplugin.com/?page_id=89">documentation on shortcodes</a> `[cfdb-html]`, `[cfdb-datatable]`, `[cfdb-table]`, `[cfdb-json]` and `[cfdb-value]`
+Yes, <a href="http://cfdbplugin.com/?page_id=89">documentation on shortcodes</a> `[cfdb-html]`, `[cfdb-datatable]`, `[cfdb-table]`, `[cfdb-json]` and `[cfdb-value]`, etc.
 
 = What is the name of the table where the data is stored? =
 
@@ -57,7 +57,8 @@ Note: if you changed your WordPress MySql table prefix from the default `wp_` to
 
 = If I uninstall the plugin, what happens to its data in the database? =
 
-The table and all its data are deleted when you uninstall. You can deactivate the plugin without loosing data.
+The table and all its data are deleted when you uninstall but you can change a setting on the options page to
+prevent it from being deleted. You can always deactivate the plugin without loosing data.
 
 
 == Screenshots ==
