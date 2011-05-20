@@ -408,7 +408,10 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#btn_hide').click(addFieldToHide);
             jQuery('#btn_orderby').click(addFieldToOrderBy);
             jQuery('#btn_filter').click(addFieldToFilter);
-            jQuery('#btn_content').click(addFieldToContent);
+            jQuery('#btn_content').click(function() {
+                addFieldToContent();
+                createShortCode();
+            });
             jQuery('#reset_button').click(reset);
         });
 
