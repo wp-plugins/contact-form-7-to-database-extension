@@ -26,6 +26,7 @@ require_once('CFDBShortcodeValue.php');
 require_once('CFDBShortcodeCount.php');
 require_once('CFDBShortcodeJson.php');
 require_once('CFDBShortcodeHtml.php');
+require_once('CFDBShortcodeExportUrl.php');
 
 /**
  * Implementation for CF7DBPluginLifeCycle.
@@ -258,6 +259,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         // Shortcode to add values wrapped in user-defined html
         $sc = new CFDBShortcodeHtml();
         $sc->register('cfdb-html');
+
+        // Shortcode to generate Export URLs
+        $sc = new CFDBShortcodeExportUrl();
+        $sc->register('cfdb-export-link');
     }
 
     public function ajaxExport() {

@@ -67,6 +67,9 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
+= 1.8.6 =
+* New shortcode: [cfdb-export-link]
+
 = 1.8.5 =
 * Added Shortcode builder page
 * [cf7db-count] shortcode now supports counting all forms using form="*" or a list of forms using form="form1,form2,form3"

@@ -53,7 +53,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             '[cfdb-datatable]' : 'http://cfdbplugin.com/?page_id=91',
             '[cfdb-value]' : 'http://cfdbplugin.com/?page_id=98',
             '[cfdb-count]' : 'http://cfdbplugin.com/?page_id=278',
-            '[cfdb-json]' : 'http://cfdbplugin.com/?page_id=96'
+            '[cfdb-json]' : 'http://cfdbplugin.com/?page_id=96',
+            '[cfdb-export-link]' : 'http://cfdbplugin.com/?page_id=419'
         };
 
         function showHideOptionDivs() {
@@ -69,6 +70,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#json_div').hide();
                     jQuery('#value_div').hide();
                     jQuery('#template_div').show();
+                    jQuery('#url_link_div').hide();
                     break;
                 case "[cfdb-table]":
                     jQuery('#show_hide_div').show();
@@ -78,6 +80,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#json_div').hide();
                     jQuery('#value_div').hide();
                     jQuery('#template_div').hide();
+                    jQuery('#url_link_div').hide();
                     break;
                 case "[cfdb-datatable]":
                     jQuery('#show_hide_div').show();
@@ -87,6 +90,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#json_div').hide();
                     jQuery('#value_div').hide();
                     jQuery('#template_div').hide();
+                    jQuery('#url_link_div').hide();
                     break;
                 case "[cfdb-value]":
                     jQuery('#show_hide_div').show();
@@ -96,6 +100,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#json_div').hide();
                     jQuery('#value_div').show();
                     jQuery('#template_div').hide();
+                    jQuery('#url_link_div').hide();
                     break;
                 case "[cfdb-count]":
                     jQuery('#show_hide_div').hide();
@@ -105,6 +110,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#json_div').hide();
                     jQuery('#value_div').hide();
                     jQuery('#template_div').hide();
+                    jQuery('#url_link_div').hide();
                     break;
                 case "[cfdb-json]":
                     jQuery('#show_hide_div').show();
@@ -114,6 +120,17 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#json_div').show();
                     jQuery('#value_div').hide();
                     jQuery('#template_div').hide();
+                    jQuery('#url_link_div').hide();
+                    break;
+                case "[cfdb-export-link]":
+                    jQuery('#show_hide_div').show();
+                    jQuery('#limitorder_div').show();
+                    jQuery('#html_format_div').hide();
+                    jQuery('#dt_options_div').hide();
+                    jQuery('#json_div').hide();
+                    jQuery('#value_div').hide();
+                    jQuery('#template_div').hide();
+                    jQuery('#url_link_div').show();
                     break;
                 default:
                     jQuery('#show_hide_div').show();
@@ -123,6 +140,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#json_div').hide();
                     jQuery('#value_div').hide();
                     jQuery('#template_div').hide();
+                    jQuery('#url_link_div').hide();
                     break;
             }
         }
@@ -301,15 +319,25 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     urlElements.push('enc=JSON');
                     scText = join(scElements) + ']';
                     break;
+                case '[cfdb-export-link]':
+                    scElements.push(getValue('enc', jQuery('#enc_cntl').val(), validationErrors));
+                    scElements.push(getValue('urlonly', jQuery('#urlonly_cntl').val(), validationErrors));
+                    scText = join(scElements) + ']';
+                    break;
                 default:
                     scText = shortcode;
                     break;
             }
             jQuery('#shortcode_result_text').html(scText);
 
-            var url = '<?php echo admin_url('admin-ajax.php') ?>?action=cfdb-export&';
-            url += join(urlElements, '&');
-            jQuery('#url_result_link').attr('href', url).html(url);
+            if (shortcode == '[cfdb-export-link]') {
+                jQuery('#url_result_link').attr('href', '#').html('');
+            }
+            else {
+                var url = '<?php echo admin_url('admin-ajax.php') ?>?action=cfdb-export&';
+                url += join(urlElements, '&');
+                jQuery('#url_result_link').attr('href', url).html(url);
+            }
             jQuery('#validations_text').html(validationErrors.join('<br/>'));
         }
 
@@ -388,6 +416,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#delimiter_cntl').val('');
             jQuery('#filelinks_cntl').val('');
             jQuery('#content_cntl').val('');
+            jQuery('#enc_cntl').val('');
+            jQuery('#urlonly_cntl').val('');
             createShortCode();
         }
 
@@ -412,6 +442,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 addFieldToContent();
                 createShortCode();
             });
+            jQuery('#enc_cntl').click(createShortCode);
+            jQuery('#urlonly_cntl').click(createShortCode);
             jQuery('#reset_button').click(reset);
         });
 
@@ -466,6 +498,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 <option value="[cfdb-value]">[cfdb-value]</option>
                 <option value="[cfdb-count]">[cfdb-count]</option>
                 <option value="[cfdb-json]">[cfdb-json]</option>
+                <option value="[cfdb-export-link]">[cfdb-export-link]</option>
             </select>
         </span>
         <span style="margin-left:10px">
@@ -617,7 +650,34 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             <textarea name="content_cntl" id="content_cntl" cols="100" rows="10"></textarea>
         </div>
     </div>
-
+        <div id="url_link_div" class="shortcodeoptions">
+            <div>
+                <div class="label_box"><label for="enc_cntl">enc</label></div>
+                <select id="enc_cntl" name="enc_cntl">
+                    <option value=""></option>
+                    <option id="CSVUTF8BOM" value="CSVUTF8BOM">
+                        <?php _e('Excel CSV (UTF8-BOM)', 'contact-form-7-to-database-extension'); ?>
+                    </option>
+                    <option id="TSVUTF16LEBOM" value="TSVUTF16LEBOM">
+                        <?php _e('Excel TSV (UTF16LE-BOM)', 'contact-form-7-to-database-extension'); ?>
+                    </option>
+                    <option id="CSVUTF8" value="CSVUTF8">
+                        <?php _e('Plain CSV (UTF-8)', 'contact-form-7-to-database-extension'); ?>
+                    </option>
+                    <option id="IQY" value="IQY">
+                        <?php _e('Excel Internet Query', 'contact-form-7-to-database-extension'); ?>
+                    </option>
+                </select>
+            </div>
+            <div>
+                <div class="label_box"><label for="urlonly_cntl">urlonly</label></div>
+                <select id="urlonly_cntl" name="urlonly_cntl">
+                    <option value=""></option>
+                    <option value="true">true</option>
+                    <option value="false">false</option>
+                </select>
+            </div>
+        </div>
     <?php
 
     }
