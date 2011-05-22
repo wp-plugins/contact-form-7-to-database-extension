@@ -51,7 +51,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                         'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
             'CanSeeSubmitDataViaShortcode' => array(__('Can See Submission when using shortcodes', 'contact-form-7-to-database-extension'),
                                                     'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
-            'CanChangeSubmitData' => array(__('Can Delete Submission data', 'contact-form-7-to-database-extension'),
+            'CanChangeSubmitData' => array(__('Can Edit/Delete Submission data', 'contact-form-7-to-database-extension'),
                                            'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
             'MaxRows' => array(__('Maximum number of rows to retrieve from the DB for the Admin display', 'contact-form-7-to-database-extension')),
             'UseDataTablesJS' => array(__('Use Javascript-enabled tables in Admin Database page', 'contact-form-7-to-database-extension'), 'true', 'false'),
@@ -348,6 +348,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * @return void
      */
     public function saveFormData($cf7) {
+//        try {
         $title = $this->stripSlashes($cf7->title);
         if (in_array($title, $this->getNoSaveForms())) {
             return; // Don't save in DB
@@ -430,6 +431,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                     $ip,
                                     $order));
 
+//        }
+//        catch (Exception $ex) {
+//            //echo $ex->getTraceAsString();
+//        }
     }
 
     /**
@@ -480,6 +485,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 //                wp_enqueue_script('datatables', 'http://www.datatables.net/release-datatables/media/js/jquery.dataTables.js', array('jquery'));
                 wp_enqueue_style('datatables-demo', $pluginUrl .'DataTables/media/css/demo_table.css');
                 wp_enqueue_script('datatables', $pluginUrl . 'DataTables/media/js/jquery.dataTables.min.js', array('jquery'));
+
+                if ($this->canUserDoRoleOption('CanChangeSubmitData')) {
+                    do_action_ref_array('cfdb_edit_enqueue', array());
+                }
 
                 // Would like to add ColReorder but it causes slowness and display issues with DataTable footer
                 //wp_enqueue_style('datatables-ColReorder', $pluginUrl .'DataTables/extras/ColReorder/media/css/ColReorder.css');

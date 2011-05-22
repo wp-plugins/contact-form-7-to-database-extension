@@ -170,11 +170,12 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
             $showLineBreaks = $this->plugin->getOption('ShowLineBreaksInDataTable');
             $showLineBreaks = 'false' != $showLineBreaks;
             while ($this->dataIterator->nextRow()) {
+                $submitKey = $this->dataIterator->row[$submitTimeKeyName];
                 ?>
                 <tr>
                 <?php if ($canDelete) { // Put in the delete checkbox ?>
                     <td align="center">
-                        <input type="checkbox" name="<?php echo $this->dataIterator->row[$submitTimeKeyName] ?>" value="row"/>
+                        <input type="checkbox" name="<?php echo $submitKey ?>" value="row"/>
                     </td>
                 <?php
 
@@ -194,7 +195,8 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
                         $fileUrl = $this->plugin->getFileUrl($this->dataIterator->row[$submitTimeKeyName], $formName, $aCol);
                         $cell = "<a href=\"$fileUrl\">$cell</a>";
                     }
-                    printf('<td title="%s"><div>%s</div></td>', $aCol, $cell);
+                    // NOTE: the ID field is used to identify the cell when an edit happens and we save that to the server
+                    printf('<td title="%s"><div id="%s,%s">%s</div></td>', $aCol, $submitKey, $aCol, $cell);
                 }
                 ?></tr><?php
 

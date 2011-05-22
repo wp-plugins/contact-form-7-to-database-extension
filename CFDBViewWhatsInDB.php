@@ -29,7 +29,7 @@ class CFDBViewWhatsInDB extends CFDBView {
         if ($plugin == null) {
             $plugin = new CF7DBPlugin;
         }
-        $canDelete = $plugin->canUserDoRoleOption('CanChangeSubmitData');
+        $canEdit = $plugin->canUserDoRoleOption('CanChangeSubmitData');
         $this->pageHeader($plugin);
 
         global $wpdb;
@@ -59,7 +59,7 @@ class CFDBViewWhatsInDB extends CFDBView {
         }
         if ($currSelection) {
             // Check for delete operation
-            if (isset($_POST['delete']) && $canDelete) {
+            if (isset($_POST['delete']) && $canEdit) {
                 if (isset($_POST['submit_time'])) {
                     $submitTime = $_POST['submit_time'];
                     $wpdb->query(
@@ -215,7 +215,7 @@ class CFDBViewWhatsInDB extends CFDBView {
                 <?php } ?>
             </td>
             <td align="right">
-                <?php if ($currSelection && $canDelete) { ?>
+                <?php if ($currSelection && $canEdit) { ?>
                 <form action="" method="post">
                     <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
                     <input name="all" type="hidden" value="y"/>
@@ -237,21 +237,27 @@ class CFDBViewWhatsInDB extends CFDBView {
                 ?>
             <script type="text/javascript" language="Javascript">
                 jQuery(document).ready(function() {
-                    jQuery('#<?php echo $tableHtmlId ?>').dataTable({
-                                                                        <?php // "sDom": 'Rlfrtip', // ColReorder ?>
-                                                                        "bJQueryUI": true,
-                                                                        "aaSorting": [],
-                                                                        "bScrollCollapse": true
-                                                                        <?php if ($i18nUrl) {
+                    jQuery('#<?php echo $tableHtmlId ?>').dataTable({ <?php // "sDom": 'Rlfrtip', // ColReorder ?>
+                    "bJQueryUI": true,
+                    "aaSorting": [],
+                    "bScrollCollapse": true
+                        <?php
+                        if ($i18nUrl) {
                             echo ", \"oLanguage\": { \"sUrl\":  \"$i18nUrl\" }";
-                        } ?>
-                                                                    })
+                        }
+                        if ($canEdit) {
+                            do_action_ref_array('cfdb_fnDrawCallbackJSON', array($tableHtmlId));
+                        }
+
+                        ?>
+                    });
                 });
+
             </script>
             <?php
 
             }
-            if ($canDelete) {
+            if ($canEdit) {
                 ?>
         <form action="" method="post">
             <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
@@ -266,13 +272,13 @@ class CFDBViewWhatsInDB extends CFDBView {
             $maxRows = $plugin->getOption('MaxRows', '100');
             $startRow = $this->paginationDiv($plugin, $dbRowCount, $maxRows, $page);
             ?>
-            <div <?php if (!$useDataTables) echo 'style="overflow:auto; max-height:500px;"' ?>>
+            <div <?php if (!$useDataTables) echo 'style="overflow:auto; max-height:500px; max-width:500px"' ?>>
             <?php
                 // Pick up any options that the user enters in the URL.
                 // This will include extraneous "form_name" and "page" GET params which are in the URL
                 // for this admin page
                 $options = array_merge($_POST, $_GET);
-                $options['canDelete'] = $canDelete;
+                $options['canDelete'] = $canEdit;
                 if ($maxRows) {
                     $options['limit'] = ($startRow - 1) . ',' . ($maxRows);
                 }
@@ -284,7 +290,7 @@ class CFDBViewWhatsInDB extends CFDBView {
                 $exporter->export($currSelection, $options);
                 ?>
             </div>
-            <?php if ($canDelete) {
+            <?php if ($canEdit) {
                 ?>
             </form>
         <?php
