@@ -20,7 +20,6 @@
 */
 
 require_once('ShortCodeLoader.php');
-require_once('ExportToHtmlTemplate.php');
 
 class CFDBShortcodeHtml extends ShortCodeLoader {
 
@@ -33,6 +32,7 @@ class CFDBShortcodeHtml extends ShortCodeLoader {
         if ($content) {
             $atts['fromshortcode'] = true;
             $atts['content'] = $content;
+            require_once('ExportToHtmlTemplate.php');
             $export = new ExportToHtmlTemplate();
             return $export->export($atts['form'], $atts);
         }

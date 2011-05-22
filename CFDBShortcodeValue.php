@@ -20,7 +20,6 @@
 */
 
 require_once('ShortCodeLoader.php');
-require_once('ExportToValue.php');
 
 class CFDBShortcodeValue extends ShortCodeLoader {
 
@@ -30,6 +29,7 @@ class CFDBShortcodeValue extends ShortCodeLoader {
      */
     public function handleShortcode($atts) {
         $atts['fromshortcode'] = true;
+        require_once('ExportToValue.php');
         $export = new ExportToValue();
         return $export->export($atts['form'], $atts);
     }

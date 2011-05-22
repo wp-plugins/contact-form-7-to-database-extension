@@ -20,8 +20,6 @@
 */
 
 require_once('ShortCodeLoader.php');
-require_once('CF7DBPlugin.php');
-require_once('ExportToHtmlTable.php');
 
 class CFDBShortcodeTable extends ShortCodeLoader {
 
@@ -49,6 +47,7 @@ class CFDBShortcodeTable extends ShortCodeLoader {
     public function handleShortcode($atts) {
         $atts['canDelete'] = false;
         $atts['fromshortcode'] = true;
+        require_once('ExportToHtmlTable.php');
         $export = new ExportToHtmlTable();
         return $export->export($atts['form'], $atts);
     }

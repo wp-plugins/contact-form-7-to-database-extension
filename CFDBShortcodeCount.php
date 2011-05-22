@@ -20,7 +20,6 @@
 */
 
 require_once('CFDBShortcodeValue.php');
-require_once('ExportToValue.php');
 
 class CFDBShortcodeCount extends CFDBShortcodeValue {
 

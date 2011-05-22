@@ -20,12 +20,12 @@
 */
 
 require_once('ShortCodeScriptLoader.php');
-require_once('CFDBShortcodeTable.php');
 
 class CFDBShortcodeDataTable extends ShortCodeScriptLoader {
 
     public function handleShortcode($atts) {
         $atts['useDT'] = true;
+        require_once('CFDBShortcodeTable.php');
         $sc = new CFDBShortcodeTable();
         return $sc->handleShortcode($atts);
     }

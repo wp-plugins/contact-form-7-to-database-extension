@@ -20,7 +20,6 @@
 */
 
 require_once('ShortCodeLoader.php');
-require_once('ExportToJson.php');
 
 class CFDBShortcodeJson extends ShortCodeLoader {
 
@@ -31,6 +30,7 @@ class CFDBShortcodeJson extends ShortCodeLoader {
     public function handleShortcode($atts) {
         $atts['html'] = true;
         $atts['fromshortcode'] = true;
+        require_once('ExportToJson.php');
         $export = new ExportToJson();
         return $export->export($atts['form'], $atts);
     }
