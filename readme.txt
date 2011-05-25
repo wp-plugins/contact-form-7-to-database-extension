@@ -69,6 +69,7 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 = 1.8.6 =
 * New shortcode: [cfdb-export-link]
+* Bug fix in JSON output
 
 = 1.8.5 =
 * Added Shortcode builder page
