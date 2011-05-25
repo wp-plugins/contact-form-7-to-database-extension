@@ -438,7 +438,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
         }
         catch (Exception $ex) {
-            error_log(sprintf('CFDB Error: %s:%s %s  ', $ex->getFile(), $ex->getLine(), $ex->getMessage(), $ex->getTraceAsString()));
+            error_log(sprintf('CFDB Error: %s:%s %s  %s', $ex->getFile(), $ex->getLine(), $ex->getMessage(), $ex->getTraceAsString()));
         }
     }
 
