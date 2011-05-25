@@ -353,93 +353,93 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * @return void
      */
     public function saveFormData($cf7) {
-//        try {
-        $title = $this->stripSlashes($cf7->title);
-        if (in_array($title, $this->getNoSaveForms())) {
-            return; // Don't save in DB
-        }
-
-        global $wpdb;
-        $time = function_exists('microtime') ? microtime(true) : time();
-
-        $ip = (isset($_SERVER['X_FORWARDED_FOR'])) ? $_SERVER['X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
-        $tableName = $this->getSubmitsTableName();
-        $parametrizedQuery = "INSERT INTO `$tableName` (`submit_time`, `form_name`, `field_name`, `field_value`, `field_order`) VALUES (%s, %s, %s, %s, %s)";
-        $parametrizedFileQuery = "UPDATE `$tableName` SET `file` =  '%s' WHERE `submit_time` = %F AND `form_name` = '%s' AND `field_name` = '%s' AND `field_value` = '%s'";
-
-        $order = 0;
-        $noSaveFields = $this->getNoSaveFields();
-        foreach ($cf7->posted_data as $name => $value) {
-            $nameClean = $this->stripSlashes($name);
-            if (in_array($nameClean, $noSaveFields)) {
-                continue; // Don't save in DB
+        try {
+            $title = $this->stripSlashes($cf7->title);
+            if (in_array($title, $this->getNoSaveForms())) {
+                return; // Don't save in DB
             }
 
-            $value = is_array($value) ? implode($value, ', ') : $value;
-            $valueClean = $this->stripSlashes($value);
-            $wpdb->query($wpdb->prepare($parametrizedQuery,
-                                        $time,
-                                        $title,
-                                        $nameClean,
-                                        $valueClean,
-                                        $order++));
+            global $wpdb;
+            $time = function_exists('microtime') ? microtime(true) : time();
 
-            // Store uploaded files - Do as a separate query in case it fails due to max size or other issue
-            if ($cf7->uploaded_files && isset($cf7->uploaded_files[$nameClean])) {
-                $filePath = $cf7->uploaded_files[$nameClean];
-                if ($filePath) {
-                    $content = file_get_contents($filePath);
-                    $wpdb->query($wpdb->prepare($parametrizedFileQuery,
-                                                $content,
-                                                $time,
-                                                $title,
-                                                $nameClean,
-                                                $valueClean));
-                }
-            }
-        }
+            $ip = (isset($_SERVER['X_FORWARDED_FOR'])) ? $_SERVER['X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
+            $tableName = $this->getSubmitsTableName();
+            $parametrizedQuery = "INSERT INTO `$tableName` (`submit_time`, `form_name`, `field_name`, `field_value`, `field_order`) VALUES (%s, %s, %s, %s, %s)";
+            $parametrizedFileQuery = "UPDATE `$tableName` SET `file` =  '%s' WHERE `submit_time` = %F AND `form_name` = '%s' AND `field_name` = '%s' AND `field_value` = '%s'";
 
-        // Save Cookie data if that option is true
-        if ($this->getOption('SaveCookieData', 'false') == 'true' && is_array($_COOKIE)) {
-            $saveCookies = $this->getSaveCookies();
-            foreach ($_COOKIE as $cookieName => $cookieValue) {
-                if (!empty($saveCookies) && !in_array($cookieName, $saveCookies)) {
-                    continue;
+            $order = 0;
+            $noSaveFields = $this->getNoSaveFields();
+            foreach ($cf7->posted_data as $name => $value) {
+                $nameClean = $this->stripSlashes($name);
+                if (in_array($nameClean, $noSaveFields)) {
+                    continue; // Don't save in DB
                 }
+
+                $value = is_array($value) ? implode($value, ', ') : $value;
+                $valueClean = $this->stripSlashes($value);
                 $wpdb->query($wpdb->prepare($parametrizedQuery,
                                             $time,
                                             $title,
-                                            'Cookie ' . $cookieName,
-                                            $cookieValue,
+                                            $nameClean,
+                                            $valueClean,
                                             $order++));
-            }
-        }
 
-        // If the submitter is logged in, capture his id
-        if (is_user_logged_in()) {
-            $order = ($order < 9999) ? 9999 : $order + 1; // large order num to try to make it always next-to-last
-            $current_user = wp_get_current_user(); // WP_User
+                // Store uploaded files - Do as a separate query in case it fails due to max size or other issue
+                if ($cf7->uploaded_files && isset($cf7->uploaded_files[$nameClean])) {
+                    $filePath = $cf7->uploaded_files[$nameClean];
+                    if ($filePath) {
+                        $content = file_get_contents($filePath);
+                        $wpdb->query($wpdb->prepare($parametrizedFileQuery,
+                                                    $content,
+                                                    $time,
+                                                    $title,
+                                                    $nameClean,
+                                                    $valueClean));
+                    }
+                }
+            }
+
+            // Save Cookie data if that option is true
+            if ($this->getOption('SaveCookieData', 'false') == 'true' && is_array($_COOKIE)) {
+                $saveCookies = $this->getSaveCookies();
+                foreach ($_COOKIE as $cookieName => $cookieValue) {
+                    if (!empty($saveCookies) && !in_array($cookieName, $saveCookies)) {
+                        continue;
+                    }
+                    $wpdb->query($wpdb->prepare($parametrizedQuery,
+                                                $time,
+                                                $title,
+                                                'Cookie ' . $cookieName,
+                                                $cookieValue,
+                                                $order++));
+                }
+            }
+
+            // If the submitter is logged in, capture his id
+            if (is_user_logged_in()) {
+                $order = ($order < 9999) ? 9999 : $order + 1; // large order num to try to make it always next-to-last
+                $current_user = wp_get_current_user(); // WP_User
+                $wpdb->query($wpdb->prepare($parametrizedQuery,
+                                            $time,
+                                            $title,
+                                            'Submitted Login',
+                                            $current_user->user_login,
+                                            $order));
+            }
+
+            // Capture the IP Address of the submitter
+            $order = ($order < 10000) ? 10000 : $order + 1; // large order num to try to make it always last
             $wpdb->query($wpdb->prepare($parametrizedQuery,
                                         $time,
                                         $title,
-                                        'Submitted Login',
-                                        $current_user->user_login,
+                                        'Submitted From',
+                                        $ip,
                                         $order));
+
         }
-
-        // Capture the IP Address of the submitter
-        $order = ($order < 10000) ? 10000 : $order + 1; // large order num to try to make it always last
-        $wpdb->query($wpdb->prepare($parametrizedQuery,
-                                    $time,
-                                    $title,
-                                    'Submitted From',
-                                    $ip,
-                                    $order));
-
-//        }
-//        catch (Exception $ex) {
-//            //echo $ex->getTraceAsString();
-//        }
+        catch (Exception $ex) {
+            error_log(sprintf('CFDB Error: %s:%s %s  ', $ex->getFile(), $ex->getLine(), $ex->getMessage(), $ex->getTraceAsString()));
+        }
     }
 
     /**
