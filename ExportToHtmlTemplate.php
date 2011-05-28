@@ -33,10 +33,14 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
         $this->setOptions($options);
         $this->setCommonOptions(true);
 
-        $filelinks = 'url';
+        $filelinks = '';
+        $wpautop = false;
         if ($this->options && is_array($this->options)) {
             if (isset($this->options['filelinks'])) {
                 $filelinks = $this->options['filelinks'];
+            }
+            if (isset($this->options['wpautop'])) {
+                $wpautop = $this->options['wpautop'] == 'true';
             }
         }
 
@@ -88,9 +92,11 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
         // So we try to identify that and strip it out.
         // This is related to http://codex.wordpress.org/Function_Reference/wpautop
         // see also http://wordpress.org/support/topic/shortcodes-are-wrapped-in-paragraph-tags?replies=4
-        if (substr($options['content'], 0, 6) == '<br />' &&
-            substr($options['content'], -3, 3) == '<p>') {
-            $options['content'] = substr($options['content'], 6, strlen($options['content']) - 6 - 3);
+        if ($wpautop) {
+            if (substr($options['content'], 0, 6) == '<br />' &&
+                substr($options['content'], -3, 3) == '<p>') {
+                $options['content'] = substr($options['content'], 6, strlen($options['content']) - 6 - 3);
+            }
         }
 
         while ($this->dataIterator->nextRow()) {
