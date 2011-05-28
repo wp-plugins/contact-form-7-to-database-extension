@@ -480,7 +480,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
     </style>
 
     <div id="shortcode_result_div">
-        <code><span id="shortcode_result_text"></span></code>
+        <pre style="white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; white-space: pre-wrap; word-wrap: break-word;"><code id="shortcode_result_text"></code></pre>
     </div>
     <div id="url_result_link_div">
         <code><a target="_cfdb_export" href="#" id="url_result_link"></a></code>
