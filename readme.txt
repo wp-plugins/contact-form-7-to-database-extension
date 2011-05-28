@@ -67,6 +67,9 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
+= 1.8.7 =
+* [cfdb-htm] now has wpautop option
+
 = 1.8.6 =
 * New shortcode: [cfdb-export-link]
 * Bug fix in JSON output

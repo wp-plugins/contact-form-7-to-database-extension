@@ -272,6 +272,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 case '[cfdb-html]':
                     scElements.push(getValue('filelinks', jQuery('#filelinks_cntl').val(), validationErrors));
                     urlElements.push(getValueUrl('filelinks', jQuery('#filelinks_cntl').val()));
+                    scElements.push(getValue('wpautop', jQuery('#wpautop_cntl').val(), validationErrors));
+                    urlElements.push(getValueUrl('wpautop', jQuery('#wpautop_cntl').val()));
                     var content = jQuery('#content_cntl').val();
                     urlElements.push('content=' + encodeURIComponent(content));
                     urlElements.push('enc=HTMLTemplate');
@@ -415,6 +417,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#function_cntl').val('');
             jQuery('#delimiter_cntl').val('');
             jQuery('#filelinks_cntl').val('');
+            jQuery('#wpautop_cntl').val('');
             jQuery('#content_cntl').val('');
             jQuery('#enc_cntl').val('');
             jQuery('#urlonly_cntl').val('');
@@ -642,6 +645,12 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 <option value="name">name</option>
                 <option value="link">link</option>
                 <option value="img">img</option>
+            </select>
+            <div class="label_box"><label for="wpautop_cntl">wpautop</label></div>
+            <select id="wpautop_cntl" name="wpautop_cntl">
+                <option value=""></option>
+                <option value="false">false</option>
+                <option value="true">true</option>
             </select>
         </div>
         <div>
