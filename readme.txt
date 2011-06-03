@@ -2,8 +2,8 @@
 Contributors: msimpson
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=NEVDJ792HKGFN&lc=US&item_name=Wordpress%20Plugin&item_number=cf7%2dto%2ddb%2dextension&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 Tags: contact form,database
-Requires at least: 2.9
-Tested up to: 3.1.2
+Requires at least: 3.0
+Tested up to: 3.1.3
 Stable tag: 1.8.6
 
 Extension to the Contact Form 7 plugin that saves submitted form data to the database.
@@ -69,6 +69,7 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 = 1.8.7 =
 * [cfdb-htm] now has wpautop option
+* Form input is not always run through stripslashes() regardless of whether or not get_magic_quotes_gpc is on. This is to be consistent with wp_magic_quotes always being called
 
 = 1.8.6 =
 * New shortcode: [cfdb-export-link]
