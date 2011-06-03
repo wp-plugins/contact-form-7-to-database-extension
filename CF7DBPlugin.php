@@ -354,7 +354,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      */
     public function saveFormData($cf7) {
         try {
-            $title = $this->stripSlashes($cf7->title);
+            $title = stripslashes($cf7->title);
             if (in_array($title, $this->getNoSaveForms())) {
                 return; // Don't save in DB
             }
@@ -370,13 +370,13 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             $order = 0;
             $noSaveFields = $this->getNoSaveFields();
             foreach ($cf7->posted_data as $name => $value) {
-                $nameClean = $this->stripSlashes($name);
+                $nameClean = stripslashes($name);
                 if (in_array($nameClean, $noSaveFields)) {
                     continue; // Don't save in DB
                 }
 
                 $value = is_array($value) ? implode($value, ', ') : $value;
-                $valueClean = $this->stripSlashes($value);
+                $valueClean = stripslashes($value);
                 $wpdb->query($wpdb->prepare($parametrizedQuery,
                                             $time,
                                             $title,
@@ -612,15 +612,6 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         //            return $overrideTable;
         //        }
         return $this->prefixTableName('SUBMITS');
-    }
-
-    /**
-     * Utility function wrapping call to PHP stripslashes()
-     * @param  $text string
-     * @return string
-     */
-    public function &stripSlashes($text) {
-        return get_magic_quotes_gpc() ? stripslashes($text) : $text;
     }
 
     /**
