@@ -188,5 +188,14 @@ class CFDBQueryResultIterator {
         return $this->row ? true : false;
     }
 
-
+    /**
+     * If you do not iterate over all the rows returned, be sure to call this function
+     * when done with the result set to free it.
+     * @return void
+     */
+    public function freeResults() {
+        if ($this->results) {
+            mysql_free_result($this->results);
+        }
+    }
 }
