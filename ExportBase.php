@@ -344,7 +344,7 @@ class ExportBase {
             $sql .= ",\n max(if(`field_name`='$aCol', `field_value`, null )) AS '$aCol'";
         }
         if (!$count) {
-            $sql .= ",\n GROUP_CONCAT(if(`file` is null or length(file) = 0, null, `field_name`)) AS fields_with_file";
+            $sql .= ",\n GROUP_CONCAT(if(`file` is null or length(`file`) = 0, null, `field_name`)) AS 'fields_with_file'";
         }
         $sql .=  "\nFROM `$tableName` \n$formNameClause \nGROUP BY `submit_time` ";
         if ($count) {
