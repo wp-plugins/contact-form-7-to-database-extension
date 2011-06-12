@@ -186,15 +186,14 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
                     $fields_with_file = explode(',', $this->dataIterator->row['fields_with_file']);
                 }
                 foreach ($this->dataIterator->displayColumns as $aCol) {
-                    $cell = htmlentities($this->dataIterator->row[$aCol], null, 'UTF-8'); // no HTML injection
-                    if ($showLineBreaks) {
-                        $cell = str_replace("\r\n", '<br/>', $cell); // preserve DOS line breaks
-                        $cell = str_replace("\n", '<br/>', $cell); // preserve UNIX line breaks
-                    }
-                    if ($fields_with_file && in_array($aCol, $fields_with_file)) {
-                        $fileUrl = $this->plugin->getFileUrl($this->dataIterator->row[$submitTimeKeyName], $formName, $aCol);
-                        $cell = "<a href=\"$fileUrl\">$cell</a>";
-                    }
+                    $cell = $this->rawValueToPresentationValue(
+                        $this->dataIterator->row[$aCol],
+                        $showLineBreaks,
+                        ($fields_with_file && in_array($aCol, $fields_with_file)),
+                        $this->dataIterator->row[$submitTimeKeyName],
+                        $formName,
+                        $aCol);
+
                     // NOTE: the ID field is used to identify the cell when an edit happens and we save that to the server
                     printf('<td title="%s"><div id="%s,%s">%s</div></td>', $aCol, $submitKey, $aCol, $cell);
                 }
@@ -212,6 +211,20 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
             ob_end_clean();
             return $output;
         }
+    }
+
+    public function &rawValueToPresentationValue(&$value, $showLineBreaks, $isUrl, &$submitTimeKey, &$formName, &$fieldName) {
+        $value = htmlentities($value, null, 'UTF-8'); // no HTML injection
+        if ($showLineBreaks) {
+            $value = str_replace("\r\n", '<br/>', $value); // preserve DOS line breaks
+            $value = str_replace("\n", '<br/>', $value); // preserve UNIX line breaks
+        }
+        if ($isUrl) {
+            $fileUrl = $this->plugin->getFileUrl($submitTimeKey, $formName, $fieldName);
+            $value = "<a href=\"$fileUrl\">$value</a>";
+        }
+
+        return $value;
     }
 }
 
