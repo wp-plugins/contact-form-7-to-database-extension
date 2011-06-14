@@ -50,7 +50,7 @@ class CFDBFormIterator extends ExportBase implements CFDBExport {
     public function export($formName, $options = null) {
         $this->setOptions($options);
         $this->setCommonOptions();
-        $this->setDataIterator($formName);
+        $this->setDataIterator($formName, 'SubmitTimeKey');
     }
 
     /**
