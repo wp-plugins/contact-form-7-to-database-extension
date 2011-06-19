@@ -67,8 +67,11 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
+= 1.8.8 =
+* [cfdb-html] now preserves line breaks in fields by converting new lines to BR tags.
+
 = 1.8.7 =
-* [cfdb-htm] now has wpautop option
+* [cfdb-html] now has wpautop option
 * Form input is not always run through stripslashes() regardless of whether or not get_magic_quotes_gpc is on. This is to be consistent with wp_magic_quotes always being called
 
 = 1.8.6 =
