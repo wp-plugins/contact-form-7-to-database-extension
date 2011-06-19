@@ -122,7 +122,7 @@ msgid "Capture form submissions from Contact Form 7 Plugin"
 msgstr "Preleva i dati dal plugin Contact Form 7"
 
 #: CF7DBPlugin.php:50
-msgid "Capture form submissions Fast Secure Contact Form Plugin"
+msgid "Capture form submissions from Fast Secure Contact Form Plugin"
 msgstr "Preleva i dati dal plugin Fast Secure Contact Form"
 
 #: CF7DBPlugin.php:51

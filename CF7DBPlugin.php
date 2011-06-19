@@ -47,7 +47,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             //'_version' => array('Installed Version'), // For testing upgrades
             'Donated' => array(__('I have donated to this plugin', 'contact-form-7-to-database-extension'), 'false', 'true'),
             'IntegrateWithCF7' => array(__('Capture form submissions from Contact Form 7 Plugin', 'contact-form-7-to-database-extension'), 'true', 'false'),
-            'IntegrateWithFSCF' => array(__('Capture form submissions Fast Secure Contact Form Plugin', 'contact-form-7-to-database-extension'), 'true', 'false'),
+            'IntegrateWithFSCF' => array(__('Capture form submissions from Fast Secure Contact Form Plugin', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'CanSeeSubmitData' => array(__('Can See Submission data', 'contact-form-7-to-database-extension'),
                                         'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
             'CanSeeSubmitDataViaShortcode' => array(__('Can See Submission when using shortcodes', 'contact-form-7-to-database-extension'),
