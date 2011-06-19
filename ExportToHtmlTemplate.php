@@ -93,10 +93,16 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
         // This is related to http://codex.wordpress.org/Function_Reference/wpautop
         // see also http://wordpress.org/support/topic/shortcodes-are-wrapped-in-paragraph-tags?replies=4
         if (!$wpautop) {
+            //echo 'Initial: \'' . htmlentities($options['content']) . '\'';
             if (substr($options['content'], 0, 6) == '<br />' &&
                 substr($options['content'], -3, 3) == '<p>') {
                 $options['content'] = substr($options['content'], 6, strlen($options['content']) - 6 - 3);
             }
+            if (substr($options['content'], 0, 4) == '</p>' &&
+                substr($options['content'], -3, 3) == '<p>') {
+                $options['content'] = substr($options['content'], 4, strlen($options['content']) - 4 - 3);
+            }
+            //echo '<br/>Stripped: \'' . htmlentities($options['content']) . '\'';
         }
 
         while ($this->dataIterator->nextRow()) {
@@ -142,6 +148,11 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
                     else {
                         $replacements[] = htmlentities($this->dataIterator->row[$aCol], null, 'UTF-8');
                     }
+                }
+                // Preserve line breaks in the field
+                foreach ($replacements as $i => $repl) {
+                    $replacements[$i] = str_replace("\r\n", '<br/>', $replacements[$i]); // preserve DOS line breaks
+                    $replacements[$i] = str_replace("\n", '<br/>', $replacements[$i]); // preserve UNIX line breaks
                 }
                 echo str_replace($varNamesToSub, $replacements, $options['content']);
             }
