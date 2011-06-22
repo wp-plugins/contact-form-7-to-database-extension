@@ -138,6 +138,9 @@ class CF7FilterParser implements CF7DBEvalutator {
      * @return array of string [ value1, operator, value2 ]
      */
     public function parseExpression($comparisonExpression) {
+        // Sometimes get HTML codes for greater-than and less-than; replace them with actual symbols
+        $comparisonExpression = str_replace('&gt;', '>', $comparisonExpression);
+        $comparisonExpression = str_replace('&lt;', '<', $comparisonExpression);
         return preg_split('/(===)|(==)|(=)|(!==)|(!=)|(<>)|(<=)|(<)|(>=)|(>)|(~~)/',
                           $comparisonExpression, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
     }

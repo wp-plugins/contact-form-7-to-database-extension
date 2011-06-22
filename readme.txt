@@ -70,6 +70,7 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 = 1.8.8 =
 * [cfdb-html] now preserves line breaks in fields by converting new lines to BR tags.
 * Bug fix: "orderby" in shortcode was ignoring if ordered by "Submitted" or "submit_time"
+* Bug fix: when using "filter" operators < and > where not working in cases where they were represented &amp;gt; and &amp;lt; HTML codes
 * CFDBFormIterator now includes a 'submit_time' field showing the raw timestamp
 
 = 1.8.7 =
