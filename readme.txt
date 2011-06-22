@@ -69,10 +69,12 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 = 1.8.8 =
 * [cfdb-html] now preserves line breaks in fields by converting new lines to BR tags.
+* Bug fix: "orderby" in shortcode was ignoring if ordered by "Submitted" or "submit_time"
+* CFDBFormIterator now includes a 'submit_time' field showing the raw timestamp
 
 = 1.8.7 =
 * [cfdb-html] now has wpautop option
-* Form input is not always run through stripslashes() regardless of whether or not get_magic_quotes_gpc is on. This is to be consistent with wp_magic_quotes always being called
+* Form input is now always run through stripslashes() regardless of whether or not get_magic_quotes_gpc is on. This is to be consistent with wp_magic_quotes always being called
 
 = 1.8.6 =
 * New shortcode: [cfdb-export-link]
