@@ -29,7 +29,7 @@ class CFDBDie {
      * example. So if there are errors we want the wp_die() error page. So this
      * function is a copy of wp_die without the Ajax mode check.
      * @static
-     * @param  $message HTML
+     * @param string $message HTML
      * @param string $title HTML Title
      * @param array $args see wp_die
      * @return void
