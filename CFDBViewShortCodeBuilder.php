@@ -323,6 +323,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     break;
                 case '[cfdb-export-link]':
                     scElements.push(getValue('enc', jQuery('#enc_cntl').val(), validationErrors));
+                    urlElements.push(getValue('enc', jQuery('#enc_cntl').val()));
                     scElements.push(getValue('urlonly', jQuery('#urlonly_cntl').val(), validationErrors));
                     scText = join(scElements) + ']';
                     break;
@@ -332,14 +333,9 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             }
             jQuery('#shortcode_result_text').html(scText);
 
-            if (shortcode == '[cfdb-export-link]') {
-                jQuery('#url_result_link').attr('href', '#').html('');
-            }
-            else {
-                var url = '<?php echo admin_url('admin-ajax.php') ?>?action=cfdb-export&';
-                url += join(urlElements, '&');
-                jQuery('#url_result_link').attr('href', url).html(url);
-            }
+            var url = '<?php echo admin_url('admin-ajax.php') ?>?action=cfdb-export&';
+            url += join(urlElements, '&');
+            jQuery('#url_result_link').attr('href', url).html(url);
             jQuery('#validations_text').html(validationErrors.join('<br/>'));
         }
 
@@ -523,6 +519,11 @@ class CFDBViewShortCodeBuilder extends CFDBView {
     <div class="shortcodeoptions">
         <a id="doc_url_tag" target="_docs"
            href="http://cfdbplugin.com/?page_id=89"><?php _e('Documentation', 'contact-form-7-to-database-extension'); ?></a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <span style="font-size: x-small;">
+            <a target="_docs"
+               href="http://cfdbplugin.com/?page_id=444"><?php _e('(Did you know: you can create your own short code)', 'contact-form-7-to-database-extension'); ?></a>
+        </span>
     </div>
     <div id="show_hide_div" class="shortcodeoptions">
         <?php _e('Which fields/columns do you want to display?', 'contact-form-7-to-database-extension'); ?>
