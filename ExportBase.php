@@ -154,8 +154,8 @@ class ExportBase {
                 $this->rowFilter->setComparisonValuePreprocessor(new DereferenceShortcodeVars);
                 $this->rowFilter->parseFilterString($this->options['filter']);
                 if ($this->debug) {
-                    echo '<pre>';
-                    print_r($this->rowFilter->getFilterTree());
+                    echo '<pre>\'' . $this->options['filter'] . "'\n";
+                    print_r($this->rowFilter->tree);
                     echo '</pre>';
                 }
             }
@@ -271,7 +271,7 @@ class ExportBase {
     }
 
     /**
-     * @param string|array of string $formName
+     * @param string|array $formName (if array, must be array of string)
      * @param null|string $submitTimeKeyName
      * @return void
      */
@@ -312,7 +312,7 @@ class ExportBase {
 //    }
 
     /**
-     * @param string|array of string $formName
+     * @param string|array $formName (if array, must be array of string)
      * @param bool $count
      * @return string
      */
@@ -366,9 +366,9 @@ class ExportBase {
                         $anOrderBy = trim(substr($anOrderBy, 0, -4));
                     }
                     if ($anOrderBy == 'Submitted') {
-                        $anOrderBy = "submit_time";
+                        $anOrderBy = 'submit_time';
                     }
-                    if (in_array($anOrderBy, $fields)) {
+                    if (in_array($anOrderBy, $fields) || $anOrderBy == 'submit_time') {
                         $orderBys[] = '`' . $anOrderBy . '`' . $ascOrDesc;
                     }
                 }
@@ -395,11 +395,12 @@ class ExportBase {
                 $sql .= "\nLIMIT " . $this->options['limit'];
             }
         }
+        //echo $sql; // debug
         return $sql;
     }
 
     /**
-     * @param string|array of string $formName
+     * @param string|array $formName (if array, must be array of string)
      * @return int
      */
     public function getDBRowCount($formName) {
