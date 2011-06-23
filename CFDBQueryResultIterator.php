@@ -82,6 +82,12 @@ class CFDBQueryResultIterator {
     var $onFirstRow = false;
 
 
+    /**
+     * @param  $sql string
+     * @param  $rowFilter CF7DBEvalutator|CF7FilterParser|CF7SearchEvaluator
+     * @param array $queryOptions array
+     * @return
+     */
     public function query(&$sql, &$rowFilter, $queryOptions = array()) {
         $this->rowFilter = $rowFilter;
         $this->results = null;
@@ -159,8 +165,13 @@ class CFDBQueryResultIterator {
             $this->row['Submitted'] = $this->plugin->formatDate($submitTime);
 
             // Determine if row is filtered
-            if ($this->rowFilter && !$this->rowFilter->evaluate($this->row)) {
-                continue;
+            if ($this->rowFilter) {
+                $this->row['submit_time'] = $submitTime;
+                $match = $this->rowFilter->evaluate($this->row);
+                unset($this->row['submit_time']);
+                if (!$match) {
+                    continue;
+                }
             }
 
             $this->idx += 1;
