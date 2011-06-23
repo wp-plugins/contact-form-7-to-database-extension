@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-"
 "extension\n"
-"POT-Creation-Date: 2011-05-25 20:54:01+00:00\n"
+"POT-Creation-Date: 2011-06-23 00:19:58+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,7 +18,7 @@ msgid "Rate this Plugin"
 msgstr ""
 
 #: CFDBView.php:69 CFDBViewShortCodeBuilder.php:63
-#: CFDBViewShortCodeBuilder.php:522
+#: CFDBViewShortCodeBuilder.php:523
 msgid "Documentation"
 msgstr ""
 
@@ -76,7 +76,7 @@ msgstr ""
 msgid "Export"
 msgstr ""
 
-#: CF7DBOptionsManager.php:278 CF7DBPlugin.php:276
+#: CF7DBOptionsManager.php:278 CF7DBPlugin.php:277
 #: ExportToGoogleLiveData.php:31
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
@@ -122,7 +122,7 @@ msgid "Capture form submissions from Contact Form 7 Plugin"
 msgstr ""
 
 #: CF7DBPlugin.php:50
-msgid "Capture form submissions Fast Secure Contact Form Plugin"
+msgid "Capture form submissions from Fast Secure Contact Form Plugin"
 msgstr ""
 
 #: CF7DBPlugin.php:51
@@ -211,31 +211,31 @@ msgstr ""
 msgid "Anyone"
 msgstr ""
 
-#: CF7DBPlugin.php:282
+#: CF7DBPlugin.php:283
 msgid "Missing form parameters"
 msgstr ""
 
-#: CF7DBPlugin.php:286
+#: CF7DBPlugin.php:287
 msgid "No such file."
 msgstr ""
 
-#: CF7DBPlugin.php:318 CF7DBPlugin.php:338
+#: CF7DBPlugin.php:319 CF7DBPlugin.php:339
 msgid "Database Options"
 msgstr ""
 
-#: CF7DBPlugin.php:336 CF7DBPlugin.php:511
+#: CF7DBPlugin.php:337 CF7DBPlugin.php:512
 msgid "Database"
 msgstr ""
 
-#: CF7DBPlugin.php:340
+#: CF7DBPlugin.php:341
 msgid "Build Short Code"
 msgstr ""
 
-#: CF7DBPlugin.php:342
+#: CF7DBPlugin.php:343
 msgid "FAQ"
 msgstr ""
 
-#: CF7DBPlugin.php:519
+#: CF7DBPlugin.php:520
 msgid "Database Short Code"
 msgstr ""
 
@@ -247,7 +247,7 @@ msgstr ""
 msgid "No form submissions in the database"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:102 CFDBViewShortCodeBuilder.php:507
+#: CFDBViewWhatsInDB.php:102 CFDBViewShortCodeBuilder.php:508
 msgid "* Select a form *"
 msgstr ""
 
@@ -259,19 +259,19 @@ msgstr ""
 msgid "Cannot perform operation because jQuery is not loaded in this page"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:187 CFDBViewShortCodeBuilder.php:668
+#: CFDBViewWhatsInDB.php:187 CFDBViewShortCodeBuilder.php:680
 msgid "Excel Internet Query"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:190 CFDBViewShortCodeBuilder.php:659
+#: CFDBViewWhatsInDB.php:190 CFDBViewShortCodeBuilder.php:671
 msgid "Excel CSV (UTF8-BOM)"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:193 CFDBViewShortCodeBuilder.php:662
+#: CFDBViewWhatsInDB.php:193 CFDBViewShortCodeBuilder.php:674
 msgid "Excel TSV (UTF16LE-BOM)"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:196 CFDBViewShortCodeBuilder.php:665
+#: CFDBViewWhatsInDB.php:196 CFDBViewShortCodeBuilder.php:677
 msgid "Plain CSV (UTF-8)"
 msgstr ""
 
@@ -369,35 +369,39 @@ msgstr ""
 msgid "Error: \"limit\": \"Start Row\" must be a positive integer"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:494
+#: CFDBViewShortCodeBuilder.php:495
 msgid "* Select a short code *"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:517
+#: CFDBViewShortCodeBuilder.php:518
 msgid "Reset"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:525
+#: CFDBViewShortCodeBuilder.php:527
+msgid "(Did you know: you can create your own short code)"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:531
 msgid "Which fields/columns do you want to display?"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:538
+#: CFDBViewShortCodeBuilder.php:544
 msgid "Which rows/submissions do you want to display?"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:584
+#: CFDBViewShortCodeBuilder.php:590
 msgid "HTML Table Formatting"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:599
+#: CFDBViewShortCodeBuilder.php:605
 msgid "DataTable Options"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:604
+#: CFDBViewShortCodeBuilder.php:610
 msgid "JSON Options"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:620
+#: CFDBViewShortCodeBuilder.php:626
 msgid "VALUE Options"
 msgstr ""
 
