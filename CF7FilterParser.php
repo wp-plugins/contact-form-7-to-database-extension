@@ -215,6 +215,12 @@ class CF7FilterParser implements CF7DBEvalutator {
             $right = null;
         }
 
+        // Try to do numeric comparisons when possible
+        if (is_numeric($left) && is_numeric($right)) {
+            $left = (float)$left;
+            $right = (float)$right;
+        }
+
         // Could do this easier with eval() but I want since this text ultimately
         // comes form a shortcode's user-entered attributes, I want to avoid a security hole
         $retVal = false;
