@@ -50,7 +50,7 @@ class CFDBFormIterator extends ExportBase implements CFDBExport {
     public function export($formName, $options = null) {
         $this->setOptions($options);
         $this->setCommonOptions();
-        $this->setDataIterator($formName, 'submit_time');
+        $this->setDataIterator($formName);
     }
 
     /**
@@ -59,7 +59,6 @@ class CFDBFormIterator extends ExportBase implements CFDBExport {
     public function nextRow() {
         if ($this->dataIterator->nextRow()) {
             $row = array();
-            $row['submit_time'] = $this->dataIterator->row['submit_time'];
             foreach ($this->dataIterator->displayColumns as $aCol) {
                 $row[$aCol] = $this->dataIterator->row[$aCol];
             }
