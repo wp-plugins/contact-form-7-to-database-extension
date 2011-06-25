@@ -162,13 +162,12 @@ class CFDBQueryResultIterator {
 
             // Format the date
             $submitTime = $this->row['Submitted'];
+            $this->row['submit_time'] = $submitTime;
             $this->row['Submitted'] = $this->plugin->formatDate($submitTime);
 
             // Determine if row is filtered
             if ($this->rowFilter) {
-                $this->row['submit_time'] = $submitTime;
                 $match = $this->rowFilter->evaluate($this->row);
-                unset($this->row['submit_time']);
                 if (!$match) {
                     continue;
                 }
