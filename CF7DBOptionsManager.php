@@ -296,8 +296,28 @@ class CF7DBOptionsManager {
             <h2><?php _e('System Settings'); ?></h2>
             <table class="form-table"><tbody>
             <tr><td><?php _e('System'); ?></td><td><?php echo php_uname(); ?></td></tr>
-            <tr><td><?php _e('PHP Version'); ?></td><td><?php echo phpversion(); ?></td></tr>
-            <tr><td><?php _e('MySQL Version'); ?></td><td><?php echo $this->getMySqlVersion() ?></td></tr>
+            <tr><td><?php _e('PHP Version'); ?></td>
+                <td><?php echo phpversion(); ?>
+                <?php
+                if (version_compare('5.2', phpversion()) > 0) {
+                    echo '&nbsp;&nbsp;&nbsp;<span style="background-color: #ffcc00;">';
+                    _e('(WARNING: This plugin may not work properly with versions earlier than PHP 5.2)', 'contact-form-7-to-database-extension');
+                    echo '</span>';
+                }
+                ?>
+                </td>
+            </tr>
+            <tr><td><?php _e('MySQL Version'); ?></td>
+                <td><?php echo $this->getMySqlVersion() ?>
+                    <?php
+                    echo '&nbsp;&nbsp;&nbsp;<span style="background-color: #ffcc00;">';
+                    if (version_compare('5.0', $this->getMySqlVersion()) > 0) {
+                        _e('(WARNING: This plugin may not work properly with versions earlier than MySQL 5.0)', 'contact-form-7-to-database-extension');
+                    }
+                    echo '</span>';
+                    ?>
+                </td>
+            </tr>
             </tbody></table>
 
             <h2><?php echo $this->getPluginDisplayName(); echo ' '; _e('Settings', 'contact-form-7-to-database-extension'); ?></h2>
