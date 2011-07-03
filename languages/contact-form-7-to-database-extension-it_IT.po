@@ -37,8 +37,8 @@ msgid "Error: No \"form\" parameter submitted"
 msgstr "Errore: nessun parametro \"form\" inserito"
 
 #: contact-form-7-db.php:21
-msgid "Error: Contact Form to DB Plugin requires a newer version of PHP to be running."
-msgstr "Errore: il plugin Contact Form to DB per potere funzionare richiede una nuova versione PHP."
+msgid "Error: plugin \"Contact Form to DB Extension\" requires a newer version of PHP to be running."
+msgstr "Errore: il plugin \"Contact Form to DB Extension\" per potere funzionare richiede una nuova versione PHP."
 
 #: contact-form-7-db.php:23
 msgid "Minimal version of PHP required: "
