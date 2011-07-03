@@ -2,7 +2,7 @@
 /*
    Plugin Name: Contact Form to DB Extension
    Plugin URI: http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/
-   Version: 1.9
+   Version: 2.0
    Author: Michael Simpson
    Description: Save form submissions to the database from Contact Form 7 and Fast Secure Contact Form. Includes exports and short codes.  | <a href="admin.php?page=CF7DBPluginSubmissions">Data</a>  | <a href="admin.php?page=CF7DBPluginSettings">Settings</a> | <a href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/">FAQ</a>
    Text Domain: contact-form-7-to-database-extension
@@ -21,8 +21,8 @@ function CF7DBPlugin_noticePhpVersionWrong() {
     global $CF7DBPlugin_minimalRequiredPhpVersion;
     echo '<div class="updated fade">' .
       __('Error: plugin "Contact Form to DB Extension" requires a newer version of PHP to be running.',  'contact-form-7-to-database-extension').
-            '<br/>' . __('Minimal version of PHP required: ', 'contact-form-7-to-database-extension') . '<strong>' . $CF7DBPlugin_minimalRequiredPhpVersion . '</strong></li>' .
-            '<br/>' . __('Your server\'s PHP version: ', 'contact-form-7-to-database-extension') . '<strong>' . phpversion() . '</strong></li>' .
+            '<br/>' . __('Minimal version of PHP required: ', 'contact-form-7-to-database-extension') . '<strong>' . $CF7DBPlugin_minimalRequiredPhpVersion . '</strong>' .
+            '<br/>' . __('Your server\'s PHP version: ', 'contact-form-7-to-database-extension') . '<strong>' . phpversion() . '</strong>' .
          '</div>';
 }
 
