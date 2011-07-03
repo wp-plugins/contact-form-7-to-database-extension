@@ -52,8 +52,9 @@ Yes, <a href="http://cfdbplugin.com/?page_id=89">documentation on shortcodes</a>
 
 = What is the name of the table where the data is stored? =
 
-`wp_CF7DBPlugin_SUBMITS`
+`wp_cf7dbplugin_submits`
 Note: if you changed your WordPress MySql table prefix from the default `wp_` to something else, then this table will also have that prefix instead of `wp_` (`$wpdb->prefix`)
+Note: previous to version 2.0, the table was named "wp_CF7DBPlugin_SUBMITS" but was changed to all-lowercase as part of the 2.0 upgrade.
 
 = If I uninstall the plugin, what happens to its data in the database? =
 
@@ -66,6 +67,11 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 1. Admin Panel view of submitted form data
 
 == Changelog ==
+
+= 2.0 =
+* Data editing support in conjunction with Contact Form to Database Edit plugin
+* Name of table that stores data was down-cased from wp_CF7DBPlugin_SUBMITS to wp_cf7dbplugin_submits to avoid issues
+ described in http://wordpress.org/support/topic/cf7-and-cfdb-not-saving-submissions
 
 = 1.8.8 =
 * Bug fix: when using "filter" operators < and > where not working in cases where they were represented &amp;gt; and &amp;lt; HTML codes
