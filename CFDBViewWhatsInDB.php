@@ -226,6 +226,19 @@ class CFDBViewWhatsInDB extends CFDBView {
                 <?php } ?>
             </td>
         </tr>
+        <?php
+            if (false && $currSelection && $canEdit && $useDataTables) {
+        ?>
+        <tr>
+            <td align="left" colspan="3">
+                <span id="edit_controls">
+                    <a href="http://cfdbplugin.com/?page_id=459" target="_cfdbedit"><?php  _e('Edit Data Mode', 'contact-form-7-to-database-extension'); ?></a>
+                </span>
+            </td>
+        </tr>
+        <?php
+            }
+        ?>
     </table>
 
 
@@ -236,8 +249,9 @@ class CFDBViewWhatsInDB extends CFDBView {
                 $i18nUrl = $plugin->getDataTableTranslationUrl();
                 ?>
             <script type="text/javascript" language="Javascript">
+                var oTable;
                 jQuery(document).ready(function() {
-                    jQuery('#<?php echo $tableHtmlId ?>').dataTable({ <?php // "sDom": 'Rlfrtip', // ColReorder ?>
+                    oTable = jQuery('#<?php echo $tableHtmlId ?>').dataTable({ <?php // "sDom": 'Rlfrtip', // ColReorder ?>
                     "bJQueryUI": true,
                     "aaSorting": [],
                     "bScrollCollapse": true
@@ -246,7 +260,7 @@ class CFDBViewWhatsInDB extends CFDBView {
                             echo ", \"oLanguage\": { \"sUrl\":  \"$i18nUrl\" }";
                         }
                         if ($canEdit) {
-                            do_action_ref_array('cfdb_fnDrawCallbackJSON', array($tableHtmlId));
+                            do_action_ref_array('cfdb_edit_fnDrawCallbackJSON', array($tableHtmlId));
                         }
 
                         ?>
@@ -303,27 +317,25 @@ class CFDBViewWhatsInDB extends CFDBView {
             <tbody>
             <tr>
                 <td align="center" colspan="4">
-                        <span style="font-size:x-small; font-style: italic;">
+                    <span style="font-size:x-small; font-style: italic;">
                         <?php _e('Did you know: This plugin captures data from both these plugins:', 'contact-form-7-to-database-extension'); ?>
-                            <a target="_cf7" href="http://wordpress.org/extend/plugins/contact-form-7/">Contact Form
-                                7</a>
-                        <a target="_fscf" href="http://wordpress.org/extend/plugins/si-contact-form/">Fast Secure
-                            Contact Form</a>
+                        <a target="_cf7" href="http://wordpress.org/extend/plugins/contact-form-7/">Contact Form 7</a>
+                        <a target="_fscf" href="http://wordpress.org/extend/plugins/si-contact-form/">Fast Secure Contact Form</a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td align="center" colspan="4">
-                        <span style="font-size:x-small; font-style: italic;">
-                        <?php _e('Did you know: You can add this data to your posts and pages using these shortcodes:', 'contact-form-7-to-database-extension'); ?>
-                            <br/>
-                            <a target="_faq" href="http://cfdbplugin.com/?page_id=284">[cfdb-html]</a>
-                            <a target="_faq" href="http://cfdbplugin.com/?page_id=91">[cfdb-datatable]</a>
-                            <a target="_faq" href="http://cfdbplugin.com/?page_id=93">[cfdb-table]</a>
-                            <a target="_faq" href="http://cfdbplugin.com/?page_id=98">[cfdb-value]</a>
-                            <a target="_faq" href="http://cfdbplugin.com/?page_id=278">[cfdb-count]</a>
-                            <a target="_faq" href="http://cfdbplugin.com/?page_id=96">[cfdb-json]</a>
-                        </span>
+                    <span style="font-size:x-small; font-style: italic;">
+                    <?php _e('Did you know: You can add this data to your posts and pages using these shortcodes:', 'contact-form-7-to-database-extension'); ?>
+                        <br/>
+                        <a target="_faq" href="http://cfdbplugin.com/?page_id=284">[cfdb-html]</a>
+                        <a target="_faq" href="http://cfdbplugin.com/?page_id=91">[cfdb-datatable]</a>
+                        <a target="_faq" href="http://cfdbplugin.com/?page_id=93">[cfdb-table]</a>
+                        <a target="_faq" href="http://cfdbplugin.com/?page_id=98">[cfdb-value]</a>
+                        <a target="_faq" href="http://cfdbplugin.com/?page_id=278">[cfdb-count]</a>
+                        <a target="_faq" href="http://cfdbplugin.com/?page_id=96">[cfdb-json]</a>
+                    </span>
                 </td>
             </tr>
             <tr>
@@ -354,27 +366,31 @@ class CFDBViewWhatsInDB extends CFDBView {
             <table>
                 <tbody>
                 <tr>
-                    <td>User</td>
+                    <td><label for="guser">User</label></td>
                     <td><input id="guser" type="text" size="25" value="@gmail.com"/></td>
                 </tr>
                 <tr>
-                    <td>Password</td>
+                    <td><label for="gpwd">Password</label></td>
                     <td><input id="gpwd" type="password" size="25" value=""/></td>
                 </tr>
                 <tr>
                     <td></td>
                     <td>
-                        <input type="button" value="<?php _e("Cancel", 'contact-form-7-to-database-extension') ?>"
+                        <input type="button" value="<?php _e('Cancel', 'contact-form-7-to-database-extension') ?>"
                                onclick="jQuery('#GoogleCredentialsDialog').dialog('close');"/>
-                        <input type="button" value="<?php _e("Upload", 'contact-form-7-to-database-extension') ?>"
+                        <input type="button" value="<?php _e('Upload', 'contact-form-7-to-database-extension') ?>"
                                onclick="uploadGoogleSS()"/>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
+        <script type="text/javascript" language="Javascript">
+            var addColumnLabelText = '<?php _e('Add Column', 'contact-form-7-to-database-extension'); ?>';
+            var deleteColumnLabelText = '<?php _e('Delete Column', 'contact-form-7-to-database-extension'); ?>';
+        </script>
         <?php
-
+            do_action_ref_array('cfdb_edit_setup', array($plugin));
         }
     }
 
