@@ -44,7 +44,7 @@ Refer the <a href="http://cfdbplugin.com/">Plugin Site</a>
 
 * Contact Form 7 Users: In the admin page, under CF7's top level "Contact" admin menu. Look for "Contact" -> "Database"
 * Fast Secure Contact Form Users: In the admin page, Plugins -> FS Contact Form Option, There is a "Database" link at the top of the page
-* For a direct link, use http://<your-wordpress-site>/wp-admin/admin.php?page=CF7DBPluginSubmissions
+* For a direct link, use http://&lt;your-wordpress-site&gt;/wp-admin/admin.php?page=CF7DBPluginSubmissions
 
 = Can I display form data on a non-admin web page or in a post? =
 
