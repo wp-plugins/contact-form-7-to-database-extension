@@ -227,7 +227,7 @@ class CFDBViewWhatsInDB extends CFDBView {
             </td>
         </tr>
         <?php
-            if (false && $currSelection && $canEdit && $useDataTables) {
+            if ($currSelection && $canEdit && $useDataTables) {
         ?>
         <tr>
             <td align="left" colspan="3">
