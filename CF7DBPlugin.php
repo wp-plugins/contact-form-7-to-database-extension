@@ -306,6 +306,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
            die();
         }
         header('Content-Type: application/json; charset=UTF-8');
+        header("Pragma: no-cache");
+        header("Expires: Thu, 01 Jan 1970 00:00:00 GMT");
         global $wpdb;
         $tableName = $this->getSubmitsTableName();
         $formName = $_REQUEST['form'];
