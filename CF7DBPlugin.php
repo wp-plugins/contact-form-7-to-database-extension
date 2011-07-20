@@ -309,7 +309,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         global $wpdb;
         $tableName = $this->getSubmitsTableName();
         $formName = $_REQUEST['form'];
-        $rows = $wpdb->get_results("SELECT DISTINCT `field_name`, `field_order` FROM `$tableName` WHERE `form_name` = '$formName' ORDER BY field_order");
+        $rows = $wpdb->get_results("SELECT DISTINCT `field_name` FROM `$tableName` WHERE `form_name` = '$formName' ORDER BY field_order");
         $fields = array();
         if (!empty($rows)) {
             $fields[] = 'Submitted';
