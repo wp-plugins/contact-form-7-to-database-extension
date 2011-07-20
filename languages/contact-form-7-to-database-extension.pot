@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-"
 "extension\n"
-"POT-Creation-Date: 2011-06-23 00:19:58+00:00\n"
+"POT-Creation-Date: 2011-07-20 22:34:51+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -34,34 +34,18 @@ msgstr ""
 msgid "Error: No \"form\" parameter submitted"
 msgstr ""
 
-#: contact-form-7-db.php:21
-msgid ""
-"Error: Contact Form to DB Plugin requires a newer version of PHP to be "
-"running."
-msgstr ""
-
 #: contact-form-7-db.php:23
-msgid "Minimal version of PHP required: "
+msgid ""
+"Error: plugin \"Contact Form to DB Extension\" requires a newer version of "
+"PHP to be running."
 msgstr ""
 
 #: contact-form-7-db.php:24
+msgid "Minimal version of PHP required: "
+msgstr ""
+
+#: contact-form-7-db.php:25
 msgid "Your server's PHP version: "
-msgstr ""
-
-#: contact-form-7-db.php:27
-msgid ""
-"When using the Apache web server, typically you can configure it to use PHP5 "
-"by doing the following:"
-msgstr ""
-
-#: contact-form-7-db.php:29
-msgid ""
-"Locate and edit this file, located at the top directory of your WordPress "
-"installation: "
-msgstr ""
-
-#: contact-form-7-db.php:31
-msgid "Add these two lines to the file:"
 msgstr ""
 
 #: CJ7DBCheckZendFramework.php:72
@@ -76,7 +60,7 @@ msgstr ""
 msgid "Export"
 msgstr ""
 
-#: CF7DBOptionsManager.php:278 CF7DBPlugin.php:277
+#: CF7DBOptionsManager.php:278 CF7DBPlugin.php:287
 #: ExportToGoogleLiveData.php:31
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
@@ -93,23 +77,35 @@ msgstr ""
 msgid "PHP Version"
 msgstr ""
 
-#: CF7DBOptionsManager.php:300
+#: CF7DBOptionsManager.php:304
+msgid ""
+"(WARNING: This plugin may not work properly with versions earlier than PHP "
+"5.2)"
+msgstr ""
+
+#: CF7DBOptionsManager.php:310
 msgid "MySQL Version"
 msgstr ""
 
-#: CF7DBOptionsManager.php:303
+#: CF7DBOptionsManager.php:315
+msgid ""
+"(WARNING: This plugin may not work properly with versions earlier than MySQL "
+"5.0)"
+msgstr ""
+
+#: CF7DBOptionsManager.php:323
 msgid "Settings"
 msgstr ""
 
-#: CF7DBOptionsManager.php:328
+#: CF7DBOptionsManager.php:348
 msgid "Save Changes"
 msgstr ""
 
-#: CF7DBOptionsManager.php:387 CF7DBPlugin.php:76
+#: CF7DBOptionsManager.php:407 CF7DBPlugin.php:76
 msgid "true"
 msgstr ""
 
-#: CF7DBOptionsManager.php:388 CF7DBPlugin.php:78
+#: CF7DBOptionsManager.php:408 CF7DBPlugin.php:78
 msgid "false"
 msgstr ""
 
@@ -211,31 +207,31 @@ msgstr ""
 msgid "Anyone"
 msgstr ""
 
-#: CF7DBPlugin.php:283
+#: CF7DBPlugin.php:293
 msgid "Missing form parameters"
 msgstr ""
 
-#: CF7DBPlugin.php:287
+#: CF7DBPlugin.php:297
 msgid "No such file."
 msgstr ""
 
-#: CF7DBPlugin.php:319 CF7DBPlugin.php:339
+#: CF7DBPlugin.php:331 CF7DBPlugin.php:351
 msgid "Database Options"
 msgstr ""
 
-#: CF7DBPlugin.php:337 CF7DBPlugin.php:512
+#: CF7DBPlugin.php:349 CF7DBPlugin.php:524
 msgid "Database"
 msgstr ""
 
-#: CF7DBPlugin.php:341
+#: CF7DBPlugin.php:353
 msgid "Build Short Code"
 msgstr ""
 
-#: CF7DBPlugin.php:343
+#: CF7DBPlugin.php:355
 msgid "FAQ"
 msgstr ""
 
-#: CF7DBPlugin.php:520
+#: CF7DBPlugin.php:532
 msgid "Database Short Code"
 msgstr ""
 
@@ -295,45 +291,57 @@ msgstr ""
 msgid "Delete All This Form's Records"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:307
+#: CFDBViewWhatsInDB.php:235
+msgid "Edit Data Mode"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:321
 msgid "Did you know: This plugin captures data from both these plugins:"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:318
+#: CFDBViewWhatsInDB.php:330
 msgid ""
 "Did you know: You can add this data to your posts and pages using these "
 "shortcodes:"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:332
+#: CFDBViewWhatsInDB.php:344
 msgid "Would you like to help translate this plugin into your language?"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:334
+#: CFDBViewWhatsInDB.php:346
 msgid "How to create a translation"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:345
+#: CFDBViewWhatsInDB.php:357
 msgid "Query:"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:367
+#: CFDBViewWhatsInDB.php:379
 msgid "Cancel"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:369
+#: CFDBViewWhatsInDB.php:381
 msgid "Upload"
 msgstr ""
 
+#: CFDBViewWhatsInDB.php:389
+msgid "Add Column"
+msgstr ""
+
 #: CFDBViewWhatsInDB.php:390
+msgid "Delete Column"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:406
 msgid "next »"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:391
+#: CFDBViewWhatsInDB.php:407
 msgid "« prev"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:408
+#: CFDBViewWhatsInDB.php:424
 msgid "Returned entries %s to %s of %s entries in the database"
 msgstr ""
 
