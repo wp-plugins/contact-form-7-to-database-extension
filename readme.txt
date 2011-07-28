@@ -68,6 +68,10 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
+= 2.0.1 =
+* Fixed bug where cfdb-count always gave total, ignoring filters
+* Added 'percent' function to cfdb-count
+
 = 2.0 =
 * Data editing support in conjunction with Contact Form to Database Edit plugin
 * Name of table that stores data was down-cased from wp_CF7DBPlugin_SUBMITS to wp_cf7dbplugin_submits to avoid issues

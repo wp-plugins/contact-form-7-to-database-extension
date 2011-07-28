@@ -57,20 +57,23 @@ class ExportToValue extends ExportBase implements CFDBExport {
         }
 
         // Headers
-        $this->echoHeaders('Content-Type: text/plain; charset=UTF-8');
+        // don't set content type to text because in some browsers this becomes
+        // the content type for the whole HTML page. 
+        $this->echoHeaders(); //'Content-Type: text/plain; charset=UTF-8');
 
         // Get the data
         $this->setDataIterator($formName);
 
-        if ($funct == 'count' &&
-                count($this->showColumns) == 0 &&
-                count($this->hideColumns) == 0) {
-            // Just count the number of entries in the database
-            $dbRowCount = $this->getDBRowCount($formName);
-            if (!$this->isFromShortCode) {
-                echo $dbRowCount;
+        // count function or coming from cfdb-count shortcode
+        if (count($this->showColumns) == 0 &&
+            count($this->hideColumns) == 0) {
+            if ($funct == 'count') {
+                $count = 0;
+                while ($this->dataIterator->nextRow()) {
+                    $count += 1;
+                }
+                return $count;
             }
-            return $dbRowCount;
         }
 
 
@@ -168,6 +171,28 @@ class ExportToValue extends ExportBase implements CFDBExport {
                     }
                     else {
                         echo $mean;
+                        return;
+                    }
+
+                case 'percent':
+                    $count = 0;
+                    while ($this->dataIterator->nextRow()) {
+                        foreach ($this->dataIterator->displayColumns as $col) {
+                            $count += 1;
+                        }
+                    }
+
+                    $total = $this->getDBRowCount($formName);
+
+                    $percentNum = 100.0 * $count / $total;
+                    $percentDisplay = round($percentNum) . '%';
+                    //$percentDisplay = "$count / $total = $percentNum as $percentDisplay"; // debug
+
+                    if ($this->isFromShortCode) {
+                        return $percentDisplay;
+                    }
+                    else {
+                        echo $percentDisplay;
                         return;
                     }
             }

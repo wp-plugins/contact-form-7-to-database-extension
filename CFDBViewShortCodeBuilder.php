@@ -630,6 +630,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 <option value="max">max</option>
                 <option value="sum">sum</option>
                 <option value="mean">mean</option>
+                <option value="percent">percent</option>
             </select>
         </div>
         <div>
