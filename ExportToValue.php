@@ -183,6 +183,13 @@ class ExportToValue extends ExportBase implements CFDBExport {
                     }
 
                     $total = $this->getDBRowCount($formName);
+                    $numShowCols = count($this->showColumns);
+                    if ($numShowCols > 1) {
+                        $total = $total * $numShowCols;
+                    }
+                    else if ($numShowCols == 0) {
+                        $total = $total * count($this->dataIterator->displayColumns);
+                    }
 
                     $percentNum = 100.0 * $count / $total;
                     $percentDisplay = round($percentNum) . '%';
