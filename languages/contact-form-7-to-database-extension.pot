@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-"
 "extension\n"
-"POT-Creation-Date: 2011-07-20 22:34:51+00:00\n"
+"POT-Creation-Date: 2011-07-29 18:57:25+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,51 +13,12 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: CFDBView.php:63
-msgid "Rate this Plugin"
-msgstr ""
-
-#: CFDBView.php:69 CFDBViewShortCodeBuilder.php:63
-#: CFDBViewShortCodeBuilder.php:523
-msgid "Documentation"
-msgstr ""
-
-#: CFDBView.php:75
-msgid "Support"
-msgstr ""
-
-#: CFDBView.php:81
-msgid "Privacy Policy"
-msgstr ""
-
 #: CF7DBPluginExporter.php:33
 msgid "Error: No \"form\" parameter submitted"
 msgstr ""
 
-#: contact-form-7-db.php:23
-msgid ""
-"Error: plugin \"Contact Form to DB Extension\" requires a newer version of "
-"PHP to be running."
-msgstr ""
-
-#: contact-form-7-db.php:24
-msgid "Minimal version of PHP required: "
-msgstr ""
-
-#: contact-form-7-db.php:25
-msgid "Your server's PHP version: "
-msgstr ""
-
-#: CJ7DBCheckZendFramework.php:72
-msgid "Missing Zend Framework"
-msgstr ""
-
-#: ExportBase.php:177
-msgid "You do not have sufficient permissions to access this data."
-msgstr ""
-
-#: CFDBShortcodeExportUrl.php:62 CFDBViewWhatsInDB.php:212
-msgid "Export"
+#: ExportToHtmlTable.php:158
+msgid "Delete"
 msgstr ""
 
 #: CF7DBOptionsManager.php:278 CF7DBPlugin.php:287
@@ -235,16 +196,115 @@ msgstr ""
 msgid "Database Short Code"
 msgstr ""
 
-#: ExportToGoogleLiveData.php:170
-msgid "How to Set up Google Spreadsheet to pull data from WordPress"
+#: contact-form-7-db.php:23
+msgid ""
+"Error: plugin \"Contact Form to DB Extension\" requires a newer version of "
+"PHP to be running."
+msgstr ""
+
+#: contact-form-7-db.php:24
+msgid "Minimal version of PHP required: "
+msgstr ""
+
+#: contact-form-7-db.php:25
+msgid "Your server's PHP version: "
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:63 CFDBViewShortCodeBuilder.php:523
+#: CFDBView.php:69
+msgid "Documentation"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:151
+msgid "Error: \""
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:153
+msgid "\" should not contain double-quotes (\")"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:200
+msgid "Error: no form is chosen"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:221
+msgid ""
+"Warning: \"search\" field ignored because \"filter\" is used (use one but "
+"not both)"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:233
+msgid ""
+"Error: \"limit\": if you provide a value for \"Start Row\" then you must "
+"also provide a value for \"Num Rows\""
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:237
+msgid "Error: \"limit\": \"Num Rows\" must be a positive integer"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:244
+msgid "Error: \"limit\": \"Start Row\" must be a positive integer"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:495
+msgid "* Select a short code *"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:508 CFDBViewWhatsInDB.php:102
+msgid "* Select a form *"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:518
+msgid "Reset"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:527
+msgid "(Did you know: you can create your own short code)"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:531
+msgid "Which fields/columns do you want to display?"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:544
+msgid "Which rows/submissions do you want to display?"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:590
+msgid "HTML Table Formatting"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:605
+msgid "DataTable Options"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:610
+msgid "JSON Options"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:626
+msgid "VALUE Options"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:672 CFDBViewWhatsInDB.php:190
+msgid "Excel CSV (UTF8-BOM)"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:675 CFDBViewWhatsInDB.php:193
+msgid "Excel TSV (UTF16LE-BOM)"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:678 CFDBViewWhatsInDB.php:196
+msgid "Plain CSV (UTF-8)"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:681 CFDBViewWhatsInDB.php:187
+msgid "Excel Internet Query"
 msgstr ""
 
 #: CFDBViewWhatsInDB.php:43
 msgid "No form submissions in the database"
-msgstr ""
-
-#: CFDBViewWhatsInDB.php:102 CFDBViewShortCodeBuilder.php:508
-msgid "* Select a form *"
 msgstr ""
 
 #: CFDBViewWhatsInDB.php:138
@@ -253,22 +313,6 @@ msgstr ""
 
 #: CFDBViewWhatsInDB.php:147
 msgid "Cannot perform operation because jQuery is not loaded in this page"
-msgstr ""
-
-#: CFDBViewWhatsInDB.php:187 CFDBViewShortCodeBuilder.php:680
-msgid "Excel Internet Query"
-msgstr ""
-
-#: CFDBViewWhatsInDB.php:190 CFDBViewShortCodeBuilder.php:671
-msgid "Excel CSV (UTF8-BOM)"
-msgstr ""
-
-#: CFDBViewWhatsInDB.php:193 CFDBViewShortCodeBuilder.php:674
-msgid "Excel TSV (UTF16LE-BOM)"
-msgstr ""
-
-#: CFDBViewWhatsInDB.php:196 CFDBViewShortCodeBuilder.php:677
-msgid "Plain CSV (UTF-8)"
 msgstr ""
 
 #: CFDBViewWhatsInDB.php:199
@@ -285,6 +329,10 @@ msgstr ""
 
 #: CFDBViewWhatsInDB.php:208
 msgid "JSON"
+msgstr ""
+
+#: CFDBViewWhatsInDB.php:212 CFDBShortcodeExportUrl.php:62
+msgid "Export"
 msgstr ""
 
 #: CFDBViewWhatsInDB.php:223
@@ -345,72 +393,12 @@ msgstr ""
 msgid "Returned entries %s to %s of %s entries in the database"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:151
-msgid "Error: \""
+#: ExportToGoogleLiveData.php:170
+msgid "How to Set up Google Spreadsheet to pull data from WordPress"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:153
-msgid "\" should not contain double-quotes (\")"
-msgstr ""
-
-#: CFDBViewShortCodeBuilder.php:200
-msgid "Error: no form is chosen"
-msgstr ""
-
-#: CFDBViewShortCodeBuilder.php:221
-msgid ""
-"Warning: \"search\" field ignored because \"filter\" is used (use one but "
-"not both)"
-msgstr ""
-
-#: CFDBViewShortCodeBuilder.php:233
-msgid ""
-"Error: \"limit\": if you provide a value for \"Start Row\" then you must "
-"also provide a value for \"Num Rows\""
-msgstr ""
-
-#: CFDBViewShortCodeBuilder.php:237
-msgid "Error: \"limit\": \"Num Rows\" must be a positive integer"
-msgstr ""
-
-#: CFDBViewShortCodeBuilder.php:244
-msgid "Error: \"limit\": \"Start Row\" must be a positive integer"
-msgstr ""
-
-#: CFDBViewShortCodeBuilder.php:495
-msgid "* Select a short code *"
-msgstr ""
-
-#: CFDBViewShortCodeBuilder.php:518
-msgid "Reset"
-msgstr ""
-
-#: CFDBViewShortCodeBuilder.php:527
-msgid "(Did you know: you can create your own short code)"
-msgstr ""
-
-#: CFDBViewShortCodeBuilder.php:531
-msgid "Which fields/columns do you want to display?"
-msgstr ""
-
-#: CFDBViewShortCodeBuilder.php:544
-msgid "Which rows/submissions do you want to display?"
-msgstr ""
-
-#: CFDBViewShortCodeBuilder.php:590
-msgid "HTML Table Formatting"
-msgstr ""
-
-#: CFDBViewShortCodeBuilder.php:605
-msgid "DataTable Options"
-msgstr ""
-
-#: CFDBViewShortCodeBuilder.php:610
-msgid "JSON Options"
-msgstr ""
-
-#: CFDBViewShortCodeBuilder.php:626
-msgid "VALUE Options"
+#: CJ7DBCheckZendFramework.php:72
+msgid "Missing Zend Framework"
 msgstr ""
 
 #: ExportToGoogleSS.php:62
@@ -425,6 +413,18 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: ExportToHtmlTable.php:158
-msgid "Delete"
+#: ExportBase.php:177
+msgid "You do not have sufficient permissions to access this data."
+msgstr ""
+
+#: CFDBView.php:63
+msgid "Rate this Plugin"
+msgstr ""
+
+#: CFDBView.php:75
+msgid "Support"
+msgstr ""
+
+#: CFDBView.php:81
+msgid "Privacy Policy"
 msgstr ""
