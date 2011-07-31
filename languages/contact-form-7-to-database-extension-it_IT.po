@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Contact Form 7 to Database Extension in italiano\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-extension\n"
-"POT-Creation-Date: 2011-05-25 20:54:01+00:00\n"
-"PO-Revision-Date: 2011-05-27 08:49+0100\n"
+"POT-Creation-Date: 2011-07-29 18:57:25+00:00\n"
+"PO-Revision-Date: 2011-07-30 19:53+0100\n"
 "Last-Translator: Gianni Diurno (aka gidibao) <gidibao[at]gmail[dot]com>\n"
 "Language-Team: Gianni Diurno | gidibao.net\n"
 "MIME-Version: 1.0\n"
@@ -14,67 +14,16 @@ msgstr ""
 "X-Poedit-Language: Italian\n"
 "X-Poedit-Country: ITALY\n"
 
-#: CFDBView.php:63
-msgid "Rate this Plugin"
-msgstr "Vota il plugin"
-
-#: CFDBView.php:69
-#: CFDBViewShortCodeBuilder.php:63
-#: CFDBViewShortCodeBuilder.php:522
-msgid "Documentation"
-msgstr "Documentazione"
-
-#: CFDBView.php:75
-msgid "Support"
-msgstr "Supporto"
-
-#: CFDBView.php:81
-msgid "Privacy Policy"
-msgstr "Privacy Policy"
-
 #: CF7DBPluginExporter.php:33
 msgid "Error: No \"form\" parameter submitted"
 msgstr "Errore: nessun parametro \"form\" inserito"
 
-#: contact-form-7-db.php:21
-msgid "Error: plugin \"Contact Form to DB Extension\" requires a newer version of PHP to be running."
-msgstr "Errore: il plugin \"Contact Form to DB Extension\" per potere funzionare richiede una nuova versione PHP."
-
-#: contact-form-7-db.php:23
-msgid "Minimal version of PHP required: "
-msgstr "Versione minima PHP richiesta:"
-
-#: contact-form-7-db.php:24
-msgid "Your server's PHP version: "
-msgstr "La versione PHP del tuo server:"
-
-#: contact-form-7-db.php:27
-msgid "When using the Apache web server, typically you can configure it to use PHP5 by doing the following:"
-msgstr "Facessi uso di un web server Apache, puoi configurarlo a PHP5 facendo quanto segue:"
-
-#: contact-form-7-db.php:29
-msgid "Locate and edit this file, located at the top directory of your WordPress installation: "
-msgstr "Individua e modifica questo file allocato nella cartella principale della tua installazione WordPress: "
-
-#: contact-form-7-db.php:31
-msgid "Add these two lines to the file:"
-msgstr "Aggiungi al file queste due righe:"
-
-#: CJ7DBCheckZendFramework.php:72
-msgid "Missing Zend Framework"
-msgstr "Manca il Zend Framework"
-
-#: ExportBase.php:177
-msgid "You do not have sufficient permissions to access this data."
-msgstr "Non hai i permessi necessari per potere accedere a questo dato."
-
-#: CFDBShortcodeExportUrl.php:62
-#: CFDBViewWhatsInDB.php:212
-msgid "Export"
-msgstr "Esporta"
+#: ExportToHtmlTable.php:158
+msgid "Delete"
+msgstr "Elimina"
 
 #: CF7DBOptionsManager.php:278
-#: CF7DBPlugin.php:276
+#: CF7DBPlugin.php:287
 #: ExportToGoogleLiveData.php:31
 msgid "You do not have sufficient permissions to access this page."
 msgstr "Non hai i permessi necessari per potere accedere a questa pagina."
@@ -91,24 +40,32 @@ msgstr "Sistema"
 msgid "PHP Version"
 msgstr "Versione PHP"
 
-#: CF7DBOptionsManager.php:300
+#: CF7DBOptionsManager.php:304
+msgid "(WARNING: This plugin may not work properly with versions earlier than PHP 5.2)"
+msgstr "(Attenzione: questo plugin non funzionerà correttamente con una versione precedente la PHP 5.2)"
+
+#: CF7DBOptionsManager.php:310
 msgid "MySQL Version"
 msgstr "Versione MySQL"
 
-#: CF7DBOptionsManager.php:303
+#: CF7DBOptionsManager.php:315
+msgid "(WARNING: This plugin may not work properly with versions earlier than MySQL 5.0)"
+msgstr "(Attenzione: questo plugin non funzionerà correttamente con una versione precedente la MySQL 5.0)"
+
+#: CF7DBOptionsManager.php:323
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: CF7DBOptionsManager.php:328
+#: CF7DBOptionsManager.php:348
 msgid "Save Changes"
 msgstr "Salva le modifiche"
 
-#: CF7DBOptionsManager.php:387
+#: CF7DBOptionsManager.php:407
 #: CF7DBPlugin.php:76
 msgid "true"
 msgstr "sì"
 
-#: CF7DBOptionsManager.php:388
+#: CF7DBOptionsManager.php:408
 #: CF7DBPlugin.php:78
 msgid "false"
 msgstr "no"
@@ -209,136 +166,53 @@ msgstr "Sottoscrittore"
 msgid "Anyone"
 msgstr "Chiunque"
 
-#: CF7DBPlugin.php:282
+#: CF7DBPlugin.php:293
 msgid "Missing form parameters"
 msgstr "Mancano i parametri del modulo"
 
-#: CF7DBPlugin.php:286
+#: CF7DBPlugin.php:297
 msgid "No such file."
 msgstr "Nessun file."
 
-#: CF7DBPlugin.php:318
-#: CF7DBPlugin.php:338
+#: CF7DBPlugin.php:331
+#: CF7DBPlugin.php:351
 msgid "Database Options"
 msgstr "Opzioni database"
 
-#: CF7DBPlugin.php:336
-#: CF7DBPlugin.php:511
+#: CF7DBPlugin.php:349
+#: CF7DBPlugin.php:524
 msgid "Database"
 msgstr "Database"
 
-#: CF7DBPlugin.php:340
+#: CF7DBPlugin.php:353
 msgid "Build Short Code"
 msgstr "Crea Short Code"
 
-#: CF7DBPlugin.php:342
+#: CF7DBPlugin.php:355
 msgid "FAQ"
 msgstr "FAQ"
 
-#: CF7DBPlugin.php:519
+#: CF7DBPlugin.php:532
 msgid "Database Short Code"
 msgstr "Database Short Code"
 
-#: ExportToGoogleLiveData.php:170
-msgid "How to Set up Google Spreadsheet to pull data from WordPress"
-msgstr "Come impostare Google Spreadsheet per estrarre i dati da WordPress"
+#: contact-form-7-db.php:23
+msgid "Error: plugin \"Contact Form to DB Extension\" requires a newer version of PHP to be running."
+msgstr "Errore: il plugin \"Contact Form to DB Extension\" per potere funzionare richiede una nuova versione PHP."
 
-#: CFDBViewWhatsInDB.php:43
-msgid "No form submissions in the database"
-msgstr "Nessun dato presente nel database"
+#: contact-form-7-db.php:24
+msgid "Minimal version of PHP required: "
+msgstr "Versione minima PHP richiesta:"
 
-#: CFDBViewWhatsInDB.php:102
-#: CFDBViewShortCodeBuilder.php:507
-msgid "* Select a form *"
-msgstr "* Seleziona modulo *"
+#: contact-form-7-db.php:25
+msgid "Your server's PHP version: "
+msgstr "La versione PHP del tuo server:"
 
-#: CFDBViewWhatsInDB.php:138
-msgid "Google Login for Upload"
-msgstr "Google Login per Upload"
-
-#: CFDBViewWhatsInDB.php:147
-msgid "Cannot perform operation because jQuery is not loaded in this page"
-msgstr "Impossibile procedere con l'operazione causa jQuery non caricata in questa pagina"
-
-#: CFDBViewWhatsInDB.php:187
-#: CFDBViewShortCodeBuilder.php:668
-msgid "Excel Internet Query"
-msgstr "Excel Internet Query"
-
-#: CFDBViewWhatsInDB.php:190
-#: CFDBViewShortCodeBuilder.php:659
-msgid "Excel CSV (UTF8-BOM)"
-msgstr "Excel CSV (UTF8-BOM)"
-
-#: CFDBViewWhatsInDB.php:193
-#: CFDBViewShortCodeBuilder.php:662
-msgid "Excel TSV (UTF16LE-BOM)"
-msgstr "Excel TSV (UTF16LE-BOM)"
-
-#: CFDBViewWhatsInDB.php:196
-#: CFDBViewShortCodeBuilder.php:665
-msgid "Plain CSV (UTF-8)"
-msgstr "Plain CSV (UTF-8)"
-
-#: CFDBViewWhatsInDB.php:199
-msgid "Google Spreadsheet"
-msgstr "Google Spreadsheet"
-
-#: CFDBViewWhatsInDB.php:202
-msgid "Google Spreadsheet Live Data"
-msgstr "Google Spreadsheet Live Data"
-
-#: CFDBViewWhatsInDB.php:205
-msgid "HTML"
-msgstr "HTML"
-
-#: CFDBViewWhatsInDB.php:208
-msgid "JSON"
-msgstr "JSON"
-
-#: CFDBViewWhatsInDB.php:223
-msgid "Delete All This Form's Records"
-msgstr "Cancella tutti i dati di questo modulo"
-
-#: CFDBViewWhatsInDB.php:307
-msgid "Did you know: This plugin captures data from both these plugins:"
-msgstr "Ti ricordo che questo plugin può raccogliere i dati da questi plugin:"
-
-#: CFDBViewWhatsInDB.php:318
-msgid "Did you know: You can add this data to your posts and pages using these shortcodes:"
-msgstr "Ti ricordo che puoi inserire questi dati in un articolo/pagina utilizzando questi shortcode:"
-
-#: CFDBViewWhatsInDB.php:332
-msgid "Would you like to help translate this plugin into your language?"
-msgstr "Vorresti tradurre questo plugin nella tua lingua?"
-
-#: CFDBViewWhatsInDB.php:334
-msgid "How to create a translation"
-msgstr "Come creare una traduzione"
-
-#: CFDBViewWhatsInDB.php:345
-msgid "Query:"
-msgstr "Query:"
-
-#: CFDBViewWhatsInDB.php:367
-msgid "Cancel"
-msgstr "Annulla"
-
-#: CFDBViewWhatsInDB.php:369
-msgid "Upload"
-msgstr "Carica"
-
-#: CFDBViewWhatsInDB.php:390
-msgid "next »"
-msgstr "succ »"
-
-#: CFDBViewWhatsInDB.php:391
-msgid "« prev"
-msgstr "« prec"
-
-#: CFDBViewWhatsInDB.php:408
-msgid "Returned entries %s to %s of %s entries in the database"
-msgstr "Dati di ritorno da %s a %s di %s dati presenti nel database"
+#: CFDBViewShortCodeBuilder.php:63
+#: CFDBViewShortCodeBuilder.php:523
+#: CFDBView.php:69
+msgid "Documentation"
+msgstr "Documentazione"
 
 #: CFDBViewShortCodeBuilder.php:151
 msgid "Error: \""
@@ -368,37 +242,163 @@ msgstr "Errore: \"limit\": \"Num Rows\" deve essere un numero intero positivo"
 msgid "Error: \"limit\": \"Start Row\" must be a positive integer"
 msgstr "Errore: \"limit\": \"Start Row\" deve essere un numero intero positivo"
 
-#: CFDBViewShortCodeBuilder.php:494
+#: CFDBViewShortCodeBuilder.php:495
 msgid "* Select a short code *"
 msgstr "* Seleziona short code *"
 
-#: CFDBViewShortCodeBuilder.php:517
+#: CFDBViewShortCodeBuilder.php:508
+#: CFDBViewWhatsInDB.php:102
+msgid "* Select a form *"
+msgstr "* Seleziona modulo *"
+
+#: CFDBViewShortCodeBuilder.php:518
 msgid "Reset"
 msgstr "Ripristina"
 
-#: CFDBViewShortCodeBuilder.php:525
+#: CFDBViewShortCodeBuilder.php:527
+msgid "(Did you know: you can create your own short code)"
+msgstr "(Lo sapevi? puoi creare uno shortcode personalizzato)"
+
+#: CFDBViewShortCodeBuilder.php:531
 msgid "Which fields/columns do you want to display?"
 msgstr "Quali campi/colonne desideri mostrare?"
 
-#: CFDBViewShortCodeBuilder.php:538
+#: CFDBViewShortCodeBuilder.php:544
 msgid "Which rows/submissions do you want to display?"
 msgstr "Quali righe/dati desideri mostrare?"
 
-#: CFDBViewShortCodeBuilder.php:584
+#: CFDBViewShortCodeBuilder.php:590
 msgid "HTML Table Formatting"
 msgstr "Formattazione HTML tabella"
 
-#: CFDBViewShortCodeBuilder.php:599
+#: CFDBViewShortCodeBuilder.php:605
 msgid "DataTable Options"
 msgstr "Opzioni tabella dati"
 
-#: CFDBViewShortCodeBuilder.php:604
+#: CFDBViewShortCodeBuilder.php:610
 msgid "JSON Options"
 msgstr "Opzioni JSON"
 
-#: CFDBViewShortCodeBuilder.php:620
+#: CFDBViewShortCodeBuilder.php:626
 msgid "VALUE Options"
 msgstr "Opzioni VALUE"
+
+#: CFDBViewShortCodeBuilder.php:672
+#: CFDBViewWhatsInDB.php:190
+msgid "Excel CSV (UTF8-BOM)"
+msgstr "Excel CSV (UTF8-BOM)"
+
+#: CFDBViewShortCodeBuilder.php:675
+#: CFDBViewWhatsInDB.php:193
+msgid "Excel TSV (UTF16LE-BOM)"
+msgstr "Excel TSV (UTF16LE-BOM)"
+
+#: CFDBViewShortCodeBuilder.php:678
+#: CFDBViewWhatsInDB.php:196
+msgid "Plain CSV (UTF-8)"
+msgstr "Plain CSV (UTF-8)"
+
+#: CFDBViewShortCodeBuilder.php:681
+#: CFDBViewWhatsInDB.php:187
+msgid "Excel Internet Query"
+msgstr "Excel Internet Query"
+
+#: CFDBViewWhatsInDB.php:43
+msgid "No form submissions in the database"
+msgstr "Nessun dato presente nel database"
+
+#: CFDBViewWhatsInDB.php:138
+msgid "Google Login for Upload"
+msgstr "Google Login per Upload"
+
+#: CFDBViewWhatsInDB.php:147
+msgid "Cannot perform operation because jQuery is not loaded in this page"
+msgstr "Impossibile procedere con l'operazione causa jQuery non caricata in questa pagina"
+
+#: CFDBViewWhatsInDB.php:199
+msgid "Google Spreadsheet"
+msgstr "Google Spreadsheet"
+
+#: CFDBViewWhatsInDB.php:202
+msgid "Google Spreadsheet Live Data"
+msgstr "Google Spreadsheet Live Data"
+
+#: CFDBViewWhatsInDB.php:205
+msgid "HTML"
+msgstr "HTML"
+
+#: CFDBViewWhatsInDB.php:208
+msgid "JSON"
+msgstr "JSON"
+
+#: CFDBViewWhatsInDB.php:212
+#: CFDBShortcodeExportUrl.php:62
+msgid "Export"
+msgstr "Esporta"
+
+#: CFDBViewWhatsInDB.php:223
+msgid "Delete All This Form's Records"
+msgstr "Cancella tutti i dati di questo modulo"
+
+#: CFDBViewWhatsInDB.php:235
+msgid "Edit Data Mode"
+msgstr "Modifica modalità dati"
+
+#: CFDBViewWhatsInDB.php:321
+msgid "Did you know: This plugin captures data from both these plugins:"
+msgstr "Ti ricordo che questo plugin può raccogliere i dati da questi plugin:"
+
+#: CFDBViewWhatsInDB.php:330
+msgid "Did you know: You can add this data to your posts and pages using these shortcodes:"
+msgstr "Ti ricordo che puoi inserire questi dati in un articolo/pagina utilizzando questi shortcode:"
+
+#: CFDBViewWhatsInDB.php:344
+msgid "Would you like to help translate this plugin into your language?"
+msgstr "Vorresti tradurre questo plugin nella tua lingua?"
+
+#: CFDBViewWhatsInDB.php:346
+msgid "How to create a translation"
+msgstr "Come creare una traduzione"
+
+#: CFDBViewWhatsInDB.php:357
+msgid "Query:"
+msgstr "Query:"
+
+#: CFDBViewWhatsInDB.php:379
+msgid "Cancel"
+msgstr "Annulla"
+
+#: CFDBViewWhatsInDB.php:381
+msgid "Upload"
+msgstr "Carica"
+
+#: CFDBViewWhatsInDB.php:389
+msgid "Add Column"
+msgstr "Aggiungi colonna"
+
+#: CFDBViewWhatsInDB.php:390
+msgid "Delete Column"
+msgstr "Cancella colonna"
+
+#: CFDBViewWhatsInDB.php:406
+msgid "next »"
+msgstr "succ »"
+
+#: CFDBViewWhatsInDB.php:407
+msgid "« prev"
+msgstr "« prec"
+
+#: CFDBViewWhatsInDB.php:424
+msgid "Returned entries %s to %s of %s entries in the database"
+msgstr "Dati di ritorno da %s a %s di %s dati presenti nel database"
+
+#: ExportToGoogleLiveData.php:170
+msgid "How to Set up Google Spreadsheet to pull data from WordPress"
+msgstr "Come impostare Google Spreadsheet per estrarre i dati da WordPress"
+
+#: CJ7DBCheckZendFramework.php:72
+msgid "Missing Zend Framework"
+msgstr "Manca il Zend Framework"
 
 #: ExportToGoogleSS.php:62
 msgid "Login Failed"
@@ -412,9 +412,38 @@ msgstr "New Google Spreadsheet"
 msgid "Error"
 msgstr "Errore"
 
-#: ExportToHtmlTable.php:158
-msgid "Delete"
-msgstr "Elimina"
+#: ExportBase.php:177
+msgid "You do not have sufficient permissions to access this data."
+msgstr "Non hai i permessi necessari per potere accedere a questo dato."
+
+#: CFDBView.php:63
+msgid "Rate this Plugin"
+msgstr "Vota il plugin"
+
+#: CFDBView.php:75
+msgid "Support"
+msgstr "Supporto"
+
+#: CFDBView.php:81
+msgid "Privacy Policy"
+msgstr "Privacy Policy"
+
+#~ msgid ""
+#~ "When using the Apache web server, typically you can configure it to use "
+#~ "PHP5 by doing the following:"
+#~ msgstr ""
+#~ "Facessi uso di un web server Apache, puoi configurarlo a PHP5 facendo "
+#~ "quanto segue:"
+
+#~ msgid ""
+#~ "Locate and edit this file, located at the top directory of your WordPress "
+#~ "installation: "
+#~ msgstr ""
+#~ "Individua e modifica questo file allocato nella cartella principale della "
+#~ "tua installazione WordPress: "
+
+#~ msgid "Add these two lines to the file:"
+#~ msgstr "Aggiungi al file queste due righe:"
 
 #~ msgid "Submitted"
 #~ msgstr "Inviato"
