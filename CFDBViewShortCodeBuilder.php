@@ -323,7 +323,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     break;
                 case '[cfdb-export-link]':
                     scElements.push(getValue('enc', jQuery('#enc_cntl').val(), validationErrors));
-                    urlElements.push(getValue('enc', jQuery('#enc_cntl').val()));
+                    urlElements.push(getValueUrl('enc', jQuery('#enc_cntl').val()));
                     scElements.push(getValue('urlonly', jQuery('#urlonly_cntl').val(), validationErrors));
                     scText = join(scElements) + ']';
                     break;
