@@ -27,6 +27,7 @@ require_once('CFDBShortcodeCount.php');
 require_once('CFDBShortcodeJson.php');
 require_once('CFDBShortcodeHtml.php');
 require_once('CFDBShortcodeExportUrl.php');
+require_once('CFDBDie.php');
 
 /**
  * Implementation for CF7DBPluginLifeCycle.
