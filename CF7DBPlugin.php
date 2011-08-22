@@ -27,7 +27,6 @@ require_once('CFDBShortcodeCount.php');
 require_once('CFDBShortcodeJson.php');
 require_once('CFDBShortcodeHtml.php');
 require_once('CFDBShortcodeExportUrl.php');
-require_once('CFDBDie.php');
 
 /**
  * Implementation for CF7DBPluginLifeCycle.
@@ -283,6 +282,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     }
 
     public function ajaxFile() {
+        require_once('CFDBDie.php');
         //if (!$this->canUserDoRoleOption('CanSeeSubmitData')) {
         if (!$this->canUserDoRoleOption('CanSeeSubmitDataViaShortcode')) {
             CFDBDie::wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
