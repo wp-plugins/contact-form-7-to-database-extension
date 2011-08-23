@@ -23,7 +23,7 @@ require_once('ShortCodeLoader.php');
 
 class CFDBShortCodeSavePostData extends ShortCodeLoader {
 
-    const formTitleField = 'form_title';
+    const FORM_TITLE_FIELD = 'form_title';
 
     /**
      * @param  $atts array of short code attributes
@@ -38,13 +38,13 @@ class CFDBShortCodeSavePostData extends ShortCodeLoader {
 //        echo '</pre>';
 
         if (is_array($_POST) && !empty($_POST)) {
-            $title = isset($_POST[self::formTitleField]) ? $_POST[self::formTitleField] : 'Untitled';
+            $title = isset($_POST[self::FORM_TITLE_FIELD]) ? $_POST[self::FORM_TITLE_FIELD] : 'Untitled';
             $posted_data = array();
             $uploaded_files = array();
 
             // Get posted values
             foreach ($_POST as $key => $val) {
-                if ($key != self::formTitleField) {
+                if ($key != self::FORM_TITLE_FIELD) {
                     $posted_data[$key] = $val;
                 }
             }
