@@ -32,7 +32,7 @@ Disclaimer: I am not the maker of Contact Form 7 nor Fast Secure Contact Form an
 Notes:
 
 * Installing this plugin creates its own table. If you uninstall it, it will delete its table and any data you have in it. (But you can deactivate it without loosing any data).
-* Tested on WP 3.0.1, PHP 5.2.13, MySQL 5.0 (Using 1and1 for hosting)
+* Tested using PHP 5.2.13, MySQL 5.0 (Using 1and1 for hosting)
 
 == Frequently Asked Questions ==
 
