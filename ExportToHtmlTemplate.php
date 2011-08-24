@@ -151,8 +151,7 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
                 }
                 // Preserve line breaks in the field
                 foreach ($replacements as $i => $repl) {
-                    $replacements[$i] = str_replace("\r\n", '<br/>', $replacements[$i]); // preserve DOS line breaks
-                    $replacements[$i] = str_replace("\n", '<br/>', $replacements[$i]); // preserve UNIX line breaks
+                    $replacements[$i] = nl2br($replacements[$i]); // preserve line breaks
                 }
                 echo str_replace($varNamesToSub, $replacements, $options['content']);
             }
