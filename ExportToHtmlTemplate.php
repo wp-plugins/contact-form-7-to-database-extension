@@ -27,7 +27,7 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
     /**
      * @param $formName string
      * @param $options array of option_name => option_value
-     * @return void
+     * @return void|string
      */
     public function export($formName, $options = null) {
         $this->setOptions($options);
@@ -35,12 +35,16 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
 
         $filelinks = '';
         $wpautop = false;
+        $stripBR = false;
         if ($this->options && is_array($this->options)) {
             if (isset($this->options['filelinks'])) {
                 $filelinks = $this->options['filelinks'];
             }
             if (isset($this->options['wpautop'])) {
                 $wpautop = $this->options['wpautop'] == 'true';
+            }
+            if (isset($this->options['stripbr'])) {
+                $stripBR = $this->options['stripbr'] == 'true';
             }
         }
 
@@ -103,6 +107,10 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
                 $options['content'] = substr($options['content'], 4, strlen($options['content']) - 4 - 3);
             }
             //echo '<br/>Stripped: \'' . htmlentities($options['content']) . '\'';
+        }
+
+        if ($stripBR) {
+            $options['content'] = str_replace("<br />", "", $options['content']);
         }
 
         while ($this->dataIterator->nextRow()) {
