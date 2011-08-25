@@ -110,7 +110,8 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
         }
 
         if ($stripBR) {
-            $options['content'] = str_replace("<br />", "", $options['content']);
+            // Strip out BR tags presumably injected by wpautop
+            $options['content'] = str_replace('<br />', '', $options['content']);
         }
 
         while ($this->dataIterator->nextRow()) {
