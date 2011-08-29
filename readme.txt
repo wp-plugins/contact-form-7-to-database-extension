@@ -59,5 +59,8 @@ the listing [yardsale-listing].
 
 == Changelog ==
 
+= 1.0 =
+Now available via WordPress site
+
 = 0.1 =
 Initial Revision
