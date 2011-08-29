@@ -2,7 +2,7 @@
 /*
    Plugin Name: Community Yard Sale
    Plugin URI: http://wordpress.org/extend/plugins/community-yard-sale/
-   Version: 0.1
+   Version: 1.0
    Author: Michael Simpson
    Description: Short codes for community yard sale entry form and listings. Uses Google Maps and a filterable table to show listings. | <a href="admin.php?page=YSPluginSettings">Settings</a>
    Text Domain: yardsale
