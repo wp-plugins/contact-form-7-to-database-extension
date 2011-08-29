@@ -158,15 +158,25 @@ class YSPlugin extends YSLifeCycle {
         if (!current_user_can('manage_options')) {
             wp_die(__('You do not have sufficient permissions to access this page.', 'yardsale'));
         }
+
+        //http://www.quirksmode.org/css/clearing.html
         ?>
-    <div>
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-            <input type="hidden" name="cmd" value="_s-xclick">
-            <input type="hidden" name="hosted_button_id" value="F3FF6MP948QPW">
-            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0"
-                   name="submit" alt="PayPal - The safer, easier way to pay online!">
-            <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-        </form>
+    <div style="overflow: auto; width: 100%">
+        <div style="float:left;">
+            <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                <input type="hidden" name="cmd" value="_s-xclick">
+                <input type="hidden" name="hosted_button_id" value="F3FF6MP948QPW">
+                <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0"
+                       name="submit" alt="PayPal - The safer, easier way to pay online!">
+                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+            </form>
+        </div>
+        <div style="float:right; text-align: right; margin-right: 50px; margin-top: 15px; font-weight: bold;">
+            <a target="_blank"
+               href="http://wordpress.org/tags/community-yard-sale">
+                <?php _e('Support for this plugin', 'yardsale') ?>
+            </a>
+        </div>
     </div>
     <script type="text/javascript">
         jQuery(function() {
