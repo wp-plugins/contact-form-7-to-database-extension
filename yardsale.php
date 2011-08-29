@@ -1,7 +1,7 @@
 <?php
 /*
    Plugin Name: Community Yard Sale
-   Plugin URI: http://wordpress.org/extend/plugins/yardsale/
+   Plugin URI: http://wordpress.org/extend/plugins/community-yard-sale/
    Version: 0.1
    Author: Michael Simpson
    Description: Short codes for community yard sale entry form and listings. Uses Google Maps and a filterable table to show listings. | <a href="admin.php?page=YSPluginSettings">Settings</a>
@@ -60,7 +60,7 @@ YSPlugin_i18n_init();
 
 // Next, run the version check.
 // If it is successful, continue with initialization for this plugin
-if (CF7DBPlugin_PhpVersionCheck()) {
+if (YS_PhpVersionCheck()) {
     // Only load and run the init function if we know PHP version can parse it
     include_once('YS_init.php');
     YS_init(__FILE__);
