@@ -25,16 +25,12 @@ Notes:
 
 = How do I use it? =
 
-The plugin gives you two short codes. One that places a form on a page for people to add a listing. A second to display
+The plugin gives you two short codes: one that places a form on a page for people to add a listing, a second to display
 the listing. Go to the Settings page and it will walk through creating the short codes.
 
-= How do I edit my yard sale entry? =
+= How do I edit/delete my yard sale entry? =
 
-After you add your entry initially, you will be emailed a link that you can use to to edit that entry.
-
-= How do I delete my yard sale entry? =
-
-After you add your entry initially, you will be emailed a link that you can use to to delete that entry.
+After you add your entry initially, you will be emailed links that you can use to to edit or delete that entry.
 
 = Yard sale entries are not appearing on the listing page =
 
@@ -47,15 +43,16 @@ page on which the entry form is located.
 
 = I want to do a new yard sale event, how do I clear the old entries =
 
-You don't remove old entries, you edit both of your short codes' "event" value to give them a new unique value.
-Be sure that the "event" value matches on the short code for the input form [yardsale-form] and the short code for
-the listing [yardsale-listing].
+You have two choices: (1) delete existing entries, (2) use a new event tag. For (1), go to the admin setting panel,
+"Delete Entry" tab and delete the event tag that you used in your short code. For (2), edit your [yardsale-form] and
+[yardsale-listing] short codes by changing the "event" value to some new value. Be sure you use the same value for
+both tags so that they reference the same data.
 
 
 == Screenshots ==
 
 1. Map view of listings
-2. Table view of listing
+2. Table view of listings
 
 == Changelog ==
 
