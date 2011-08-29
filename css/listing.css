@@ -1,0 +1,51 @@
+@media print {
+
+    /**
+     * A hack to deal with Google Map not printing nicely in IE
+     * http://code.google.com/p/gmaps-api-issues/issues/detail?id=1343
+     */
+    #map_canvas div {
+        filter: none !important;
+        background: transparent !important;
+    }
+
+    #map_canvas img {
+        max-width: none !important;
+    }
+
+}
+
+#yardsale_table > tbody > tr > td {
+    font-size: 10pt;
+}
+
+#yardsale_table > tbody > tr > td.addrcol {
+    width: 25%;
+    font-size: small;
+    padding: 5px;
+}
+
+#yardsale_table > tbody > tr > td.listingcol {
+    padding: 5px;
+}
+
+#map_canvas {
+    width: 100%;
+    height: 100%;
+}
+
+/**
+ * Deal with issue where the Google Map InfoWindow (bubble that pops up on click)
+ * can be missing its corners and callout triangle images.
+ * This happens in WordPress standard theme
+ * http://wordpress.org/support/topic/google-maps-infowindow-problems-with-twentyten?replies=4
+ * http://stackoverflow.com/questions/6103171/google-maps-info-window-missing-images-corners
+ */
+#map_canvas img {
+    max-width: none !important;
+}
+
+.yshighlight {
+    background-color: #fafad2;
+}
+
