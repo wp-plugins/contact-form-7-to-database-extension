@@ -185,7 +185,7 @@ class YSPlugin extends YSLifeCycle {
     </script>
 
     <div class="yardsale_config">
-        <div id="yardsale_config_tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+        <div id="yardsale_config_tabs">
             <ul>
                 <li><a href="#yardsale_config-1">Build Short Codes</a></li>
                 <li><a href="#yardsale_config-2">Delete Entry</a></li>
