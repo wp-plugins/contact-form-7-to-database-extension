@@ -114,6 +114,11 @@ class YSShortCodeListing extends YSShortCodeLoader {
     <div id="map_div">
         <div id="map_canvas" style="height: <?php echo $this->mapHeight ?>; width: <?php echo $this->mapWidth ?>"></div>
     </div>
+    <div style="font-size: xx-small; text-align: right;">
+        <a target="_blank" href="http://wordpress.org/extend/plugins/community-yard-sale/">
+            Powered By Community Yard Sale Plugin
+        </a>
+    </div>
 
     <div id="table_div">
         <table id="yardsale_table" border="1" cellspacing="0">
