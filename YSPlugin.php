@@ -174,7 +174,7 @@ class YSPlugin extends YSLifeCycle {
         <div style="float:right; text-align: right; margin-right: 50px; margin-top: 15px; font-weight: bold;">
             <a target="_blank"
                href="http://wordpress.org/tags/community-yard-sale">
-                <?php _e('Support for this plugin', 'yardsale') ?>
+                <?php _e('Support forum for this plugin', 'yardsale') ?>
             </a>
         </div>
     </div>
