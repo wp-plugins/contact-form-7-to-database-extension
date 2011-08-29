@@ -20,7 +20,7 @@ $YS_minimalRequiredPhpVersion = '5.0';
 function YS_noticePhpVersionWrong() {
     global $YS_minimalRequiredPhpVersion;
     echo '<div class="updated fade">' .
-      __('Error: plugin "Yard Sale" requires a newer version of PHP to be running.',  'yardsale').
+      __('Error: plugin "Community Yard Sale" requires a newer version of PHP to be running.',  'yardsale').
             '<br/>' . __('Minimal version of PHP required: ', 'yardsale') . '<strong>' . $YS_minimalRequiredPhpVersion . '</strong>' .
             '<br/>' . __('Your server\'s PHP version: ', 'yardsale') . '<strong>' . phpversion() . '</strong>' .
          '</div>';
