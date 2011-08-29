@@ -101,7 +101,12 @@ function YSListing(centerLat, centerLng, zoom, markerDirUrl, jsonUrl) {
                     var lat = this[0];
                     var lng = this[1];
                     var address = this[2];
-                    var listing = this[3].replace(/\n/g, "<br/>");
+                    var listing = this[3];
+
+                    // Reduce multiple new lines to one
+                    // Hack against people who like to put in lot of new lines to make their posting big
+                    listing = listing.replace(/(\r\n)+/g, "\n");
+                    listing = listing.replace(/\n+/g, "<br/>");
 
                     var shortAddr = address;
                     if (ys.abbreviateAddresses) {
