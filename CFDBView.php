@@ -34,6 +34,10 @@ abstract class CFDBView {
     }
 
 
+    /**
+     * @param $plugin CF7DBPlugin
+     * @return void
+     */
     protected function sponsorLink(&$plugin) {
         if ('true' != $plugin->getOption('Donated')) {
             ?>
