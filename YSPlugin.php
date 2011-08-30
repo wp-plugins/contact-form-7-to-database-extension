@@ -169,8 +169,16 @@ class YSPlugin extends YSLifeCycle {
             <tbody>
             <tr>
                 <?php
-                    if ('true' != $this->getOption('Donated', 'false')) {
-                ?>
+                    $donated = 'false';
+                if (isset($_POST['Donated'])) {
+                    $donated = $_POST['Donated'];
+                }
+                else {
+                    $donated = $this->getOption('Donated', 'false');
+                }
+
+                if ('true' != $donated) {
+                    ?>
                 <td width="20%" align="left" valign="center">
                     <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
                         <input type="hidden" name="cmd" value="_s-xclick">

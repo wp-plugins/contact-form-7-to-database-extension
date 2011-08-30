@@ -353,7 +353,7 @@ class YSOptionsManager {
             <p><select name="<?php echo $aOptionKey ?>" id="<?php echo $aOptionKey ?>">
             <?php
                             foreach ($choices as $aChoice) {
-                $selected = ($aChoice == $savedOptionValue) ? "selected" : "";
+                $selected = ($aChoice == $savedOptionValue) ? 'selected' : '';
                 ?>
                     <option value="<?php echo $aChoice ?>" <?php echo $selected ?>><?php echo $this->getOptionValueI18nString($aChoice) ?></option>
                 <?php
