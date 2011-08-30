@@ -281,10 +281,10 @@ class YSOptionsManager {
         $settingsGroup = get_class($this) . '-settings-group';
         ?>
         <div class="wrap">
-            <h2><?php _e('System Settings'); ?></h2>
+            <h2><?php _e('System Settings', 'yardsale'); ?></h2>
             <table class="form-table"><tbody>
-            <tr><td><?php _e('System'); ?></td><td><?php echo php_uname(); ?></td></tr>
-            <tr><td><?php _e('PHP Version'); ?></td>
+            <tr><td><?php _e('System', 'yardsale'); ?></td><td><?php echo php_uname(); ?></td></tr>
+            <tr><td><?php _e('PHP Version', 'yardsale'); ?></td>
                 <td><?php echo phpversion(); ?>
                 <?php
                 if (version_compare('5.2', phpversion()) > 0) {
@@ -295,7 +295,7 @@ class YSOptionsManager {
                 ?>
                 </td>
             </tr>
-            <tr><td><?php _e('MySQL Version'); ?></td>
+            <tr><td><?php _e('MySQL Version', 'yardsale'); ?></td>
                 <td><?php echo $this->getMySqlVersion() ?>
                     <?php
                     echo '&nbsp;&nbsp;&nbsp;<span style="background-color: #ffcc00;">';
@@ -314,10 +314,9 @@ class YSOptionsManager {
             <?php settings_fields($settingsGroup); ?>
                 <table class="form-table"><tbody>
                 <?php
-        if ($optionMetaData != null) {
+                if ($optionMetaData != null) {
                     foreach ($optionMetaData as $aOptionKey => $aOptionMeta) {
                         $displayText = is_array($aOptionMeta) ? $aOptionMeta[0] : $aOptionMeta;
-                        $displayText = __($displayText, 'yardsale');
                         ?>
                             <tr valign="top">
                                 <th scope="row"><p><label for="<?php echo $aOptionKey ?>"><?php echo $displayText ?></label></p></th>
@@ -326,7 +325,6 @@ class YSOptionsManager {
                                 </td>
                             </tr>
                         <?php
-
                     }
                 }
                 ?>
@@ -335,7 +333,6 @@ class YSOptionsManager {
                     <input type="submit" class="button-primary"
                            value="<?php _e('Save Changes', 'yardsale') ?>"/>
                 </p>
-
             </form>
         </div>
         <?php
@@ -360,7 +357,6 @@ class YSOptionsManager {
                 ?>
                     <option value="<?php echo $aChoice ?>" <?php echo $selected ?>><?php echo $this->getOptionValueI18nString($aChoice) ?></option>
                 <?php
-
             }
             ?>
             </select></p>
