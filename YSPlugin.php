@@ -26,6 +26,7 @@ class YSPlugin extends YSLifeCycle {
     public function getOptionMetaData() {
         return array(
             //'_version' => array('Installed Version'), // For testing upgrades
+            'Donated' => array(__('I have donated to this plugin', 'yardsale'), 'false', 'true'),
             'DropOnUninstall' => array(__('Drop this plugin\'s Database table on uninstall', 'yardsale'), 'false', 'true')
         );
     }
@@ -159,25 +160,53 @@ class YSPlugin extends YSLifeCycle {
             wp_die(__('You do not have sufficient permissions to access this page.', 'yardsale'));
         }
 
-        //http://www.quirksmode.org/css/clearing.html
+
+
+        // HEADER
         ?>
-    <div style="overflow: auto; width: 100%">
-        <div style="float:left;">
-            <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-                <input type="hidden" name="cmd" value="_s-xclick">
-                <input type="hidden" name="hosted_button_id" value="F3FF6MP948QPW">
-                <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0"
-                       name="submit" alt="PayPal - The safer, easier way to pay online!">
-                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-            </form>
-        </div>
-        <div style="float:right; text-align: right; margin-right: 50px; margin-top: 15px; font-weight: bold;">
-            <a target="_blank"
-               href="http://wordpress.org/tags/community-yard-sale">
-                <?php _e('Support forum for this plugin', 'yardsale') ?>
-            </a>
-        </div>
+    <div>
+        <table width="100%">
+            <tbody>
+            <tr>
+                <?php
+                    if ('true' != $this->getOption('Donated', 'false')) {
+                ?>
+                <td width="20%" align="left" valign="center">
+                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                        <input type="hidden" name="cmd" value="_s-xclick">
+                        <input type="hidden" name="hosted_button_id" value="F3FF6MP948QPW">
+                        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif"
+                               border="0"
+                               name="submit" alt="PayPal - The safer, easier way to pay online!">
+                        <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1"
+                             height="1">
+                    </form>
+                </td>
+                <td width="70%" align="center">
+                    <script type="text/javascript">
+                        var psHost = (("https:" == document.location.protocol) ? "https://" : "http://");
+                        document.write(unescape("%3Cscript src='" + psHost + "pluginsponsors.com/direct/spsn/display.php?client=community-yard-sale&spot='type='text/javascript'%3E%3C/script%3E"));
+                    </script>
+                    <a target="_privacy"
+                       href="http://pluginsponsors.com/privacy.html">
+                        <span style="font-size: x-small;"><?php _e('Privacy Policy', 'yardsale') ?></span>
+                    </a>
+                </td>
+                <?php
+                }
+                ?>
+                <td width="10%" align="center" valign="center">
+                    <a target="_support"
+                       href="http://wordpress.org/tags/community-yard-sale">
+                        <strong><?php _e('Plugin Support', 'yardsale') ?></strong>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
+
+
     <script type="text/javascript">
         jQuery(function() {
             jQuery("#yardsale_config_tabs").tabs();
