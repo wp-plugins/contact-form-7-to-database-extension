@@ -10,7 +10,13 @@ Community yard sale with filterable table and Google Map.
 
 == Description ==
 
-Add an input form to collect yard sale entries, and put a Google Map linked to a filterable table to view/filter/search the listings.
+A community yard sale involves multiple yard sales within a community, usually at the same time. This event attracts
+more buyers. But buyers need to know where each yard sale is located and want to know what items are for sale at each
+yard sale. This plugin helps address these issues by (1) providing sellers an input form for people to list their
+address and items being sold and (2) providing buyers a Google Map and searchable/filterable table of yard sale listings.
+
+The administrative control panel leads you through creating short codes that generate an input form for sellers and
+Google Map + table of listings for buyers.
 
 == Installation ==
 
