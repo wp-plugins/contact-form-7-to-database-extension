@@ -56,6 +56,9 @@ both tags so that they reference the same data.
 
 == Changelog ==
 
+= 1.0.1 =
+Minor tweaks
+
 = 1.0 =
 Now available via WordPress site
 
