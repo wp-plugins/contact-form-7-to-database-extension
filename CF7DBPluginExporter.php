@@ -43,6 +43,9 @@ class CF7DBPluginExporter {
             $params['gpwd'] = mcrypt_decrypt(MCRYPT_3DES, $key, CF7DBPluginExporter::hexToStr($params['gpwd']), 'ecb');
         }
 
+        if (!isset($params['enc'])) {
+            $params['enc'] = 'CSVUTF8';
+        }
         CF7DBPluginExporter::export(
             $params['form'],
             $params['enc'],
