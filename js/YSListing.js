@@ -103,6 +103,9 @@ function YSListing(centerLat, centerLng, zoom, markerDirUrl, jsonUrl) {
                     var address = this[2];
                     var listing = this[3];
 
+                    // Allow URLs to be links
+                    listing = listing.replace(/(http(s?):\/\/\S+)/gi, '<a target="_blank" href="$1">$1</a>');
+
                     // Reduce multiple new lines to one
                     // Hack against people who like to put in lot of new lines to make their posting big
                     listing = listing.replace(/(\r\n)+/g, "\n");
