@@ -68,7 +68,7 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
-= 2.0.2 =
+= 2.1 =
 * New short code: [cfdb-save-form-post]
 * [cfdb-html] new option: "stripbr"
 * Raw submit_time is available for short codes as a field name
