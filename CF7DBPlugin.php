@@ -302,7 +302,18 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         if ($fileInfo == null) {
             CFDBDie::wp_die(__('No such file.', 'contact-form-7-to-database-extension'));
         }
-        header("Content-Disposition: attachment; filename=\"$fileInfo[0]\"");
+
+        require_once('CFDBMimeTypeExtensions.php');
+        $mimeMap = new CFDBMimeTypeExtensions();
+        $mimeType = $mimeMap->get_type_by_filename($fileInfo[0]);
+        if ($mimeType) {
+            header('Content-Type: ' . $mimeType);
+            header("Content-Disposition: inline; filename=\"$fileInfo[0]\"");
+        }
+        else {
+            header("Content-Disposition: attachment; filename=\"$fileInfo[0]\"");
+        }
+
         echo($fileInfo[1]);
         die();
     }
