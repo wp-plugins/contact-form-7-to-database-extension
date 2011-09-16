@@ -324,6 +324,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             foreach ($rows as $aRow) {
                 $fields[] = $aRow->field_name;
             }
+            $fields[] = 'submit_time';
         }
         echo json_encode($fields);
         die();

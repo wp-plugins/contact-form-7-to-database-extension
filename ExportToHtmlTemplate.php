@@ -83,6 +83,10 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
                     $colNamesToSub[] = $aSubVar;
                     $varNamesToSub[] = '${' . $aSubVar . '}';
                 }
+                else if ($aSubVar == 'submit_time') {
+                    $colNamesToSub[] = 'submit_time';
+                    $varNamesToSub[] = '${submit_time}';
+                }
             }
         }
 
@@ -114,15 +118,21 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
             $options['content'] = str_replace('<br />', '', $options['content']);
         }
 
+        // Evaluation IF-expressions
+        // todo: modify $options['content']
+
         while ($this->dataIterator->nextRow()) {
+            // Evaluation IF-expressions
+            // todo: modify $options['content']
+
             if (empty($colNamesToSub)) {
                 echo $options['content'];
             }
             else {
                 $fields_with_file = null;
                 if ($filelinks != 'name' &&
-                        isset($this->dataIterator->row['fields_with_file']) &&
-                        $this->dataIterator->row['fields_with_file'] != null) {
+                    isset($this->dataIterator->row['fields_with_file']) &&
+                    $this->dataIterator->row['fields_with_file'] != null) {
                     $fields_with_file = explode(',', $this->dataIterator->row['fields_with_file']);
                 }
                 $replacements = array();
