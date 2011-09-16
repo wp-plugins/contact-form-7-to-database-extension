@@ -66,7 +66,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             'SaveCookieData' => array(__('Save Cookie Data with Form Submissions', 'contact-form-7-to-database-extension'), 'false', 'true'),
             'SaveCookieNames' => array(__('Save only cookies in DB named (comma-separated list, no spaces, and above option must be set to true)', 'contact-form-7-to-database-extension')),
             'ShowQuery' => array(__('Show the query used to display results', 'contact-form-7-to-database-extension'), 'false', 'true'),
-            'DropOnUninstall' => array(__('Drop this plugin\'s Database table on uninstall', 'contact-form-7-to-database-extension'), 'true', 'false'),
+            'DropOnUninstall' => array(__('Drop this plugin\'s Database table on uninstall', 'contact-form-7-to-database-extension'), 'false', 'true'),
             //'SubmitTableNameOverride' => array(__('Use this table to store submission data rather than the default (leave blank for default)', 'contact-form-7-to-database-extension'))
         );
     }
@@ -200,7 +200,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * @return void
      */
     protected function unInstallDatabaseTables() {
-        if ('true' == $this->getOption('DropOnUninstall', 'true')) {
+        if ('true' == $this->getOption('DropOnUninstall', 'false')) {
             global $wpdb;
             $tableName = $this->getSubmitsTableName();
             $wpdb->query("DROP TABLE IF EXISTS `$tableName`");
