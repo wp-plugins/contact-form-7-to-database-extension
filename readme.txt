@@ -69,6 +69,9 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 == Changelog ==
 
 = 2.1 =
+* Upgrade of DataTables to version 1.8.2 from 1.7.6
+
+= 2.1 =
 * New short code: [cfdb-save-form-post]
 * [cfdb-html] new option: "stripbr"
 * Raw submit_time is available for short codes as a field name
