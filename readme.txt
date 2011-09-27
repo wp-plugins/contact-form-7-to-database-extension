@@ -68,7 +68,7 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
-= 2.1 =
+= 2.1.1 =
 * Upgrade of DataTables to version 1.8.2 from 1.7.6
 
 = 2.1 =
