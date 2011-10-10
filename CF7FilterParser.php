@@ -190,6 +190,11 @@ class CF7FilterParser implements CF7DBEvalutator {
                     trigger_error($ex, E_USER_NOTICE);
                 }
             }
+            if ($andExpr[0] == 'submit_time') {
+                if (!is_numeric($right)) {
+                    $right = strtotime($right);
+                }
+            }
             if (!$left && !$right) {
                 // Addresses case where 'Submitted Login' = $user_login but there exist some submissions
                 // with no 'Submitted Login' field. Without this clause, those rows where 'Submitted Login' == null
@@ -221,7 +226,7 @@ class CF7FilterParser implements CF7DBEvalutator {
             $right = (float)$right;
         }
 
-        // Could do this easier with eval() but I want since this text ultimately
+        // Could do this easier with eval() but since this text ultimately
         // comes form a shortcode's user-entered attributes, I want to avoid a security hole
         $retVal = false;
         switch ($operator) {

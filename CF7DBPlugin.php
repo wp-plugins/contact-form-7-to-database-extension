@@ -113,50 +113,57 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             $savedVersion = '1.0';
         }
 
-        if ($this->isVersionLessThan($savedVersion, '2.0')) {
-            if ($this->isVersionLessThan($savedVersion, '1.8')) {
-                if ($this->isVersionLessThan($savedVersion, '1.4.5')) {
-                    if ($this->isVersionLessThan($savedVersion, '1.3.1')) {
-                        // Version 1.3.1 update
-                        $tableName = $this->getSubmitsTableName();
-                        $wpdb->show_errors();
-                        $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` ADD COLUMN `field_order` INTEGER");
-                        $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` ADD COLUMN `file` LONGBLOB");
-                        $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `submit_time_idx` ( `submit_time` )");
-                        $wpdb->hide_errors();
-                    }
+        if ($this->isVersionLessThan($savedVersion, '2.2')) {
+            if ($this->isVersionLessThan($savedVersion, '2.0')) {
+                if ($this->isVersionLessThan($savedVersion, '1.8')) {
+                    if ($this->isVersionLessThan($savedVersion, '1.4.5')) {
+                        if ($this->isVersionLessThan($savedVersion, '1.3.1')) {
+                            // Version 1.3.1 update
+                            $tableName = $this->getSubmitsTableName();
+                            $wpdb->show_errors();
+                            $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` ADD COLUMN `field_order` INTEGER");
+                            $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` ADD COLUMN `file` LONGBLOB");
+                            $upgradeOk &= false !== $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `submit_time_idx` ( `submit_time` )");
+                            $wpdb->hide_errors();
+                        }
 
-                    // Version 1.4.5 update
-                    if (!$this->getOption('CanSeeSubmitDataViaShortcode')) {
-                        $this->addOption('CanSeeSubmitDataViaShortcode', 'Anyone');
-                    }
+                        // Version 1.4.5 update
+                        if (!$this->getOption('CanSeeSubmitDataViaShortcode')) {
+                            $this->addOption('CanSeeSubmitDataViaShortcode', 'Anyone');
+                        }
 
-                    // Misc
-                    $submitDateTimeFormat = $this->getOption('SubmitDateTimeFormat');
-                    if (!$submitDateTimeFormat || $submitDateTimeFormat == '') {
-                        $this->addOption('SubmitDateTimeFormat', 'Y-m-d H:i:s P');
-                    }
+                        // Misc
+                        $submitDateTimeFormat = $this->getOption('SubmitDateTimeFormat');
+                        if (!$submitDateTimeFormat || $submitDateTimeFormat == '') {
+                            $this->addOption('SubmitDateTimeFormat', 'Y-m-d H:i:s P');
+                        }
 
+                    }
+                    // Version 1.8 update
+                    if (!$this->getOption('MaxRows')) {
+                        $this->addOption('MaxRows', '100');
+                    }
+                    $tableName = $this->getSubmitsTableName();
+                    $wpdb->show_errors();
+                    /* $upgradeOk &= false !== */
+                    $wpdb->query("ALTER TABLE `$tableName` MODIFY COLUMN submit_time DECIMAL(16,4) NOT NULL");
+                    /* $upgradeOk &= false !== */
+                    $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `form_name_idx` ( `form_name` )");
+                    /* $upgradeOk &= false !== */
+                    $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `form_name_field_name_idx` ( `form_name`, `field_name` )");
+                    $wpdb->hide_errors();
                 }
-                // Version 1.8 update
-                if (!$this->getOption('MaxRows')) {
-                    $this->addOption('MaxRows', '100');
-                }
+
+                // Version 2.0 upgrade
                 $tableName = $this->getSubmitsTableName();
-                $wpdb->show_errors();
-                /* $upgradeOk &= false !== */
-                $wpdb->query("ALTER TABLE `$tableName` MODIFY COLUMN submit_time DECIMAL(16,4) NOT NULL");
-                /* $upgradeOk &= false !== */
-                $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `form_name_idx` ( `form_name` )");
-                /* $upgradeOk &= false !== */
-                $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `form_name_field_name_idx` ( `form_name`, `field_name` )");
-                $wpdb->hide_errors();
+                $oldTableName = $this->prefixTableName('SUBMITS');
+                $wpdb->query("RENAME TABLE `$oldTableName` TO `$tableName`");
             }
 
-            // Version 2.0 upgrade
+            // Version 2.2 upgrade
             $tableName = $this->getSubmitsTableName();
-            $oldTableName = $this->prefixTableName('SUBMITS');
-            $wpdb->query("RENAME TABLE `$oldTableName` TO `$tableName`");
+            $wpdb->query("ALTER TABLE `$tableName` DROP INDEX `form_name_field_name_idx`");
+            $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `field_name_idx` ( `field_name` )");
         }
 
 
@@ -187,7 +194,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             `file` LONGBLOB)");
         $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `submit_time_idx` ( `submit_time` )");
         $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `form_name_idx` ( `form_name` )");
-        $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `form_name_field_name_idx` ( `form_name`, `field_name` )");
+        $wpdb->query("ALTER TABLE `$tableName` ADD INDEX `field_name_idx` ( `field_name` )");
         $wpdb->hide_errors();
     }
 
@@ -246,6 +253,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         // Register Get Form Fields URL
         add_action('wp_ajax_nopriv_cfdb-getFormFields', array(&$this, 'ajaxGetFormFields'));
         add_action('wp_ajax_cfdb-getFormFields', array(&$this, 'ajaxGetFormFields'));
+
+        // Register Validate submit_time value (used in short code builder page)
+        add_action('wp_ajax_nopriv_cfdb-validate-submit_time', array(&$this, 'ajaxValidateSubmitTime'));
+        add_action('wp_ajax_cfdb-validate-submit_time', array(&$this, 'ajaxValidateSubmitTime'));
 
         // Shortcode to add a table to a page
         $sc = new CFDBShortcodeTable();
@@ -338,6 +349,35 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             $fields[] = 'submit_time';
         }
         echo json_encode($fields);
+        die();
+    }
+
+    public function ajaxValidateSubmitTime() {
+        header('Content-Type: text/plain; charset=UTF-8');
+        header("Pragma: no-cache");
+        header("Expires: Thu, 01 Jan 1970 00:00:00 GMT");
+        $submitTime = $_REQUEST['submit_time'];
+
+        $invalid = false;
+        $time = $submitTime;
+        if (!is_numeric($submitTime)) {
+            if (version_compare(phpversion(), '5.1.0') == -1) {
+                $invalid = -1;
+            }
+            $time = strtotime($submitTime);
+        }
+        if ($invalid === $time) {
+            _e('Invalid: ', 'contact-form-7-to-database-extension');
+        }
+        else {
+            _e('Valid: ', 'contact-form-7-to-database-extension');
+        }
+
+        echo "'$submitTime' = $time";
+
+        if ($invalid !== $time) {
+            echo " = " . $this->formatDate($time);
+        }
         die();
     }
 
@@ -611,6 +651,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
     public function getFormFieldsAjaxUrlBase() {
         return admin_url('admin-ajax.php') . '?action=cfdb-getFormFields&form=';
+    }
+
+    public function getValidateSubmitTimeAjaxUrlBase() {
+        return admin_url('admin-ajax.php') . '?action=cfdb-validate-submit_time&submit_time=';
     }
 
     /**

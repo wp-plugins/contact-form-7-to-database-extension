@@ -357,6 +357,22 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             });
         }
 
+        function validateSubmitTime() {
+            var url = "<?php echo $plugin->getValidateSubmitTimeAjaxUrlBase() ?>" + jQuery('#filter_val').val();
+            jQuery.get(url, function(data) {
+                alert(data);
+            });
+        }
+
+        function showValidateSubmitTimeHelp(show) {
+            if (show) {
+                jQuery('#span_validate_submit_time').show();
+            }
+            else {
+                jQuery('#span_validate_submit_time').hide();
+            }
+        }
+
         function addFieldToShow() {
             var value = jQuery('#show_cntl').val();
             if (value) {
@@ -420,6 +436,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#content_cntl').val('');
             jQuery('#enc_cntl').val('');
             jQuery('#urlonly_cntl').val('');
+            showValidateSubmitTimeHelp(false);
             createShortCode();
         }
 
@@ -447,6 +464,10 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#enc_cntl').click(createShortCode);
             jQuery('#urlonly_cntl').click(createShortCode);
             jQuery('#reset_button').click(reset);
+            jQuery('#btn_validate_submit_time').click(validateSubmitTime);
+            jQuery('#add_filter').change(function() {
+                showValidateSubmitTimeHelp(jQuery('#add_filter').val() == "submit_time");
+            });
         });
 
 
@@ -565,8 +586,13 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 <option value="!==">!==</option>
                 <option value="~~">~~</option>
             </select>
-            <input name="filter_val" id="filter_val" type="text" size="10"/>
+            <input name="filter_val" id="filter_val" type="text" size="20"/>
             <button id="btn_filter">&raquo;</button>
+            <span id="span_validate_submit_time" style="display:none;">
+                <button id="btn_validate_submit_time"><?php _e('Validate submit_time', 'contact-form-7-to-database-extension'); ?></button>
+                <?php _e('based on ', 'contact-form-7-to-database-extension'); ?><a target="_blank" href="http://www.php.net/manual/en/function.strtotime.php">strtotime</a>
+            </span>
+            <br/>
             <input name="filter_cntl" id="filter_cntl" type="text" size="100"/>
         </div>
     </div>

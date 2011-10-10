@@ -68,6 +68,10 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
+= 2.2 =
+* Short code "filter" values using submit_time can now use 'strtotime' values. E.g. "submit_time>last week"
+* Dropped index `form_name_field_name_idx` but this fails on some MySQL versions and needs to be done manually (<a href="http://bugs.mysql.com/bug.php?id=37910">MySQL Bug 37910</a>).
+
 = 2.1.1 =
 * Upgrade of DataTables to version 1.8.2 from 1.7.6
 
