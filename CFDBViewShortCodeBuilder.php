@@ -590,7 +590,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             <button id="btn_filter">&raquo;</button>
             <span id="span_validate_submit_time" style="display:none;">
                 <button id="btn_validate_submit_time"><?php _e('Validate submit_time', 'contact-form-7-to-database-extension'); ?></button>
-                <?php _e('based on ', 'contact-form-7-to-database-extension'); ?><a target="_blank" href="http://www.php.net/manual/en/function.strtotime.php">strtotime</a>
+                <a target="_blank" href="http://cfdbplugin.com/?page_id=553"><?php _e('Formats', 'contact-form-7-to-database-extension'); ?></a>
             </span>
             <br/>
             <input name="filter_cntl" id="filter_cntl" type="text" size="100"/>

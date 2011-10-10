@@ -364,6 +364,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             if (version_compare(phpversion(), '5.1.0') == -1) {
                 $invalid = -1;
             }
+            // Use times in local timezone
+            date_default_timezone_set(get_option('timezone_string'));
             $time = strtotime($submitTime);
         }
         if ($invalid === $time) {
