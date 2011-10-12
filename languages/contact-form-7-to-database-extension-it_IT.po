@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Contact Form 7 to Database Extension in italiano\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-extension\n"
-"POT-Creation-Date: 2011-07-29 18:57:25+00:00\n"
-"PO-Revision-Date: 2011-07-30 19:53+0100\n"
+"POT-Creation-Date: 2011-10-11 01:57:53+00:00\n"
+"PO-Revision-Date: 2011-10-12 13:13+0100\n"
 "Last-Translator: Gianni Diurno (aka gidibao) <gidibao[at]gmail[dot]com>\n"
 "Language-Team: Gianni Diurno | gidibao.net\n"
 "MIME-Version: 1.0\n"
@@ -14,16 +14,42 @@ msgstr ""
 "X-Poedit-Language: Italian\n"
 "X-Poedit-Country: ITALY\n"
 
-#: CF7DBPluginExporter.php:33
-msgid "Error: No \"form\" parameter submitted"
-msgstr "Errore: nessun parametro \"form\" inserito"
+#: CFDBView.php:67
+msgid "Rate this Plugin"
+msgstr "Vota il plugin"
 
-#: ExportToHtmlTable.php:158
-msgid "Delete"
-msgstr "Elimina"
+#: CFDBView.php:73
+#: CFDBViewShortCodeBuilder.php:63
+#: CFDBViewShortCodeBuilder.php:545
+msgid "Documentation"
+msgstr "Documentazione"
+
+#: CFDBView.php:79
+msgid "Support"
+msgstr "Supporto"
+
+#: CFDBView.php:85
+msgid "Privacy Policy"
+msgstr "Privacy Policy"
+
+#: ExportBase.php:177
+msgid "You do not have sufficient permissions to access this data."
+msgstr "Non hai i permessi necessari per potere accedere a questo dato."
+
+#: contact-form-7-db.php:23
+msgid "Error: plugin \"Contact Form to DB Extension\" requires a newer version of PHP to be running."
+msgstr "Errore: il plugin \"Contact Form to DB Extension\" per potere funzionare richiede una nuova versione PHP."
+
+#: contact-form-7-db.php:24
+msgid "Minimal version of PHP required: "
+msgstr "Versione minima PHP richiesta:"
+
+#: contact-form-7-db.php:25
+msgid "Your server's PHP version: "
+msgstr "La versione PHP del tuo server:"
 
 #: CF7DBOptionsManager.php:278
-#: CF7DBPlugin.php:287
+#: CF7DBPlugin.php:304
 #: ExportToGoogleLiveData.php:31
 msgid "You do not have sufficient permissions to access this page."
 msgstr "Non hai i permessi necessari per potere accedere a questa pagina."
@@ -61,158 +87,177 @@ msgid "Save Changes"
 msgstr "Salva le modifiche"
 
 #: CF7DBOptionsManager.php:407
-#: CF7DBPlugin.php:76
+#: CF7DBPlugin.php:77
 msgid "true"
 msgstr "sì"
 
 #: CF7DBOptionsManager.php:408
-#: CF7DBPlugin.php:78
+#: CF7DBPlugin.php:79
 msgid "false"
 msgstr "no"
 
-#: CF7DBPlugin.php:48
+#: CJ7DBCheckZendFramework.php:72
+msgid "Missing Zend Framework"
+msgstr "Manca il Zend Framework"
+
+#: CF7DBPlugin.php:49
 msgid "I have donated to this plugin"
 msgstr "Ho donato per questo plugin"
 
-#: CF7DBPlugin.php:49
+#: CF7DBPlugin.php:50
 msgid "Capture form submissions from Contact Form 7 Plugin"
 msgstr "Preleva i dati dal plugin Contact Form 7"
 
-#: CF7DBPlugin.php:50
+#: CF7DBPlugin.php:51
 msgid "Capture form submissions from Fast Secure Contact Form Plugin"
 msgstr "Preleva i dati dal plugin Fast Secure Contact Form"
 
-#: CF7DBPlugin.php:51
+#: CF7DBPlugin.php:52
 msgid "Can See Submission data"
 msgstr "Può vedere i dati"
 
-#: CF7DBPlugin.php:53
+#: CF7DBPlugin.php:54
 msgid "Can See Submission when using shortcodes"
 msgstr "Può vedere i dati (via shortcode)"
 
-#: CF7DBPlugin.php:55
+#: CF7DBPlugin.php:56
 msgid "Can Edit/Delete Submission data"
 msgstr "Può Modificare/Cancellare i dati inseriti"
 
-#: CF7DBPlugin.php:57
+#: CF7DBPlugin.php:58
 msgid "Maximum number of rows to retrieve from the DB for the Admin display"
 msgstr "Numero massimo di record da estrarre dal DB (per visualizzazione admin)"
 
-#: CF7DBPlugin.php:58
+#: CF7DBPlugin.php:59
 msgid "Use Javascript-enabled tables in Admin Database page"
 msgstr "Usa tabelle (Javascript-attivo) nella pagina Database"
 
-#: CF7DBPlugin.php:59
+#: CF7DBPlugin.php:60
 msgid "Show line breaks in submitted data table"
 msgstr "Mostra separatore di linea nella tabella dati"
 
-#: CF7DBPlugin.php:60
+#: CF7DBPlugin.php:61
 msgid "Use Custom Date-Time Display Format (below)"
 msgstr "Usa formato personalizzato data/ora (qui sotto)"
 
-#: CF7DBPlugin.php:61
+#: CF7DBPlugin.php:62
 msgid "Date-Time Display Format"
 msgstr "Formato data/ora"
 
-#: CF7DBPlugin.php:62
+#: CF7DBPlugin.php:63
 msgid "Export URLs instead of file names for uploaded files"
 msgstr "Esporta gli URL (non i nomi dei file) per i file caricati"
 
-#: CF7DBPlugin.php:63
+#: CF7DBPlugin.php:64
 msgid "Do not save <u>fields</u> in DB named (comma-separated list, no spaces)"
 msgstr "Non salvare i <u>campi</u> nel DB a nome (separa con una virgola, no spazi)"
 
-#: CF7DBPlugin.php:64
+#: CF7DBPlugin.php:65
 msgid "Do not save <u>forms</u> in DB named (comma-separated list, no spaces)"
 msgstr "Non salvare i <u>moduli</u> nel DB a nome (separa con una virgola, no spazi)"
 
-#: CF7DBPlugin.php:65
+#: CF7DBPlugin.php:66
 msgid "Save Cookie Data with Form Submissions"
 msgstr "Salva dati cookie insieme ai dati modulo"
 
-#: CF7DBPlugin.php:66
+#: CF7DBPlugin.php:67
 msgid "Save only cookies in DB named (comma-separated list, no spaces, and above option must be set to true)"
 msgstr "Salva i soli cookie nel DB a nome (separa con una virgola, no spazi e opzione qui sopra impostata a sì)"
 
-#: CF7DBPlugin.php:67
+#: CF7DBPlugin.php:68
 msgid "Show the query used to display results"
 msgstr "Mostra la query utilizzata per mostrare i risultati"
 
-#: CF7DBPlugin.php:68
+#: CF7DBPlugin.php:69
 msgid "Drop this plugin's Database table on uninstall"
 msgstr "Elimina tabella plugin dal database (disinstalla)"
 
-#: CF7DBPlugin.php:81
+#: CF7DBPlugin.php:82
 msgid "Administrator"
 msgstr "Amministratore"
 
-#: CF7DBPlugin.php:83
+#: CF7DBPlugin.php:84
 msgid "Editor"
 msgstr "Editore"
 
-#: CF7DBPlugin.php:85
+#: CF7DBPlugin.php:86
 msgid "Author"
 msgstr "Autore"
 
-#: CF7DBPlugin.php:87
+#: CF7DBPlugin.php:88
 msgid "Contributor"
 msgstr "Collaboratore"
 
-#: CF7DBPlugin.php:89
+#: CF7DBPlugin.php:90
 msgid "Subscriber"
 msgstr "Sottoscrittore"
 
-#: CF7DBPlugin.php:91
+#: CF7DBPlugin.php:92
 msgid "Anyone"
 msgstr "Chiunque"
 
-#: CF7DBPlugin.php:293
+#: CF7DBPlugin.php:310
 msgid "Missing form parameters"
 msgstr "Mancano i parametri del modulo"
 
-#: CF7DBPlugin.php:297
+#: CF7DBPlugin.php:314
 msgid "No such file."
 msgstr "Nessun file."
 
-#: CF7DBPlugin.php:331
-#: CF7DBPlugin.php:351
+#: CF7DBPlugin.php:372
+msgid "Invalid: "
+msgstr "Non valido:"
+
+#: CF7DBPlugin.php:375
+msgid "Valid: "
+msgstr "Valido:"
+
+#: CF7DBPlugin.php:391
+#: CF7DBPlugin.php:411
 msgid "Database Options"
 msgstr "Opzioni database"
 
-#: CF7DBPlugin.php:349
-#: CF7DBPlugin.php:524
+#: CF7DBPlugin.php:409
+#: CF7DBPlugin.php:584
 msgid "Database"
 msgstr "Database"
 
-#: CF7DBPlugin.php:353
+#: CF7DBPlugin.php:413
 msgid "Build Short Code"
 msgstr "Crea Short Code"
 
-#: CF7DBPlugin.php:355
+#: CF7DBPlugin.php:415
 msgid "FAQ"
 msgstr "FAQ"
 
-#: CF7DBPlugin.php:532
+#: CF7DBPlugin.php:592
 msgid "Database Short Code"
 msgstr "Database Short Code"
 
-#: contact-form-7-db.php:23
-msgid "Error: plugin \"Contact Form to DB Extension\" requires a newer version of PHP to be running."
-msgstr "Errore: il plugin \"Contact Form to DB Extension\" per potere funzionare richiede una nuova versione PHP."
+#: ExportToGoogleSS.php:62
+msgid "Login Failed"
+msgstr "Login fallito"
 
-#: contact-form-7-db.php:24
-msgid "Minimal version of PHP required: "
-msgstr "Versione minima PHP richiesta:"
+#: ExportToGoogleSS.php:101
+msgid "New Google Spreadsheet"
+msgstr "New Google Spreadsheet"
 
-#: contact-form-7-db.php:25
-msgid "Your server's PHP version: "
-msgstr "La versione PHP del tuo server:"
+#: ExportToGoogleSS.php:110
+msgid "Error"
+msgstr "Errore"
 
-#: CFDBViewShortCodeBuilder.php:63
-#: CFDBViewShortCodeBuilder.php:523
-#: CFDBView.php:69
-msgid "Documentation"
-msgstr "Documentazione"
+#: CFDBShortcodeExportUrl.php:62
+#: CFDBViewWhatsInDB.php:212
+msgid "Export"
+msgstr "Esporta"
+
+#: ExportToGoogleLiveData.php:170
+msgid "How to Set up Google Spreadsheet to pull data from WordPress"
+msgstr "Come impostare Google Spreadsheet per estrarre i dati da WordPress"
+
+#: ExportToHtmlTable.php:158
+msgid "Delete"
+msgstr "Elimina"
 
 #: CFDBViewShortCodeBuilder.php:151
 msgid "Error: \""
@@ -242,66 +287,78 @@ msgstr "Errore: \"limit\": \"Num Rows\" deve essere un numero intero positivo"
 msgid "Error: \"limit\": \"Start Row\" must be a positive integer"
 msgstr "Errore: \"limit\": \"Start Row\" deve essere un numero intero positivo"
 
-#: CFDBViewShortCodeBuilder.php:495
+#: CFDBViewShortCodeBuilder.php:517
 msgid "* Select a short code *"
 msgstr "* Seleziona short code *"
 
-#: CFDBViewShortCodeBuilder.php:508
+#: CFDBViewShortCodeBuilder.php:530
 #: CFDBViewWhatsInDB.php:102
 msgid "* Select a form *"
 msgstr "* Seleziona modulo *"
 
-#: CFDBViewShortCodeBuilder.php:518
+#: CFDBViewShortCodeBuilder.php:540
 msgid "Reset"
 msgstr "Ripristina"
 
-#: CFDBViewShortCodeBuilder.php:527
+#: CFDBViewShortCodeBuilder.php:549
 msgid "(Did you know: you can create your own short code)"
 msgstr "(Lo sapevi? puoi creare uno shortcode personalizzato)"
 
-#: CFDBViewShortCodeBuilder.php:531
+#: CFDBViewShortCodeBuilder.php:553
 msgid "Which fields/columns do you want to display?"
 msgstr "Quali campi/colonne desideri mostrare?"
 
-#: CFDBViewShortCodeBuilder.php:544
+#: CFDBViewShortCodeBuilder.php:566
 msgid "Which rows/submissions do you want to display?"
 msgstr "Quali righe/dati desideri mostrare?"
 
-#: CFDBViewShortCodeBuilder.php:590
+#: CFDBViewShortCodeBuilder.php:592
+msgid "Validate submit_time"
+msgstr "Convalida submit_time"
+
+#: CFDBViewShortCodeBuilder.php:593
+msgid "Formats"
+msgstr "Formati"
+
+#: CFDBViewShortCodeBuilder.php:617
 msgid "HTML Table Formatting"
 msgstr "Formattazione HTML tabella"
 
-#: CFDBViewShortCodeBuilder.php:605
+#: CFDBViewShortCodeBuilder.php:632
 msgid "DataTable Options"
 msgstr "Opzioni tabella dati"
 
-#: CFDBViewShortCodeBuilder.php:610
+#: CFDBViewShortCodeBuilder.php:637
 msgid "JSON Options"
 msgstr "Opzioni JSON"
 
-#: CFDBViewShortCodeBuilder.php:626
+#: CFDBViewShortCodeBuilder.php:653
 msgid "VALUE Options"
 msgstr "Opzioni VALUE"
 
-#: CFDBViewShortCodeBuilder.php:672
+#: CFDBViewShortCodeBuilder.php:705
 #: CFDBViewWhatsInDB.php:190
 msgid "Excel CSV (UTF8-BOM)"
 msgstr "Excel CSV (UTF8-BOM)"
 
-#: CFDBViewShortCodeBuilder.php:675
+#: CFDBViewShortCodeBuilder.php:708
 #: CFDBViewWhatsInDB.php:193
 msgid "Excel TSV (UTF16LE-BOM)"
 msgstr "Excel TSV (UTF16LE-BOM)"
 
-#: CFDBViewShortCodeBuilder.php:678
+#: CFDBViewShortCodeBuilder.php:711
 #: CFDBViewWhatsInDB.php:196
 msgid "Plain CSV (UTF-8)"
 msgstr "Plain CSV (UTF-8)"
 
-#: CFDBViewShortCodeBuilder.php:681
+#: CFDBViewShortCodeBuilder.php:714
 #: CFDBViewWhatsInDB.php:187
 msgid "Excel Internet Query"
 msgstr "Excel Internet Query"
+
+#: CF7DBPluginExporter.php:33
+msgid "Error: No \"form\" parameter submitted"
+msgstr "Errore: nessun parametro \"form\" inserito"
 
 #: CFDBViewWhatsInDB.php:43
 msgid "No form submissions in the database"
@@ -330,11 +387,6 @@ msgstr "HTML"
 #: CFDBViewWhatsInDB.php:208
 msgid "JSON"
 msgstr "JSON"
-
-#: CFDBViewWhatsInDB.php:212
-#: CFDBShortcodeExportUrl.php:62
-msgid "Export"
-msgstr "Esporta"
 
 #: CFDBViewWhatsInDB.php:223
 msgid "Delete All This Form's Records"
@@ -391,42 +443,6 @@ msgstr "« prec"
 #: CFDBViewWhatsInDB.php:424
 msgid "Returned entries %s to %s of %s entries in the database"
 msgstr "Dati di ritorno da %s a %s di %s dati presenti nel database"
-
-#: ExportToGoogleLiveData.php:170
-msgid "How to Set up Google Spreadsheet to pull data from WordPress"
-msgstr "Come impostare Google Spreadsheet per estrarre i dati da WordPress"
-
-#: CJ7DBCheckZendFramework.php:72
-msgid "Missing Zend Framework"
-msgstr "Manca il Zend Framework"
-
-#: ExportToGoogleSS.php:62
-msgid "Login Failed"
-msgstr "Login fallito"
-
-#: ExportToGoogleSS.php:101
-msgid "New Google Spreadsheet"
-msgstr "New Google Spreadsheet"
-
-#: ExportToGoogleSS.php:110
-msgid "Error"
-msgstr "Errore"
-
-#: ExportBase.php:177
-msgid "You do not have sufficient permissions to access this data."
-msgstr "Non hai i permessi necessari per potere accedere a questo dato."
-
-#: CFDBView.php:63
-msgid "Rate this Plugin"
-msgstr "Vota il plugin"
-
-#: CFDBView.php:75
-msgid "Support"
-msgstr "Supporto"
-
-#: CFDBView.php:81
-msgid "Privacy Policy"
-msgstr "Privacy Policy"
 
 #~ msgid ""
 #~ "When using the Apache web server, typically you can configure it to use "
