@@ -89,7 +89,7 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
         $this->setDataIterator($formName, $submitTimeKeyName);
 
         if ($useDT) {
-            $dtJsOptions = $options['dt_options'];
+            $dtJsOptions = isset($options['dt_options']) ? $options['dt_options'] : false;
             if (!$dtJsOptions) {
                 $dtJsOptions = '"bJQueryUI": true, "aaSorting": []';
                 $i18nUrl = $this->plugin->getDataTableTranslationUrl();
