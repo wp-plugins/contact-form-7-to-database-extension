@@ -725,19 +725,19 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 <option value="img"><?php _e('img', 'contact-form-7-to-database-extension') ?></option>
             </select>
             <div class="label_box">
-                <label for="wpautop_cntl"><?php _e('wpautop', 'contact-form-7-to-database-extension') ?></label>
-                <a target="_docs" href="http://cfdbplugin.com/?page_id=284#wpautop"><img src="<?php echo $infoImg ?>"/></a>
+                <label for="stripbr_cntl"><?php _e('stripbr', 'contact-form-7-to-database-extension') ?></label>
+                <a target="_docs" href="http://cfdbplugin.com/?page_id=284#stripbr"><img src="<?php echo $infoImg ?>"/></a>
             </div>
-            <select id="wpautop_cntl" name="wpautop_cntl">
+            <select id="stripbr_cntl" name="stripbr_cntl">
                 <option value=""></option>
                 <option value="false"><?php _e('false', 'contact-form-7-to-database-extension') ?></option>
                 <option value="true"><?php _e('true', 'contact-form-7-to-database-extension') ?></option>
             </select>
             <div class="label_box">
-                <label for="stripbr_cntl"><?php _e('stripbr', 'contact-form-7-to-database-extension') ?></label>
-                <a target="_docs" href="http://cfdbplugin.com/?page_id=284#stripbr"><img src="<?php echo $infoImg ?>"/></a>
+                <label for="wpautop_cntl" style="text-decoration:line-through;"><?php _e('wpautop', 'contact-form-7-to-database-extension') ?></label>
+                <a target="_docs" href="http://cfdbplugin.com/?page_id=284#wpautop"><img src="<?php echo $infoImg ?>"/></a>
             </div>
-            <select id="stripbr_cntl" name="stripbr_cntl">
+            <select id="wpautop_cntl" name="wpautop_cntl">
                 <option value=""></option>
                 <option value="false"><?php _e('false', 'contact-form-7-to-database-extension') ?></option>
                 <option value="true"><?php _e('true', 'contact-form-7-to-database-extension') ?></option>
