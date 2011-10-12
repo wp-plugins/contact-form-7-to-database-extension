@@ -509,10 +509,10 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         <span id="validations_text" style="background-color:#ffff66;"></span>
     </div>
 
-    <h2>Short Code Builder</h2>
+    <h2><?php _e('Short Code Builder', 'contact-form-7-to-database-extension') ?></h2>
     <div style="margin-bottom:10px">
         <span>
-            <div class="label_box"><label for="shortcode_ctrl">Short Code</label></div>
+            <div class="label_box"><label for="shortcode_ctrl"><?php _e('Short Code', 'contact-form-7-to-database-extension') ?></label></div>
             <select name="shortcode_ctrl" id="shortcode_ctrl">
                 <option value=""><?php _e('* Select a short code *', 'contact-form-7-to-database-extension') ?></option>
                 <option value="[cfdb-html]">[cfdb-html]</option>
@@ -525,7 +525,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             </select>
         </span>
         <span style="margin-left:10px">
-            <div class="label_box"><label for="form_name_cntl">form</label></div>
+            <div class="label_box"><label for="form_name_cntl"><?php _e('form', 'contact-form-7-to-database-extension') ?></label></div>
             <select name="form_name_cntl" id="form_name_cntl">
                 <option value=""><?php _e('* Select a form *', 'contact-form-7-to-database-extension') ?></option>
                 <?php foreach ($rows as $aRow) {
@@ -552,12 +552,12 @@ class CFDBViewShortCodeBuilder extends CFDBView {
     <div id="show_hide_div" class="shortcodeoptions">
         <?php _e('Which fields/columns do you want to display?', 'contact-form-7-to-database-extension'); ?>
         <div>
-            <div class="label_box"><label for="show_cntl">show</label></div>
+            <div class="label_box"><label for="show_cntl"><?php _e('show', 'contact-form-7-to-database-extension') ?></label></div>
             <select name="add_show" id="add_show"></select><button id="btn_show"">&raquo;</button>
             <input name="show_cntl" id="show_cntl" type="text" size="100"/>
         </div>
         <div>
-            <div class="label_box"><label for="hide_cntl">hide</label></div>
+            <div class="label_box"><label for="hide_cntl"><?php _e('hide', 'contact-form-7-to-database-extension') ?></label></div>
             <select name="add_hide" id="add_hide"></select><button id="btn_hide">&raquo;</button>
             <input name="hide_cntl" id="hide_cntl" type="text" size="100"/>
         </div>
@@ -565,11 +565,11 @@ class CFDBViewShortCodeBuilder extends CFDBView {
     <div id="filter_div" class="shortcodeoptions">
         <div><?php _e('Which rows/submissions do you want to display?', 'contact-form-7-to-database-extension'); ?></div>
         <div>
-            <div class="label_box"><label for="search_cntl">search</label></div>
+            <div class="label_box"><label for="search_cntl"><?php _e('search', 'contact-form-7-to-database-extension') ?></label></div>
             <input name="search_cntl" id="search_cntl" type="text" size="30"/>
         </div>
         <div>
-            <div class="label_box"><label for="filter_cntl">filter</label></div>
+            <div class="label_box"><label for="filter_cntl"><?php _e('filter', 'contact-form-7-to-database-extension') ?></label></div>
             <select name="filter_bool" id="filter_bool">
                 <option value="&&">&&</option>
                 <option value="||">||</option>
@@ -598,107 +598,107 @@ class CFDBViewShortCodeBuilder extends CFDBView {
     </div>
     <div id="limitorder_div" class="shortcodeoptions">
         <div>
-            <div class="label_box"><label for="limit_rows_cntl">limit</label></div>
-            Num Rows <input name="limit_rows_cntl" id="limit_rows_cntl" type="text" size="10"/>
-            Start Row (0)<input name="limit_start_cntl" id="limit_start_cntl" type="text" size="10"/>
+            <div class="label_box"><label for="limit_rows_cntl"><?php _e('limit', 'contact-form-7-to-database-extension') ?></label></div>
+            <?php _e('Num Rows', 'contact-form-7-to-database-extension') ?> <input name="limit_rows_cntl" id="limit_rows_cntl" type="text" size="10"/>
+            <?php _e('Start Row (0)', 'contact-form-7-to-database-extension') ?> <input name="limit_start_cntl" id="limit_start_cntl" type="text" size="10"/>
         </div>
         <div id="orderby_div">
-            <div class="label_box"><label for="orderby_cntl">orderby</label></div>
+            <div class="label_box"><label for="orderby_cntl"><?php _e('orderby', 'contact-form-7-to-database-extension') ?></label></div>
             <select name="add_orderby" id="add_orderby"></select><button id="btn_orderby">&raquo;</button>
             <input name="orderby_cntl" id="orderby_cntl" type="text" size="100"/>
             <select id="orderbydir_cntl" name="orderbydir_cntl">
                 <option value=""></option>
-                <option value="ASC">ASC</option>
-                <option value="DESC">DESC</option>
+                <option value="ASC"><?php _e('ASC', 'contact-form-7-to-database-extension') ?></option>
+                <option value="DESC"><?php _e('DESC', 'contact-form-7-to-database-extension') ?></option>
             </select>
         </div>
     </div>
     <div id="html_format_div" class="shortcodeoptions">
         <div><?php _e('HTML Table Formatting', 'contact-form-7-to-database-extension'); ?></div>
         <div>
-            <div class="label_box"><label for="id_cntl">id</label></div>
+            <div class="label_box"><label for="id_cntl"><?php _e('id', 'contact-form-7-to-database-extension') ?></label></div>
             <input name="id_cntl" id="id_cntl" type="text" size="10"/>
         </div>
         <div>
-            <div class="label_box"><label for="class_cntl">class</label></div>
+            <div class="label_box"><label for="class_cntl"><?php _e('class', 'contact-form-7-to-database-extension') ?></label></div>
             <input name="class_cntl" id="class_cntl" type="text" size="10"/>
         </div>
         <div>
-            <div class="label_box"><label for="style_cntl">style</label></div>
+            <div class="label_box"><label for="style_cntl"><?php _e('style', 'contact-form-7-to-database-extension') ?></label></div>
             <input name="style_cntl" id="style_cntl" type="text" size="100"/>
         </div>
     </div>
     <div id="dt_options_div" class="shortcodeoptions">
         <div><?php _e('DataTable Options', 'contact-form-7-to-database-extension'); ?></div>
-        <div class="label_box"><label for="dt_options_cntl">dt_options</label></div>
+        <div class="label_box"><label for="dt_options_cntl"><?php _e('dt_options', 'contact-form-7-to-database-extension') ?></label></div>
         <input name="dt_options_cntl" id="dt_options_cntl" type="text" size="100"/>
     </div>
     <div id="json_div" class="shortcodeoptions">
         <div><?php _e('JSON Options', 'contact-form-7-to-database-extension'); ?></div>
         <div>
-            <div class="label_box"><label for="var_cntl">var</label></div>
+            <div class="label_box"><label for="var_cntl"><?php _e('var', 'contact-form-7-to-database-extension') ?></label></div>
             <input name="var_cntl" id="var_cntl" type="text" size="10"/>
         </div>
         <div>
-            <div class="label_box"><label for="format_cntl">format</label></div>
+            <div class="label_box"><label for="format_cntl"><?php _e('format', 'contact-form-7-to-database-extension') ?></label></div>
             <select id="format_cntl" name="format_cntl">
                 <option value=""></option>
-                <option value="map">map</option>
-                <option value="array">array</option>
-                <option value="arraynoheader">arraynoheader</option>
+                <option value="map"><?php _e('map', 'contact-form-7-to-database-extension') ?></option>
+                <option value="array"><?php _e('array', 'contact-form-7-to-database-extension') ?></option>
+                <option value="arraynoheader"><?php _e('arraynoheader', 'contact-form-7-to-database-extension') ?></option>
             </select>
         </div>
     </div>
     <div id="value_div" class="shortcodeoptions">
         <div><?php _e('VALUE Options', 'contact-form-7-to-database-extension'); ?></div>
         <div>
-            <div class="label_box"><label for="function_cntl">function</label></div>
+            <div class="label_box"><label for="function_cntl"><?php _e('function', 'contact-form-7-to-database-extension') ?></label></div>
             <select id="function_cntl" name="function_cntl">
                 <option value=""></option>
-                <option value="min">min</option>
-                <option value="max">max</option>
-                <option value="sum">sum</option>
-                <option value="mean">mean</option>
-                <option value="percent">percent</option>
+                <option value="min"><?php _e('min', 'contact-form-7-to-database-extension') ?></option>
+                <option value="max"><?php _e('max', 'contact-form-7-to-database-extension') ?></option>
+                <option value="sum"><?php _e('sum', 'contact-form-7-to-database-extension') ?></option>
+                <option value="mean"><?php _e('mean', 'contact-form-7-to-database-extension') ?></option>
+                <option value="percent"><?php _e('percent', 'contact-form-7-to-database-extension') ?></option>
             </select>
         </div>
         <div>
-            <div class="label_box"><label for="delimiter_cntl">delimiter</label></div>
+            <div class="label_box"><label for="delimiter_cntl"><?php _e('delimiter', 'contact-form-7-to-database-extension') ?></label></div>
             <input name="delimiter_cntl" id="delimiter_cntl" type="text" size="10"/>
         </div>
     </div>
     <div id="template_div" class="shortcodeoptions">
         <div>
-            <div class="label_box"><label for="filelinks_cntl">filelinks</label></div>
+            <div class="label_box"><label for="filelinks_cntl"><?php _e('filelinks', 'contact-form-7-to-database-extension') ?></label></div>
             <select id="filelinks_cntl" name="filelinks_cntl">
                 <option value=""></option>
-                <option value="url">url</option>
-                <option value="name">name</option>
-                <option value="link">link</option>
-                <option value="img">img</option>
+                <option value="url"><?php _e('url', 'contact-form-7-to-database-extension') ?></option>
+                <option value="name"><?php _e('name', 'contact-form-7-to-database-extension') ?></option>
+                <option value="link"><?php _e('link', 'contact-form-7-to-database-extension') ?></option>
+                <option value="img"><?php _e('img', 'contact-form-7-to-database-extension') ?></option>
             </select>
-            <div class="label_box"><label for="wpautop_cntl">wpautop</label></div>
+            <div class="label_box"><label for="wpautop_cntl"><?php _e('wpautop', 'contact-form-7-to-database-extension') ?></label></div>
             <select id="wpautop_cntl" name="wpautop_cntl">
                 <option value=""></option>
-                <option value="false">false</option>
-                <option value="true">true</option>
+                <option value="false"><?php _e('false', 'contact-form-7-to-database-extension') ?></option>
+                <option value="true"><?php _e('true', 'contact-form-7-to-database-extension') ?></option>
             </select>
-            <div class="label_box"><label for="stripbr_cntl">stripbr</label></div>
+            <div class="label_box"><label for="stripbr_cntl"><?php _e('stripbr', 'contact-form-7-to-database-extension') ?></label></div>
             <select id="stripbr_cntl" name="stripbr_cntl">
                 <option value=""></option>
-                <option value="false">false</option>
-                <option value="true">true</option>
+                <option value="false"><?php _e('false', 'contact-form-7-to-database-extension') ?></option>
+                <option value="true"><?php _e('true', 'contact-form-7-to-database-extension') ?></option>
             </select>
         </div>
         <div>
-            <div class="label_box"><label for="content_cntl">Template</label></div>
+            <div class="label_box"><label for="content_cntl"><?php _e('Template', 'contact-form-7-to-database-extension') ?></label></div>
             <select name="add_content" id="add_content"></select><button id="btn_content">&raquo;</button><br/>
             <textarea name="content_cntl" id="content_cntl" cols="100" rows="10"></textarea>
         </div>
     </div>
         <div id="url_link_div" class="shortcodeoptions">
             <div>
-                <div class="label_box"><label for="enc_cntl">enc</label></div>
+                <div class="label_box"><label for="enc_cntl"><?php _e('enc', 'contact-form-7-to-database-extension') ?></label></div>
                 <select id="enc_cntl" name="enc_cntl">
                     <option value=""></option>
                     <option id="CSVUTF8BOM" value="CSVUTF8BOM">
@@ -716,11 +716,11 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 </select>
             </div>
             <div>
-                <div class="label_box"><label for="urlonly_cntl">urlonly</label></div>
+                <div class="label_box"><label for="urlonly_cntl"><?php _e('urlonly', 'contact-form-7-to-database-extension') ?></label></div>
                 <select id="urlonly_cntl" name="urlonly_cntl">
                     <option value=""></option>
-                    <option value="true">true</option>
-                    <option value="false">false</option>
+                    <option value="true"><?php _e('true', 'contact-form-7-to-database-extension') ?></option>
+                    <option value="false"><?php _e('false', 'contact-form-7-to-database-extension') ?></option>
                 </select>
             </div>
         </div>

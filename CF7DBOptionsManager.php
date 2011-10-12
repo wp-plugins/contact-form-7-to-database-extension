@@ -293,10 +293,10 @@ class CF7DBOptionsManager {
         $settingsGroup = get_class($this) . '-settings-group';
         ?>
         <div class="wrap">
-            <h2><?php _e('System Settings'); ?></h2>
+            <h2><?php _e('System Settings', 'contact-form-7-to-database-extension'); ?></h2>
             <table class="form-table"><tbody>
-            <tr><td><?php _e('System'); ?></td><td><?php echo php_uname(); ?></td></tr>
-            <tr><td><?php _e('PHP Version'); ?></td>
+            <tr><td><?php _e('System', 'contact-form-7-to-database-extension'); ?></td><td><?php echo php_uname(); ?></td></tr>
+            <tr><td><?php _e('PHP Version', 'contact-form-7-to-database-extension'); ?></td>
                 <td><?php echo phpversion(); ?>
                 <?php
                 if (version_compare('5.2', phpversion()) > 0) {
@@ -307,7 +307,7 @@ class CF7DBOptionsManager {
                 ?>
                 </td>
             </tr>
-            <tr><td><?php _e('MySQL Version'); ?></td>
+            <tr><td><?php _e('MySQL Version', 'contact-form-7-to-database-extension'); ?></td>
                 <td><?php echo $this->getMySqlVersion() ?>
                     <?php
                     echo '&nbsp;&nbsp;&nbsp;<span style="background-color: #ffcc00;">';
