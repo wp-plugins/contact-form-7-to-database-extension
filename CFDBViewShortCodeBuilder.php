@@ -281,6 +281,9 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     urlElements.push('content=' + encodeURIComponent(content));
                     urlElements.push('enc=HTMLTemplate');
                     scText = join(scElements) + ']' + content + '[/cfdb-html]';
+                    if (content == "") {
+                        validationErrors.push('<?php _e('Error: [cfdb-html] has empty Template. It will not output anything. ', 'contact-form-7-to-database-extension'); ?>');
+                    }
                     break;
                 case '[cfdb-table]':
                     scElements.push(getValue('id', jQuery('#id_cntl').val(), validationErrors));
