@@ -511,31 +511,27 @@ class CFDBViewShortCodeBuilder extends CFDBView {
 
     <h2><?php _e('Short Code Builder', 'contact-form-7-to-database-extension') ?></h2>
     <div style="margin-bottom:10px">
-        <span>
-            <div class="label_box"><label for="shortcode_ctrl"><?php _e('Short Code', 'contact-form-7-to-database-extension') ?></label></div>
-            <select name="shortcode_ctrl" id="shortcode_ctrl">
-                <option value=""><?php _e('* Select a short code *', 'contact-form-7-to-database-extension') ?></option>
-                <option value="[cfdb-html]">[cfdb-html]</option>
-                <option value="[cfdb-table]">[cfdb-table]</option>
-                <option value="[cfdb-datatable]">[cfdb-datatable]</option>
-                <option value="[cfdb-value]">[cfdb-value]</option>
-                <option value="[cfdb-count]">[cfdb-count]</option>
-                <option value="[cfdb-json]">[cfdb-json]</option>
-                <option value="[cfdb-export-link]">[cfdb-export-link]</option>
-            </select>
-        </span>
-        <span style="margin-left:10px">
-            <div class="label_box"><label for="form_name_cntl"><?php _e('form', 'contact-form-7-to-database-extension') ?></label></div>
-            <select name="form_name_cntl" id="form_name_cntl">
-                <option value=""><?php _e('* Select a form *', 'contact-form-7-to-database-extension') ?></option>
-                <?php foreach ($rows as $aRow) {
-                $formName = $aRow->form_name;
-                $selected = ($formName == $currSelection) ? "selected" : "";
-                ?>
-                <option value="<?php echo $formName ?>" <?php echo $selected ?>><?php echo $formName ?></option>
-                <?php } ?>
-            </select>
-        </span>
+        <div class="label_box"><label for="shortcode_ctrl"><?php _e('Short Code', 'contact-form-7-to-database-extension') ?></label></div>
+        <select name="shortcode_ctrl" id="shortcode_ctrl">
+            <option value=""><?php _e('* Select a short code *', 'contact-form-7-to-database-extension') ?></option>
+            <option value="[cfdb-html]">[cfdb-html]</option>
+            <option value="[cfdb-table]">[cfdb-table]</option>
+            <option value="[cfdb-datatable]">[cfdb-datatable]</option>
+            <option value="[cfdb-value]">[cfdb-value]</option>
+            <option value="[cfdb-count]">[cfdb-count]</option>
+            <option value="[cfdb-json]">[cfdb-json]</option>
+            <option value="[cfdb-export-link]">[cfdb-export-link]</option>
+        </select>
+        <div class="label_box" style="margin-left:10px"><label for="form_name_cntl"><?php _e('form', 'contact-form-7-to-database-extension') ?></label></div>
+        <select name="form_name_cntl" id="form_name_cntl">
+            <option value=""><?php _e('* Select a form *', 'contact-form-7-to-database-extension') ?></option>
+            <?php foreach ($rows as $aRow) {
+            $formName = $aRow->form_name;
+            $selected = ($formName == $currSelection) ? "selected" : "";
+            ?>
+            <option value="<?php echo $formName ?>" <?php echo $selected ?>><?php echo $formName ?></option>
+            <?php } ?>
+        </select>
         <span style="margin-left:10px">
             <button id="reset_button"><?php echo _e('Reset', 'contact-form-7-to-database-extension') ?></button>
         </span>
