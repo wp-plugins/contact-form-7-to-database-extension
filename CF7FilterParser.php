@@ -182,7 +182,7 @@ class CF7FilterParser implements CF7DBEvalutator {
 
     public function evaluateComparison($andExpr, &$data) {
         if (is_array($andExpr) && count($andExpr) == 3) {
-            $left = $data[$andExpr[0]];
+            $left = isset($data[$andExpr[0]]) ? $data[$andExpr[0]] : null;
             $op = $andExpr[1];
             $right = $andExpr[2];
             if ($this->compValuePreprocessor) {
