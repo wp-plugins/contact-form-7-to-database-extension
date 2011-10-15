@@ -42,7 +42,7 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
         if ($options && is_array($options)) {
             if (isset($options['useDT'])) {
                 $useDT = $options['useDT'];
-                $this->htmlTableClass = '';
+                //$this->htmlTableClass = '';
 
                 if (isset($options['printScripts'])) {
                     $printScripts = $options['printScripts'];
