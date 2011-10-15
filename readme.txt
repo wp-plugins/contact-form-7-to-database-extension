@@ -69,6 +69,8 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 == Changelog ==
 
 = 2.2.1 =
+* Bug fix: "class" attribution on table tag was not being emitted for [cfdb-datatables]
+* More links to documentation on Database Short Code page
 * Fixed some strings that were not being internationalized.
 
 = 2.2 =
