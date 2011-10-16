@@ -69,9 +69,10 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 == Changelog ==
 
 = 2.2.1 =
+* Bug fix: relating to character encoding: umlaut characters not displaying correctly
 * Bug fix: "class" attribution on table tag was not being emitted for [cfdb-datatables]
-* More links to documentation on Database Short Code page
 * Fixed some strings that were not being internationalized.
+* More links to documentation on Database Short Code page
 
 = 2.2 =
 * Short code "filter" values using submit_time can now use 'strtotime' values. E.g. "submit_time>last week"

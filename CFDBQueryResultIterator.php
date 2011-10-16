@@ -112,14 +112,22 @@ class CFDBQueryResultIterator {
             trigger_error("MySQL Connection failed: " . mysql_error(), E_USER_NOTICE);
             return;
         }
-        mysql_query('SET NAMES utf8', $con);
+
+        // Target charset is in wp-config.php DB_CHARSET
+        if (defined('DB_CHARSET') && 'DB_CHARSET' != '') {
+            global $wpdb;
+            $wpdb->set_charset($con,
+                               DB_CHARSET,
+                               (defined('DB_COLLATE') && 'DB_COLLATE' != '') ? DB_COLLATE : null);
+        }
+
         if (!mysql_select_db(DB_NAME, $con)) {
             trigger_error("MySQL DB Select failed: " . mysql_error(), E_USER_NOTICE);
             return;
         }
         $this->results = mysql_unbuffered_query($sql, $con);
         if (!$this->results) {
-            trigger_error("MySQL unbuffered query failed: " . mysql_error(), E_USER_NOTICE);
+            trigger_error("mysql_unbuffered_query failed: " . mysql_error(), E_USER_NOTICE);
             return;
         }
 
