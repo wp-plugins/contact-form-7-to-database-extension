@@ -114,11 +114,28 @@ class CFDBQueryResultIterator {
         }
 
         // Target charset is in wp-config.php DB_CHARSET
-        if (defined('DB_CHARSET') && 'DB_CHARSET' != '') {
-            global $wpdb;
-            $wpdb->set_charset($con,
-                               DB_CHARSET,
-                               (defined('DB_COLLATE') && 'DB_COLLATE' != '') ? DB_COLLATE : null);
+        if (defined('DB_CHARSET')) {
+            if (DB_CHARSET != '') {
+                global $wpdb;
+                if (method_exists($wpdb, 'set_charset')) {
+                    $collate = null;
+                    if (defined('DB_COLLATE')) {
+                        if (DB_COLLATE != '') {
+                            $collate = DB_COLLATE;
+                        }
+                    }
+                    $wpdb->set_charset($con, DB_CHARSET, $collate);
+                }
+                else {
+                    $setCharset = 'SET NAMES \'' . DB_CHARSET . '\'';
+                    if (defined('DB_COLLATE')) {
+                        if (DB_COLLATE != '') {
+                            $setCharset = $setCharset . ' COLLATE \'' . DB_COLLATE . '\'';
+                        }
+                    }
+                    mysql_query($setCharset, $con);
+                }
+            }
         }
 
         if (!mysql_select_db(DB_NAME, $con)) {

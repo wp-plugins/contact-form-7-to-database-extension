@@ -68,6 +68,10 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
+= 2.2.2 =
+* Bug fix: for some users the fix in 2.2.1 for setting character encoding when retrieving was throwing exception because
+no $wpdb->set_charset() method exists. Made code handle this case
+
 = 2.2.1 =
 * Bug fix: relating to character encoding: umlaut characters not displaying correctly
 * Bug fix: "class" attribution on table tag was not being emitted for [cfdb-datatables]
