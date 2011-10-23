@@ -95,7 +95,7 @@ class CFDBViewWhatsInDB extends CFDBView {
         ?>
     <table width="100%" cellspacing="20">
         <tr>
-            <td align="left">
+            <td align="left" valign="top">
                 <form method="get" action="" name="displayform" id="displayform">
                     <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>"/>
                     <select name="form_name" id="form_name" onchange="this.form.submit();">
@@ -109,7 +109,7 @@ class CFDBViewWhatsInDB extends CFDBView {
                     </select>
                 </form>
             </td>
-            <td align="center">
+            <td align="center" valign="top">
                 <?php if ($currSelection) { ?>
                 <script type="text/javascript" language="Javascript">
                     function changeDbPage(page) {
@@ -211,10 +211,12 @@ class CFDBViewWhatsInDB extends CFDBView {
                     <input name="exportButton" type="button"
                            value="<?php _e('Export', 'contact-form-7-to-database-extension'); ?>"
                            onclick="exportData(this.form.elements['enc'])"/>
+                    <span style="font-size: x-small;"><br /><?php echo '<a href="admin.php?page=' . $plugin->getSortCodeBuilderPageSlug() . '">' .
+                          __('Advanced Export', 'contact-form-7-to-database-extension') . '</a>' ?>
                 </form>
                 <?php } ?>
             </td>
-            <td align="right">
+            <td align="right" valign="top">
                 <?php if ($currSelection && $canEdit) { ?>
                 <form action="" method="post">
                     <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
