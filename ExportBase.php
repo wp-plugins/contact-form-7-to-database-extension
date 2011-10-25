@@ -218,6 +218,11 @@ class ExportBase {
      */
     protected function &getColumnsToDisplay($dataColumns) {
 
+        if (empty($dataColumns)) {
+            $retCols = array();
+            return $retCols;
+        }
+
         //$dataColumns = array_merge(array('Submitted'), $dataColumns);
         $showCols = empty($this->showColumns) ? $dataColumns : $this->matchColumns($this->showColumns, $dataColumns);
         if (empty($this->hideColumns)) {
@@ -370,6 +375,17 @@ class ExportBase {
                     }
                     if (in_array($anOrderBy, $fields) || $anOrderBy == 'submit_time') {
                         $orderBys[] = '`' . $anOrderBy . '`' . $ascOrDesc;
+                    }
+                    else {
+                        // Want to add a different collation as a different sorting mechanism
+                        // Actually doesn't work because MySQL does not allow COLLATE on a select that is a group function
+                        $collateIdx = stripos($anOrderBy, ' COLLATE');
+                        if ($collateIdx > 0) {
+                            $collatedField = substr($anOrderBy, 0, $collateIdx);
+                            if (in_array($collatedField, $fields)) {
+                                $orderBys[] = '`' . $collatedField . '`' . substr($anOrderBy, $collateIdx) . $ascOrDesc;
+                            }
+                        }
                     }
                 }
             }
