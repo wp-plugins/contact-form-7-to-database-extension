@@ -68,8 +68,8 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
-= 2.2.2 =
-* Enhancements to Short Code Builder Page
+= 2.2.3 =
+* Can do exports via the Short Code Builder Page with the main short code options applied (show, hide, search, filter, limit, orderby)
 
 = 2.2.2 =
 * Bug fix: for some users the fix in 2.2.1 for setting character encoding when retrieving was throwing exception because
