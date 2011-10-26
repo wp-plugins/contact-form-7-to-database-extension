@@ -360,7 +360,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 // Output short code test link
                 var scUrl = urlBase + join(scUrlElements, '&');
                 jQuery('#url_result_link').html(
-                        '<a target="_cfdb_export" href="' + scUrl + '"><?php _e('(Check Short Code Results)', 'contact-form-7-to-database-extension'); ?></a>');
+                        '<a target="_cfdb_export" href="' + scUrl + '"><?php _e('(Test Short Code Results)', 'contact-form-7-to-database-extension'); ?></a>');
 
                 // Output short code errors
                 jQuery('#shortcode_validations_text').html(scValidationErrors.join('<br/>'));
