@@ -117,6 +117,12 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
                     font-size: x-small;
                 }
 
+                br {
+                    /* Thanks to Alberto for this style which means that in Excel IQY all the text will
+                     be in the same cell, not broken into different cells */
+                    mso-data-placement: same-cell;
+                }
+
                 table.<?php echo $this->defaultTableClass ?> th {
                     padding: 5px;
                     border: 1px solid gray;
