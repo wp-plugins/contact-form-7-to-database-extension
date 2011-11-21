@@ -290,6 +290,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     scElements.push(getValue('stripbr', jQuery('#stripbr_cntl').val(), scValidationErrors));
                     scUrlElements.push(getValueUrl('stripbr', jQuery('#stripbr_cntl').val()));
                     var content = jQuery('#content_cntl').val();
+                    content = content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
                     scUrlElements.push('content=' + encodeURIComponent(content));
                     scUrlElements.push('enc=HTMLTemplate');
                     scText = join(scElements) + ']' + content + '[/cfdb-html]';
