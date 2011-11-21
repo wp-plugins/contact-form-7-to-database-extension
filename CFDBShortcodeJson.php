@@ -28,10 +28,12 @@ class CFDBShortcodeJson extends ShortCodeLoader {
      * @return string JSON. See ExportToJson.php
      */
     public function handleShortcode($atts) {
-        $atts['html'] = true;
-        $atts['fromshortcode'] = true;
-        require_once('ExportToJson.php');
-        $export = new ExportToJson();
-        return $export->export($atts['form'], $atts);
+        if (isset($atts['form'])) {
+            $atts['html'] = true;
+            $atts['fromshortcode'] = true;
+            require_once('ExportToJson.php');
+            $export = new ExportToJson();
+            return $export->export($atts['form'], $atts);
+        }
     }
 }

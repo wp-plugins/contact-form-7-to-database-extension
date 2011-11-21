@@ -28,10 +28,12 @@ class CFDBShortcodeValue extends ShortCodeLoader {
      * @return string value submitted to a form field as selected by $atts. See ExportToValue.php
      */
     public function handleShortcode($atts) {
-        $atts['fromshortcode'] = true;
-        require_once('ExportToValue.php');
-        $export = new ExportToValue();
-        return $export->export($atts['form'], $atts);
+        if (isset($atts['form'])) {
+            $atts['fromshortcode'] = true;
+            require_once('ExportToValue.php');
+            $export = new ExportToValue();
+            return $export->export($atts['form'], $atts);
+        }
     }
 
 }

@@ -45,11 +45,13 @@ class CFDBShortcodeTable extends ShortCodeLoader {
      * @return HTML output of shortcode
      */
     public function handleShortcode($atts) {
-        $atts['canDelete'] = false;
-        $atts['fromshortcode'] = true;
-        require_once('ExportToHtmlTable.php');
-        $export = new ExportToHtmlTable();
-        return $export->export($atts['form'], $atts);
+        if (isset($atts['form'])) {
+            $atts['canDelete'] = false;
+            $atts['fromshortcode'] = true;
+            require_once('ExportToHtmlTable.php');
+            $export = new ExportToHtmlTable();
+            return $export->export($atts['form'], $atts);
+        }
     }
 
 }

@@ -29,7 +29,7 @@ class CFDBShortcodeHtml extends ShortCodeLoader {
      * @return string value submitted to a form field as selected by $atts. See ExportToValue.php
      */
     public function handleShortcode($atts, $content = null) {
-        if ($content) {
+        if ($content && isset($atts['form'])) {
             $atts['fromshortcode'] = true;
             $atts['content'] = $content;
             require_once('ExportToHtmlTemplate.php');
