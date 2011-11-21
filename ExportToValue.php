@@ -72,7 +72,13 @@ class ExportToValue extends ExportBase implements CFDBExport {
                 while ($this->dataIterator->nextRow()) {
                     $count += 1;
                 }
-                return $count;
+                if ($this->isFromShortCode) {
+                    return $count;
+                }
+                else {
+                    echo $count;
+                    return;
+                }
             }
         }
 
