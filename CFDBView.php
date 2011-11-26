@@ -39,15 +39,6 @@ abstract class CFDBView {
      * @return void
      */
     protected function sponsorLink(&$plugin) {
-//        if ('true' != $plugin->getOption('Donated')) {
-//            ?>
-<!--        <script type="text/javascript">-->
-<!--            var psHost = (("https:" == document.location.protocol) ? "https://" : "http://");-->
-<!--            document.write(unescape("%3Cscript src='" + psHost + "pluginsponsors.com/direct/spsn/display.php?client=contact-form-7-to-database-extension&spot='type='text/javascript'%3E%3C/script%3E"));-->
-<!--        </script>-->
-<!--        --><?php
-//
-//        }
     }
 
     protected function headerLinks() {
@@ -79,12 +70,6 @@ abstract class CFDBView {
                     <?php _e('Support', 'contact-form-7-to-database-extension') ?>
                 </a>
             </td>
-<!--            <td width="20%" style="font-size:x-small;">-->
-<!--                <a target="_cf7todb"-->
-<!--                   href="http://pluginsponsors.com/privacy.html">-->
-<!--                    --><?php //_e('Privacy Policy', 'contact-form-7-to-database-extension') ?>
-<!--                </a>-->
-<!--            </td>-->
         </tr>
         </tbody>
     </table>
