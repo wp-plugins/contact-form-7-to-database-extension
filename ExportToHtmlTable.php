@@ -25,6 +25,11 @@ require_once('CFDBExport.php');
 class ExportToHtmlTable extends ExportBase implements CFDBExport {
 
     /**
+     * @var bool
+     */
+    static $wroteDefaultHtmlTableStyle = false;
+
+    /**
      * Echo a table of submitted form data
      * @param string $formName
      * @param array $options
@@ -107,7 +112,7 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
             <?php
         }
 
-        if ($this->htmlTableClass == $this->defaultTableClass) {
+        if ($this->htmlTableClass == $this->defaultTableClass && !ExportToHtmlTable::$wroteDefaultHtmlTableStyle) {
             ?>
             <style type="text/css">
                 table.<?php echo $this->defaultTableClass ?> {
@@ -118,8 +123,8 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
                 }
 
                 br {
-                    /* Thanks to Alberto for this style which means that in Excel IQY all the text will
-                     be in the same cell, not broken into different cells */
+                    <?php /* Thanks to Alberto for this style which means that in Excel IQY all the text will
+                     be in the same cell, not broken into different cells */ ?>
                     mso-data-placement: same-cell;
                 }
 
@@ -145,7 +150,7 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
                 }
             </style>
             <?php
-
+            ExportToHtmlTable::$wroteDefaultHtmlTableStyle = true;
         }
 
         if ($this->style) {
