@@ -139,14 +139,26 @@ class CFDBQueryResultIterator {
         }
 
         if (!mysql_select_db(DB_NAME, $con)) {
-            trigger_error("MySQL DB Select failed: " . mysql_error(), E_USER_NOTICE);
+            trigger_error('MySQL DB Select failed: ' . mysql_error(), E_USER_NOTICE);
             return;
         }
-        $this->results = mysql_unbuffered_query($sql, $con);
-        if (!$this->results) {
-            trigger_error("mysql_unbuffered_query failed: " . mysql_error(), E_USER_NOTICE);
-            return;
+
+        if (isset($queryOptions['unbuffered']) && $queryOptions['unbuffered'] === 'true') {
+            // FYI: using mysql_unbuffered_query disrupted nested shortcodes if the nested one does a query also
+            $this->results = mysql_unbuffered_query($sql, $con);
+            if (!$this->results) {
+                trigger_error('mysql_unbuffered_query failed: ' . mysql_error(), E_USER_NOTICE);
+                return;
+            }
         }
+        else {
+            $this->results = mysql_query($sql, $con);
+            if (!$this->results) {
+                trigger_error('mysql_query failed: ' . mysql_error(), E_USER_NOTICE);
+                return;
+            }
+        }
+
 
         $this->columns = array();
         $this->row = mysql_fetch_assoc($this->results);

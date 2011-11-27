@@ -96,12 +96,14 @@ class CF7DBPluginExporter {
                 $exporter->export($formName, $options);
                 break;
             case 'CSVUTF8BOM':
+                $options['unbuffered'] = 'true';
                 require_once('ExportToCsvUtf8.php');
                 $exporter = new ExportToCsvUtf8();
                 $exporter->setUseBom(true);
                 $exporter->export($formName, $options);
                 break;
             case 'TSVUTF16LEBOM':
+                $options['unbuffered'] = 'true';
                 require_once('ExportToCsvUtf16le.php');
                 $exporter = new ExportToCsvUtf16le();
                 $exporter->export($formName, $options);
@@ -112,6 +114,7 @@ class CF7DBPluginExporter {
                 $exporter->export($formName, $options);
                 break;
             case 'GSS':
+                $options['unbuffered'] = 'true';
                 require_once('ExportToGoogleSS.php');
                 $exporter = new ExportToGoogleSS();
                 $exporter->export($formName, $options);

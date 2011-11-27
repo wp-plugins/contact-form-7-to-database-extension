@@ -126,7 +126,8 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
             // todo: modify $options['content']
 
             if (empty($colNamesToSub)) {
-                echo $options['content'];
+                // Process nested short codes
+                echo do_shortcode($options['content']);
             }
             else {
                 $fields_with_file = null;
@@ -172,7 +173,8 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
                 foreach ($replacements as $i => $repl) {
                     $replacements[$i] = nl2br($replacements[$i]); // preserve line breaks
                 }
-                echo str_replace($varNamesToSub, $replacements, $options['content']);
+                // Process nested short codes
+                echo do_shortcode(str_replace($varNamesToSub, $replacements, $options['content']));
             }
         }
 

@@ -109,6 +109,13 @@ class ExportBase {
                 $this->debug = true;
             }
 
+            $this->isFromShortCode = isset($this->options['fromshortcode']) &&
+                    $this->options['fromshortcode'] === true;
+
+            if (!isset($this->options['unbuffered'])) {
+                $this->options['unbuffered'] = $this->isFromShortCode ? 'false' : 'true';
+            }
+
             if (isset($this->options['showColumns'])) {
                 $this->showColumns = $this->options['showColumns'];
             }
@@ -123,8 +130,6 @@ class ExportBase {
                 $this->hideColumns = preg_split('/,/', $this->options['hide'], -1, PREG_SPLIT_NO_EMPTY);
             }
 
-            $this->isFromShortCode = isset($this->options['fromshortcode']) &&
-                    $this->options['fromshortcode'] === true;
 
             if ($htmlOptions) {
                 if (isset($this->options['class'])) {
@@ -290,10 +295,13 @@ class ExportBase {
             $queryOptions['submitTimeKeyName'] = $submitTimeKeyName;
         }
         if (!empty($this->rowFilter) && isset($this->options['limit'])) {
-            // have data iterator apply the limit if it is not areadly
-            // being applied in SQL directly, which we do where there are
+            // have data iterator apply the limit if it is not already
+            // being applied in SQL directly, which we do when there are
             // no filter constraints.
             $queryOptions['limit'] = $this->options['limit'];
+        }
+        if (isset($this->options['unbuffered'])) {
+            $queryOptions['unbuffered'] = $this->options['unbuffered'];
         }
 
         $this->dataIterator->query($sql, $this->rowFilter, $queryOptions);

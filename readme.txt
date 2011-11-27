@@ -68,6 +68,11 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
+= 2.2.4 =
+* Improvement: cfdb-html now supports nested short codes
+* Bug Fix: short code builder for cfdb-html not showing template HTML tags
+* Improvement: if "form" missing from a short code, PHP error no longer happens
+
 = 2.2.3 =
 * Can do exports via the Short Code Builder Page with the main short code options applied (show, hide, search, filter, limit, orderby)
 
