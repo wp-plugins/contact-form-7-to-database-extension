@@ -82,24 +82,24 @@ class DereferenceShortcodeVars implements CF7DBValueConverter {
 
             default:
                 $match = $this->evalMatch('_POST', $varString);
-                if ($match != '') {
-                    global $_POST;
+                global $_POST;
+                if ($match != '' && isset($_POST[$match])) {
                     $retValue = $_POST[$match];
                     //print_r($retValue); // debug
                     break;
                 }
 
                 $match = $this->evalMatch('_GET', $varString);
-                if ($match != '') {
-                    global $_GET;
+                global $_GET;
+                if ($match != '' && isset($_GET[$match])) {
                     $retValue = $_GET[$match];
                     //print_r($retValue); // debug
                     break;
                 }
 
                 $match = $this->evalMatch('_COOKIE', $varString);
-                if ($match != '') {
-                    global $_COOKIE;
+                global $_COOKIE;
+                if ($match != '' && $_COOKIE[$match]) {
                     $retValue = $_COOKIE[$match];
                     //print_r($retValue); // debug
                     break;
