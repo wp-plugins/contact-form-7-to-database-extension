@@ -288,7 +288,7 @@ class CFDBViewWhatsInDB extends CFDBView {
             $maxRows = $plugin->getOption('MaxRows', '100');
             $startRow = $this->paginationDiv($plugin, $dbRowCount, $maxRows, $page);
             ?>
-            <div <?php if (!$useDataTables) echo 'style="overflow:auto; max-height:500px; max-width:500px"' ?>>
+            <div <?php if (!$useDataTables) echo 'style="overflow:auto; max-height:500px; max-width:500px; min-width:75px"' ?>>
             <?php
                 // Pick up any options that the user enters in the URL.
                 // This will include extraneous "form_name" and "page" GET params which are in the URL
@@ -301,7 +301,7 @@ class CFDBViewWhatsInDB extends CFDBView {
                 if ($useDataTables) {
                     $options['id'] = $tableHtmlId;
                     $options['class'] = '';
-                    $options['style'] = "#$tableHtmlId td > div { max-height: 100px; overflow: auto; font-size: small; }"; // don't let cells get too tall
+                    $options['style'] = "#$tableHtmlId td > div { max-height: 100px;  min-width:75px; overflow: auto; font-size: small; }"; // don't let cells get too tall
                 }
                 $exporter->export($currSelection, $options);
                 ?>
