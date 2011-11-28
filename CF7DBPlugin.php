@@ -640,15 +640,15 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     /**
      * @param  $submitTime string PK for form submission
      * @param  $formName string
-     * @param  $fileName string
+     * @param  $fieldName string
      * @return string URL to download file
      */
-    public function getFileUrl($submitTime, $formName, $fileName) {
+    public function getFileUrl($submitTime, $formName, $fieldName) {
         return sprintf('%s?action=cfdb-file&s=%s&form=%s&field=%s',
                        admin_url('admin-ajax.php'),
                        $submitTime,
                        urlencode($formName),
-                       urlencode($fileName));
+                       urlencode($fieldName));
     }
 
     public function getFormFieldsAjaxUrlBase() {
