@@ -41,6 +41,17 @@ require_once('CFDBExport.php');
 class CFDBFormIterator extends ExportBase implements CFDBExport {
 
     /**
+     * @var string
+     */
+    var $formName;
+
+
+    /**
+     * @var CF7DBPlugin
+     */
+    var $plugin;
+
+    /**
      * Intended to be used by people who what to programmatically loop over the rows
      * of a form.
      * @param $formName string
@@ -48,6 +59,7 @@ class CFDBFormIterator extends ExportBase implements CFDBExport {
      * @return void
      */
     public function export($formName, $options = null) {
+        $this->formName = $formName;
         $this->setOptions($options);
         $this->setCommonOptions();
         $this->setDataIterator($formName);
@@ -59,8 +71,25 @@ class CFDBFormIterator extends ExportBase implements CFDBExport {
     public function nextRow() {
         if ($this->dataIterator->nextRow()) {
             $row = array();
+            $row['submit_time'] = $this->dataIterator->row['submit_time'];
+
+            $fields_with_file = null;
+            if (isset($this->dataIterator->row['fields_with_file']) &&
+                $this->dataIterator->row['fields_with_file'] != null) {
+                $fields_with_file = explode(',', $this->dataIterator->row['fields_with_file']);
+                if ($this->plugin == null) {
+                    require_once('CF7DBPlugin.php');
+                    $this->plugin = new CF7DBPlugin();
+                }
+            }
+
             foreach ($this->dataIterator->displayColumns as $aCol) {
                 $row[$aCol] = $this->dataIterator->row[$aCol];
+
+                // If it is a file, add in the URL for it by creating a field name appended with '_URL'
+                if ($fields_with_file && in_array($aCol, $fields_with_file)) {
+                    $row[$aCol . '_URL'] = $this->plugin->getFileUrl($row['submit_time'], $this->formName, $aCol);
+                }
             }
             return $row;
         }
