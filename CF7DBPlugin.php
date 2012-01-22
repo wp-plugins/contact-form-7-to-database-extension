@@ -743,7 +743,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
         // See if there is a local file
         if (is_readable($i18nDir . $locale . '.json')) {
-            $url = $this->getPluginFileUrl() . "dt_i18n/$locale.json";
+            $url = $this->getPluginFileUrl() . "/dt_i18n/$locale.json";
         }
         else {
             // Pull the language code from the $local string

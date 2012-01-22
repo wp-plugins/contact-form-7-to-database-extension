@@ -68,6 +68,9 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
+= 2.2.5 =
+* Bug Fix: Admin page data table was not showing top search banner when datatable using i18n
+
 = 2.2.4 =
 * Improvement: cfdb-html now supports nested short codes
 * Bug Fix: short code builder for cfdb-html not showing template HTML tags
