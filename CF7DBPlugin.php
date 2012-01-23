@@ -648,6 +648,24 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             CF7DBPlugin::$checkForCustomDateFormat = false;
         }
 
+        // Support Jalali dates but looking for wp-jalali plugin and
+        // using its 'jdate' function
+        if (is_plugin_active('wp-jalali/wp-jalali.php')) {
+            $jDateFile = WP_PLUGIN_DIR . '/wp-jalali/inc/jalali-core.php';
+            if(file_exists($jDateFile)) {
+                include_once($jDateFile);
+                if (function_exists('jdate')) {
+                    //return jdate('l, F j, Y');
+                    if (CF7DBPlugin::$customDateFormat) {
+                        return jdate(CF7DBPlugin::$customDateFormat, $time);
+                    }
+                    else {
+                        return jdate(CF7DBPlugin::$dateFormat . ' ' . CF7DBPlugin::$timeFormat, $time);
+                    }
+                }
+            }
+        }
+
         if (CF7DBPlugin::$customDateFormat) {
             return date(CF7DBPlugin::$customDateFormat, $time);
         }

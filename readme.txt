@@ -70,6 +70,7 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 = 2.2.5 =
 * Bug Fix: Admin page data table was not showing top search banner when datatable using i18n
+* Displays Jalali dates when wp-jalali plugin is installed and activated
 
 = 2.2.4 =
 * Improvement: cfdb-html now supports nested short codes
