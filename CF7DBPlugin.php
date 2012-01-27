@@ -650,9 +650,12 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
         // Support Jalali dates but looking for wp-jalali plugin and
         // using its 'jdate' function
-        if (is_plugin_active('wp-jalali/wp-jalali.php')) {
+        if (!function_exists('is_plugin_active') && @file_exists(ABSPATH . 'wp-admin/includes/plugin.php')) {
+            include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+        }
+        if (function_exists('is_plugin_active') && is_plugin_active('wp-jalali/wp-jalali.php')) {
             $jDateFile = WP_PLUGIN_DIR . '/wp-jalali/inc/jalali-core.php';
-            if(file_exists($jDateFile)) {
+            if(@file_exists($jDateFile)) {
                 include_once($jDateFile);
                 if (function_exists('jdate')) {
                     //return jdate('l, F j, Y');
