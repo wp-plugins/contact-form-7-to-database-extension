@@ -438,10 +438,11 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             $ip = (isset($_SERVER['X_FORWARDED_FOR'])) ? $_SERVER['X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
             $tableName = $this->getSubmitsTableName();
             $parametrizedQuery = "INSERT INTO `$tableName` (`submit_time`, `form_name`, `field_name`, `field_value`, `field_order`) VALUES (%s, %s, %s, %s, %s)";
-            $parametrizedFileQuery = "UPDATE `$tableName` SET `file` =  '%s' WHERE `submit_time` = %F AND `form_name` = '%s' AND `field_name` = '%s' AND `field_value` = '%s'";
+            $parametrizedFileQuery = "UPDATE `$tableName` SET `file` = '%s' WHERE `submit_time` = %F AND `form_name` = '%s' AND `field_name` = '%s' AND `field_value` = '%s'";
 
             $order = 0;
             $noSaveFields = $this->getNoSaveFields();
+            $foundUploadFiles = array();
             foreach ($cf7->posted_data as $name => $value) {
                 $nameClean = stripslashes($name);
                 if (in_array($nameClean, $noSaveFields)) {
@@ -459,6 +460,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
                 // Store uploaded files - Do as a separate query in case it fails due to max size or other issue
                 if ($cf7->uploaded_files && isset($cf7->uploaded_files[$nameClean])) {
+                    $foundUploadFiles[] = $nameClean;
                     $filePath = $cf7->uploaded_files[$nameClean];
                     if ($filePath) {
                         $content = file_get_contents($filePath);
@@ -469,6 +471,27 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                                     $nameClean,
                                                     $valueClean));
                     }
+                }
+            }
+
+            // Since Contact Form 7 version 3.1, it no longer puts the names of the files in $cf7->posted_data
+            // So check for them only only in $cf7->uploaded_files
+            foreach ($cf7->uploaded_files as $field => $filePath) {
+                if (!in_array($field, $foundUploadFiles) && $filePath) {
+                    $fileName = basename($filePath);
+                    $wpdb->query($wpdb->prepare($parametrizedQuery,
+                                                $time,
+                                                $title,
+                                                $field,
+                                                $fileName,
+                                                $order++));
+                    $content = file_get_contents($filePath);
+                    $wpdb->query($wpdb->prepare($parametrizedFileQuery,
+                                                $content,
+                                                $time,
+                                                $title,
+                                                $field,
+                                                $fileName));
                 }
             }
 
