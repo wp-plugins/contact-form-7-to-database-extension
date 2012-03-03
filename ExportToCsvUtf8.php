@@ -48,7 +48,7 @@ class ExportToCsvUtf8 extends ExportBase implements CFDBExport {
 
         // Headers
         $this->echoHeaders(
-            array('Content-Type: text/html; charset=UTF-8',
+            array('Content-Type: text/csv; charset=UTF-8',
                  "Content-Disposition: attachment; filename=\"$formName.csv\""));
 
         $this->echoCsv($formName);
