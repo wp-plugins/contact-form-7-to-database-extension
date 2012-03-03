@@ -428,7 +428,7 @@ class CFDBViewWhatsInDB extends CFDBView {
         echo '</span>';
         echo '<div class="cfdb_paginate">';
 
-        $numPages = ceil($totalRows / $rowsPerPage);
+        $numPages = ($rowsPerPage > 0) ? ceil($totalRows / $rowsPerPage) : 1;
         $adjacents = 3;
 
         /* Setup page vars for display. */
