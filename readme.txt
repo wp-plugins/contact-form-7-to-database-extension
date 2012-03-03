@@ -69,6 +69,9 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
+= 2.2.7 =
+* Bug Fix: Fix to match change to Contact Form 7 version 3.1 where uploaded files were not being saved to the database.
+
 = 2.2.6 =
 * Bug Fix: seeing error "undefined function is_plugin_active()"
 
