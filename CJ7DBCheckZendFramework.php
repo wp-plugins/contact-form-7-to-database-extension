@@ -55,11 +55,11 @@ class CJ7DBCheckZendFramework {
                         <code>include_path="<?php echo(ini_get('include_path') . PATH_SEPARATOR . "[Zend-parent-directory]");?>"</code>
                     </li>
                 </ol>
-                <li>If not found, install and configure Zend (or contact or administrator or host provider)<br/>
+                <li>If not found, install and configure Zend version 1.11.11 (or contact or administrator or host provider)<br/>
                     See: <a target="_blank" href="http://code.google.com/apis/gdata/articles/php_client_lib.html">Getting
                         Started
                         with the Google Data PHP Client Library</a><br/>
-                    To download the part of Zend required, see: <a target="_blank"
+                    To download the part of Zend 1.11.11 required, see: <a target="_blank"
                                                                    href="http://framework.zend.com/download/gdata/">Zend
                         GData</a>
                 </li>
