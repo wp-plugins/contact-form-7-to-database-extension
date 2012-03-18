@@ -30,8 +30,12 @@ class ExportToIqy implements CFDBExport {
         $url = get_bloginfo('url');
         $encFormName = urlencode($formName);
         $uri = "?action=cfdb-export&form=$encFormName&enc=HTML";
-        if (isset($options['search'])) {
-           $uri = $uri . '&search=' . urlencode($options['search']);
+        if (is_array($options)) {
+            foreach ($options as $key => $value) {
+                if ($key != 'form' && $key != 'enc') {
+                    $uri = $uri . '&' . urlencode($key) . '=' . urlencode($options[$key]);
+                }
+            }
         }
         $encRedir = urlencode('wp-admin/admin-ajax.php' . $uri);
 
