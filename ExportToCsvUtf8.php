@@ -68,11 +68,15 @@ class ExportToCsvUtf8 extends ExportBase implements CFDBExport {
 
 
         // Column Headers
-        foreach ($this->dataIterator->displayColumns as $aCol) {
-            printf('"%s",', str_replace('"', '""', $aCol));
+        if (isset($this->options['header']) && $this->options['header'] != 'true') {
+           // do not output column headers
         }
-        echo $eol;
-
+        else  {
+            foreach ($this->dataIterator->displayColumns as $aCol) {
+                printf('"%s",', str_replace('"', '""', $aCol));
+            }
+            echo $eol;
+        }
 
         // Rows
         $showFileUrlsInExport = $this->plugin->getOption('ShowFileUrlsInExport') == 'true';

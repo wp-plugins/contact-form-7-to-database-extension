@@ -131,7 +131,9 @@ class ExportToJson extends ExportBase implements CFDBExport {
         else { // 'array' || 'arraynoheader'
             echo "[\n";
             $firstRow = true;
-            if ($format == 'array') {
+            if ($format == 'array' ||
+                    // allow header option to override
+                    (isset($this->options['header']) && $this->options['header'] == 'true')) {
                 // Add header
                 $firstCol = true;
                 echo '[';

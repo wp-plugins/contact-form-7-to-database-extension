@@ -53,11 +53,16 @@ class ExportToCsvUtf16le extends ExportBase implements CFDBExport {
         $this->setDataIterator($formName, $submitTimeKeyName);
 
         // Column Headers
-        foreach ($this->dataIterator->displayColumns as $aCol) {
-            echo $this->prepareCsvValue($aCol);
-            echo $delimiter;
+        if (isset($this->options['header']) && $this->options['header'] != 'true') {
+           // do not output column headers
         }
-        echo $eol;
+        else  {
+            foreach ($this->dataIterator->displayColumns as $aCol) {
+                echo $this->prepareCsvValue($aCol);
+                echo $delimiter;
+            }
+            echo $eol;
+        }
 
         // Rows
         $showFileUrlsInExport = $this->plugin->getOption('ShowFileUrlsInExport') == 'true';

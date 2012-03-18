@@ -163,7 +163,14 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
         ?>
 
         <table <?php if ($this->htmlTableId) echo "id=\"$this->htmlTableId\" "; if ($this->htmlTableClass) echo "class=\"$this->htmlTableClass\"" ?> >
-            <thead><tr>
+            <thead>
+            <?php
+            if (isset($this->options['header']) && $this->options['header'] != 'true') {
+               // do not output column headers
+            }
+            else  {
+            ?>
+            <tr>
             <?php if ($canDelete) { ?>
             <th>
                 <button id="delete" name="delete" onclick="this.form.submit()"><?php _e('Delete', 'contact-form-7-to-database-extension')?></button>
@@ -175,7 +182,10 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
                 printf('<th title="%s"><div id="%s,%s">%s</div></th>', $aCol, $formName, $aCol, $aCol);
             }
             ?>
-            </tr></thead>
+            </tr>
+            <?php
+            } ?>
+            </thead>
             <tbody>
             <?php
             $showLineBreaks = $this->plugin->getOption('ShowLineBreaksInDataTable');

@@ -248,8 +248,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                         scValidationErrors.push('<?php _e('Error: "limit": "Num Rows" must be a positive integer', 'contact-form-7-to-database-extension'); ?>');
                     }
                     else {
-                        var limitOption = ' limit="';
-                        var limitOptionUrl = ' limit=';
+                        var limitOption = 'limit="';
+                        var limitOptionUrl = 'limit=';
                         if (limitStart) {
                             if (! /^\d+$/.test(limitStart)) {
                                 scValidationErrors.push('<?php _e('Error: "limit": "Start Row" must be a positive integer', 'contact-form-7-to-database-extension'); ?>');
@@ -305,6 +305,10 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     }
                     break;
                 case '[cfdb-table]':
+                    if (!jQuery('#header_cntl').is(':checked')) {
+                        scElements.push('header="false"');
+                        scUrlElements.push(getValueUrl('header', 'false'));
+                    }
                     scElements.push(getValue('id', jQuery('#id_cntl').val(), scValidationErrors));
                     scUrlElements.push(getValueUrl('id', jQuery('#id_cntl').val()));
                     scElements.push(getValue('class', jQuery('#class_cntl').val(), scValidationErrors));
@@ -315,6 +319,10 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     scText = join(scElements) + ']';
                     break;
                 case '[cfdb-datatable]':
+                    if (!jQuery('#header_cntl').is(':checked')) {
+                        scElements.push('header="false"');
+                        scUrlElements.push(getValueUrl('header', 'false'));
+                    }
                     scElements.push(getValue('id', jQuery('#id_cntl').val(), scValidationErrors));
                     scUrlElements.push(getValueUrl('id', jQuery('#id_cntl').val()));
                     scElements.push(getValue('class', jQuery('#class_cntl').val(), scValidationErrors));
@@ -380,6 +388,9 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             // Output export link
             if (jQuery('#export_cntl').val()) {
                 exportUrlElements.push(getValueUrl('enc', jQuery('#export_cntl').val()));
+                if (!jQuery('#export_header_cntl').is(':checked')) {
+                    exportUrlElements.push(getValueUrl('header', 'false'));
+                }
                 var exportUrl = urlBase + join(exportUrlElements, '&');
                 jQuery('#export_result_text').html(formName ? ('<a href="' + exportUrl + '">' + exportUrl + '</a>') : '');
                 // Output export errors
@@ -474,6 +485,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#limit_rows_cntl').val('');
             jQuery('#limit_start_cntl').val('');
             jQuery('#orderby_cntl').val('');
+            jQuery('#header_cntl').prop("checked", true);
             jQuery('#id_cntl').val('');
             jQuery('#class_cntl').val('');
             jQuery('#style_cntl').val('');
@@ -510,6 +522,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#btn_hide').click(addFieldToHide);
             jQuery('#btn_orderby').click(addFieldToOrderBy);
             jQuery('#btn_filter').click(addFieldToFilter);
+            jQuery('#header_cntl').click(createShortCodeAndExportLink);
             jQuery('#btn_content').click(function() {
                 addFieldToContent();
                 createShortCodeAndExportLink();
@@ -522,6 +535,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 showValidateSubmitTimeHelp(jQuery('#add_filter').val() == "submit_time");
             });
             jQuery('#export_cntl').change(createShortCodeAndExportLink);
+            jQuery('#export_header_cntl').click(createShortCodeAndExportLink);
             jQuery('#form_name_cntl').change(createShortCodeAndExportLink);
         });
 
@@ -614,6 +628,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 <?php _e('Excel Internet Query', 'contact-form-7-to-database-extension'); ?>
             </option>
         </select>
+        <input id="export_header_cntl" type="checkbox" checked="true"/>
+        <label for="export_header_cntl"><?php _e('Include Header Row', 'contact-form-7-to-database-extension') ?></label>
 
         <div id="export_result_div">
             <?php _e('Generated Export Link:', 'contact-form-7-to-database-extension'); ?>
@@ -751,6 +767,12 @@ class CFDBViewShortCodeBuilder extends CFDBView {
     <?php // ID, CLASS, STYLE  ?>
     <div id="html_format_div" class="shortcodeoptions">
         <div><?php _e('HTML Table Formatting', 'contact-form-7-to-database-extension'); ?></div>
+        <div>
+            <div class="label_box">
+                <input id="header_cntl" type="checkbox" checked="true"/>
+                <label for="header_cntl"><?php _e('Include Header Row', 'contact-form-7-to-database-extension') ?></label>
+            </div>
+        </div>
         <div>
             <div class="label_box">
                 <label for="id_cntl"><?php _e('id', 'contact-form-7-to-database-extension') ?></label>

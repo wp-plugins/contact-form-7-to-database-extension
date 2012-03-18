@@ -68,6 +68,10 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
+= 2.2.8 =
+* Excel IQuery export now takes standard shortcode options
+* New "header=false" in table type short codes and IQuery will avoid showing the header.
+
 = 2.2.7 =
 * Bug Fix: Fix to match change to Contact Form 7 version 3.1 where uploaded files were not being saved to the database.
 
