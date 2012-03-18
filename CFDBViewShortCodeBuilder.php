@@ -298,6 +298,10 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                             '[/cfdb-html]';
                     if (content == "") {
                         scValidationErrors.push('<?php _e('Error: [cfdb-html] has empty Template. It will not output anything. ', 'contact-form-7-to-database-extension'); ?>');
+                        jQuery('#content_cntl').addClass('validation'); // highlight template area
+                    }
+                    else {
+                        jQuery('#content_cntl').removeClass('validation'); // remove highlight template area
                     }
                     break;
                 case '[cfdb-table]':
@@ -771,7 +775,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
     </div>
     <?php // DT_OPTIONS  ?>
     <div id="dt_options_div" class="shortcodeoptions">
-        <div><?php _e('DataTable Options', 'contact-form-7-to-database-extension'); ?></div>
+        <div><?php _e('[cfdb-datatable] Options', 'contact-form-7-to-database-extension'); ?></div>
         <div class="label_box">
             <label for="dt_options_cntl"><?php _e('dt_options', 'contact-form-7-to-database-extension') ?></label>
             <a target="_docs" href="http://cfdbplugin.com/?page_id=91#dt_options"><img src="<?php echo $infoImg ?>"/></a>
@@ -780,7 +784,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
     </div>
     <?php // JSON VAR, FORMAT  ?>
     <div id="json_div" class="shortcodeoptions">
-        <div><?php _e('JSON Options', 'contact-form-7-to-database-extension'); ?></div>
+        <div><?php _e('[cfdb-json] Options', 'contact-form-7-to-database-extension'); ?></div>
         <div>
             <div class="label_box">
                 <label for="var_cntl"><?php _e('var', 'contact-form-7-to-database-extension') ?></label>
@@ -803,7 +807,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
     </div>
     <?php // VALUE FUNCTION, DELIMITER  ?>
     <div id="value_div" class="shortcodeoptions">
-        <div><?php _e('VALUE Options', 'contact-form-7-to-database-extension'); ?></div>
+        <div><?php _e('[cfdb-value] Options', 'contact-form-7-to-database-extension'); ?></div>
         <div>
             <div class="label_box">
                 <label for="function_cntl"><?php _e('function', 'contact-form-7-to-database-extension') ?></label>
