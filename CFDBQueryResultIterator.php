@@ -152,9 +152,9 @@ class CFDBQueryResultIterator {
             }
         }
         else {
-            $this->results = mysql_query($sql, $con);
+            $this->results = @mysql_query($sql, $con);
             if (!$this->results) {
-                trigger_error('mysql_query failed: ' . mysql_error(), E_USER_NOTICE);
+                trigger_error('mysql_query failed. Try adding <code>unbuffered="true"</code> to your short code. <br/>' . mysql_error(), E_USER_WARNING);
                 return;
             }
         }
