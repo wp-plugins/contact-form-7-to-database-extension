@@ -68,7 +68,10 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
-= 2.2.8 =
+= 2.3 =
+* Variable substitution in filter now works when embedded in text, e.g. filter="fname~~/.*$_POST(fname).*/i&&lname~~/.*$_POST(lname).*/i"
+* Filters: Handling where one has two ampersands in a filter expression to indicate logical AND but the WordPress editor
+converts them to html-coded version of ampersand.
 * Excel IQuery export now takes standard shortcode options
 * New "header=false" in table type short codes and IQuery will avoid showing the header.
 

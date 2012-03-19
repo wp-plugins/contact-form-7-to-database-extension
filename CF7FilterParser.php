@@ -162,7 +162,12 @@ class CF7FilterParser implements CF7DBEvalutator {
      */
     public function evaluate(&$data) {
         // Use times in local timezone
-        date_default_timezone_set(get_option('timezone_string'));
+        if (function_exists('get_option')) {
+            $localTz = get_option('timezone_string');
+            if ($localTz) {
+                date_default_timezone_set($localTz);
+            }
+        }
         
         $retVal = true;
         if ($this->tree) {
