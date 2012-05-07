@@ -62,7 +62,7 @@ class DereferenceShortcodeVars implements CF7DBValueConverter {
                 $paramName = $this->extractParamName('_GET', $aMatch);
                 $replace = '';
                 if ($paramName != '' && isset($_GET[$paramName])) {
-                   $replace = $_POST[$paramName];
+                   $replace = $_GET[$paramName];
                 }
                 $retValue = str_replace($aMatch, $replace, $retValue);
             }
@@ -74,7 +74,7 @@ class DereferenceShortcodeVars implements CF7DBValueConverter {
                 $paramName = $this->extractParamName('_COOKIE', $aMatch);
                 $replace = '';
                 if ($paramName != '' && isset($_COOKIE[$paramName])) {
-                   $replace = $_POST[$paramName];
+                   $replace = $_COOKIE[$paramName];
                 }
                 $retValue = str_replace($aMatch, $replace, $retValue);
             }
