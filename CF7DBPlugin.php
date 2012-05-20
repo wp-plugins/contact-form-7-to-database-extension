@@ -476,22 +476,24 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
             // Since Contact Form 7 version 3.1, it no longer puts the names of the files in $cf7->posted_data
             // So check for them only only in $cf7->uploaded_files
-            foreach ($cf7->uploaded_files as $field => $filePath) {
-                if (!in_array($field, $foundUploadFiles) && $filePath) {
-                    $fileName = basename($filePath);
-                    $wpdb->query($wpdb->prepare($parametrizedQuery,
-                                                $time,
-                                                $title,
-                                                $field,
-                                                $fileName,
-                                                $order++));
-                    $content = file_get_contents($filePath);
-                    $wpdb->query($wpdb->prepare($parametrizedFileQuery,
-                                                $content,
-                                                $time,
-                                                $title,
-                                                $field,
-                                                $fileName));
+            if ($cf7->uploaded_files && is_array($cf7->uploaded_files)) {
+                foreach ($cf7->uploaded_files as $field => $filePath) {
+                    if (!in_array($field, $foundUploadFiles) && $filePath) {
+                        $fileName = basename($filePath);
+                        $wpdb->query($wpdb->prepare($parametrizedQuery,
+                                                    $time,
+                                                    $title,
+                                                    $field,
+                                                    $fileName,
+                                                    $order++));
+                        $content = file_get_contents($filePath);
+                        $wpdb->query($wpdb->prepare($parametrizedFileQuery,
+                                                    $content,
+                                                    $time,
+                                                    $title,
+                                                    $field,
+                                                    $fileName));
+                    }
                 }
             }
 
