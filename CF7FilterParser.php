@@ -281,7 +281,7 @@ class CF7FilterParser implements CF7DBEvalutator {
                 break;
 
             case '~~':
-                $retVal = preg_match($right, $left) > 0;
+                $retVal = @preg_match($right, $left) > 0;
                 break;
 
             default:
