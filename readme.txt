@@ -68,6 +68,10 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
+= 2.3.2 =
+* Bug fix that occasionally prevents pagination in the admin view of data
+* Bug fix where external integrations posting to CFDB might fail if list of upload files was null instead of empty array
+
 = 2.3.1 =
 * Bug fix where $_GET and $_COOKIE would not work
 
