@@ -401,7 +401,7 @@ class CFDBViewWhatsInDB extends CFDBView {
      * @param  $totalRows integer
      * @param  $rowsPerPage integer
      * @param  $page integer
-     * @return
+     * @return integer $startRow
      */
     protected function paginationDiv($plugin, $totalRows, $rowsPerPage, $page) {
 
