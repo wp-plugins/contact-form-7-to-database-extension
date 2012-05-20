@@ -341,12 +341,11 @@ class ExportBase {
             $formNameClause =  "WHERE `form_name` = '$formName'";
         }
 
-        $rows = $wpdb->get_results("SELECT DISTINCT `field_name`, `field_order` FROM `$tableName` $formNameClause ORDER BY field_order");
+        //$rows = $wpdb->get_results("SELECT DISTINCT `field_name`, `field_order` FROM `$tableName` $formNameClause ORDER BY field_order"); // Pagination bug
+        $rows = $wpdb->get_results("SELECT DISTINCT `field_name` FROM `$tableName` $formNameClause ORDER BY field_order");
         $fields = array();
         foreach ($rows as $aRow) {
-            if (!in_array($aRow->field_name, $fields)) {
-                $fields[] = $aRow->field_name;
-            }
+            $fields[] = $aRow->field_name;
         }
         $sql = '';
         if ($count) {
