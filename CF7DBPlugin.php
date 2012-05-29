@@ -758,7 +758,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         //        if ($overrideTable && "" != $overrideTable) {
         //            return $overrideTable;
         //        }
-        return strtolower($this->prefixTableName('SUBMITS'));
+        //return strtolower($this->prefixTableName('SUBMITS'));
+        global $wpdb;
+        return $wpdb->prefix . strtolower($this->prefix('SUBMITS'));
     }
 
     /**
