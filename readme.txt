@@ -68,6 +68,11 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
+= 2.4 =
+* Added "random" option to short code. Used to retrieve random subset of rows from the query.
+Usage example: [cfdb-table form="myform" random="1"].
+The number is the number of random rows to return.
+
 = 2.3.2 =
 * Bug fix that occasionally prevents pagination in the admin view of data
 * Bug fix where external integrations posting to CFDB might fail if list of upload files was null instead of empty array

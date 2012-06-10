@@ -266,6 +266,10 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                         exportUrlElements.push(limitOptionUrl);
                     }
                 }
+
+                scElements.push(getValue('random', jQuery('#random_cntl').val(), scValidationErrors));
+                scUrlElements.push(getValueUrl('random', jQuery('#random_cntl').val()));
+
                 var orderByElem = getValue('orderby', jQuery('#orderby_cntl').val(), scValidationErrors);
                 if (orderByElem) {
                     var orderByElemUrl = getValueUrl('orderby', jQuery('#orderby_cntl').val());
@@ -484,6 +488,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#filter_cntl').val('');
             jQuery('#limit_rows_cntl').val('');
             jQuery('#limit_start_cntl').val('');
+            jQuery('#random_cntl').val('');
             jQuery('#orderby_cntl').val('');
             jQuery('#header_cntl').prop("checked", true);
             jQuery('#id_cntl').val('');
@@ -749,6 +754,13 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             </div>
             <?php _e('Num Rows', 'contact-form-7-to-database-extension') ?> <input name="limit_rows_cntl" id="limit_rows_cntl" type="text" size="10" placeholder="<?php _e('number', 'contact-form-7-to-database-extension') ?>"/>
             <?php _e('Start Row (0)', 'contact-form-7-to-database-extension') ?> <input name="limit_start_cntl" id="limit_start_cntl" type="text" size="10" placeholder="<?php _e('number', 'contact-form-7-to-database-extension') ?>"/>
+        </div>
+        <div>
+            <div class="label_box">
+                <label for="random_cntl"><?php _e('random', 'contact-form-7-to-database-extension') ?></label>
+                <a target="_docs" href="http://cfdbplugin.com/?page_id=89#random"><img alt="?" src="<?php echo $infoImg ?>"/></a>
+            </div>
+            <input name="random_cntl" id="random_cntl" type="text" size="10" placeholder="<?php _e('number', 'contact-form-7-to-database-extension') ?>"/>
         </div>
         <div id="orderby_div">
             <div class="label_box">

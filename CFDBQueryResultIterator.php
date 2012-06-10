@@ -88,7 +88,7 @@ class CFDBQueryResultIterator {
      * @param array $queryOptions array
      * @return
      */
-    public function query(&$sql, &$rowFilter, $queryOptions = array()) {
+    public function query(&$sql, $rowFilter, $queryOptions = array()) {
         $this->rowFilter = $rowFilter;
         $this->results = null;
         $this->row = null;

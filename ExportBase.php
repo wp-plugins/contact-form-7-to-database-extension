@@ -281,12 +281,47 @@ class ExportBase {
     }
 
     /**
+     * Execute the query and set up the results iterator
      * @param string|array $formName (if array, must be array of string)
      * @param null|string $submitTimeKeyName
      * @return void
      */
     protected function setDataIterator($formName, $submitTimeKeyName = null) {
-        $sql = $this->getPivotQuery($formName);
+        $submitTimes = null;
+
+        if (isset($this->options['random'])) {
+            $numRandom = intval($this->options['random']);
+            if ($numRandom > 0) {
+                // Digression: query for n unique random submit_time values
+                $justSubmitTimes = new ExportBase();
+                $justSubmitTimes->setOptions($this->options);
+                $justSubmitTimes->setCommonOptions();
+                unset($justSubmitTimes->options['random']);
+                $justSubmitTimes->showColumns = array('submit_time');
+                $jstSql = $justSubmitTimes->getPivotQuery($formName);
+                $justSubmitTimes->setDataIterator($formName, 'submit_time');
+                $justSubmitTimes->dataIterator->query(
+                    $jstSql,
+                    $justSubmitTimes->rowFilter);
+
+                $allSubmitTimes = null;
+                while ($justSubmitTimes->dataIterator->nextRow()) {
+                    $allSubmitTimes[] = $justSubmitTimes->dataIterator->row['submit_time'];
+                }
+                if (!empty($allSubmitTimes)) {
+                    if (count($allSubmitTimes) < $numRandom) {
+                        $submitTimes = $allSubmitTimes;
+                    }
+                    else {
+                        shuffle($allSubmitTimes); // randomize
+                        $submitTimes = array_slice($allSubmitTimes, 0, $numRandom);
+                    }
+                }
+            }
+        }
+
+
+        $sql = $this->getPivotQuery($formName, false, $submitTimes);
         $this->dataIterator = new CFDBQueryResultIterator();
 //        $this->dataIterator->fileColumns = $this->getFileMetaData($formName);
 
@@ -327,22 +362,28 @@ class ExportBase {
     /**
      * @param string|array $formName (if array, must be array of string)
      * @param bool $count
+     * @param $submitTimes array of string submit_time values that are to be specifically queried
      * @return string
      */
-    public function &getPivotQuery($formName, $count = false) {
+    public function &getPivotQuery($formName, $count = false, $submitTimes = null) {
         global $wpdb;
         $tableName = $this->plugin->getSubmitsTableName();
 
         $formNameClause = '';
         if (is_array($formName)) {
-            $formNameClause = 'WHERE `form_name` in ( \'' . implode('\', \'', $formName) . '\' )';
+            $formNameClause = '`form_name` in ( \'' . implode('\', \'', $formName) . '\' )';
         }
         else if ($formName !== null) {
-            $formNameClause =  "WHERE `form_name` = '$formName'";
+            $formNameClause =  "`form_name` = '$formName'";
         }
 
-        //$rows = $wpdb->get_results("SELECT DISTINCT `field_name`, `field_order` FROM `$tableName` $formNameClause ORDER BY field_order"); // Pagination bug
-        $rows = $wpdb->get_results("SELECT DISTINCT `field_name` FROM `$tableName` $formNameClause ORDER BY field_order");
+        $submitTimesClause = '';
+        if (is_array($submitTimes) && !empty($submitTimes)) {
+            $submitTimesClause = 'AND submit_time in ( ' . implode(', ', $submitTimes) . ' )';
+        }
+
+        //$rows = $wpdb->get_results("SELECT DISTINCT `field_name`, `field_order` FROM `$tableName` WHERE $formNameClause ORDER BY field_order"); // Pagination bug
+        $rows = $wpdb->get_results("SELECT DISTINCT `field_name` FROM `$tableName` WHERE $formNameClause ORDER BY field_order");
         $fields = array();
         foreach ($rows as $aRow) {
             $fields[] = $aRow->field_name;
@@ -358,7 +399,7 @@ class ExportBase {
         if (!$count) {
             $sql .= ",\n GROUP_CONCAT(if(`file` is null or length(`file`) = 0, null, `field_name`)) AS 'fields_with_file'";
         }
-        $sql .=  "\nFROM `$tableName` \n$formNameClause \nGROUP BY `submit_time` ";
+        $sql .=  "\nFROM `$tableName` \nWHERE $formNameClause $submitTimesClause \nGROUP BY `submit_time` ";
         if ($count) {
             $sql .= ') form';
         }
