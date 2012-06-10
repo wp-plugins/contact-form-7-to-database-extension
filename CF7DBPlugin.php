@@ -582,10 +582,11 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         if (strpos($_SERVER['REQUEST_URI'], $this->getDBPageSlug()) !== false) {
             $pluginUrl = $this->getPluginFileUrl() . '/';
             wp_enqueue_script('jquery');
-//            wp_enqueue_style('jquery-ui.css', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/base/jquery-ui.css');
-            wp_enqueue_style('jquery-ui.css', $pluginUrl . 'jquery-ui/jquery-ui.css');
-            wp_enqueue_script('jquery-ui-dialog', false, array('jquery'));
+            wp_enqueue_script('jquery-ui-core');
+            wp_enqueue_script('jquery-ui-dialog');
             wp_enqueue_script('CF7DBdes', $pluginUrl . 'des.js');
+
+            wp_enqueue_style('jquery-ui.css', $pluginUrl . 'jquery-ui/jquery-ui-1.8.21.custom.css');
 
             // Datatables http://www.datatables.net
             if ($this->getOption('UseDataTablesJS', 'true') == 'true') {
