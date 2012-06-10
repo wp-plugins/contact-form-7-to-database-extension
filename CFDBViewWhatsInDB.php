@@ -88,6 +88,10 @@ class CFDBViewWhatsInDB extends CFDBView {
                     }
                 }
             }
+            else if (isset($_POST['delete_wpcf7']) && $canEdit) {
+                $plugin->delete_wpcf7_fields($currSelection);
+                $plugin->add_wpcf7_noSaveFields();
+            }
         }
         // Form selection drop-down list
         $pluginDirUrl = $plugin->getPluginDirUrl();
@@ -225,6 +229,12 @@ class CFDBViewWhatsInDB extends CFDBView {
                            value="<?php _e('Delete All This Form\'s Records', 'contact-form-7-to-database-extension'); ?>"
                            onclick="return confirm('Are you sure you want to delete all the data for this form?')"/>
                 </form>
+                <br/>
+                    <form action="" method="post">
+                        <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
+                        <input name="delete_wpcf7" type="submit"
+                               value="<?php _e('Delete _wpcf7 columns', 'contact-form-7-to-database-extension') ?>"/>
+                    </form>
                 <?php } ?>
             </td>
         </tr>
@@ -355,7 +365,7 @@ class CFDBViewWhatsInDB extends CFDBView {
     <?php
            if ($currSelection && 'true' == $plugin->getOption('ShowQuery')) {
             ?>
-        <div id="query">
+        <div id="query" style="margin: 20px; border: dotted #d3d3d3 1pt;">
             <strong><?php _e('Query:', 'contact-form-7-to-database-extension') ?></strong><br/>
             <pre><?php echo $exporter->getPivotQuery($currSelection); ?></pre>
         </div>

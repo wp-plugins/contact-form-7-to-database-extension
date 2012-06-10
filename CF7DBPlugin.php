@@ -224,6 +224,25 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         $this->addOption('NoSaveFields', '_wpcf7,_wpcf7_version,_wpcf7_unit_tag,_wpnonce,_wpcf7_is_ajax_call');
     }
 
+    public function add_wpcf7_noSaveFields() {
+        $nsfArray = explode(',', $this->getOption('NoSaveFields',''));
+        $wpcf7Fields = array('_wpcf7', '_wpcf7_version', '_wpcf7_unit_tag', '_wpnonce', '_wpcf7_is_ajax_call');
+        foreach ($wpcf7Fields as $aWpcf7) {
+           if (!in_array($aWpcf7, $nsfArray)) {
+               $nsfArray[] = $aWpcf7;
+           }
+        }
+        $this->updateOption('NoSaveFields', implode(',', $nsfArray));
+    }
+
+    public function delete_wpcf7_fields($formName) {
+        global $wpdb;
+        $wpdb->query($wpdb->prepare(
+            'delete from `' . $this->getSubmitsTableName() .
+                    "` where `form_name` = '%s' and `field_name` in ('_wpcf7', '_wpcf7_version', '_wpcf7_unit_tag', '_wpnonce', '_wpcf7_is_ajax_call')",
+            $formName));
+    }
+
     public function addActionsAndFilters() {
         // Add the Admin Config page for this plugin
 
