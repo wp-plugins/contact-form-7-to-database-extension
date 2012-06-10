@@ -19,7 +19,7 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-class CJ7DBCheckZendFramework {
+class CFDBCheckZendFramework {
 
     /**
      * Checks for the existence of the Zend Framework. If not found, prints out some (hopefully) helpful information
@@ -41,7 +41,7 @@ class CJ7DBCheckZendFramework {
             <p>
                 <code>include_path="<?php echo(ini_get('include_path'));?>"</code><br/>
                 <code>php.ini file is
-                    "<?php $phpInfo = CJ7DBCheckZendFramework::getPhpInfo(); echo($phpInfo['Loaded Configuration File']);?>
+                    "<?php $phpInfo = CFDBCheckZendFramework::getPhpInfo(); echo($phpInfo['Loaded Configuration File']);?>
                     "</code><br/>
             </p>
             <ol>

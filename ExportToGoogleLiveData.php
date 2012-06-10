@@ -34,7 +34,7 @@ class ExportToGoogleLiveData implements CFDBExport {
         header('Cache-Control: no-store, no-cache, must-revalidate');
 
         $pluginUrlDir = $plugin->getPluginDirUrl();
-        $scriptLink = $pluginUrlDir . 'Cf7ToDBGGoogleSS.js.php';
+        $scriptLink = $pluginUrlDir . 'CFDBGoogleSSLiveData.php';
         $imageUrlDir = $pluginUrlDir . "help";
         $siteUrl = get_option('home');
         $search = isset($options['search']) ? $options['search'] : '';

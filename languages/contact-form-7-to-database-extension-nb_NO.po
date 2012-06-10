@@ -734,7 +734,7 @@ msgstr "« Forrige"
 msgid "Returned entries %s to %s of %s entries in the database"
 msgstr "Returnerte oppføringer %s til %s av %s oppføringer i databasen"
 
-#: CJ7DBCheckZendFramework.php:72
+#: CFDBCheckZendFramework.php72
 #@ contact-form-7-to-database-extension
 msgid "Missing Zend Framework"
 msgstr "Manglende Zend Rammeverk"

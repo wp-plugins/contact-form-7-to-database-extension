@@ -19,7 +19,7 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('CJ7DBCheckZendFramework.php');
+require_once('CFDBCheckZendFramework.php');
 require_once('ExportToCsvUtf8.php');
 require_once('ExportBase.php');
 require_once('CFDBExport.php');
@@ -39,7 +39,7 @@ class ExportToGoogleSS extends ExportBase implements CFDBExport {
         // Headers
         $this->echoHeaders('Content-Type: text/html; charset=UTF-8');
 
-        if (!CJ7DBCheckZendFramework::checkIncludeZend()) {
+        if (!CFDBCheckZendFramework::checkIncludeZend()) {
             return;
         }
 

@@ -599,7 +599,7 @@ msgstr ""
 msgid "Returned entries %s to %s of %s entries in the database"
 msgstr ""
 
-#: CJ7DBCheckZendFramework.php:72
+#: CFDBCheckZendFrameworkphp:72
 msgid "Missing Zend Framework"
 msgstr ""
 

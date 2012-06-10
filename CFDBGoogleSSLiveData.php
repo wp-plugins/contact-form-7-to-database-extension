@@ -20,6 +20,6 @@
 */
 
     header("Content-Type: text/plain");
-    readfile('Cf7ToDBGGoogleSS.js');
+    readfile('CFDBGoogleSSLiveData.js');
 ?>
 

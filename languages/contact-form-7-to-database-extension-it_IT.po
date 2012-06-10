@@ -44,7 +44,7 @@ msgstr "Versione minima PHP richiesta:"
 msgid "Your server's PHP version: "
 msgstr "La versione PHP del tuo server:"
 
-#: CJ7DBCheckZendFramework.php:72
+#: CFDBCheckZendFrameworkphp:72
 msgid "Missing Zend Framework"
 msgstr "Manca il Zend Framework"
 
