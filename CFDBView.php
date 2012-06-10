@@ -66,7 +66,7 @@ abstract class CFDBView {
             </td>
             <td width="25%" style="font-size:x-small;">
                 <a target="_cf7todb"
-                   href="http://wordpress.org/tags/contact-form-7-to-database-extension">
+                   href="http://wordpress.org/support/plugin/contact-form-7-to-database-extension">
                     <?php _e('Support', 'contact-form-7-to-database-extension') ?>
                 </a>
             </td>
