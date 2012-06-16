@@ -462,17 +462,35 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 return; // Don't save in DB
             }
 
-            global $wpdb;
             $time = function_exists('microtime') ? microtime(true) : time();
-
             $ip = (isset($_SERVER['X_FORWARDED_FOR'])) ? $_SERVER['X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
+
+            // Set up to allow all this data to be filtered
+            $cf7->submit_time = $time;
+            $cf7->ip = $ip;
+            $user = null;
+            if (is_user_logged_in()) {
+                $current_user = wp_get_current_user(); // WP_User
+                $user = $current_user->user_login;
+                $cf7->user = $user;
+            }
+            try {
+                $cf7 = apply_filters('cfdb_form_data', $cf7);
+                $time = $cf7->submit_time;
+                $ip = $cf7->ip;
+                $user = $cf7->user;
+            }
+            catch (Exception $ex) {
+                error_log(sprintf('CFDB Error: %s:%s %s  %s', $ex->getFile(), $ex->getLine(), $ex->getMessage(), $ex->getTraceAsString()));
+            }
+
             $tableName = $this->getSubmitsTableName();
             $parametrizedQuery = "INSERT INTO `$tableName` (`submit_time`, `form_name`, `field_name`, `field_value`, `field_order`) VALUES (%s, %s, %s, %s, %s)";
             $parametrizedFileQuery = "UPDATE `$tableName` SET `file` = '%s' WHERE `submit_time` = %F AND `form_name` = '%s' AND `field_name` = '%s' AND `field_value` = '%s'";
-
             $order = 0;
             $noSaveFields = $this->getNoSaveFields();
             $foundUploadFiles = array();
+            global $wpdb;
             foreach ($cf7->posted_data as $name => $value) {
                 $nameClean = stripslashes($name);
                 if (in_array($nameClean, $noSaveFields)) {
@@ -544,14 +562,14 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             }
 
             // If the submitter is logged in, capture his id
-            if (is_user_logged_in()) {
+            if ($user) {
                 $order = ($order < 9999) ? 9999 : $order + 1; // large order num to try to make it always next-to-last
                 $current_user = wp_get_current_user(); // WP_User
                 $wpdb->query($wpdb->prepare($parametrizedQuery,
                                             $time,
                                             $title,
                                             'Submitted Login',
-                                            $current_user->user_login,
+                                            $user,
                                             $order));
             }
 
