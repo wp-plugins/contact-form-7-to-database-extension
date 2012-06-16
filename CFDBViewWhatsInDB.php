@@ -233,7 +233,7 @@ class CFDBViewWhatsInDB extends CFDBView {
                     <form action="" method="post">
                         <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
                         <input name="delete_wpcf7" type="submit"
-                               value="<?php _e('Delete _wpcf7 columns', 'contact-form-7-to-database-extension') ?>"/>
+                               value="<?php _e('Remove _wpcf7 columns', 'contact-form-7-to-database-extension') ?>"/>
                     </form>
                 <?php } ?>
             </td>
