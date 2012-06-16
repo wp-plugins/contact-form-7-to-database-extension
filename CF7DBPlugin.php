@@ -49,6 +49,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             'Donated' => array(__('I have donated to this plugin', 'contact-form-7-to-database-extension'), 'false', 'true'),
             'IntegrateWithCF7' => array(__('Capture form submissions from Contact Form 7 Plugin', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'IntegrateWithFSCF' => array(__('Capture form submissions from Fast Secure Contact Form Plugin', 'contact-form-7-to-database-extension'), 'true', 'false'),
+            'IntegrateWithJetPackContactForm' => array(__('Capture form submissions from JetPack Contact Form', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'CanSeeSubmitData' => array(__('Can See Submission data', 'contact-form-7-to-database-extension'),
                                         'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
             'CanSeeSubmitDataViaShortcode' => array(__('Can See Submission when using shortcodes', 'contact-form-7-to-database-extension'),
@@ -261,6 +262,11 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         if ($this->getOption('IntegrateWithFSCF', 'true') == 'true') {
             add_action('fsctf_mail_sent', array(&$this, 'saveFormData'));
             add_action('fsctf_menu_links', array(&$this, 'fscfMenuLinks'));
+        }
+
+        // Hook into JetPack Contact Form
+        if ($this->getOption('IntegrateWithJetPackContactForm', 'true') == 'true') {
+            add_action('grunion_pre_message_sent', array(&$this, 'saveJetPackContactFormData'), 10, 3);
         }
 
         // Have our own hook to publish data independent of other plugins
@@ -562,6 +568,20 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         catch (Exception $ex) {
             error_log(sprintf('CFDB Error: %s:%s %s  %s', $ex->getFile(), $ex->getLine(), $ex->getMessage(), $ex->getTraceAsString()));
         }
+    }
+
+    /**
+     * @param $post_id int
+     * @param $all_values array
+     * @param $extra_values array
+     */
+    public function saveJetPackContactFormData($post_id, $all_values, $extra_values) {
+        $all_values['post_id'] = $post_id;
+        $data = (object)  array(
+            'title' => 'JetPack Contact Form',
+            'posted_data' => $all_values,
+            'uploaded_files' => null);
+        $this->saveFormData($data);
     }
 
     /**
