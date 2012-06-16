@@ -90,6 +90,7 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 = 2.4 =
 * Now captures data from JetPack Contact Form
+* Added filter hook <a href="http://cfdbplugin.com/?page_id=747">cfdb_form_data</a> that can be used to change data before it gets submitted
 * Added "random" option to short code. Used to retrieve random subset of rows from the query.
 Usage example: [cfdb-table form="myform" random="1"].
 The number is the number of random rows to return.
