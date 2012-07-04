@@ -88,6 +88,9 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
+= 2.4.1 =
+* Added new short code attribute "permissionmsg" to allow turning off the "You do not have sufficient permissions to access this data" message
+
 = 2.4 =
 * Now captures data from JetPack Contact Form
 * Added filter hook <a href="http://cfdbplugin.com/?page_id=747">cfdb_form_data</a> that can be used to change data before it gets submitted

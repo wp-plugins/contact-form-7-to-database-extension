@@ -179,7 +179,13 @@ class ExportBase {
     }
 
     protected function assertSecurityErrorMessage() {
-        $errMsg = __('You do not have sufficient permissions to access this data.', 'contact-form-7-to-database-extension');
+        $showMessage = true;
+
+        if (isset($this->options['permissionmsg'])) {
+            $showMessage = $this->options['permissionmsg'] != 'false';
+        }
+
+        $errMsg = $showMessage ? __('You do not have sufficient permissions to access this data.', 'contact-form-7-to-database-extension') : '';
         if ($this->isFromShortCode) {
             echo $errMsg;
         }
