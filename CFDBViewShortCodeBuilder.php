@@ -221,6 +221,10 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 exportUrlElements.push(getValueUrl('hide', jQuery('#hide_cntl').val()));
             }
 
+            scElements.push(getValue('role', jQuery('#role_cntl').val(), scValidationErrors));
+            scUrlElements.push(getValueUrl('role', jQuery('#role_cntl').val()));
+            exportUrlElements.push(getValueUrl('role', jQuery('#role_cntl').val()));
+
             scElements.push(getValue('permissionmsg', jQuery('#permissionmsg_cntl').val(), scValidationErrors));
             scUrlElements.push(getValueUrl('permissionmsg', jQuery('#permissionmsg_cntl').val()));
             exportUrlElements.push(getValueUrl('permissionmsg', jQuery('#permissionmsg_cntl').val()));
@@ -488,6 +492,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         function reset() {
             jQuery('#show_cntl').val('');
             jQuery('#hide_cntl').val('');
+            jQuery('#role_cntl').val('');
             jQuery('#permissionmsg_cntl').val('');
             jQuery('#search_cntl').val('');
             jQuery('#filter_cntl').val('');
@@ -688,7 +693,33 @@ class CFDBViewShortCodeBuilder extends CFDBView {
 
     </div>
 
-
+    <div id="security_div" class="shortcodeoptions">
+        <?php _e('Security', 'contact-form-7-to-database-extension'); ?>
+        <div>
+            <div class="label_box">
+                <label for="role_cntl"><?php _e('role', 'contact-form-7-to-database-extension') ?></label>
+                <a target="_docs" href="http://cfdbplugin.com/?page_id=89#role"><img alt="?" src="<?php echo $infoImg ?>"/></a>
+            </div>
+            <select id="role_cntl" name="role_cntl">
+                <option value=""></option>
+                <option value="Administrator"><?php _e('Administrator', 'contact-form-7-to-database-extension') ?></option>
+                <option value="Editor"><?php _e('Editor', 'contact-form-7-to-database-extension') ?></option>
+                <option value="Author"><?php _e('Author', 'contact-form-7-to-database-extension') ?></option>
+                <option value="Contributor"><?php _e('Contributor', 'contact-form-7-to-database-extension') ?></option>
+                <option value="Subscriber"><?php _e('Subscriber', 'contact-form-7-to-database-extension') ?></option>
+                <option value="Anyone"><?php _e('Anyone', 'contact-form-7-to-database-extension') ?></option>
+            </select>
+            <div class="label_box">
+                <label for="permissionmsg_cntl"><?php _e('permissionmsg', 'contact-form-7-to-database-extension') ?></label>
+                <a target="_docs" href="http://cfdbplugin.com/?page_id=89#permissionmsg"><img alt="?" src="<?php echo $infoImg ?>"/></a>
+            </div>
+            <select id="permissionmsg_cntl" name="permissionmsg_cntl">
+                <option value=""></option>
+                <option value="true"><?php _e('true', 'contact-form-7-to-database-extension') ?></option>
+                <option value="false"><?php _e('false', 'contact-form-7-to-database-extension') ?></option>
+            </select>
+        </div>
+    </div>
     <?php // SHOW HIDE permissionmsg ?>
     <div id="show_hide_div" class="shortcodeoptions">
         <?php _e('Which fields/columns do you want to display?', 'contact-form-7-to-database-extension'); ?>
@@ -707,17 +738,6 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             </div>
             <select name="add_hide" id="add_hide"></select><button id="btn_hide">&raquo;</button>
             <input name="hide_cntl" id="hide_cntl" type="text" size="100" placeholder="<?php _e('comma-delimited list of field', 'contact-form-7-to-database-extension') ?>"/>
-        </div>
-        <div>
-            <div class="label_box">
-                <label for="permissionmsg_cntl"><?php _e('permissionmsg', 'contact-form-7-to-database-extension') ?></label>
-                <a target="_docs" href="http://cfdbplugin.com/?page_id=89#permissionmsg"><img alt="?" src="<?php echo $infoImg ?>"/></a>
-            </div>
-            <select id="permissionmsg_cntl" name="permissionmsg_cntl">
-                <option value=""></option>
-                <option value="true"><?php _e('true', 'contact-form-7-to-database-extension') ?></option>
-                <option value="false"><?php _e('false', 'contact-form-7-to-database-extension') ?></option>
-            </select>
         </div>
     </div>
     <?php // SEARCH FILTER  ?>
