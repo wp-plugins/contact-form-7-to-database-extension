@@ -227,6 +227,9 @@ class CF7DBOptionsManager {
             return true;
         }
         $capability = $this->roleToCapability($roleName);
+        if ($capability == '') {
+            return false;
+        }
         return current_user_can($capability);
     }
 

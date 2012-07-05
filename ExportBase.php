@@ -172,14 +172,29 @@ class ExportBase {
         }
     }
 
+    /**
+     * @return bool
+     */
     protected function isAuthorized() {
-        return $this->isFromShortCode ?
-                $this->plugin->canUserDoRoleOption('CanSeeSubmitDataViaShortcode') :
-                $this->plugin->canUserDoRoleOption('CanSeeSubmitData');
+        if (!$this->isFromShortCode) {
+            return $this->plugin->canUserDoRoleOption('CanSeeSubmitData');
+        }
+        else {
+            $isAuth = $this->plugin->canUserDoRoleOption('CanSeeSubmitDataViaShortcode');
+            if ($isAuth && isset($this->options['role'])) {
+                $isAuth = $this->plugin->isUserRoleEqualOrBetterThan($this->options['role']);
+            }
+            return $isAuth;
+        }
     }
 
     protected function assertSecurityErrorMessage() {
         $showMessage = true;
+
+        if (isset($this->options['role'])) {
+            // If role is being used, but default do not show the error message
+            $showMessage = false;
+        }
 
         if (isset($this->options['permissionmsg'])) {
             $showMessage = $this->options['permissionmsg'] != 'false';

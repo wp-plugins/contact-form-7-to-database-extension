@@ -89,6 +89,7 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 == Changelog ==
 
 = 2.4.1 =
+* Added new short code attribute "role" to limit short code output only to those with sufficient role.
 * Added new short code attribute "permissionmsg" to allow turning off the "You do not have sufficient permissions to access this data" message
 
 = 2.4 =
