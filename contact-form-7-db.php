@@ -2,7 +2,7 @@
 /*
    Plugin Name: Contact Form to DB Extension
    Plugin URI: http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/
-   Version: 2.4
+   Version: 2.4.1
    Author: Michael Simpson
    Description: Save form submissions to the database from Contact Form 7 and Fast Secure Contact Form. Includes exports and short codes.  | <a href="admin.php?page=CF7DBPluginSubmissions">Data</a>  | <a href="admin.php?page=CF7DBPluginSettings">Settings</a> | <a href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/">FAQ</a>
    Text Domain: contact-form-7-to-database-extension
