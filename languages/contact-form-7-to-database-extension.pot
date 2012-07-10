@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-"
 "extension\n"
-"POT-Creation-Date: 2012-06-16 19:34:01+00:00\n"
+"POT-Creation-Date: 2012-07-10 03:33:23+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,56 +13,56 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: CF7DBOptionsManager.php:278 CF7DBPlugin.php:334
+#: CF7DBOptionsManager.php:281 CF7DBPlugin.php:341
 #: ExportToGoogleLiveData.php:31
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: CF7DBOptionsManager.php:296
+#: CF7DBOptionsManager.php:299
 msgid "System Settings"
 msgstr ""
 
-#: CF7DBOptionsManager.php:298
+#: CF7DBOptionsManager.php:301
 msgid "System"
 msgstr ""
 
-#: CF7DBOptionsManager.php:299
+#: CF7DBOptionsManager.php:302
 msgid "PHP Version"
 msgstr ""
 
-#: CF7DBOptionsManager.php:304
+#: CF7DBOptionsManager.php:307
 msgid ""
 "(WARNING: This plugin may not work properly with versions earlier than PHP "
 "5.2)"
 msgstr ""
 
-#: CF7DBOptionsManager.php:310
+#: CF7DBOptionsManager.php:313
 msgid "MySQL Version"
 msgstr ""
 
-#: CF7DBOptionsManager.php:315
+#: CF7DBOptionsManager.php:318
 msgid ""
 "(WARNING: This plugin may not work properly with versions earlier than MySQL "
 "5.0)"
 msgstr ""
 
-#: CF7DBOptionsManager.php:323
+#: CF7DBOptionsManager.php:326
 msgid "Settings"
 msgstr ""
 
-#: CF7DBOptionsManager.php:348
+#: CF7DBOptionsManager.php:351
 msgid "Save Changes"
 msgstr ""
 
-#: CF7DBOptionsManager.php:407 CF7DBPlugin.php:78
-#: CFDBViewShortCodeBuilder.php:889 CFDBViewShortCodeBuilder.php:898
-#: CFDBViewShortCodeBuilder.php:940
+#: CF7DBOptionsManager.php:410 CF7DBPlugin.php:78
+#: CFDBViewShortCodeBuilder.php:718 CFDBViewShortCodeBuilder.php:925
+#: CFDBViewShortCodeBuilder.php:934 CFDBViewShortCodeBuilder.php:976
 msgid "true"
 msgstr ""
 
-#: CF7DBOptionsManager.php:408 CF7DBPlugin.php:80
-#: CFDBViewShortCodeBuilder.php:888 CFDBViewShortCodeBuilder.php:897
-#: CFDBViewShortCodeBuilder.php:941
+#: CF7DBOptionsManager.php:411 CF7DBPlugin.php:80
+#: CFDBViewShortCodeBuilder.php:719 CFDBViewShortCodeBuilder.php:924
+#: CFDBViewShortCodeBuilder.php:933 CFDBViewShortCodeBuilder.php:977
 msgid "false"
 msgstr ""
 
@@ -144,63 +144,63 @@ msgstr ""
 msgid "Drop this plugin's Database table on uninstall"
 msgstr ""
 
-#: CF7DBPlugin.php:83
+#: CF7DBPlugin.php:83 CFDBViewShortCodeBuilder.php:705
 msgid "Administrator"
 msgstr ""
 
-#: CF7DBPlugin.php:85
+#: CF7DBPlugin.php:85 CFDBViewShortCodeBuilder.php:706
 msgid "Editor"
 msgstr ""
 
-#: CF7DBPlugin.php:87
+#: CF7DBPlugin.php:87 CFDBViewShortCodeBuilder.php:707
 msgid "Author"
 msgstr ""
 
-#: CF7DBPlugin.php:89
+#: CF7DBPlugin.php:89 CFDBViewShortCodeBuilder.php:708
 msgid "Contributor"
 msgstr ""
 
-#: CF7DBPlugin.php:91
+#: CF7DBPlugin.php:91 CFDBViewShortCodeBuilder.php:709
 msgid "Subscriber"
 msgstr ""
 
-#: CF7DBPlugin.php:93
+#: CF7DBPlugin.php:93 CFDBViewShortCodeBuilder.php:710
 msgid "Anyone"
 msgstr ""
 
-#: CF7DBPlugin.php:340
+#: CF7DBPlugin.php:347
 msgid "Missing form parameters"
 msgstr ""
 
-#: CF7DBPlugin.php:344
+#: CF7DBPlugin.php:351
 msgid "No such file."
 msgstr ""
 
-#: CF7DBPlugin.php:402
+#: CF7DBPlugin.php:409
 msgid "Invalid: "
 msgstr ""
 
-#: CF7DBPlugin.php:405
+#: CF7DBPlugin.php:412
 msgid "Valid: "
 msgstr ""
 
-#: CF7DBPlugin.php:421 CF7DBPlugin.php:441
+#: CF7DBPlugin.php:428 CF7DBPlugin.php:448
 msgid "Database Options"
 msgstr ""
 
-#: CF7DBPlugin.php:439 CF7DBPlugin.php:672
+#: CF7DBPlugin.php:446 CF7DBPlugin.php:679
 msgid "Database"
 msgstr ""
 
-#: CF7DBPlugin.php:443
+#: CF7DBPlugin.php:450
 msgid "Build Short Code"
 msgstr ""
 
-#: CF7DBPlugin.php:445
+#: CF7DBPlugin.php:452
 msgid "FAQ"
 msgstr ""
 
-#: CF7DBPlugin.php:680
+#: CF7DBPlugin.php:687
 msgid "Database Short Code"
 msgstr ""
 
@@ -221,7 +221,7 @@ msgid "Rate this Plugin"
 msgstr ""
 
 #: CFDBView.php:64 CFDBViewShortCodeBuilder.php:64
-#: CFDBViewShortCodeBuilder.php:669
+#: CFDBViewShortCodeBuilder.php:679
 msgid "Documentation"
 msgstr ""
 
@@ -241,333 +241,345 @@ msgstr ""
 msgid "Error: no form is chosen"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:231
+#: CFDBViewShortCodeBuilder.php:239
 msgid ""
 "Warning: \"search\" field ignored because \"filter\" is used (use one but "
 "not both)"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:244
+#: CFDBViewShortCodeBuilder.php:252
 msgid ""
 "Error: \"limit\": if you provide a value for \"Start Row\" then you must "
 "also provide a value for \"Num Rows\""
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:248
+#: CFDBViewShortCodeBuilder.php:256
 msgid "Error: \"limit\": \"Num Rows\" must be a positive integer"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:255
+#: CFDBViewShortCodeBuilder.php:263
 msgid "Error: \"limit\": \"Start Row\" must be a positive integer"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:304
+#: CFDBViewShortCodeBuilder.php:312
 msgid "Error: [cfdb-html] has empty Template. It will not output anything. "
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:382
+#: CFDBViewShortCodeBuilder.php:390
 msgid "(Test Short Code Results)"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:596
+#: CFDBViewShortCodeBuilder.php:606
 msgid "Export and Short Code Builder"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:599
+#: CFDBViewShortCodeBuilder.php:609
 msgid "form"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:601 CFDBViewWhatsInDB.php:106
+#: CFDBViewShortCodeBuilder.php:611 CFDBViewWhatsInDB.php:106
 msgid "* Select a form *"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:612
+#: CFDBViewShortCodeBuilder.php:622
 msgid "Reset"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:620
+#: CFDBViewShortCodeBuilder.php:630
 msgid "Export File"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:624 CFDBViewShortCodeBuilder.php:920
+#: CFDBViewShortCodeBuilder.php:634 CFDBViewShortCodeBuilder.php:956
 #: CFDBViewWhatsInDB.php:194
 msgid "Excel CSV (UTF8-BOM)"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:627 CFDBViewShortCodeBuilder.php:923
+#: CFDBViewShortCodeBuilder.php:637 CFDBViewShortCodeBuilder.php:959
 #: CFDBViewWhatsInDB.php:197
 msgid "Excel TSV (UTF16LE-BOM)"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:630 CFDBViewShortCodeBuilder.php:926
+#: CFDBViewShortCodeBuilder.php:640 CFDBViewShortCodeBuilder.php:962
 #: CFDBViewWhatsInDB.php:200
 msgid "Plain CSV (UTF-8)"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:633 CFDBViewShortCodeBuilder.php:929
+#: CFDBViewShortCodeBuilder.php:643 CFDBViewShortCodeBuilder.php:965
 #: CFDBViewWhatsInDB.php:191
 msgid "Excel Internet Query"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:637 CFDBViewShortCodeBuilder.php:785
+#: CFDBViewShortCodeBuilder.php:647 CFDBViewShortCodeBuilder.php:821
 msgid "Include Header Row"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:640
+#: CFDBViewShortCodeBuilder.php:650
 msgid "Generated Export Link:"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:646 CFDBViewShortCodeBuilder.php:681
+#: CFDBViewShortCodeBuilder.php:656 CFDBViewShortCodeBuilder.php:691
 msgid "(Did you know: you can create your own short code)"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:656
+#: CFDBViewShortCodeBuilder.php:666
 msgid "Short Code"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:659
+#: CFDBViewShortCodeBuilder.php:669
 msgid "* Select a short code *"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:675
+#: CFDBViewShortCodeBuilder.php:685
 msgid "Generated Short Code:"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:689
-msgid "Which fields/columns do you want to display?"
-msgstr ""
-
-#: CFDBViewShortCodeBuilder.php:692
-msgid "show"
-msgstr ""
-
-#: CFDBViewShortCodeBuilder.php:696 CFDBViewShortCodeBuilder.php:704
-#: CFDBViewShortCodeBuilder.php:771
-msgid "comma-delimited list of field"
+#: CFDBViewShortCodeBuilder.php:697
+msgid "Security"
 msgstr ""
 
 #: CFDBViewShortCodeBuilder.php:700
+msgid "role"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:713
+msgid "permissionmsg"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:725
+msgid "Which fields/columns do you want to display?"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:728
+msgid "show"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:732 CFDBViewShortCodeBuilder.php:740
+#: CFDBViewShortCodeBuilder.php:807
+msgid "comma-delimited list of field"
+msgstr ""
+
+#: CFDBViewShortCodeBuilder.php:736
 msgid "hide"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:709
+#: CFDBViewShortCodeBuilder.php:745
 msgid "Which rows/submissions do you want to display?"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:712
+#: CFDBViewShortCodeBuilder.php:748
 msgid "search"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:715
+#: CFDBViewShortCodeBuilder.php:751
 msgid "search text"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:719
+#: CFDBViewShortCodeBuilder.php:755
 msgid "filter"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:738
+#: CFDBViewShortCodeBuilder.php:774
 msgid "value"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:741
+#: CFDBViewShortCodeBuilder.php:777
 msgid "Validate submit_time"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:742
+#: CFDBViewShortCodeBuilder.php:778
 msgid "Formats"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:745
+#: CFDBViewShortCodeBuilder.php:781
 msgid "filter expression"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:752
+#: CFDBViewShortCodeBuilder.php:788
 msgid "limit"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:755
+#: CFDBViewShortCodeBuilder.php:791
 msgid "Num Rows"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:755 CFDBViewShortCodeBuilder.php:756
-#: CFDBViewShortCodeBuilder.php:763
+#: CFDBViewShortCodeBuilder.php:791 CFDBViewShortCodeBuilder.php:792
+#: CFDBViewShortCodeBuilder.php:799
 msgid "number"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:756
+#: CFDBViewShortCodeBuilder.php:792
 msgid "Start Row (0)"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:760
+#: CFDBViewShortCodeBuilder.php:796
 msgid "random"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:767
+#: CFDBViewShortCodeBuilder.php:803
 msgid "orderby"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:770
+#: CFDBViewShortCodeBuilder.php:806
 msgid "field"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:774
+#: CFDBViewShortCodeBuilder.php:810
 msgid "ASC"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:775
+#: CFDBViewShortCodeBuilder.php:811
 msgid "DESC"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:781
+#: CFDBViewShortCodeBuilder.php:817
 msgid "HTML Table Formatting"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:790
+#: CFDBViewShortCodeBuilder.php:826
 msgid "id"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:793
+#: CFDBViewShortCodeBuilder.php:829
 msgid "HTML id"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:797
+#: CFDBViewShortCodeBuilder.php:833
 msgid "class"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:800
+#: CFDBViewShortCodeBuilder.php:836
 msgid "HTML class"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:804
+#: CFDBViewShortCodeBuilder.php:840
 msgid "style"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:807
+#: CFDBViewShortCodeBuilder.php:843
 msgid "HTML style"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:812
+#: CFDBViewShortCodeBuilder.php:848
 msgid "[cfdb-datatable] Options"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:814
+#: CFDBViewShortCodeBuilder.php:850
 msgid "dt_options"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:817
+#: CFDBViewShortCodeBuilder.php:853
 msgid "datatable options (JSON)"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:821
+#: CFDBViewShortCodeBuilder.php:857
 msgid "[cfdb-json] Options"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:824
+#: CFDBViewShortCodeBuilder.php:860
 msgid "var"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:827
+#: CFDBViewShortCodeBuilder.php:863
 msgid "JS var name"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:831
+#: CFDBViewShortCodeBuilder.php:867
 msgid "format"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:836
+#: CFDBViewShortCodeBuilder.php:872
 msgid "map"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:837
+#: CFDBViewShortCodeBuilder.php:873
 msgid "array"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:838
+#: CFDBViewShortCodeBuilder.php:874
 msgid "arraynoheader"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:844
+#: CFDBViewShortCodeBuilder.php:880
 msgid "[cfdb-value] Options"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:847
+#: CFDBViewShortCodeBuilder.php:883
 msgid "function"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:852
+#: CFDBViewShortCodeBuilder.php:888
 msgid "min"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:853
+#: CFDBViewShortCodeBuilder.php:889
 msgid "max"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:854
+#: CFDBViewShortCodeBuilder.php:890
 msgid "sum"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:855
+#: CFDBViewShortCodeBuilder.php:891
 msgid "mean"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:856
+#: CFDBViewShortCodeBuilder.php:892
 msgid "percent"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:861
+#: CFDBViewShortCodeBuilder.php:897
 msgid "delimiter"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:870
+#: CFDBViewShortCodeBuilder.php:906
 msgid "[cfdb-html] Options"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:872
+#: CFDBViewShortCodeBuilder.php:908
 msgid "filelinks"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:877
+#: CFDBViewShortCodeBuilder.php:913
 msgid "url"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:878
+#: CFDBViewShortCodeBuilder.php:914
 msgid "name"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:879
+#: CFDBViewShortCodeBuilder.php:915
 msgid "link"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:880
+#: CFDBViewShortCodeBuilder.php:916
 msgid "img"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:883
+#: CFDBViewShortCodeBuilder.php:919
 msgid "stripbr"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:892
+#: CFDBViewShortCodeBuilder.php:928
 msgid "wpautop"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:903
+#: CFDBViewShortCodeBuilder.php:939
 msgid "Template"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:907
+#: CFDBViewShortCodeBuilder.php:943
 msgid "Per-entry HTML using ${field name} variables"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:914
+#: CFDBViewShortCodeBuilder.php:950
 msgid "enc"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:935
+#: CFDBViewShortCodeBuilder.php:971
 msgid "urlonly"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:946
+#: CFDBViewShortCodeBuilder.php:982
 msgid "linktext"
 msgstr ""
 
@@ -665,7 +677,7 @@ msgstr ""
 msgid "Returned entries %s to %s of %s entries in the database"
 msgstr ""
 
-#: ExportBase.php:182
+#: ExportBase.php:203
 msgid "You do not have sufficient permissions to access this data."
 msgstr ""
 
