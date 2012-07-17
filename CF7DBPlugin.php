@@ -229,12 +229,12 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
     protected function initOptions() {
         // By default ignore CF7 metadata fields
-        $this->addOption('NoSaveFields', '_wpcf7,_wpcf7_version,_wpcf7_unit_tag,_wpnonce,_wpcf7_is_ajax_call');
+        $this->addOption('NoSaveFields', '_wpcf7,_wpcf7_version,_wpcf7_unit_tag,_wpnonce,_wpcf7_is_ajax_call,_wpcf7_captcha_challenge_captcha');
     }
 
     public function add_wpcf7_noSaveFields() {
         $nsfArray = explode(',', $this->getOption('NoSaveFields',''));
-        $wpcf7Fields = array('_wpcf7', '_wpcf7_version', '_wpcf7_unit_tag', '_wpnonce', '_wpcf7_is_ajax_call');
+        $wpcf7Fields = array('_wpcf7', '_wpcf7_version', '_wpcf7_unit_tag', '_wpnonce', '_wpcf7_is_ajax_call', '_wpcf7_captcha_challenge_captcha');
         foreach ($wpcf7Fields as $aWpcf7) {
            if (!in_array($aWpcf7, $nsfArray)) {
                $nsfArray[] = $aWpcf7;
@@ -247,7 +247,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         global $wpdb;
         $wpdb->query($wpdb->prepare(
             'delete from `' . $this->getSubmitsTableName() .
-                    "` where `form_name` = '%s' and `field_name` in ('_wpcf7', '_wpcf7_version', '_wpcf7_unit_tag', '_wpnonce', '_wpcf7_is_ajax_call')",
+                    "` where `form_name` = '%s' and `field_name` in ('_wpcf7', '_wpcf7_version', '_wpcf7_unit_tag', '_wpnonce', '_wpcf7_is_ajax_call', '_wpcf7_captcha_challenge_captcha')",
             $formName));
     }
 
