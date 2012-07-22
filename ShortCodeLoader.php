@@ -33,11 +33,11 @@ abstract class ShortCodeLoader {
     }
 
     /**
-     * @param  $shortcodeName mixed either string name of the shortcode
-     * (as it would appear in a post, e.g. [shortcodeName])
+     * @param $shortcodeName string|array name of the shortcode
+     * as it would appear in a post, e.g. [shortcodeName]
      * or an array of such names in case you want to have more than one name
      * for the same shortcode
-     * @param  $functionName string name of public function in this class to call as the
+     * @param $functionName string name of public function in this class to call as the
      * shortcode handler
      * @return void
      */
@@ -54,7 +54,7 @@ abstract class ShortCodeLoader {
 
     /**
      * @abstract Override this function and add actual shortcode handling here
-     * @param  $atts shortcode inputs
+     * @param $atts array (associative) of shortcode inputs
      * @return string shortcode content
      */
     public abstract function handleShortcode($atts);
