@@ -29,6 +29,12 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
      */
     static $wroteDefaultHtmlTableStyle = false;
 
+    var $useBom = false;
+
+    public function setUseBom($use) {
+        $this->useBom = $use;
+    }
+
     /**
      * Echo a table of submitted form data
      * @param string $formName
@@ -74,8 +80,16 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
 
         if ($this->isFromShortCode) {
             ob_start();
+            if ($this->useBom) {
+                // File encoding UTF-8 Byte Order Mark (BOM) http://wiki.sdn.sap.com/wiki/display/ABAP/Excel+files+-+CSV+format
+                echo chr(239) . chr(187) . chr(191);
+            }
         }
         else {
+            if ($this->useBom) {
+                // File encoding UTF-8 Byte Order Mark (BOM) http://wiki.sdn.sap.com/wiki/display/ABAP/Excel+files+-+CSV+format
+                echo chr(239) . chr(187) . chr(191);
+            }
             if ($printScripts) {
                 $pluginUrl = plugins_url('/', __FILE__);
                 wp_enqueue_script('datatables', $pluginUrl . 'DataTables/media/js/jquery.dataTables.min.js', array('jquery'));

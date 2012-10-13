@@ -70,6 +70,12 @@ class CF7DBPluginExporter {
                 $exporter = new ExportToHtmlTable();
                 $exporter->export($formName, $options);
                 break;
+            case 'HTMLBOM': // IQY callback
+                require_once('ExportToHtmlTable.php');
+                $exporter = new ExportToHtmlTable();
+                $exporter->setUseBom(true);
+                $exporter->export($formName, $options);
+                break;
             case 'DT':
                 require_once('ExportToHtmlTable.php');
                 if (!is_array($options)) {
