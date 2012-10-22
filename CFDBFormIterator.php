@@ -86,6 +86,11 @@ class CFDBFormIterator extends ExportBase implements CFDBExport {
             foreach ($this->dataIterator->displayColumns as $aCol) {
                 $row[$aCol] = $this->dataIterator->row[$aCol];
 
+                if ($aCol == 'filter'){
+                    $row[$aCol] = urldecode($row[$aCol]);
+                    $row[$aCol] = urlencode($row[$aCol]);
+                }
+
                 // If it is a file, add in the URL for it by creating a field name appended with '_URL'
                 if ($fields_with_file && in_array($aCol, $fields_with_file)) {
                     $row[$aCol . '_URL'] = $this->plugin->getFileUrl($row['submit_time'], $this->formName, $aCol);

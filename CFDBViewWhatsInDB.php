@@ -199,6 +199,9 @@ class CFDBViewWhatsInDB extends CFDBView {
                         <option id="CSVUTF8" value="CSVUTF8">
                             <?php _e('Plain CSV (UTF-8)', 'contact-form-7-to-database-extension'); ?>
                         </option>
+                        <option id="CSVSJIS" value="CSVSJIS">
+                            <?php _e('Excel CSV for Japanese (Shift-JIS)', 'contact-form-7-to-database-extension'); ?>
+                        </option>
                         <option id="GSS" value="GSS">
                             <?php _e('Google Spreadsheet', 'contact-form-7-to-database-extension'); ?>
                         </option>

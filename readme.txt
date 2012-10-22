@@ -88,6 +88,9 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
+= 2.4.3 =
+* Added Japanese language support (Shift-JIS)
+
 = 2.4.2 =
 * Fixed character encoding issues with Excel IQY
 

@@ -146,6 +146,13 @@ class CF7DBPluginExporter {
                 $exporter = new ExportToValue();
                 $exporter->export($formName, $options);
                 break;
+            case 'CSVSJIS':
+                require_once('ExportToCsvUtf8.php');
+                $exporter = new ExportToCsvUtf8();
+                $exporter->setUseBom(false);
+                $exporter->setUseShiftJIS(true);
+                $exporter->export($formName, $options);
+                break;
             case 'CSVUTF8':
             default:
                 require_once('ExportToCsvUtf8.php');

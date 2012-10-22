@@ -25,9 +25,21 @@ require_once('CFDBExport.php');
 class ExportToCsvUtf8 extends ExportBase implements CFDBExport {
 
     var $useBom = false;
+    var $useShiftJIS = false; // for Japanese
 
     public function setUseBom($use) {
         $this->useBom = $use;
+    }
+
+    public function setUseShiftJIS($use) {
+        // If mb_convert_encoding function is not enabled (mb_string module is not installed),
+        // then converting cannot be done.
+        if ($use && !function_exists('mb_convert_encoding')){
+            $this->useShiftJIS = false;
+        }
+        else {
+            $this->useShiftJIS = $use;
+        }
     }
 
     public function export($formName, $options = null) {
@@ -47,12 +59,32 @@ class ExportToCsvUtf8 extends ExportBase implements CFDBExport {
         }
 
         // Headers
+        $charSet = 'UTF-8';
+        if ($this->useShiftJIS) {
+            $charSet = 'Shift_JIS';
+        }
         $this->echoHeaders(
-            array('Content-Type: text/csv; charset=UTF-8',
+            array("Content-Type: text/csv; charset=$charSet",
                  "Content-Disposition: attachment; filename=\"$formName.csv\""));
 
         $this->echoCsv($formName);
     }
+
+    // Convert Shift-JIS (Standard Encoding for Japanese Applications) to UTF-8.
+    public function japanese_convert_utf8_to_sjis($str) {
+        $utf_escape_patterns_revert = array(
+            // The code number of Japanese two-byte character "ãƒ¼" is separated by Japanese encoding types.
+            '/\xE2\x80\x93/' => "\xE2\x88\x92",
+        );
+
+        $str = preg_replace(
+            array_keys($utf_escape_patterns_revert),
+            array_values($utf_escape_patterns_revert),
+            $str);
+
+        return $str;
+    }
+
 
     public function echoCsv($formName) {
         if ($this->useBom) {
@@ -95,7 +127,12 @@ class ExportToCsvUtf8 extends ExportBase implements CFDBExport {
                         in_array($aCol, $fields_with_file)) {
                     $cell = $this->plugin->getFileUrl($this->dataIterator->row[$submitTimeKeyName], $formName, $aCol);
                 }
-                printf('"%s",', str_replace('"', '""', $cell));
+                if ($this->useShiftJIS) {
+                    printf('"%s",', str_replace('"', '""', mb_convert_encoding($this->japanese_convert_utf8_to_sjis($cell), "SJIS-win", "utf-8")));
+                }
+                else {
+                    printf('"%s",', str_replace('"', '""', $cell));
+                }
             }
             echo $eol;
         }

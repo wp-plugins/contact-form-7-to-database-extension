@@ -639,6 +639,9 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             <option value="CSVUTF8">
                 <?php _e('Plain CSV (UTF-8)', 'contact-form-7-to-database-extension'); ?>
             </option>
+            <option value="CSVSJIS">
+                <?php _e('Excel CSV for Japanese (Shift-JIS)', 'contact-form-7-to-database-extension'); ?>
+            </option>
             <option value="IQY">
                 <?php _e('Excel Internet Query', 'contact-form-7-to-database-extension'); ?>
             </option>
@@ -960,6 +963,9 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 </option>
                 <option id="CSVUTF8" value="CSVUTF8">
                     <?php _e('Plain CSV (UTF-8)', 'contact-form-7-to-database-extension'); ?>
+                </option>
+                <option value="CSVSJIS">
+                    <?php _e('Excel CSV for Japanese (Shift-JIS)', 'contact-form-7-to-database-extension'); ?>
                 </option>
                 <option id="IQY" value="IQY">
                     <?php _e('Excel Internet Query', 'contact-form-7-to-database-extension'); ?>
