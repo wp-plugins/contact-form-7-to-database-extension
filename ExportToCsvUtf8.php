@@ -70,11 +70,16 @@ class ExportToCsvUtf8 extends ExportBase implements CFDBExport {
         $this->echoCsv($formName);
     }
 
-    // Convert Shift-JIS (Standard Encoding for Japanese Applications) to UTF-8.
+    /**
+     * Convert Shift-JIS (Standard Encoding for Japanese Applications) to UTF-8.
+     * @param $str string
+     * @return string
+     */
     public function japanese_convert_utf8_to_sjis($str) {
         $utf_escape_patterns_revert = array(
             // The code number of Japanese two-byte character "ãƒ¼" is separated by Japanese encoding types.
-            '/\xE2\x80\x93/' => "\xE2\x88\x92",
+            '/\xE2\x80\x93/' => "\xE2\x88\x92", // Hyphen
+            '/\xE2\x80\xA2/' => "\xE3\x83\xBB" // Centered dot
         );
 
         $str = preg_replace(
