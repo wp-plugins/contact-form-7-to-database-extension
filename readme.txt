@@ -1,7 +1,7 @@
 === Contact Form 7 to Database Extension ===
 Contributors: msimpson
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=NEVDJ792HKGFN&lc=US&item_name=Wordpress%20Plugin&item_number=cf7%2dto%2ddb%2dextension&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
-Tags: contact form,database,contact form database,save contact form
+Tags: contact form,database,contact form database,save contact form,form database
 Requires at least: 3.2.1
 Tested up to: 3.4
 Stable tag: 2.4.3
@@ -46,7 +46,7 @@ Disclaimer: I am not the maker of JetPack, Contact Form 7 nor Fast Secure Contac
 == Installation ==
 
 1. Your WordPress site must be running PHP5 or better. This plugin will fail to activate if your site is running PHP4.
-1. Be sure that Contact Form 7 and/or Fast Secure Contact Form is installed and activated (this is an extension to them)
+1. Be sure that any of Contact Form 7, Fast Secure Contact Form and/or JetPack is installed and activated (this is an extension to them)
 1. Fast Secure Contact Form should be at least version 2.9.7
 
 Notes:

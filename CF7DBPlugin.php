@@ -448,8 +448,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 __('Database Options', 'contact-form-7-to-database-extension') .
                 '</a>  | <a href="admin.php?page=' . $this->getSortCodeBuilderPageSlug() . '">' .
                 __('Build Short Code', 'contact-form-7-to-database-extension') .
-                '</a> | <a href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/faq/">' .
-                __('FAQ', 'contact-form-7-to-database-extension') . '</a>
+                '</a> | <a href="http://cfdbplugin.com/">' .
+                __('Reference', 'contact-form-7-to-database-extension') . '</a>
        </p>
       ';
     }
