@@ -1,7 +1,7 @@
-=== Contact Form 7 to Database Extension ===
+=== Contact Form DB ===
 Contributors: msimpson
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=NEVDJ792HKGFN&lc=US&item_name=Wordpress%20Plugin&item_number=cf7%2dto%2ddb%2dextension&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
-Tags: contact form,database,contact form database,save contact form,form database
+Tags: contact form,database,contact form database,save contact form,form database,CFDB
 Requires at least: 3.2.1
 Tested up to: 3.4
 Stable tag: 2.4.3
@@ -87,6 +87,9 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 1. Admin Panel view of submitted form data
 
 == Changelog ==
+
+= 2.4.4 =
+* New top-level menu on administration page
 
 = 2.4.3 =
 * Added Japanese language support (Shift-JIS)

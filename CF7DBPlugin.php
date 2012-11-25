@@ -276,7 +276,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             add_action('grunion_pre_message_sent', array(&$this, 'saveJetPackContactFormData'), 10, 3);
         }
 
-        // Have our own hook to publish data independent of other plugins
+        // Have our own hook to receive form submissions independent of other plugins
         add_action('cfdb_submit', array(&$this, 'saveFormData'));
 
         // Register Export URL
@@ -421,14 +421,14 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     }
 
     public function addSettingsSubMenuPage() {
-        $this->requireExtraPluginFiles();
-        $displayName = $this->getPluginDisplayName();
-        add_submenu_page('wpcf7', //$this->getDBPageSlug(),
-                         $displayName . ' Options',
-                         __('Database Options', 'contact-form-7-to-database-extension'),
-                         'manage_options',
-                         get_class($this) . 'Settings',
-                         array(&$this, 'settingsPage'));
+//        $this->requireExtraPluginFiles();
+//        $displayName = $this->getPluginDisplayName();
+//        add_submenu_page('wpcf7', //$this->getDBPageSlug(),
+//                         $displayName . ' Options',
+//                         __('Database Options', 'contact-form-7-to-database-extension'),
+//                         'manage_options',
+//                         get_class($this) . 'Settings',
+//                         array(&$this, 'settingsPage'));
     }
 
 
@@ -646,13 +646,14 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     public function createAdminMenu() {
         $displayName = $this->getPluginDisplayName();
         $roleAllowed = $this->getRoleOption('CanSeeSubmitData');
+        $menuSlug = $this->getDBPageSlug();
 
         //create new top-level menu
-//        add_menu_page($displayName . ' Plugin Settings',
-//                      'Contact Form Submissions',
-//                      'administrator', //$roleAllowed,
-//                      $this->getDBPageSlug(),
-//                      array(&$this, 'whatsInTheDBPage'));
+        add_menu_page($displayName,
+                        __('Contact Form DB', 'contact-form-7-to-database-extension'),
+                      'administrator', //$roleAllowed,
+                      $menuSlug, //$this->getDBPageSlug(),
+                      array(&$this, 'whatsInTheDBPage'));
 
         // Needed for dialog in whatsInTheDBPage
         if (strpos($_SERVER['REQUEST_URI'], $this->getDBPageSlug()) !== false) {
@@ -685,21 +686,36 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             wp_enqueue_script('jquery');
         }
 
-        // Put page under CF7's "Contact" page
-        add_submenu_page('wpcf7',
-                         $displayName . ' Submissions',
-                         __('Database', 'contact-form-7-to-database-extension'),
-                         $this->roleToCapability($roleAllowed),
-                         $this->getDBPageSlug(),
-                         array(&$this, 'whatsInTheDBPage'));
+//        // Put page under CF7's "Contact" page
+//        add_submenu_page('wpcf7',
+//                         $displayName . ' Submissions',
+//                         __('Database', 'contact-form-7-to-database-extension'),
+//                         $this->roleToCapability($roleAllowed),
+//                         $this->getDBPageSlug(),
+//                         array(&$this, 'whatsInTheDBPage'));
 
-        // Put page under CF7's "Contact" page
-        add_submenu_page('wpcf7',
+        add_submenu_page($menuSlug,
                          $displayName . ' Short Code Builder',
-                         __('Database Short Code', 'contact-form-7-to-database-extension'),
+                         __('Short Code', 'contact-form-7-to-database-extension'),
                          $this->roleToCapability($roleAllowed),
                          $this->getSortCodeBuilderPageSlug(),
                          array(&$this, 'showShortCodeBuilderPage'));
+
+        add_submenu_page($menuSlug,
+                         $displayName . ' Options',
+                         __('Options', 'contact-form-7-to-database-extension'),
+                         'manage_options',
+                         get_class($this) . 'Settings',
+                         array(&$this, 'settingsPage'));
+
+
+//        // Put page under CF7's "Contact" page
+//        add_submenu_page('wpcf7',
+//                         $displayName . ' Short Code Builder',
+//                         __('Database Short Code', 'contact-form-7-to-database-extension'),
+//                         $this->roleToCapability($roleAllowed),
+//                         $this->getSortCodeBuilderPageSlug(),
+//                         array(&$this, 'showShortCodeBuilderPage'));
     }
 
     /**
