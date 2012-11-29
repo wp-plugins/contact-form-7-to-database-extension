@@ -613,9 +613,23 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * @param $extra_values array
      */
     public function saveJetPackContactFormData($post_id, $all_values, $extra_values) {
+
+//        error_log('POST=' . print_r($_POST, true));
+//        error_log('$all_values=' . print_r($all_values, true));
+//        error_log('$extra_values=' . print_r($extra_values, true));
+
+        $title = 'JetPack Contact Form';
+        if (isset($_POST['contact-form-id'])) {
+            $title .= ' ' . $_POST['contact-form-id'];
+            //$all_values['contact-form-id'] = $_POST['contact-form-id'];
+        }
+        else {
+            $title .= ' ' . $post_id;
+        }
+
         $all_values['post_id'] = $post_id;
         $data = (object)  array(
-            'title' => 'JetPack Contact Form',
+            'title' => $title,
             'posted_data' => $all_values,
             'uploaded_files' => null);
         $this->saveFormData($data);

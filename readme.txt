@@ -90,6 +90,7 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 = 2.4.4 =
 * New top-level menu on administration page
+* JetPack form submissions are now separated based on the JetPack form ID. The form name will be listed as 'JetPack Contact Form ' followed by the form's numeric ID.
 
 = 2.4.3 =
 * Added Japanese language support (Shift-JIS)
