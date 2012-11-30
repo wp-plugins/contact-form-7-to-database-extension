@@ -38,8 +38,8 @@ class CFDBViewWhatsInDB extends CFDBView {
         $tableHtmlId = 'cf2dbtable';
 
         // Identify which forms have data in the database
-        $rows = $wpdb->get_results("select distinct `form_name` from `$tableName` order by `form_name`");
-        if ($rows == null || count($rows) == 0) {
+        $formsFromQuery = $wpdb->get_results("select distinct `form_name` from `$tableName` order by `form_name`");
+        if ($formsFromQuery == null || count($formsFromQuery) == 0) {
             _e('No form submissions in the database', 'contact-form-7-to-database-extension');
             return;
         }
@@ -50,12 +50,16 @@ class CFDBViewWhatsInDB extends CFDBView {
         else if (isset($_GET['dbpage'])) {
             $page = $_GET['dbpage'];
         }
-        $currSelection = null; //$rows[0]->form_name;
+        $currSelection = null;
         if (isset($_REQUEST['form_name'])) {
             $currSelection = $_REQUEST['form_name'];
         }
         else if (isset($_GET['form_name'])) {
             $currSelection = $_GET['form_name'];
+        }
+        // If there is only one form in the DB, select that by default
+        if (!$currSelection && count($formsFromQuery) == 1) {
+            $currSelection = $formsFromQuery[0]->form_name;
         }
         if ($currSelection) {
             // Check for delete operation
@@ -104,7 +108,7 @@ class CFDBViewWhatsInDB extends CFDBView {
                     <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>"/>
                     <select name="form_name" id="form_name" onchange="this.form.submit();">
                         <option value=""><?php _e('* Select a form *', 'contact-form-7-to-database-extension') ?></option>
-                        <?php foreach ($rows as $aRow) {
+                        <?php foreach ($formsFromQuery as $aRow) {
                         $formName = $aRow->form_name;
                         $selected = ($formName == $currSelection) ? "selected" : "";
                         ?>
