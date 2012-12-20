@@ -336,8 +336,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
     public function ajaxFile() {
         require_once('CFDBDie.php');
-        //if (!$this->canUserDoRoleOption('CanSeeSubmitData')) {
-        if (!$this->canUserDoRoleOption('CanSeeSubmitDataViaShortcode')) {
+        if (!$this->canUserDoRoleOption('CanSeeSubmitData') &&
+            !$this->canUserDoRoleOption('CanSeeSubmitDataViaShortcode')) {
             CFDBDie::wp_die(__('You do not have sufficient permissions to access this page.', 'contact-form-7-to-database-extension'));
         }
         $submitTime = $_REQUEST['s'];
