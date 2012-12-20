@@ -89,6 +89,7 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 == Changelog ==
 
 = 2.4.4 =
+* Fixed WordPress 3.5 compatibility issue where uploaded files were not being saved.
 * New top-level menu on administration page
 * JetPack form submissions are now separated based on the JetPack form ID. The form name will be listed as 'JetPack Contact Form ' followed by the form's numeric ID.
 

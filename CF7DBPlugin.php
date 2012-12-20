@@ -500,7 +500,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
             $tableName = $this->getSubmitsTableName();
             $parametrizedQuery = "INSERT INTO `$tableName` (`submit_time`, `form_name`, `field_name`, `field_value`, `field_order`) VALUES (%s, %s, %s, %s, %s)";
-            $parametrizedFileQuery = "UPDATE `$tableName` SET `file` = '%s' WHERE `submit_time` = %F AND `form_name` = '%s' AND `field_name` = '%s' AND `field_value` = '%s'";
+            $parametrizedFileQuery = "INSERT INTO `$tableName` (`submit_time`, `form_name`, `field_name`, `field_value`, `field_order`, `file`) VALUES (%s, %s, %s, %s, %s, %s)";
             $order = 0;
             $noSaveFields = $this->getNoSaveFields();
             $foundUploadFiles = array();
@@ -518,48 +518,54 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
                 $value = is_array($value) ? implode($value, ', ') : $value;
                 $valueClean = stripslashes($value);
-                $wpdb->query($wpdb->prepare($parametrizedQuery,
-                                            $time,
-                                            $title,
-                                            $nameClean,
-                                            $valueClean,
-                                            $order++));
 
-                // Store uploaded files - Do as a separate query in case it fails due to max size or other issue
+                // Check if this is a file upload field
+                $didSaveFile = false;
                 if ($cf7->uploaded_files && isset($cf7->uploaded_files[$nameClean])) {
                     $foundUploadFiles[] = $nameClean;
                     $filePath = $cf7->uploaded_files[$nameClean];
                     if ($filePath) {
                         $content = file_get_contents($filePath);
-                        $wpdb->query($wpdb->prepare($parametrizedFileQuery,
-                                                    $content,
-                                                    $time,
-                                                    $title,
-                                                    $nameClean,
-                                                    $valueClean));
+                        $didSaveFile = $wpdb->query($wpdb->prepare($parametrizedFileQuery,
+                            $time,
+                            $title,
+                            $nameClean,
+                            $valueClean,
+                            $order++,
+                            $content));
+                        if (!$didSaveFile) {
+                            error_log("CFDB Error: could not save uploaded file, field=$nameClean, file=$filePath");
+                        }
                     }
+                }
+                if (!$didSaveFile) {
+                    $wpdb->query($wpdb->prepare($parametrizedQuery,
+                        $time,
+                        $title,
+                        $nameClean,
+                        $valueClean,
+                        $order++));
                 }
             }
 
             // Since Contact Form 7 version 3.1, it no longer puts the names of the files in $cf7->posted_data
             // So check for them only only in $cf7->uploaded_files
+            // Update: This seems to have been reversed back to the original in Contact Form 7 3.2 or 3.3
             if ($cf7->uploaded_files && is_array($cf7->uploaded_files)) {
                 foreach ($cf7->uploaded_files as $field => $filePath) {
                     if (!in_array($field, $foundUploadFiles) && $filePath) {
                         $fileName = basename($filePath);
-                        $wpdb->query($wpdb->prepare($parametrizedQuery,
-                                                    $time,
-                                                    $title,
-                                                    $field,
-                                                    $fileName,
-                                                    $order++));
                         $content = file_get_contents($filePath);
-                        $wpdb->query($wpdb->prepare($parametrizedFileQuery,
-                                                    $content,
-                                                    $time,
-                                                    $title,
-                                                    $field,
-                                                    $fileName));
+                        $didSaveFile = $wpdb->query($wpdb->prepare($parametrizedFileQuery,
+                            $time,
+                            $title,
+                            $field,
+                            $fileName,
+                            $order++,
+                            $content));
+                        if (!$didSaveFile) {
+                            error_log("CFDB Error: could not save uploaded file, field=$field, file=$filePath");
+                        }
                     }
                 }
             }
