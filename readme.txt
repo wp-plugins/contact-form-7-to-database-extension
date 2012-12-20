@@ -88,6 +88,9 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
+= 2.4.5 =
+* Fixing issue where admin page for data does not show for users less than administration even when permissions are set for such users to view the data
+
 = 2.4.4 =
 * Fixed WordPress 3.5 compatibility issue where uploaded files were not being saved.
 * New top-level menu on administration page

@@ -666,12 +666,15 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     public function createAdminMenu() {
         $displayName = $this->getPluginDisplayName();
         $roleAllowed = $this->getRoleOption('CanSeeSubmitData');
+        if (!$roleAllowed) {
+            $roleAllowed = 'administrator';
+        }
         $menuSlug = $this->getDBPageSlug();
 
         //create new top-level menu
         add_menu_page($displayName,
                         __('Contact Form DB', 'contact-form-7-to-database-extension'),
-                      'administrator', //$roleAllowed,
+                      $this->roleToCapability($roleAllowed),
                       $menuSlug, //$this->getDBPageSlug(),
                       array(&$this, 'whatsInTheDBPage'));
 
