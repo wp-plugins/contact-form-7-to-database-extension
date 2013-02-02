@@ -88,6 +88,9 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
+= 2.4.6 =
+* Fix where JetPack users could not see submitted data related to form field names with a single quote in them
+
 = 2.4.5 =
 * Fixing issue where admin page for data does not show for users less than administration even when permissions are set for such users to view the data
 

@@ -415,6 +415,8 @@ class ExportBase {
         }
         $sql .= "SELECT `submit_time` AS 'Submitted'";
         foreach ($fields as $aCol) {
+            // Escape single quotes in column name
+            $aCol = mysql_real_escape_string($aCol);
             $sql .= ",\n max(if(`field_name`='$aCol', `field_value`, null )) AS '$aCol'";
         }
         if (!$count) {
