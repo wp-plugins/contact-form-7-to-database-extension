@@ -88,6 +88,9 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
+= 2.4.7 =
+* Fixing "PHP Notice: Undefined property: WPCF7_ContactForm::$user"
+
 = 2.4.6 =
 * Fix where JetPack users could not see submitted data related to form field names with a single quote in them
 
