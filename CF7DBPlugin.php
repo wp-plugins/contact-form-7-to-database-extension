@@ -553,7 +553,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             // Update: This seems to have been reversed back to the original in Contact Form 7 3.2 or 3.3
             if ($cf7->uploaded_files && is_array($cf7->uploaded_files)) {
                 foreach ($cf7->uploaded_files as $field => $filePath) {
-                    if (!in_array($field, $foundUploadFiles) && $filePath) {
+                    if (!in_array($field, $foundUploadFiles) && $filePath && !in_array($field, $noSaveFields)) {
                         $fileName = basename($filePath);
                         $content = file_get_contents($filePath);
                         $didSaveFile = $wpdb->query($wpdb->prepare($parametrizedFileQuery,
