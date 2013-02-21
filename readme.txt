@@ -88,7 +88,7 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
-= 4.4.8 =
+= 2.4.8 =
 * Bug Fix: noSaveFields not observed for file upload files
 
 = 2.4.7 =
