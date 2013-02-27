@@ -46,7 +46,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     public function getOptionMetaData() {
         return array(
             //'_version' => array('Installed Version'), // For testing upgrades
-            'Donated' => array(__('I have donated to this plugin', 'contact-form-7-to-database-extension'), 'false', 'true'),
+//            'Donated' => array(__('I have donated to this plugin', 'contact-form-7-to-database-extension'), 'false', 'true'),
             'IntegrateWithCF7' => array(__('Capture form submissions from Contact Form 7 Plugin', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'IntegrateWithFSCF' => array(__('Capture form submissions from Fast Secure Contact Form Plugin', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'IntegrateWithJetPackContactForm' => array(__('Capture form submissions from JetPack Contact Form', 'contact-form-7-to-database-extension'), 'true', 'false'),
@@ -56,6 +56,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                                     'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
             'CanChangeSubmitData' => array(__('Can Edit/Delete Submission data', 'contact-form-7-to-database-extension'),
                                            'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
+            'Timezone' => array(__('Timezone to capture Submit Time. Blank will use WordPress Timezone setting. <a target="_blank" href="http://www.php.net/manual/en/timezones.php">Options</a>', 'contact-form-7-to-database-extension')),
             'MaxRows' => array(__('Maximum number of rows to retrieve from the DB for the Admin display', 'contact-form-7-to-database-extension')),
             'UseDataTablesJS' => array(__('Use Javascript-enabled tables in Admin Database page', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'ShowLineBreaksInDataTable' => array(__('Show line breaks in submitted data table', 'contact-form-7-to-database-extension'), 'true', 'false'),
@@ -401,8 +402,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             if (version_compare(phpversion(), '5.1.0') == -1) {
                 $invalid = -1;
             }
-            // Use times in local timezone
-            date_default_timezone_set(get_option('timezone_string'));
+            $this->setTimezone();
             $time = strtotime($submitTime);
         }
         if ($invalid === $time) {
@@ -789,8 +789,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                CF7DBPlugin::$dateFormat = get_option('date_format');
                CF7DBPlugin::$timeFormat = get_option('time_format');
             }
-            // Convert time to local timezone
-            date_default_timezone_set(get_option('timezone_string'));
+            $this->setTimezone();
             CF7DBPlugin::$checkForCustomDateFormat = false;
         }
 
@@ -934,5 +933,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         return $url;
     }
 
+    public function setTimezone() {
+        $timezone = $this->getOption('Timezone', get_option('timezone_string'));
+        date_default_timezone_set($timezone);
+    }
 
 }
