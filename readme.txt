@@ -3,7 +3,7 @@ Contributors: msimpson
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=NEVDJ792HKGFN&lc=US&item_name=Wordpress%20Plugin&item_number=cf7%2dto%2ddb%2dextension&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 Tags: contact form,database,contact form database,save contact form,form database,CFDB
 Requires at least: 3.2.1
-Tested up to: 3.4
+Tested up to: 3.5.1
 Stable tag: 2.4.8
 
 Saves submitted form data to the database and provides short codes to display it. Captures data from Contact Form 7 and Fast Secure Contact Form
@@ -87,6 +87,9 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 1. Admin Panel view of submitted form data
 
 == Changelog ==
+
+= 2.5 =
+* Added option to set the timezone in which Submit Time should be captured.
 
 = 2.4.8 =
 * Bug Fix: noSaveFields not observed for file upload files
