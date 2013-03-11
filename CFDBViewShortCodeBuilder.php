@@ -645,6 +645,9 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             <option value="IQY">
                 <?php _e('Excel Internet Query', 'contact-form-7-to-database-extension'); ?>
             </option>
+            <option value="RSS">
+                <?php _e('RSS', 'contact-form-7-to-database-extension'); ?>
+            </option>
         </select>
         <input id="export_header_cntl" type="checkbox" checked="true"/>
         <label for="export_header_cntl"><?php _e('Include Header Row', 'contact-form-7-to-database-extension') ?></label>

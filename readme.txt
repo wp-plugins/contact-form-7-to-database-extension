@@ -88,6 +88,9 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
+= 2.5.1 =
+* Added RSS URLs
+
 = 2.5 =
 * Added option to set the timezone in which Submit Time should be captured.
 

@@ -153,6 +153,11 @@ class CF7DBPluginExporter {
                 $exporter->setUseShiftJIS(true);
                 $exporter->export($formName, $options);
                 break;
+            case 'RSS':
+                require_once('ExportToRSS.php');
+                $exporter = new ExportToRSS();
+                $exporter->export($formName, $options);
+                break;
             case 'CSVUTF8':
             default:
                 require_once('ExportToCsvUtf8.php');
