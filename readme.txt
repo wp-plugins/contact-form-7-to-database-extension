@@ -90,6 +90,7 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 = 2.5.1 =
 * Added RSS URLs
+* Can now use regex's in options for forms & fields to ignore and which cookie values to save
 
 = 2.5 =
 * Added option to set the timezone in which Submit Time should be captured.

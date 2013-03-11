@@ -467,7 +467,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     public function saveFormData($cf7) {
         try {
             $title = stripslashes($cf7->title);
-            if (in_array($title, $this->getNoSaveForms())) {
+            if ($this->fieldMatches($title, $this->getNoSaveForms())) {
                 return; // Don't save in DB
             }
 
@@ -514,7 +514,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 //            }
             foreach ($cf7->posted_data as $name => $value) {
                 $nameClean = stripslashes($name);
-                if (in_array($nameClean, $noSaveFields)) {
+                if ($this->fieldMatches($nameClean, $noSaveFields)) {
                     continue; // Don't save in DB
                 }
 
@@ -555,7 +555,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             // Update: This seems to have been reversed back to the original in Contact Form 7 3.2 or 3.3
             if ($cf7->uploaded_files && is_array($cf7->uploaded_files)) {
                 foreach ($cf7->uploaded_files as $field => $filePath) {
-                    if (!in_array($field, $foundUploadFiles) && $filePath && !in_array($field, $noSaveFields)) {
+                    if (!in_array($field, $foundUploadFiles) &&
+                            $filePath &&
+                            !$this->fieldMatches($field, $noSaveFields)) {
                         $fileName = basename($filePath);
                         $content = file_get_contents($filePath);
                         $didSaveFile = $wpdb->query($wpdb->prepare($parametrizedFileQuery,
@@ -576,22 +578,20 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             if ($this->getOption('SaveCookieData', 'false') == 'true' && is_array($_COOKIE)) {
                 $saveCookies = $this->getSaveCookies();
                 foreach ($_COOKIE as $cookieName => $cookieValue) {
-                    if (!empty($saveCookies) && !in_array($cookieName, $saveCookies)) {
-                        continue;
+                    if ($this->fieldMatches($cookieName, $saveCookies)) {
+                        $wpdb->query($wpdb->prepare($parametrizedQuery,
+                            $time,
+                            $title,
+                            'Cookie ' . $cookieName,
+                            $cookieValue,
+                            $order++));
                     }
-                    $wpdb->query($wpdb->prepare($parametrizedQuery,
-                                                $time,
-                                                $title,
-                                                'Cookie ' . $cookieName,
-                                                $cookieValue,
-                                                $order++));
                 }
             }
 
             // If the submitter is logged in, capture his id
             if ($user) {
                 $order = ($order < 9999) ? 9999 : $order + 1; // large order num to try to make it always next-to-last
-                $current_user = wp_get_current_user(); // WP_User
                 $wpdb->query($wpdb->prepare($parametrizedQuery,
                                             $time,
                                             $title,
@@ -613,6 +613,27 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         catch (Exception $ex) {
             error_log(sprintf('CFDB Error: %s:%s %s  %s', $ex->getFile(), $ex->getLine(), $ex->getMessage(), $ex->getTraceAsString()));
         }
+    }
+
+    /**
+     * @param $fieldName string
+     * @param $patternsArray array
+     * @return boolean true if $fieldName is in $patternsArray or matches any element of it that is a regex
+     */
+    protected function fieldMatches($fieldName, $patternsArray) {
+        if (is_array($patternsArray)) {
+            foreach($patternsArray as $pattern) {
+                if ($fieldName == $pattern) {
+                    return true;
+                }
+                if (strncmp($pattern, '/', 1)  == 0) {
+                    if (@preg_match($pattern , $fieldName)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**
