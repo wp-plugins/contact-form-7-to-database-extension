@@ -321,6 +321,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                         scElements.push('header="false"');
                         scUrlElements.push(getValueUrl('header', 'false'));
                     }
+                    scElements.push(getValue('headers', jQuery('#headers_cntl').val(), scValidationErrors));
+                    scUrlElements.push(getValueUrl('headers', jQuery('#headers_cntl').val()));
                     scElements.push(getValue('id', jQuery('#id_cntl').val(), scValidationErrors));
                     scUrlElements.push(getValueUrl('id', jQuery('#id_cntl').val()));
                     scElements.push(getValue('class', jQuery('#class_cntl').val(), scValidationErrors));
@@ -335,6 +337,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                         scElements.push('header="false"');
                         scUrlElements.push(getValueUrl('header', 'false'));
                     }
+                    scElements.push(getValue('headers', jQuery('#headers_cntl').val(), scValidationErrors));
+                    scUrlElements.push(getValueUrl('headers', jQuery('#headers_cntl').val()));
                     scElements.push(getValue('id', jQuery('#id_cntl').val(), scValidationErrors));
                     scUrlElements.push(getValueUrl('id', jQuery('#id_cntl').val()));
                     scElements.push(getValue('class', jQuery('#class_cntl').val(), scValidationErrors));
@@ -485,6 +489,21 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             createShortCodeAndExportLink();
         }
 
+        function addFieldToHeaders() {
+            var col = jQuery('#add_headers').val();
+            var disp = jQuery('#headers_val').val();
+            if (!col || !disp) {
+                return;
+            }
+            var value = jQuery('#headers_cntl').val();
+            if (value) {
+                value += ',';
+            }
+            value += col + '=' + disp;
+            jQuery('#headers_cntl').val(value);
+            createShortCodeAndExportLink();
+        }
+
         function addFieldToContent() {
             jQuery('#content_cntl').val(jQuery('#content_cntl').val() + '${' + jQuery('#add_content').val() + '}');
         }
@@ -501,6 +520,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#random_cntl').val('');
             jQuery('#orderby_cntl').val('');
             jQuery('#header_cntl').prop("checked", true);
+            jQuery('#headers_cntl').val('');
             jQuery('#id_cntl').val('');
             jQuery('#class_cntl').val('');
             jQuery('#style_cntl').val('');
@@ -538,6 +558,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#btn_orderby').click(addFieldToOrderBy);
             jQuery('#btn_filter').click(addFieldToFilter);
             jQuery('#header_cntl').click(createShortCodeAndExportLink);
+            jQuery('#btn_headers').click(addFieldToHeaders);
             jQuery('#btn_content').click(function() {
                 addFieldToContent();
                 createShortCodeAndExportLink();
@@ -826,6 +847,18 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 <input id="header_cntl" type="checkbox" checked="true"/>
                 <label for="header_cntl"><?php _e('Include Header Row', 'contact-form-7-to-database-extension') ?></label>
             </div>
+        </div>
+        <div>
+            <div class="label_box">
+                <label for="headers_cntl"><?php _e('headers', 'contact-form-7-to-database-extension') ?></label>
+                <a target="_docs" href="http://cfdbplugin.com/?page_id=93#headers"><img alt="?" src="<?php echo $infoImg ?>"/></a>
+            </div>
+            <select name="add_headers" id="add_headers"></select>
+            <?php _e('display as', 'contact-form-7-to-database-extension') ?>
+            <input name="headers_val" id="headers_val" type="text" size="20" placeholder="<?php _e('display value', 'contact-form-7-to-database-extension') ?>"/>
+            <button id="btn_headers">&raquo;</button>
+            <br/>
+            <input name="headers_cntl" id="headers_cntl" type="text" size="100" placeholder="<?php _e('Column Name 1=Display Name 1', 'contact-form-7-to-database-extension') ?>"/>
         </div>
         <div>
             <div class="label_box">

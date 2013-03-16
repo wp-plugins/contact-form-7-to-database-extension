@@ -193,7 +193,11 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
 
             }
             foreach ($this->dataIterator->displayColumns as $aCol) {
-                printf('<th title="%s"><div id="%s,%s">%s</div></th>', $aCol, $formName, $aCol, $aCol);
+                $colDisplayValue = $aCol;
+                if ($this->headers && isset($this->headers[$aCol])) {
+                    $colDisplayValue = $this->headers[$aCol];
+                }
+                printf('<th title="%s"><div id="%s,%s">%s</div></th>', $colDisplayValue, $formName, $colDisplayValue, $colDisplayValue);
             }
             ?>
             </tr>

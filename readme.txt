@@ -89,6 +89,7 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 == Changelog ==
 
 = 2.5.1 =
+* Now "headers" option on [cfdb-table] and [cfdb-datatable] allow you to change column header display names
 * Added RSS URLs
 * Can now use regex's in options for forms & fields to ignore and which cookie values to save
 

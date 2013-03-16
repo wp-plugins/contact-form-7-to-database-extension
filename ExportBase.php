@@ -65,6 +65,11 @@ class ExportBase {
     var $style;
 
     /**
+     * @var array assoc array of column names to display names
+     */
+    var $headers;
+
+    /**
      * @var CF7DBEvalutator|CF7FilterParser|CF7SearchEvaluator
      */
     var $rowFilter;
@@ -168,6 +173,19 @@ class ExportBase {
                 require_once('CF7SearchEvaluator.php');
                 $this->rowFilter = new CF7SearchEvaluator;
                 $this->rowFilter->setSearch($this->options['search']);
+            }
+
+            if (isset($this->options['headers'])) { // e.g. "col1=Column 1 Display Name,col2=Column2 Display Name"
+                $headersList = preg_split('/,/', $this->options['headers'], -1, PREG_SPLIT_NO_EMPTY);
+                if (is_array($headersList)) {
+                    $this->headers = array();
+                    foreach ($headersList as $nameEqualValue) {
+                        $nameEqualsValueArray = explode('=', $nameEqualValue, 2); // col1=Column 1 Display Name
+                        if (count($nameEqualsValueArray) >= 2) {
+                            $this->headers[$nameEqualsValueArray[0]] = $nameEqualsValueArray[1];
+                        }
+                    }
+                }
             }
         }
     }
