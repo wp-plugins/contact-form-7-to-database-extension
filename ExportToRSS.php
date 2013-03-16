@@ -75,6 +75,12 @@ class ExportToRSS extends ExportBase implements CFDBExport {
 
         $this->setTimezone();
         $dateString = date('r');
+
+        $titleColunm = 'Submitted';
+        if (isset($this->options['itemtitle'])) {
+            $titleColunm = $this->options['itemtitle'];
+        }
+
         echo '<?xml version="1.0" encoding="UTF-8" ?>';
         ?>
 
@@ -90,7 +96,7 @@ class ExportToRSS extends ExportBase implements CFDBExport {
         while ($this->dataIterator->nextRow()) {?>
 
             <item>
-                <title><?php echo $this->dataIterator->row['Submitted']; ?></title>
+                <title><?php echo $this->dataIterator->row[$titleColunm]; ?></title>
                 <description><?php
                     $rowUrl = htmlspecialchars(str_replace('{submit_time}', $this->dataIterator->row['submit_time'], $htmlSingleRow));
                     foreach ($this->dataIterator->displayColumns as $aCol) {

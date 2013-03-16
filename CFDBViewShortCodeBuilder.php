@@ -144,6 +144,15 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#url_link_div').hide();
                     break;
             }
+            var exportSelected = jQuery('#export_cntl').val();
+            if (exportSelected == 'RSS') {
+                jQuery('#itemtitle_span').show();
+                jQuery('#export_header_span').hide();
+            }
+            else {
+                jQuery('#itemtitle_span').hide();
+                jQuery('#export_header_span').show();
+            }
         }
 
         function getValue(attr, value, errors) {
@@ -403,10 +412,17 @@ class CFDBViewShortCodeBuilder extends CFDBView {
 
             // Output export link
             if (jQuery('#export_cntl').val()) {
-                exportUrlElements.push(getValueUrl('enc', jQuery('#export_cntl').val()));
-                if (!jQuery('#export_header_cntl').is(':checked')) {
-                    exportUrlElements.push(getValueUrl('header', 'false'));
+                var exportSelection = jQuery('#export_cntl').val();
+                exportUrlElements.push(getValueUrl('enc', exportSelection));
+                if (exportSelection == 'RSS') {
+                    exportUrlElements.push(getValueUrl('itemtitle', jQuery('#add_itemtitle').val()));
                 }
+                else {
+                    if (!jQuery('#export_header_cntl').is(':checked')) {
+                        exportUrlElements.push(getValueUrl('header', 'false'));
+                    }
+                }
+
                 var exportUrl = urlBase + join(exportUrlElements, '&');
                 jQuery('#export_result_text').html(formName ? ('<a href="' + exportUrl + '">' + exportUrl + '</a>') : '');
                 // Output export errors
@@ -521,6 +537,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#orderby_cntl').val('');
             jQuery('#header_cntl').prop("checked", true);
             jQuery('#headers_cntl').val('');
+            jQuery('#add_itemtitle').val('');
             jQuery('#id_cntl').val('');
             jQuery('#class_cntl').val('');
             jQuery('#style_cntl').val('');
@@ -570,7 +587,11 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#add_filter').change(function() {
                 showValidateSubmitTimeHelp(jQuery('#add_filter').val() == "submit_time");
             });
-            jQuery('#export_cntl').change(createShortCodeAndExportLink);
+            jQuery('#export_cntl').change(function() {
+                showHideOptionDivs();
+                createShortCodeAndExportLink();
+            });
+            jQuery('#add_itemtitle').change(createShortCodeAndExportLink);
             jQuery('#export_header_cntl').click(createShortCodeAndExportLink);
             jQuery('#form_name_cntl').change(createShortCodeAndExportLink);
         });
@@ -670,8 +691,14 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 <?php _e('RSS', 'contact-form-7-to-database-extension'); ?>
             </option>
         </select>
-        <input id="export_header_cntl" type="checkbox" checked="true"/>
-        <label for="export_header_cntl"><?php _e('Include Header Row', 'contact-form-7-to-database-extension') ?></label>
+        <span id="export_header_span">
+            <input id="export_header_cntl" type="checkbox" checked="true"/>
+            <label for="export_header_cntl"><?php _e('Include Header Row', 'contact-form-7-to-database-extension') ?></label>
+        </span>
+        <span  id="itemtitle_span">
+            <label for="add_itemtitle"><?php _e('Item Title', 'contact-form-7-to-database-extension') ?></label>
+            <select name="add_itemtitle" id="add_itemtitle"></select>
+        </span>
 
         <div id="export_result_div">
             <?php _e('Generated Export Link:', 'contact-form-7-to-database-extension'); ?>
@@ -858,7 +885,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             <input name="headers_val" id="headers_val" type="text" size="20" placeholder="<?php _e('display value', 'contact-form-7-to-database-extension') ?>"/>
             <button id="btn_headers">&raquo;</button>
             <br/>
-            <input name="headers_cntl" id="headers_cntl" type="text" size="100" placeholder="<?php _e('Column Name 1=Display Name 1', 'contact-form-7-to-database-extension') ?>"/>
+            <input name="headers_cntl" id="headers_cntl" type="text" size="100" placeholder="<?php _e('field1=Display Name 1,field2=Display Name 2', 'contact-form-7-to-database-extension') ?>"/>
         </div>
         <div>
             <div class="label_box">
