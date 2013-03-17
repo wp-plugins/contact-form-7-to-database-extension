@@ -232,7 +232,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
     protected function initOptions() {
         // By default ignore CF7 metadata fields
-        $this->addOption('NoSaveFields', '_wpcf7,_wpcf7_version,_wpcf7_unit_tag,_wpnonce,_wpcf7_is_ajax_call,_wpcf7_captcha_challenge_captcha');
+        $this->addOption('NoSaveFields', '/.*wpcf7.*/,_wpnonce');
     }
 
     public function add_wpcf7_noSaveFields() {
