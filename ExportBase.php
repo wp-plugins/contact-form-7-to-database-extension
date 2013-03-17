@@ -408,12 +408,18 @@ class ExportBase {
         global $wpdb;
         $tableName = $this->plugin->getSubmitsTableName();
 
-        $formNameClause = '';
+        $formNameClause = '1=1';
         if (is_array($formName)) {
             $formNameClause = '`form_name` in ( \'' . implode('\', \'', $formName) . '\' )';
         }
-        else if ($formName !== null) {
-            $formNameClause =  "`form_name` = '$formName'";
+        else if ($formName !== null && $formName != '*') { // * => all forms
+            if (strpos($formName, ',') !== false) {
+                $formNameArray = explode(',', $formName);
+                $formNameClause = '`form_name` in ( \'' . implode('\', \'', $formNameArray) . '\' )';
+            }
+            else {
+                $formNameClause =  "`form_name` = '$formName'";
+            }
         }
 
         $submitTimesClause = '';
