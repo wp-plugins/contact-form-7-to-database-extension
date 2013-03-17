@@ -410,15 +410,17 @@ class ExportBase {
 
         $formNameClause = '1=1';
         if (is_array($formName)) {
-            $formNameClause = '`form_name` in ( \'' . implode('\', \'', $formName) . '\' )';
+            $formNameArray = $this->escapeAndQuoteArrayValues($formName);
+            $formNameClause = '`form_name` in ( ' . implode(', ', $formNameArray) . ' )';
         }
         else if ($formName !== null && $formName != '*') { // * => all forms
             if (strpos($formName, ',') !== false) {
                 $formNameArray = explode(',', $formName);
-                $formNameClause = '`form_name` in ( \'' . implode('\', \'', $formNameArray) . '\' )';
+                $formNameArray = $this->escapeAndQuoteArrayValues($formNameArray);
+                $formNameClause = '`form_name` in ( ' . implode(', ', $formNameArray) . ' )';
             }
             else {
-                $formNameClause =  "`form_name` = '$formName'";
+                $formNameClause =  "`form_name` = '". mysql_real_escape_string($formName) . "'";
             }
         }
 
@@ -508,6 +510,18 @@ class ExportBase {
         }
         //echo $sql; // debug
         return $sql;
+    }
+
+    /**
+     * @param $anArray array
+     * @return array of quoted mysql_real_escape_string values
+     */
+    public function escapeAndQuoteArrayValues($anArray) {
+        $retArray = array();
+        foreach ($anArray as $aValue) {
+            $retArray[] = '\'' . mysql_real_escape_string($aValue) . '\'';
+        }
+        return $retArray;
     }
 
     /**
