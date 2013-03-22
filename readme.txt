@@ -88,6 +88,9 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
+= 2.5.2 =
+* Minor bug fix. When user has exactly one form and admin page auto-loads that form's data, the editor plugin did not know which form to edit.
+
 = 2.5.1 =
 * Now "headers" option on [cfdb-table] and [cfdb-datatable] allow you to change column header display names, e.g [cfdb-table form="form1" headers="ext_field1=First Name,ext_field2=Last Name"]
 * Can now query multiple forms at once in short codes, e.g. [cfdb-table form="form1,form2"]
