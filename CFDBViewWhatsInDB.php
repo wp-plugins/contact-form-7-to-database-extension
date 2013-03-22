@@ -60,6 +60,8 @@ class CFDBViewWhatsInDB extends CFDBView {
         // If there is only one form in the DB, select that by default
         if (!$currSelection && count($formsFromQuery) == 1) {
             $currSelection = $formsFromQuery[0]->form_name;
+            // Bug fix: Need to set this so the Editor plugin can reference it
+            $_REQUEST['form_name'] = $formsFromQuery[0]->form_name;
         }
         if ($currSelection) {
             // Check for delete operation
