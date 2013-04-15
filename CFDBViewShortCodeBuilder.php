@@ -1,6 +1,6 @@
 <?php
 /*
-    "Contact Form to Database" Copyright (C) 2011-2012 Michael Simpson  (email : michael.d.simpson@gmail.com)
+    "Contact Form to Database" Copyright (C) 2011-2013 Michael Simpson  (email : michael.d.simpson@gmail.com)
 
     This file is part of Contact Form to Database.
 
@@ -354,6 +354,10 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     scUrlElements.push(getValueUrl('class', jQuery('#class_cntl').val()));
                     scElements.push(getValue('style', jQuery('#style_cntl').val(), scValidationErrors));
                     scUrlElements.push(getValueUrl('style', jQuery('#style_cntl').val()));
+                    if (jQuery('#edit_mode_cntl').attr('checked')) {
+                        scElements.push('edit="true"');
+                        scUrlElements.push('edit=true');
+                    }
                     scElements.push(getValue('dt_options', jQuery('#dt_options_cntl').val(), scValidationErrors));
                     scUrlElements.push(getValueUrl('dt_options', jQuery('#dt_options_cntl').val()));
                     scUrlElements.push('enc=DT');
@@ -541,6 +545,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#id_cntl').val('');
             jQuery('#class_cntl').val('');
             jQuery('#style_cntl').val('');
+            jQuery('#edit_mode_cntl').prop('checked', false);
             jQuery('#dt_options_cntl').val('');
             jQuery('#var_cntl').val('');
             jQuery('#format_cntl').val('');
@@ -575,6 +580,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#btn_orderby').click(addFieldToOrderBy);
             jQuery('#btn_filter').click(addFieldToFilter);
             jQuery('#header_cntl').click(createShortCodeAndExportLink);
+            jQuery('#edit_mode_cntl').click(createShortCodeAndExportLink);
             jQuery('#btn_headers').click(addFieldToHeaders);
             jQuery('#btn_content').click(function() {
                 addFieldToContent();
@@ -912,11 +918,20 @@ class CFDBViewShortCodeBuilder extends CFDBView {
     <?php // DT_OPTIONS  ?>
     <div id="dt_options_div" class="shortcodeoptions">
         <div><?php _e('[cfdb-datatable] Options', 'contact-form-7-to-database-extension'); ?></div>
-        <div class="label_box">
-            <label for="dt_options_cntl"><?php _e('dt_options', 'contact-form-7-to-database-extension') ?></label>
-            <a target="_docs" href="http://cfdbplugin.com/?page_id=91#dt_options"><img alt="?" src="<?php echo $infoImg ?>"/></a>
+        <div>
+            <div class="label_box">
+                <label for="edit_mode_cntl"><?php _e('edit', 'contact-form-7-to-database-extension') ?></label>
+                <a target="_docs" href="http://cfdbplugin.com/?page_id=91#edit"><img alt="?" src="<?php echo $infoImg ?>"/></a>
+            </div>
+            <input type="checkbox" id="edit_mode_cntl" name="edit_mode_cntl" />
         </div>
-        <input name="dt_options_cntl" id="dt_options_cntl" type="text" size="100" placeholder="<?php _e('datatable options (JSON)', 'contact-form-7-to-database-extension') ?>"/>
+        <div>
+            <div class="label_box">
+                <label for="dt_options_cntl"><?php _e('dt_options', 'contact-form-7-to-database-extension') ?></label>
+                <a target="_docs" href="http://cfdbplugin.com/?page_id=91#dt_options"><img alt="?" src="<?php echo $infoImg ?>"/></a>
+            </div>
+            <input name="dt_options_cntl" id="dt_options_cntl" type="text" size="100" placeholder="<?php _e('datatable options (JSON)', 'contact-form-7-to-database-extension') ?>"/>
+        </div>
     </div>
     <?php // JSON VAR, FORMAT  ?>
     <div id="json_div" class="shortcodeoptions">

@@ -1,6 +1,6 @@
 <?php
 /*
-    "Contact Form to Database" Copyright (C) 2011-2012 Michael Simpson  (email : michael.d.simpson@gmail.com)
+    "Contact Form to Database" Copyright (C) 2011-2013 Michael Simpson  (email : michael.d.simpson@gmail.com)
 
     This file is part of Contact Form to Database.
 
@@ -47,6 +47,7 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
 
         $canDelete = false;
         $useDT = false;
+        $editMode = false;
         $printScripts = false;
         $printStyles = false;
 
@@ -61,6 +62,9 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
 
                 if (isset($options['printStyles'])) {
                     $printStyles = $options['printStyles'];
+                }
+                if (isset($options['edit'])) {
+                    $editMode = 'true' == $options['edit'];
                 }
             }
 
@@ -113,14 +117,19 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
                 $dtJsOptions = '"bJQueryUI": true, "aaSorting": []';
                 $i18nUrl = $this->plugin->getDataTableTranslationUrl();
                 if ($i18nUrl) {
-                    $dtJsOptions = $dtJsOptions . ", \"oLanguage\": { \"sUrl\":  \"$i18nUrl\" }";
+                    $dtJsOptions .=  ", \"oLanguage\": { \"sUrl\":  \"$i18nUrl\" }";
                 }
             }
             ?>
             <script type="text/javascript" language="Javascript">
                 jQuery(document).ready(function() {
                     jQuery('#<?php echo $this->htmlTableId ?>').dataTable({
-                        <?php echo $dtJsOptions ?> })
+                        <?php
+                            echo $dtJsOptions;
+                            if ($editMode) {
+                                do_action_ref_array('cfdb_edit_fnDrawCallbackJsonForSC', array($this->htmlTableId));
+                            }
+                        ?> })
                 });
             </script>
             <?php

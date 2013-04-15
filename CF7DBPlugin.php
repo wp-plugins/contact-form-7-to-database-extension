@@ -1,6 +1,6 @@
 <?php
 /*
-    "Contact Form to Database" Copyright (C) 2011-2012 Michael Simpson  (email : michael.d.simpson@gmail.com)
+    "Contact Form to Database" Copyright (C) 2011-2013 Michael Simpson  (email : michael.d.simpson@gmail.com)
 
     This file is part of Contact Form to Database.
 
@@ -255,6 +255,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     }
 
     public function addActionsAndFilters() {
+        // Admin notices
+        add_action('admin_notices', array(&$this, 'addAdminNotices'));
+
         // Add the Admin Config page for this plugin
 
         // Add Config page as a top-level menu item on the Admin page
@@ -959,6 +962,64 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     public function setTimezone() {
         $timezone = $this->getOption('Timezone', get_option('timezone_string'));
         date_default_timezone_set($timezone);
+    }
+
+    /**
+     * @return boolean Is the CFDB Editor extension installed?
+     */
+    public function isEditorInstalled() {
+        return get_option('CFDBEditPlugin__installed', false) == true;
+    }
+
+
+    /**
+     * @return string|null get the CFDB Editor extension version string.
+     * return null if not installed
+     */
+    public function getEditorSavedVersion() {
+        return get_option('CFDBEditPlugin__version', null);
+    }
+
+    /**
+     * @return array of CFDB Editor plugin data, see: http://codex.wordpress.org/Function_Reference/get_plugin_data
+     */
+    public function getEditorPluginData() {
+            $editPluginFile = WP_PLUGIN_DIR .
+                    '/contact-form-to-database-extension-edit/contact-form-to-database-extension-edit.php';
+            if(@file_exists($editPluginFile)) {
+                $pluginData = get_plugin_data($editPluginFile);
+                if (is_array($pluginData)) {
+                    return $pluginData;
+            }
+        }
+        return array();
+    }
+
+    /**
+     * @return bool if CFDB Editor extension plugin is activated
+     */
+    public function isEditorActive() {
+        $editPluginFile = 'contact-form-to-database-extension-edit/contact-form-to-database-extension-edit.php';
+        return function_exists('is_plugin_active') && is_plugin_active($editPluginFile);
+    }
+
+
+    public function addAdminNotices() {
+        if (!$this->isEditorActive()) {
+            return;
+        }
+        $requiredEditorVersion = '1.2';
+        $editorData = $this->getEditorPluginData();
+        if (isset($editorData['Version'])) {
+            if (version_compare($editorData['Version'], $requiredEditorVersion) == -1) {
+                ?>
+                <div id="message" class="error">Plugin <strong>Contact Form to DB Extension Edit</strong> should be updated.
+                    <a target="_cfdbeditupgrade" href="http://cfdbplugin.com/?page_id=459">Get the upgrade</a><br/>
+                    Current version: <?php echo $editorData['Version']; ?>, Needed version: <?php echo $requiredEditorVersion; ?>
+                </div>
+            <?php
+            }
+        }
     }
 
 }
