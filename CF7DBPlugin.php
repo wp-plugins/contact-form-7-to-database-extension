@@ -1014,7 +1014,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             if (version_compare($editorData['Version'], $requiredEditorVersion) == -1) {
                 ?>
                 <div id="message" class="error">Plugin <strong>Contact Form to DB Extension Edit</strong> should be updated.
-                    <a target="_cfdbeditupgrade" href="http://cfdbplugin.com/?page_id=459">Get the upgrade</a><br/>
+                    <a target="_cfdbeditupgrade" href="http://cfdbplugin.com/?page_id=939">Get the upgrade</a><br/>
                     Current version: <?php echo $editorData['Version']; ?>, Needed version: <?php echo $requiredEditorVersion; ?>
                 </div>
             <?php
