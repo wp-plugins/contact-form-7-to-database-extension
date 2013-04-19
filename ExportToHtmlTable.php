@@ -78,6 +78,9 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
             $this->assertSecurityErrorMessage();
             return;
         }
+        if ($editMode && !$this->plugin->canUserDoRoleOption('CanChangeSubmitData')) {
+            $editMode = false;
+        }
 
         // Headers
         $this->echoHeaders('Content-Type: text/html; charset=UTF-8');

@@ -55,7 +55,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             'CanSeeSubmitDataViaShortcode' => array(__('Can See Submission when using shortcodes', 'contact-form-7-to-database-extension'),
                                                     'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
             'CanChangeSubmitData' => array(__('Can Edit/Delete Submission data', 'contact-form-7-to-database-extension'),
-                                           'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber'),
+                                           'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
             'AllowRSS' => array(__('Allow RSS URLs', 'contact-form-7-to-database-extension') .
                     ' <a target="_blank" href="http://cfdbplugin.com/?p=918">' . __('(Creates a security hole)', 'contact-form-7-to-database-extension') . '</a>', 'false', 'true'),
             'Timezone' => array(__('Timezone to capture Submit Time. Blank will use WordPress Timezone setting. <a target="_blank" href="http://www.php.net/manual/en/timezones.php">Options</a>', 'contact-form-7-to-database-extension')),
