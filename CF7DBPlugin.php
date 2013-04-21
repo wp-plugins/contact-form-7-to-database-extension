@@ -750,6 +750,15 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                          $this->getSortCodeBuilderPageSlug(),
                          array(&$this, 'showShortCodeBuilderPage'));
 
+        if ($this->isEditorActive()) {
+            add_submenu_page($menuSlug,
+                    $displayName . ' Import',
+                __('Import', 'contact-form-7-to-database-extension'),
+                $this->roleToCapability($this->getRoleOption('CanChangeSubmitData')),
+                    get_class($this) . 'Import',
+                array(&$this, 'showShortImportCsvPage'));
+        }
+
         add_submenu_page($menuSlug,
                          $displayName . ' Options',
                          __('Options', 'contact-form-7-to-database-extension'),
@@ -781,6 +790,12 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     public function showShortCodeBuilderPage() {
         require_once('CFDBViewShortCodeBuilder.php');
         $view = new CFDBViewShortCodeBuilder;
+        $view->display($this);
+    }
+
+    public function showShortImportCsvPage() {
+        require_once('CFDBViewImportCsv.php');
+        $view = new CFDBViewImportCsv;
         $view->display($this);
     }
 
@@ -1020,6 +1035,20 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             <?php
             }
         }
+    }
+
+    /**
+     * @return array of form names that have data in the DB
+     */
+    public function getForms() {
+        global $wpdb;
+        $forms = array();
+        $tableName = $this->getSubmitsTableName();
+        $formsFromQuery = $wpdb->get_results("select distinct `form_name` from `$tableName` order by `form_name`");
+        foreach ($formsFromQuery as $aRow) {
+            $forms[] = $aRow->form_name;
+        }
+        return $forms;
     }
 
 }
