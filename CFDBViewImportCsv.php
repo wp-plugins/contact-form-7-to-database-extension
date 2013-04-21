@@ -85,6 +85,7 @@ class CFDBViewImportCsv extends CFDBView
         <ul>
             <li><?php _e('Backup a form into a CSV file that can be re-imported without loss of data.', 'contact-form-7-to-database-extension'); ?></li>
             <li><?php _e('Limitation: this will not export file uploads.', 'contact-form-7-to-database-extension'); ?></li>
+            <li><?php _e('Limitation: extremely large numbers of records in your form may cause the export operation on your server to run out of memory, thereby not giving you all the rows.', 'contact-form-7-to-database-extension'); ?></li>
         </ul>
         <form method="get" action="<?php echo $plugin->getPluginDirUrl() ?>export.php">
             <input type="hidden" name="enc" value="CSV"/>
