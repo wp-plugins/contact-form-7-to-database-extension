@@ -90,7 +90,9 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 = 2.6 =
 * [cfdb-datatable form="form-name" edit="true"] The "edit" option makes the table editable if the CFDB Editor plugin extension is also installed.
-* Upgraded included DataTables to version 1.9.4
+* [cfdb-datatable] "Show" setting shows all rows by default
+* [cfdb-datatable] upgraded the included DataTables to version 1.9.4
+* Support for import from CSV file when CFDB Editor extension is installed
 
 = 2.5.2 =
 * Minor bug fix. When user has exactly one form and admin page auto-loads that form's data, the editor plugin did not know which form to edit.

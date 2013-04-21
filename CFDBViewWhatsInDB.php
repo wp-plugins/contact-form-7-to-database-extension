@@ -273,9 +273,12 @@ class CFDBViewWhatsInDB extends CFDBView {
                 var oTable;
                 jQuery(document).ready(function() {
                     oTable = jQuery('#<?php echo $tableHtmlId ?>').dataTable({ <?php // "sDom": 'Rlfrtip', // ColReorder ?>
-                    "bJQueryUI": true,
-                    "aaSorting": [],
-                    "bScrollCollapse": true
+                        "bJQueryUI": true,
+                        "aaSorting": [],
+                        "bScrollCollapse": true,
+                        "sScrollX":"100%",
+                        "iDisplayLength": -1,
+                        "aLengthMenu": [[25, 50, 100, -1], [25, 50, 100, "<?php _e('All', 'contact-form-7-to-database-extension')?>"]]
                         <?php
                         if ($i18nUrl) {
                             echo ", \"oLanguage\": { \"sUrl\":  \"$i18nUrl\" }";

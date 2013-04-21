@@ -115,13 +115,15 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
         $this->setDataIterator($formName, $submitTimeKeyName);
 
         if ($useDT) {
-            $dtJsOptions = isset($options['dt_options']) ? $options['dt_options'] : false;
-            if (!$dtJsOptions) {
-                $dtJsOptions = '"bJQueryUI": true, "aaSorting": []';
-                $i18nUrl = $this->plugin->getDataTableTranslationUrl();
-                if ($i18nUrl) {
-                    $dtJsOptions .=  ", \"oLanguage\": { \"sUrl\":  \"$i18nUrl\" }";
+            $dtJsOptions = isset($options['dt_options']) ?
+                    $options['dt_options'] :
+                    '"bJQueryUI": true, "aaSorting": [], "iDisplayLength": -1, "aLengthMenu": [[25, 50, 100, -1], [25, 50, 100, "' . __('All', 'contact-form-7-to-database-extension') . '"]]';
+            $i18nUrl = $this->plugin->getDataTableTranslationUrl();
+            if ($i18nUrl) {
+                if (!empty($dtJsOptions)) {
+                    $dtJsOptions .= ',';
                 }
+                $dtJsOptions .=  " \"oLanguage\": { \"sUrl\":  \"$i18nUrl\" }";
             }
             ?>
             <script type="text/javascript" language="Javascript">
