@@ -47,11 +47,11 @@ class CFDBViewImportCsv extends CFDBView
                 <tbody>
                 <tr>
                     <td><label for="file"><?php _e('File', 'contact-form-7-to-database-extension'); ?></label></td>
-                    <td><input type="file" name="file" id="file"></td>
+                    <td><input type="file" name="file" id="file" size="50"></td>
                 </tr>
                 <tr>
                     <td><input type="radio" name="into" id="new" value="new" checked> <?php _e('New Form', 'contact-form-7-to-database-extension'); ?></td>
-                    <td><input type="text" name="newformname"/></td>
+                    <td><input type="text" name="newformname" id="newformname" size="50"/></td>
                 </tr>
                 <tr>
                     <td><input type="radio" name="into" id="existing" value="into"> <?php _e('Existing Form', 'contact-form-7-to-database-extension'); ?></td>
@@ -70,6 +70,16 @@ class CFDBViewImportCsv extends CFDBView
             </table>
             <input type="submit" name="<?php _e('Import', 'contact-form-7-to-database-extension'); ?>" id="importsubmit" value="import">
         </form>
+
+        <script type="text/javascript">
+                jQuery('#file').change(function () {
+                    var val = jQuery(this).val();
+                    val = val.substring(val.lastIndexOf('/') + 1);
+                    val = val.substring(val.lastIndexOf('\\') + 1);
+                    val = val.replace(/\.([^\.])*$/, "");
+                    jQuery('#newformname').val(val);
+                });
+        </script>
 
         <h2><?php _e('Backup Form to CSV File', 'contact-form-7-to-database-extension'); ?></h2>
         <ul>
