@@ -88,6 +88,9 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 
 == Changelog ==
 
+== 2.6.1 ==
+* Bug fix: needed to strip slashes from dt_options when using cfdb-datatable by URL
+
 = 2.6 =
 * [cfdb-datatable form="form-name" edit="true"] The "edit" option makes the table editable if the CFDB Editor plugin extension is also installed.
 * [cfdb-datatable] "Show" setting shows all rows by default

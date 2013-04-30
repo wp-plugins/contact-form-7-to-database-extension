@@ -125,6 +125,7 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
                 }
                 $dtJsOptions .=  " \"oLanguage\": { \"sUrl\":  \"$i18nUrl\" }";
             }
+            $dtJsOptions = stripslashes($dtJsOptions); // unescape single quotes when posted via URL
             ?>
             <script type="text/javascript" language="Javascript">
                 jQuery(document).ready(function() {
