@@ -89,8 +89,9 @@ prevent it from being deleted. You can always deactivate the plugin without loos
 == Changelog ==
 
 == 2.6.1 ==
-* Bug fix: needed to strip slashes from dt_options when using cfdb-datatable by URL
-* Bug fix: avoiding divide by zero error in [cfdb-value]
+* Minor bug fix: needed to strip slashes from dt_options when using cfdb-datatable by URL
+* Minor bug fix: avoiding divide by zero error in [cfdb-value]
+* Minor bug fix: avoiding error when no timezone set: "Notice: date_default_timezone_set() [function.date-default-timezone-set.php]: Timezone ID '' is invalid"
 
 = 2.6 =
 * [cfdb-datatable form="form-name" edit="true"] The "edit" option makes the table editable if the CFDB Editor plugin extension is also installed.
