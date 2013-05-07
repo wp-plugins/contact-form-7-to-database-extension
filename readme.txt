@@ -87,6 +87,8 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.6.2 =
+
 = 2.6.1 =
 * Minor bug fix: needed to strip slashes from dt_options when using cfdb-datatable by URL
 * Minor bug fix: avoiding divide by zero error in [cfdb-value]
