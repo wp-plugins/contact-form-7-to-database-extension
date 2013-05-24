@@ -975,11 +975,11 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     }
 
     public function setTimezone() {
-        $timezone = $this->getOption('Timezone');
-        if (!$timezone) {
+        $timezone = trim($this->getOption('Timezone'));
+        if (empty($timezone)) {
             $timezone = get_option('timezone_string');
         }
-        if ($timezone) {
+        if (!empty($timezone)) {
             date_default_timezone_set($timezone);
         }
     }
