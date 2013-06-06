@@ -88,8 +88,9 @@ You can always deactivate the plugin without loosing data.
 == Changelog ==
 
 = 2.6.2 =
-* Custom short code filters
-* #Rows (of maximum above) visible in the Admin datatable
+* Admin page has checkbox for selecting all visible rows
+* New option: #Rows (of maximum above) visible in the Admin datatable
+* Custom short code filters (alpha)
 
 = 2.6.1 =
 * Minor bug fix: needed to strip slashes from dt_options when using cfdb-datatable by URL

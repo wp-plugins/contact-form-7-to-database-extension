@@ -296,6 +296,7 @@ class CFDBViewWhatsInDB extends CFDBView {
 
                         ?>
                     });
+                    jQuery('th[id="delete_th"]').unbind('click'); <?php // Don't sort delete column ?>
                 });
 
             </script>
