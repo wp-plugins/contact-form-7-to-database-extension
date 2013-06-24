@@ -87,6 +87,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.6.2.1 =
+* Option page has "have donated" option that will turn off showing the Donate button on admin pages
+
 = 2.6.2 =
 * Admin page has checkbox for selecting all visible rows
 * New option: #Rows (of maximum above) visible in the Admin datatable
