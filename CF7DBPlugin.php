@@ -46,7 +46,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     public function getOptionMetaData() {
         return array(
             //'_version' => array('Installed Version'), // For testing upgrades
-//            'Donated' => array(__('I have donated to this plugin', 'contact-form-7-to-database-extension'), 'false', 'true'),
+            'Donated' => array(__('I have donated to this plugin', 'contact-form-7-to-database-extension'), 'false', 'true'),
             'IntegrateWithCF7' => array(__('Capture form submissions from Contact Form 7 Plugin', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'IntegrateWithFSCF' => array(__('Capture form submissions from Fast Secure Contact Form Plugin', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'IntegrateWithJetPackContactForm' => array(__('Capture form submissions from JetPack Contact Form', 'contact-form-7-to-database-extension'), 'true', 'false'),
