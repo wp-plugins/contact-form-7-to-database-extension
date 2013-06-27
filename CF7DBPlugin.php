@@ -582,7 +582,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             if ($this->getOption('SaveCookieData', 'false') == 'true' && is_array($_COOKIE)) {
                 $saveCookies = $this->getSaveCookies();
                 foreach ($_COOKIE as $cookieName => $cookieValue) {
-                    if ($this->fieldMatches($cookieName, $saveCookies)) {
+                    if (empty($saveCookies) || $this->fieldMatches($cookieName, $saveCookies)) {
                         $wpdb->query($wpdb->prepare($parametrizedQuery,
                             $time,
                             $title,
