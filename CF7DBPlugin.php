@@ -624,7 +624,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * @param $patternsArray array
      * @return boolean true if $fieldName is in $patternsArray or matches any element of it that is a regex
      */
-    protected function fieldMatches($fieldName, $patternsArray) {
+    public function fieldMatches($fieldName, $patternsArray) {
         if (is_array($patternsArray)) {
             foreach($patternsArray as $pattern) {
                 if ($fieldName == $pattern) {
@@ -1029,7 +1029,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         if (!$this->isEditorActive()) {
             return;
         }
-        $requiredEditorVersion = '1.2.1';
+        $requiredEditorVersion = '1.2.2';
         $editorData = $this->getEditorPluginData();
         if (isset($editorData['Version'])) {
             if (version_compare($editorData['Version'], $requiredEditorVersion) == -1) {
