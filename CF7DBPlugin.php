@@ -50,6 +50,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             'IntegrateWithCF7' => array(__('Capture form submissions from Contact Form 7 Plugin', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'IntegrateWithFSCF' => array(__('Capture form submissions from Fast Secure Contact Form Plugin', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'IntegrateWithJetPackContactForm' => array(__('Capture form submissions from JetPack Contact Form', 'contact-form-7-to-database-extension'), 'true', 'false'),
+            'IntegrateWithGravityForms' => array(__('Capture form submissions from Gravity Forms', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'CanSeeSubmitData' => array(__('Can See Submission data', 'contact-form-7-to-database-extension'),
                                         'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
             'CanSeeSubmitDataViaShortcode' => array(__('Can See Submission when using shortcodes', 'contact-form-7-to-database-extension'),
@@ -281,6 +282,11 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         // Hook into JetPack Contact Form
         if ($this->getOption('IntegrateWithJetPackContactForm', 'true') == 'true') {
             add_action('grunion_pre_message_sent', array(&$this, 'saveJetPackContactFormData'), 10, 3);
+        }
+
+        // Hook into Gravity Forms
+        if ($this->getOption('IntegrateWithGravityForms', 'true') == 'true') {
+            add_action('gform_after_submission', array(&$this, 'saveGravityFormData'), 10, 2);
         }
 
         // Have our own hook to receive form submissions independent of other plugins
@@ -665,6 +671,36 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             'title' => $title,
             'posted_data' => $all_values,
             'uploaded_files' => null);
+        $this->saveFormData($data);
+    }
+
+    /**
+     * http://www.gravityhelp.com/documentation/page/Gform_after_submission
+     * @param $entry Entry Object The entry that was just created.
+     * http://www.gravityhelp.com/documentation/page/Entry_Object
+     * @param $form Form Object The current form
+     * http://www.gravityhelp.com/documentation/page/Form_Object
+     */
+    public function saveGravityFormData($entry, $form) {
+
+        // TODO: remove debug
+        error_log('Form Definition: ' . print_r($form, true));
+        error_log('Entry Definition: ' . print_r($entry, true));
+
+
+        $postedData = array();
+        $uploadFiles = array();
+        $fieldNum = 1;
+        while(!is_null($entry[$fieldNum])) {
+            $value = $entry[$fieldNum];
+            $name = $form["fields"][$fieldNum];
+            $postedData[$name] = $value;
+        }
+
+        $data = (object)  array(
+            'title' => $form['title'],
+            'posted_data' => $postedData,
+            'uploaded_files' => $uploadFiles);
         $this->saveFormData($data);
     }
 

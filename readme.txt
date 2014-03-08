@@ -87,6 +87,10 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.7 =
+* Integration with Gravity Forms
+* Translation updates
+
 = 2.6.3 =
 * Bug fix: When option was set, Cookies were not being captured with the form submission unless explicitly listed
 * Option page has "have donated" option that will turn off showing the Donate button on admin pages
