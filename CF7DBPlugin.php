@@ -683,9 +683,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      */
     public function saveGravityFormData($entry, $form) {
 
-        // TODO: remove debug
-        error_log('Form Definition: ' . print_r($form, true));
-        error_log('Entry Definition: ' . print_r($entry, true));
+        //error_log('Form Definition: ' . print_r($form, true)); // debug
+        //error_log('Entry Definition: ' . print_r($entry, true)); // debug
 
         $postedData = array();
         $uploadFiles = array();
