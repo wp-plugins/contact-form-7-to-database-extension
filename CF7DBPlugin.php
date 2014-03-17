@@ -687,15 +687,88 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         error_log('Form Definition: ' . print_r($form, true));
         error_log('Entry Definition: ' . print_r($entry, true));
 
-
         $postedData = array();
         $uploadFiles = array();
-        $fieldNum = 1;
-        while(!is_null($entry[$fieldNum])) {
-            $value = $entry[$fieldNum];
-            $name = $form["fields"][$fieldNum];
-            $postedData[$name] = $value;
+
+        // Iterate through the field definitions and get their values
+        if (! is_array($form['fields'])) {
+            return;
         }
+        foreach ($form['fields'] as $field) {
+            if (! is_array($field)) {
+                continue;
+            }
+            $fieldName = $field['label'];
+
+            if (!empty($field['inputs']) && is_array($field['inputs'])) {
+                // This is a multi-input field
+
+                if ($field['type'] == 'checkbox') {
+                    $values = array();
+                    foreach ($field['inputs'] as $input) {
+                        $inputId = strval($input['id']); // Need string value of number like '1.3'
+                        if (! empty($entry[$inputId])) {
+                            $values[] = $entry[$inputId];
+                        }
+                    }
+                    $postedData[$fieldName] = implode(',', $values);
+                }
+                else {
+                    foreach ($field['inputs'] as $input) {
+                        $inputId = strval($input['id']); // Need string value of number like '1.3'
+                        $label = $input['label']; // Assumption: all inputs have diff labels
+                        $effectiveFieldName = $fieldName;
+                        if (!empty($label)) {
+                            $effectiveFieldName = $fieldName . ' ' . $label;
+                        }
+                        $postedData[$effectiveFieldName] = $entry[$inputId];
+                    }
+                }
+            }
+            else {
+                $fieldId = $field['id'];
+                switch ($field['type']) {
+                    case 'list' :
+                        // List - value is serialized array
+                        $valueArray = @unserialize($entry[$fieldId]);
+                        if (is_array($valueArray)) {
+                            $postedData[$fieldName] = implode(',',$valueArray);
+                        }
+                        else {
+                            $postedData[$fieldName] = $entry[$fieldId];
+                        }
+                        break;
+
+                    case 'fileupload':
+                        // File Upload - value is file URL
+                        // http://<SITE>/wp-content/uploads/gravity_forms/<PATH>/<FILE>
+                        $url = $entry[$fieldId];
+                        $fileName = basename($url);
+                        $postedData[$fieldName] = $fileName;
+
+                        $filePath = ABSPATH . substr($url, strlen(get_site_url()));
+                        $uploadFiles[$fieldName] = $filePath;
+                        break;
+
+                    default:
+                        $postedData[$fieldName] = $entry[$fieldId];
+                        break;
+                }
+
+            }
+        }
+
+        // Other form metadata
+        $paymentMetaData = array(
+            'currency', 'payment_status', 'payment_date',
+            'transaction_id', 'payment_amount', 'payment_method',
+            'is_fulfilled', 'transaction_type');
+        foreach ($paymentMetaData as $pmt) {
+            if (! empty($entry[$pmt])) {
+                $postedData[$pmt] = $entry[$pmt];
+            }
+        }
+
 
         $data = (object)  array(
             'title' => $form['title'],
