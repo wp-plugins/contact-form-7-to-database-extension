@@ -759,12 +759,20 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
         // Other form metadata
         $paymentMetaData = array(
-            'currency', 'payment_status', 'payment_date',
+            //'currency',
+            'payment_status', 'payment_date',
             'transaction_id', 'payment_amount', 'payment_method',
             'is_fulfilled', 'transaction_type');
         foreach ($paymentMetaData as $pmt) {
+            $hasPaymentInfo = false;
             if (! empty($entry[$pmt])) {
                 $postedData[$pmt] = $entry[$pmt];
+                $hasPaymentInfo = true;
+            }
+            if ($hasPaymentInfo && ! empty($entry['currency'])) {
+                // It seems currency is always set but only meaningful
+                // if the other payment info is set.
+                $postedData['currency'] = $entry['currency'];
             }
         }
 
