@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-"
 "extension\n"
-"POT-Creation-Date: 2014-03-17 00:21:13+00:00\n"
+"POT-Creation-Date: 2014-04-01 01:18:24+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -223,19 +223,19 @@ msgstr ""
 msgid "Reference"
 msgstr ""
 
-#: CF7DBPlugin.php:811
+#: CF7DBPlugin.php:819
 msgid "Contact Form DB"
 msgstr ""
 
-#: CF7DBPlugin.php:857 CFDBViewShortCodeBuilder.php:726
+#: CF7DBPlugin.php:865 CFDBViewShortCodeBuilder.php:726
 msgid "Short Code"
 msgstr ""
 
-#: CF7DBPlugin.php:865 CFDBViewImportCsv.php:71
+#: CF7DBPlugin.php:873 CFDBViewImportCsv.php:71
 msgid "Import"
 msgstr ""
 
-#: CF7DBPlugin.php:873
+#: CF7DBPlugin.php:881
 msgid "Options"
 msgstr ""
 
