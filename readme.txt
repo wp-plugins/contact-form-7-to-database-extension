@@ -87,6 +87,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.7.1 =
+* Integration with wp-parsidate to shows Shamsi(Jalali) dates.
+
 = 2.7 =
 * Integration with Gravity Forms
 * Translation updates

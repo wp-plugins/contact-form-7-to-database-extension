@@ -951,22 +951,37 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             CF7DBPlugin::$checkForCustomDateFormat = false;
         }
 
-        // Support Jalali dates but looking for wp-jalali plugin and
-        // using its 'jdate' function
+        // Support Shamsi(Jalali) dates by looking for a plugin that can produce the correct text for the date
         if (!function_exists('is_plugin_active') && @file_exists(ABSPATH . 'wp-admin/includes/plugin.php')) {
             include_once(ABSPATH . 'wp-admin/includes/plugin.php');
         }
-        if (function_exists('is_plugin_active') && is_plugin_active('wp-jalali/wp-jalali.php')) {
-            $jDateFile = WP_PLUGIN_DIR . '/wp-jalali/inc/jalali-core.php';
-            if(@file_exists($jDateFile)) {
-                include_once($jDateFile);
-                if (function_exists('jdate')) {
-                    //return jdate('l, F j, Y');
+        if (function_exists('is_plugin_active')) {
+            // See if wp-parsidate is active and if so, have it convert the date
+            // using its 'parsidate' function
+            if (is_plugin_active('wp-parsidate/wp-parsidate.php')) {
+                if (function_exists('parsidate')) {
                     if (CF7DBPlugin::$customDateFormat) {
-                        return jdate(CF7DBPlugin::$customDateFormat, $time);
+                        return parsidate(CF7DBPlugin::$customDateFormat, $time);
                     }
                     else {
-                        return jdate(CF7DBPlugin::$dateFormat . ' ' . CF7DBPlugin::$timeFormat, $time);
+                        return parsidate(CF7DBPlugin::$dateFormat . ' ' . CF7DBPlugin::$timeFormat, $time);
+                    }
+                }
+            }
+            // See if wp-jalali is active and if so, have it convert the date
+            // using its 'jdate' function
+            else if (is_plugin_active('wp-jalali/wp-jalali.php')) {
+                $jDateFile = WP_PLUGIN_DIR . '/wp-jalali/inc/jalali-core.php';
+                if(@file_exists($jDateFile)) {
+                    include_once($jDateFile);
+                    if (function_exists('jdate')) {
+                        //return jdate('l, F j, Y');
+                        if (CF7DBPlugin::$customDateFormat) {
+                            return jdate(CF7DBPlugin::$customDateFormat, $time);
+                        }
+                        else {
+                            return jdate(CF7DBPlugin::$dateFormat . ' ' . CF7DBPlugin::$timeFormat, $time);
+                        }
                     }
                 }
             }
