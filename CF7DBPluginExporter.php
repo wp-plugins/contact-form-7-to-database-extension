@@ -1,6 +1,6 @@
 <?php
 /*
-    "Contact Form to Database" Copyright (C) 2011-2012 Michael Simpson  (email : michael.d.simpson@gmail.com)
+    "Contact Form to Database" Copyright (C) 2011-2014 Michael Simpson  (email : michael.d.simpson@gmail.com)
 
     This file is part of Contact Form to Database.
 
@@ -39,6 +39,9 @@ class CF7DBPluginExporter {
 
         if (!isset($params['enc'])) {
             $params['enc'] = 'CSVUTF8';
+        }
+        if (!isset($params['form'])) {
+            $params['form'] = '';
         }
         CF7DBPluginExporter::export(
             $params['form'],

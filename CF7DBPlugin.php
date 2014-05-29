@@ -1,6 +1,6 @@
 <?php
 /*
-    "Contact Form to Database" Copyright (C) 2011-2013 Michael Simpson  (email : michael.d.simpson@gmail.com)
+    "Contact Form to Database" Copyright (C) 2011-2014 Michael Simpson  (email : michael.d.simpson@gmail.com)
 
     This file is part of Contact Form to Database.
 
@@ -308,6 +308,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         add_action('wp_ajax_nopriv_cfdb-validate-submit_time', array(&$this, 'ajaxValidateSubmitTime'));
         add_action('wp_ajax_cfdb-validate-submit_time', array(&$this, 'ajaxValidateSubmitTime'));
 
+        // Login via Ajax instead of login form
+        add_action('wp_ajax_nopriv_cfdb-login', array(&$this, 'ajaxLogin'));
+        add_action('wp_ajax_cfdb-login', array(&$this, 'ajaxLogin'));
+
         // Shortcode to add a table to a page
         $sc = new CFDBShortcodeTable();
         $sc->register(array('cf7db-table', 'cfdb-table')); // cf7db-table is deprecated
@@ -339,6 +343,37 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         // Shortcode to save data from non-CF7/FSCF forms
         $sc = new CFDBShortCodeSavePostData();
         $sc->register('cfdb-save-form-post');
+    }
+
+    public function ajaxLogin() {
+        // Login the user
+        $creds = array();
+        $creds['user_login'] = !empty($_REQUEST['username']) ? $_REQUEST['username'] : null;
+        $creds['user_password'] = !empty($_REQUEST['password']) ? $_REQUEST['password'] : null;
+        $creds['remember'] = !empty($_REQUEST['rememberme']) ? $_REQUEST['rememberme'] : null;
+        $user = wp_signon($creds, false);
+        if (is_wp_error($user)) {
+            echo $user->get_error_message();
+            die;
+        }
+        wp_set_current_user($user->ID);
+
+        // User is logged in. Now do the requested action
+        if (!empty($_REQUEST['cfdb-action'])) {
+            switch ($_REQUEST['cfdb-action']) {
+                case 'cfdb-export':
+                    if (!$this->canUserDoRoleOption('CanSeeSubmitData')) {
+                        echo 'ERROR: user ' . $_REQUEST['username'] . ' is not authorized to export CFDB data';
+                        die;
+                    }
+                    $this->ajaxExport();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        die;
     }
 
     public function ajaxExport() {
