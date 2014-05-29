@@ -363,7 +363,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             switch ($_REQUEST['cfdb-action']) {
                 case 'cfdb-export':
                     if (!$this->canUserDoRoleOption('CanSeeSubmitData')) {
-                        echo 'ERROR: user ' . $_REQUEST['username'] . ' is not authorized to export CFDB data';
+                        echo '<strong>ERROR</strong>: user ' . $_REQUEST['username'] . ' is not authorized to export CFDB data';
                         die;
                     }
                     $this->ajaxExport();
