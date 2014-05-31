@@ -100,7 +100,7 @@ class ExportToGoogleLiveData implements CFDBExport {
                         </a>
                     </div>
                 </td>
-                <td><p>Go to <strong>Tools</strong> menu -> <strong>Scripts</strong> -> <strong>Script Editor...</strong></p></td>
+                <td><p>Go to <strong>Tools</strong> menu -> <strong>Script Editor...</p></td>
             </tr>
             <tr>
                 <td>
@@ -114,7 +114,7 @@ class ExportToGoogleLiveData implements CFDBExport {
                         </a>
                     </div>
                 </td>
-                <td><p>Go to <strong>Tools</strong> menu -> <strong>Scripts</strong> -> <strong>Script Editor...</strong></p></td>
+                <td><p>Choose <strong>Spreadsheet</strong></strong></strong></p></td>
             </tr>
             <tr>
                 <td>
@@ -147,7 +147,7 @@ class ExportToGoogleLiveData implements CFDBExport {
                     </div>
                 </td>
                 <td>
-                    <p><strong>Save</strong> and <strong>close</strong> the script editor.</p>
+                    <p><strong>Save</strong> the script</p>
                 </td>
             </tr>
             <tr>
