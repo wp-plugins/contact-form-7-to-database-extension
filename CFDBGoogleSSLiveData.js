@@ -1,5 +1,5 @@
 /*
- "Contact Form to Database" Copyright (C) 2011-2012 Michael Simpson  (email : michael.d.simpson@gmail.com)
+ "Contact Form to Database" Copyright (C) 2011-2014 Michael Simpson  (email : michael.d.simpson@gmail.com)
 
  This file is part of Contact Form to Database.
 
@@ -21,59 +21,129 @@
 /* This is a script to be used with a Google Spreadsheet to make it dynamically load data (similar to Excel IQuery)
  Instructions:
 1. Create a new Google Spreadsheet
-2. Go to Tools menu -> Scripts -> Script Editor...
-3. Copy the text from this file and paste it into the Google script editor.
-4. Save and close the script editor.
-5. Click on a cell A1 in the Spreadsheet (or any cell)
-6. Enter in the cell the formula:
-   =CF7ToDBData("siteUrl", "formName", "optional search", "user", "pwd")
+2. Go to Tools menu -> Script Editor...
+3. Click Spreadsheet
+4. Copy the text from this file and paste it into the Google script editor.
+5. Save and close the script editor.
+6. Click on a cell A1 in the Spreadsheet (or any cell)
+7. Enter in the cell the formula:
+   =cfdbdata("site_url", "form_name", "user", "password")
   Where the parameters are (be sure to quote them):
     siteUrl: the URL of you site, e.g. "http://www.mywordpress.com"
     formName: name of the form
-    optional search: leave as "" by default or add a search term to filter rows
-    user: your login name on your wordpress site
+    user: your login name on your WordPress site
     pwd: password
 */
 
-function CF7ToDBData(siteUrl, formName, search, user, pwd) {
-    var response = fetchCF7ToDBCSVResponse(siteUrl, formName, search, user, pwd);
-    var contents = response.getContentText();
-    if (contents == '-1' || contents == '0') {
-        return "Error Code from WordPress: " + contents;
-    }
+/**
+ * Use this function in your spreadsheet to fetch saved form data from your WordPress Site
+ * @param site_url your top level WordPress site URL
+ * @param form_name name of the WordPress form to fetch data from
+ * @param user login name to your WordPress site. User must have permission to view form data
+ * @param password WordPress site password. If your site_url is "http" and not "https" then
+ * beware that your password is being sent unencrypted from a Google server to your WordPress server.
+ * Also beware that others who can view this code in your Google Spreadsheet can see this password.
+ * @param "option_name1", "option_value1", "option_name2", "option_value2", ... (optional param pairs).
+ * These are CFDB option such as "filter", "name=Smith", "show", "first_name,last_name"
+ * These should come in pairs.
+ * @returns {*} Your WordPress saved form data in a format suitable for Google Spreadsheet to display.
+ * String error message if there is an error logging into the WordPress site
+ */
+function cfdbdata(site_url, form_name, user, password /*, [option_name, option_value] ... */) {
+    var param_array = [];
+    param_array.push("action=cfdb-login");
+    param_array.push("username=" + encodeURI(user));
+    param_array.push("password=" + encodeURI(password));
+    param_array.push("cfdb-action=cfdb-export");
+    param_array.push("form=" + encodeURI(form_name));
 
-    if (response.getResponseCode() >= 200 && response.getResponseCode() < 300) {
-        return csvToArray(contents);
-    }
-    else {
-        if (response.getResponseCode() == 401) {
-            return "Error: Login Failed";
-        }
-        if (response.getResponseCode() == 404) {
-            return "Error: Bad URL";
-        }
-        return "Error: HTTP " + response.getResponseCode();
-    }
+    var args = arg_slice(arguments, 4);
+    args = process_name_value_args(args);
+    param_array = param_array.concat(args);
 
+    return fetch_csv_url(site_url, param_array);
 }
 
-function fetchCF7ToDBCSVResponse(siteUrl, formName, search, user, pwd) {
-    var encformName = encodeURI(formName).replace(new RegExp("%20", "g"), "%2B");
-    var url = siteUrl + "/wp-login.php?redirect_to=wp-admin/admin-ajax.php%3Faction%3Dcfdb-export%26form%3D" + encformName;
-    if (search != null && search != '') {
-        url += '%26search%3D' + encodeURI(search);
+/**
+ * @deprecated for backward compatibility. Use cfdbdata() instead.
+ */
+function CF7ToDBData(site_url, form_name, search, user, password) {
+    if (search != "") {
+        return cfdbdata(site_url, form_name, user, password, "search", search);
     }
-    return UrlFetchApp.fetch(
-            url,
-            {
-                method: "post",
-                payload: "log=" + encodeURI(user) + "&pwd=" + encodeURI(pwd)
-            });
+    return cfdbdata(site_url, form_name, user, password);
 }
 
-// Taken from: http://stackoverflow.com/questions/1293147/javascript-code-to-parse-csv-data
+/**
+ * "slice" function for varargs Argument object
+ * @param args Argument object
+ * @param position int > 0 indicating the slice position
+ * @returns {Array} of args from the slide index to the end.
+ * Returns empty array if slice position exceeds length of args
+ */
+function arg_slice(args, position) {
+    var array = [];
+    if (args.length > position) {
+        for (var i = position; i < args.length; i++) {
+            array.push(args[i]);
+        }
+    }
+    return array;
+}
+
+/**
+ * Converts array like ['a', '1', 'b', '2'] to ['a=1', 'b=2']
+ * where each value is made to be URI-encoded.
+ * Purposed of this is to transform and array of name,value arguments
+ * into HTTP GET/POST parameters
+ * @param array Array like ['a', '1', 'b', '2']
+ * @returns {Array} like ['a=1', 'b=2'].
+ * If there is an odd number of arguments then the last one is dropped
+ * (expecting pairs of name,value)
+ */
+function process_name_value_args(array) {
+    var name_value_array = [];
+    var flag = true;
+    var name = null;
+    for (var i = 0; i < array.length; i++) {
+        if (flag) {
+            name = array[i];
+        } else {
+            name_value_array.push(encodeURI(name) + "=" + encodeURI(array[i]));
+        }
+        flag = !flag;
+    }
+    return name_value_array;
+}
+
+/**
+ * Fetch CSV data from WordPress URL. Specific to CFDB plugin.
+ * Uses CFDB plugin CSV export URL
+ * @param site_url WordPress site top level URL
+ * @param param_array array of URI-encoded ["name=value"] elements intended as POST parameters
+ * @returns {*} array (multidimensional) of data suitable for Google Spreadsheet to display.
+ * String error message if there is a login failure
+ */
+function fetch_csv_url(site_url, param_array) {
+    var url = site_url + "/wp-admin/admin-ajax.php";
+    var payload = param_array.join("&");
+    var response = UrlFetchApp.fetch(url, { method: "post", payload: payload });
+    var content = response.getContentText();
+    if (content.indexOf("<strong>ERROR") == 0) {
+        // If error message is returned, just return that as the content
+        return content;
+    }
+    return csvToArray(content);
+}
+
+/**
+ * Taken from: http://stackoverflow.com/questions/1293147/javascript-code-to-parse-csv-data
+ * Used to parse csv text into an array that Google Spreadsheet can put into cells
+ * @param text String csv text
+ * @returns {Array} of data suitable for Google Spreadsheets to display
+ */
 function csvToArray(text) {
-    text = CSVToArray(text, ",");
+    text = csvParseToArray(text, ",");
     var arr = [];
     var c = [];
     for (var i = 0; i < text.length - 1; i++) {
@@ -83,15 +153,18 @@ function csvToArray(text) {
         }
         arr.push(c);
     }
-
     return arr;
 }
 
-// Taken from: http://stackoverflow.com/questions/1293147/javascript-code-to-parse-csv-data
-// This will parse a delimited string into an array of
-// arrays. The default delimiter is the comma, but this
-// can be overriden in the second argument.
-function CSVToArray(strData, strDelimiter) {
+/**
+ * Taken from: http://stackoverflow.com/questions/1293147/javascript-code-to-parse-csv-data
+ * This will parse a delimited string into an array of arrays.
+ * @param strData String csv text
+ * @param strDelimiter String optional. The default delimiter is the comma.
+ * @returns {*[]}
+ * @constructor
+ */
+function csvParseToArray(strData, strDelimiter) {
     // Check to see if the delimiter is defined. If not,
     // then default to comma.
     strDelimiter = (strDelimiter || ",");
@@ -109,8 +182,7 @@ function CSVToArray(strData, strDelimiter) {
                             "([^\"\\" + strDelimiter + "\\r\\n]*))"
                     ),
             "gi"
-            );
-
+    );
 
     // Create an array to hold our data. Give the array
     // a default empty first row.
@@ -120,8 +192,7 @@ function CSVToArray(strData, strDelimiter) {
 
     // Create an array to hold our individual pattern
     // matching groups.
-    var arrMatches = null;
-
+    var arrMatches;
 
     // Keep looping over the regular expression matches
     // until we can no longer find a match.
@@ -145,26 +216,22 @@ function CSVToArray(strData, strDelimiter) {
 
         }
 
-
         // Now that we have our delimiter out of the way,
         // let's check to see which kind of value we
         // captured (quoted or unquoted).
+        var strMatchedValue;
         if (arrMatches[ 2 ]) {
 
             // We found a quoted value. When we capture
             // this value, unescape any double quotes.
-            var strMatchedValue = arrMatches[ 2 ].replace(
+            strMatchedValue = arrMatches[ 2 ].replace(
                     new RegExp("\"\"", "g"),
                     "\""
-                    );
-
+            );
         } else {
-
             // We found a non-quoted value.
-            var strMatchedValue = arrMatches[ 3 ];
-
+            strMatchedValue = arrMatches[ 3 ];
         }
-
 
         // Now that we have our value string, let's add
         // it to the data array.
@@ -174,4 +241,3 @@ function CSVToArray(strData, strDelimiter) {
     // Return the parsed data.
     return( arrData );
 }
-
