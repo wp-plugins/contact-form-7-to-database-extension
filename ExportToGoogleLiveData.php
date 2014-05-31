@@ -71,7 +71,7 @@ class ExportToGoogleLiveData implements CFDBExport {
                 left: 50px!important;
             }
         </style>
-        Setting up a Google Spreadsheet to pull in data from WordPress requires these manual steps:
+        <?php _e('Setting up a Google Spreadsheet to pull in data from WordPress requires these manual steps:', 'contact-form-7-to-database-extension'); ?>
         <table cellspacing="15px" cellpadding="15px">
             <tbody>
             <tr>
@@ -86,7 +86,7 @@ class ExportToGoogleLiveData implements CFDBExport {
                         </a>
                     </div>
                 </td>
-                <td><p>Log into Google Docs and create a new Google Spreadsheet</p></td>
+                <td><p><?php _e('Log into Google Docs and create a new Google Spreadsheet', 'contact-form-7-to-database-extension'); ?></p></td>
             </tr>
             <tr>
                 <td>
@@ -100,7 +100,7 @@ class ExportToGoogleLiveData implements CFDBExport {
                         </a>
                     </div>
                 </td>
-                <td><p>Go to <strong>Tools</strong> menu -> <strong>Script Editor...</p></td>
+                <td><p><?php _e('Go to <strong>Tools</strong> menu -> <strong>Script Editor...', 'contact-form-7-to-database-extension'); ?></p></td>
             </tr>
             <tr>
                 <td>
@@ -114,7 +114,7 @@ class ExportToGoogleLiveData implements CFDBExport {
                         </a>
                     </div>
                 </td>
-                <td><p>Choose <strong>Spreadsheet</strong></strong></strong></p></td>
+                <td><p><?php _e('Choose <strong>Spreadsheet</strong>', 'contact-form-7-to-database-extension'); ?></p></td>
             </tr>
             <tr>
                 <td>
@@ -129,9 +129,10 @@ class ExportToGoogleLiveData implements CFDBExport {
                     </div>
                 </td>
                 <td>
-                    <p>Delete any text that is already there</p>
-                    <p><strong>Copy</strong> the text from <a target="_gscript" href="<?php echo($scriptLink) ?>">THIS SCRIPT FILE</a> and <strong>paste</strong> it
-                    into the Google script editor</p>
+                    <p><?php _e('Delete any text that is already there', 'contact-form-7-to-database-extension'); ?></p>
+                    <p><?php _e('<strong>Copy</strong> the text from ', 'contact-form-7-to-database-extension'); ?>
+                        <a target="_gscript" href="<?php echo($scriptLink) ?>"><?php _e('THIS SCRIPT FILE', 'contact-form-7-to-database-extension'); ?></a>
+                        <?php _e('and <strong>paste</strong> it into the Google script editor', 'contact-form-7-to-database-extension'); ?></p>
                 </td>
             </tr>
             <tr>
@@ -147,7 +148,7 @@ class ExportToGoogleLiveData implements CFDBExport {
                     </div>
                 </td>
                 <td>
-                    <p><strong>Save</strong> the script</p>
+                    <p><?php _e('<strong>Save</strong> the script', 'contact-form-7-to-database-extension'); ?></p>
                 </td>
             </tr>
             <tr>
@@ -163,11 +164,11 @@ class ExportToGoogleLiveData implements CFDBExport {
                     </div>
                 </td>
                 <td>
-                    <p>Click on a cell A1 in the Spreadsheet (or any cell)</p>
-                    <p>Enter in the cell the formula:</p>
+                    <p><?php _e('Click on a cell A1 in the Spreadsheet (or any cell)', 'contact-form-7-to-database-extension'); ?></p>
+                    <p><?php _e('Enter in the cell the formula:', 'contact-form-7-to-database-extension'); ?></p>
                     <p><code><?php echo("=cfdbdata(\"$siteUrl\", \"$formName\", \"user\", \"pwd\")") ?></code></p>
-                    <p>Replacing <strong>user</strong> and <strong>pwd</strong> with your <u>WordPress</u> site user name and password</p>
-                    <p><a href="http://cfdbplugin.com/?page_id=93" target="sc">Standard CFDB shortcode options</a> can be added as additional parameters. For example as:</p>
+                    <p><?php _e('Replacing <strong>user</strong> and <strong>pwd</strong> with your <u>WordPress</u> site user name and password', 'contact-form-7-to-database-extension'); ?></p>
+                    <p><a href="http://cfdbplugin.com/?page_id=93" target="sc"><?php _e('Standard CFDB shortcode options</a> can be added as additional parameters. For example:', 'contact-form-7-to-database-extension'); ?></p>
                     <p><code><?php echo("=cfdbdata(\"$siteUrl\", \"$formName\", \"user\", \"pwd\", \"filter\", \"lastname=Simpson\", \"show\", \"firstname,lastname\")") ?></code></p>
                 </td>
             </tr>
