@@ -100,7 +100,7 @@ class ExportToGoogleLiveData implements CFDBExport {
                         </a>
                     </div>
                 </td>
-                <td><p>Go to <b>Tools</b> menu -> <b>Scripts</b> -> <b>Script Editor...</b></p></td>
+                <td><p>Go to <strong>Tools</strong> menu -> <strong>Scripts</strong> -> <strong>Script Editor...</strong></p></td>
             </tr>
             <tr>
                 <td>
@@ -116,7 +116,7 @@ class ExportToGoogleLiveData implements CFDBExport {
                 </td>
                 <td>
                     <p>Delete any text that is already there</p>
-                    <p><b>Copy</b> the text from <a target="_gscript" href="<?php echo($scriptLink) ?>">THIS SCRIPT FILE</a> and <b>paste</b> it
+                    <p><strong>Copy</strong> the text from <a target="_gscript" href="<?php echo($scriptLink) ?>">THIS SCRIPT FILE</a> and <strong>paste</strong> it
                     into the Google script editor</p>
                 </td>
             </tr>
@@ -133,7 +133,7 @@ class ExportToGoogleLiveData implements CFDBExport {
                     </div>
                 </td>
                 <td>
-                    <p><b>Save</b> and <b>close</b> the script editor.</p>
+                    <p><strong>Save</strong> and <strong>close</strong> the script editor.</p>
                 </td>
             </tr>
             <tr>
@@ -152,7 +152,7 @@ class ExportToGoogleLiveData implements CFDBExport {
                     <p>Click on a cell A1 in the Spreadsheet (or any cell)</p>
                     <p>Enter in the cell the formula:</p>
                     <p><code><?php echo("=CF7ToDBData(\"$siteUrl\", \"$formName\", \"$search\", \"user\", \"pwd\")") ?></code></p>
-                    <p>Replacing <b>user</b> and <b>pwd</b> with your <u>WordPress</u> site user name and password</p>
+                    <p>Replacing <strong>user</strong> and <strong>pwd</strong> with your <u>WordPress</u> site user name and password</p>
                 </td>
             </tr>
             <tr>
