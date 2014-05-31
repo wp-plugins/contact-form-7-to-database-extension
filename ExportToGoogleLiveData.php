@@ -81,7 +81,7 @@ class ExportToGoogleLiveData implements CFDBExport {
                             <img src="<?php echo $imageUrlDir ?>/GoogleNewSS.png" alt="Create a new spreadsheet" height="100px" width="61px"/>
 
                             <div class="popup-content">
-                                <img src="<?php echo $imageUrlDir ?>/GoogleNewSS.png" alt="Create a new spreadsheet"/>
+                                <img src="<?php echo $imageUrlDir ?>/GoogleNewSS.png" alt="Create a new spreadsheet" height="75%" width="75%"/>
                             </div>
                         </a>
                     </div>
@@ -95,7 +95,21 @@ class ExportToGoogleLiveData implements CFDBExport {
                             <img src="<?php echo $imageUrlDir ?>/GoogleOpenScriptEditor.png" alt="Create a new spreadsheet" height="69px" width="100px"/>
 
                             <div class="popup-content">
-                                <img src="<?php echo $imageUrlDir ?>/GoogleOpenScriptEditor.png" alt="Create a new spreadsheet"/>
+                                <img src="<?php echo $imageUrlDir ?>/GoogleOpenScriptEditor.png" alt="Create a new spreadsheet" height="75%" width="75%"/>
+                            </div>
+                        </a>
+                    </div>
+                </td>
+                <td><p>Go to <strong>Tools</strong> menu -> <strong>Scripts</strong> -> <strong>Script Editor...</strong></p></td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="popup-trigger">
+                        <a href="<?php echo $imageUrlDir ?>/GoogleChooseSpreadsheet.png">
+                            <img src="<?php echo $imageUrlDir ?>/GoogleChooseSpreadsheet.png" alt="Choose Spreadsheet" height="69px" width="100px"/>
+
+                            <div class="popup-content">
+                                <img src="<?php echo $imageUrlDir ?>/GoogleChooseSpreadsheet.png" alt="GoogleChooseSpreadsheet Spreadsheet" height="75%" width="75%"/>
                             </div>
                         </a>
                     </div>
@@ -109,7 +123,7 @@ class ExportToGoogleLiveData implements CFDBExport {
                             <img src="<?php echo $imageUrlDir ?>/GooglePasteScriptEditor.png" alt="Paste script text" height="68px" width="100px"/>
 
                             <div class="popup-content">
-                                <img src="<?php echo $imageUrlDir ?>/GooglePasteScriptEditor.png" alt="Paste script text"/>
+                                <img src="<?php echo $imageUrlDir ?>/GooglePasteScriptEditor.png" alt="Paste script text" height="75%" width="75%"/>
                             </div>
                         </a>
                     </div>
@@ -127,7 +141,7 @@ class ExportToGoogleLiveData implements CFDBExport {
                             <img src="<?php echo $imageUrlDir ?>/GoogleSaveScriptEditor.png" alt="Create a new spreadsheet" height="100px" width="83px"/>
 
                             <div class="popup-content">
-                                <img src="<?php echo $imageUrlDir ?>/GoogleSaveScriptEditor.png" alt="Create a new spreadsheet"/>
+                                <img src="<?php echo $imageUrlDir ?>/GoogleSaveScriptEditor.png" alt="Create a new spreadsheet" height="75%" width="75%"/>
                             </div>
                         </a>
                     </div>
@@ -143,7 +157,7 @@ class ExportToGoogleLiveData implements CFDBExport {
                             <img src="<?php echo $imageUrlDir ?>/GoogleEnterFormula.png" alt="Create a new spreadsheet" height="43px" width="100px"/>
 
                             <div class="popup-content">
-                                <img src="<?php echo $imageUrlDir ?>/GoogleEnterFormula.png" alt="Create a new spreadsheet"/>
+                                <img src="<?php echo $imageUrlDir ?>/GoogleEnterFormula.png" alt="Create a new spreadsheet" height="75%" width="75%"/>
                             </div>
                         </a>
                     </div>
@@ -151,8 +165,10 @@ class ExportToGoogleLiveData implements CFDBExport {
                 <td>
                     <p>Click on a cell A1 in the Spreadsheet (or any cell)</p>
                     <p>Enter in the cell the formula:</p>
-                    <p><code><?php echo("=CF7ToDBData(\"$siteUrl\", \"$formName\", \"$search\", \"user\", \"pwd\")") ?></code></p>
+                    <p><code><?php echo("=cfdbdata(\"$siteUrl\", \"$formName\", \"user\", \"pwd\")") ?></code></p>
                     <p>Replacing <strong>user</strong> and <strong>pwd</strong> with your <u>WordPress</u> site user name and password</p>
+                    <p><a href="http://cfdbplugin.com/?page_id=93" target="sc">Standard CFDB shortcode options</a> can be added as additional parameters. For example as:</p>
+                    <p><code><?php echo("=cfdbdata(\"$siteUrl\", \"$formName\", \"user\", \"pwd\", \"filter\", \"lastname=Simpson\", \"show\", \"firstname,lastname\")") ?></code></p>
                 </td>
             </tr>
             <tr>
