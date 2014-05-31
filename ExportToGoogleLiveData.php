@@ -37,7 +37,6 @@ class ExportToGoogleLiveData implements CFDBExport {
         $scriptLink = $pluginUrlDir . 'CFDBGoogleSSLiveData.php';
         $imageUrlDir = $pluginUrlDir . "help";
         $siteUrl = get_option('home');
-        $search = isset($options['search']) ? $options['search'] : '';
 
         ob_start();
         ?>
