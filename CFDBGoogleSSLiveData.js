@@ -29,8 +29,8 @@
 7. Enter in the cell the formula:
    =cfdbdata("site_url", "form_name", "user", "password")
   Where the parameters are (be sure to quote them):
-    siteUrl: the URL of you site, e.g. "http://www.mywordpress.com"
-    formName: name of the form
+    site_url: the URL of you site, e.g. "http://www.mywordpress.com"
+    form_name: name of the form
     user: your login name on your WordPress site
     pwd: password
 */
