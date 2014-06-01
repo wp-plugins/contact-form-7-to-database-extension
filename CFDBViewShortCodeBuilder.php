@@ -42,7 +42,55 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         //            _e('No form submissions in the database', 'contact-form-7-to-database-extension');
         //            return;
         //        }
-        $currSelection = '';
+
+        // Collect any values in $_REQUEST to pre-populate the page controls
+        $postedForm = isset($_REQUEST['form']) ? $_REQUEST['form'] : '';
+        $postedEnc = isset($_REQUEST['enc']) ? $_REQUEST['enc'] : '';
+        $postedSC = isset($_REQUEST['sc']) ? ('[' . $_REQUEST['sc'] . ']') : '';
+        $postedShow = isset($_REQUEST['show']) ? ($_REQUEST['show']) : '';
+        $postedHide = isset($_REQUEST['hide']) ? ($_REQUEST['hide']) : '';
+        $postedRole = isset($_REQUEST['role']) ? ($_REQUEST['role']) : '';
+        $postedPermissionmsg = isset($_REQUEST['permissionmsg']) ? ($_REQUEST['permissionmsg']) : '';
+        $postedSearch = isset($_REQUEST['search']) ? ($_REQUEST['search']) : '';
+        $postedFilter = isset($_REQUEST['filter']) ? ($_REQUEST['filter']) : '';
+        $postedLimit = isset($_REQUEST['limit']) ? ($_REQUEST['limit']) : '';
+
+        $postedLimitComponents = explode(',', $postedLimit);
+        $postedLimitStart = '';
+        $postedLimitNumRows = '';
+        switch (count($postedLimitComponents)) {
+            case 2:
+                $postedLimitStart = $postedLimitComponents[0];
+                $postedLimitNumRows = $postedLimitComponents[1];
+            break;
+            case 1:
+                $postedLimitNumRows = $postedLimitComponents[0];
+                break;
+            default:
+                break;
+        }
+
+        $postedRandom = isset($_REQUEST['random']) ? ($_REQUEST['random']) : '';
+        $postedOrderby = isset($_REQUEST['orderby']) ? ($_REQUEST['orderby']) : '';
+        $postedHeader = isset($_REQUEST['header']) ? ($_REQUEST['header']) : '';
+        $postedHeaders = isset($_REQUEST['headers']) ? ($_REQUEST['headers']) : '';
+        $postedItemtitle = isset($_REQUEST['itemtitle']) ? ($_REQUEST['itemtitle']) : '';
+        $postedId = isset($_REQUEST['id']) ? ($_REQUEST['id']) : '';
+        $postedClass = isset($_REQUEST['class']) ? ($_REQUEST['class']) : '';
+        $postedStyle = isset($_REQUEST['style']) ? ($_REQUEST['style']) : '';
+        $postedEdit = isset($_REQUEST['edit']) ? ($_REQUEST['edit']) : '';
+        $postedDtOptions = isset($_REQUEST['dt_options']) ? ($_REQUEST['dt_options']) : '';
+        $postedVar = isset($_REQUEST['var']) ? ($_REQUEST['var']) : '';
+        $postedFormat = isset($_REQUEST['format']) ? ($_REQUEST['format']) : '';
+        $postedFunction = isset($_REQUEST['function']) ? ($_REQUEST['function']) : '';
+        $postedDelimiter = isset($_REQUEST['delimiter']) ? ($_REQUEST['delimiter']) : '';
+        $postedFilelinks = isset($_REQUEST['filelinks']) ? ($_REQUEST['filelinks']) : '';
+        $postedWpautop = isset($_REQUEST['wpautop']) ? ($_REQUEST['wpautop']) : '';
+        $postedStripbr = isset($_REQUEST['stripbr']) ? ($_REQUEST['stripbr']) : '';
+        $postedContent = isset($_REQUEST['content']) ? ($_REQUEST['content']) : '';
+        $postedUrlonly = isset($_REQUEST['urlonly']) ? ($_REQUEST['urlonly']) : '';
+        $postedLinktext = isset($_REQUEST['linktext']) ? ($_REQUEST['linktext']) : '';
+
         $infoImg = $plugin->getPluginFileUrl('/img/info.jpg');
         ?>
     <script type="text/javascript" language="JavaScript">
@@ -529,36 +577,44 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         }
 
         function reset() {
-            jQuery('#show_cntl').val('');
-            jQuery('#hide_cntl').val('');
-            jQuery('#role_cntl').val('');
-            jQuery('#permissionmsg_cntl').val('');
-            jQuery('#search_cntl').val('');
-            jQuery('#filter_cntl').val('');
-            jQuery('#limit_rows_cntl').val('');
-            jQuery('#limit_start_cntl').val('');
-            jQuery('#random_cntl').val('');
-            jQuery('#orderby_cntl').val('');
-            jQuery('#header_cntl').prop("checked", true);
-            jQuery('#headers_cntl').val('');
-            jQuery('#add_itemtitle').val('');
-            jQuery('#id_cntl').val('');
-            jQuery('#class_cntl').val('');
-            jQuery('#style_cntl').val('');
-            jQuery('#edit_mode_cntl').prop('checked', false);
-            jQuery('#dt_options_cntl').val('');
-            jQuery('#var_cntl').val('');
-            jQuery('#format_cntl').val('');
-            jQuery('#function_cntl').val('');
-            jQuery('#delimiter_cntl').val('');
-            jQuery('#filelinks_cntl').val('');
-            jQuery('#wpautop_cntl').val('');
-            jQuery('#stripbr_cntl').val('');
-            jQuery('#content_cntl').val('');
-            jQuery('#enc_cntl').val('');
-            jQuery('#urlonly_cntl').val('');
-            jQuery('#linktext_cntl').val('');
+            // Export File
+            jQuery('#export_cntl').val('<?php echo $postedEnc ?>');
+            jQuery('#export_header_cntl').prop("checked", <?php echo $postedHeader == 'false' ? 'false' : 'true' ?>); // default = true
+
+            // Short Code
+            jQuery('#shortcode_ctrl').val('<?php echo $postedSC ?>');
+            getFormFields();
+            jQuery('#show_cntl').val('<?php echo $postedShow ?>');
+            jQuery('#hide_cntl').val('<?php echo $postedHide ?>');
+            jQuery('#role_cntl').val('<?php echo $postedRole ?>');
+            jQuery('#permissionmsg_cntl').val('<?php echo $postedPermissionmsg ?>');
+            jQuery('#search_cntl').val('<?php echo $postedSearch ?>');
+            jQuery('#filter_cntl').val('<?php echo $postedFilter ?>');
+            jQuery('#limit_rows_cntl').val('<?php echo $postedLimitNumRows ?>');
+            jQuery('#limit_start_cntl').val('<?php echo $postedLimitStart ?>');
+            jQuery('#random_cntl').val('<?php echo $postedRandom ?>');
+            jQuery('#orderby_cntl').val('<?php echo $postedOrderby ?>');
+            jQuery('#header_cntl').prop("checked", <?php echo $postedHeader == 'false' ? 'false' : 'true' ?>); // default = true
+            jQuery('#headers_cntl').val('<?php echo $postedHeaders ?>');
+            jQuery('#add_itemtitle').val('<?php echo $postedItemtitle ?>');
+            jQuery('#id_cntl').val('<?php echo $postedId ?>');
+            jQuery('#class_cntl').val('<?php echo $postedClass ?>');
+            jQuery('#style_cntl').val('<?php echo $postedStyle ?>');
+            jQuery('#edit_mode_cntl').prop('checked', <?php echo $postedEdit == 'true' ? 'true' : 'false' ?>); // default = false
+            jQuery('#dt_options_cntl').val('<?php echo $postedDtOptions ?>');
+            jQuery('#var_cntl').val('<?php echo $postedVar ?>');
+            jQuery('#format_cntl').val('<?php echo $postedFormat ?>');
+            jQuery('#function_cntl').val('<?php echo $postedFunction ?>');
+            jQuery('#delimiter_cntl').val('<?php echo $postedDelimiter ?>');
+            jQuery('#filelinks_cntl').val('<?php echo $postedFilelinks ?>');
+            jQuery('#wpautop_cntl').val('<?php echo $postedWpautop ?>');
+            jQuery('#stripbr_cntl').val('<?php echo $postedStripbr ?>');
+            jQuery('#content_cntl').val('<?php echo $postedContent ?>');
+            jQuery('#enc_cntl').val('<?php echo $postedEnc ?>');
+            jQuery('#urlonly_cntl').val('<?php echo $postedUrlonly ?>');
+            jQuery('#linktext_cntl').val('<?php echo $postedLinktext ?>');
             showValidateSubmitTimeHelp(false);
+            showHideOptionDivs();
             createShortCodeAndExportLink();
         }
 
@@ -567,6 +623,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         });
 
         jQuery(document).ready(function() {
+            reset();
             showHideOptionDivs();
             createShortCodeAndExportLink();
             jQuery('#shortcode_ctrl').change(showHideOptionDivs);
@@ -659,7 +716,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             <option value=""><?php _e('* Select a form *', 'contact-form-7-to-database-extension') ?></option>
             <?php foreach ($rows as $aRow) {
             $formName = $aRow->form_name;
-            $selected = ($formName == $currSelection) ? "selected" : "";
+            $selected = ($formName == $postedForm) ? "selected" : "";
             ?>
             <option value="<?php echo $formName ?>" <?php echo $selected ?>><?php echo $formName ?></option>
             <?php } ?>
@@ -667,7 +724,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
 
         <?php // RESET  ?>
         <span style="margin-left:10px">
-            <button id="reset_button"><?php echo _e('Reset', 'contact-form-7-to-database-extension') ?></button>
+            <button id="reset_button"><?php _e('Reset', 'contact-form-7-to-database-extension') ?></button>
         </span>
 
         <div id="form_validations_text" class="validation"></div>
