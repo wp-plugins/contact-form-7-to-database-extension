@@ -494,13 +494,18 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('[id^=btn]').attr('disabled', 'disabled');
             var formName = jQuery('#form_name_cntl').val();
             var url = getFormFieldsUrlBase + encodeURIComponent(formName);
-            jQuery.getJSON(url, function(json) {
-                var optionsHtml = '<option value=""></option>';
-                jQuery(json).each(function() {
-                    optionsHtml += '<option value="' + this + '">' + this + '</option>';
-                });
-                jQuery('[id^=add]').html(optionsHtml).removeAttr('disabled');
-                jQuery('[id^=btn]').removeAttr('disabled');
+            jQuery.ajax({
+                dataType: "json",
+                url: url,
+                async: false,
+                success: function(json) {
+                    var optionsHtml = '<option value=""></option>';
+                    jQuery(json).each(function() {
+                        optionsHtml += '<option value="' + this + '">' + this + '</option>';
+                    jQuery('[id^=add]').html(optionsHtml).removeAttr('disabled');
+                    jQuery('[id^=btn]').removeAttr('disabled');
+                    });
+                }
             });
         }
 
@@ -577,13 +582,17 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         }
 
         function reset() {
+            // Form
+            jQuery('#form_name_cntl').val('<?php echo $postedForm ?>');
+            getFormFields();
+
             // Export File
             jQuery('#export_cntl').val('<?php echo $postedEnc ?>');
             jQuery('#export_header_cntl').prop("checked", <?php echo $postedHeader == 'false' ? 'false' : 'true' ?>); // default = true
+            jQuery('#add_itemtitle').val('<?php echo $postedItemtitle ?>');
 
             // Short Code
             jQuery('#shortcode_ctrl').val('<?php echo $postedSC ?>');
-            getFormFields();
             jQuery('#show_cntl').val('<?php echo $postedShow ?>');
             jQuery('#hide_cntl').val('<?php echo $postedHide ?>');
             jQuery('#role_cntl').val('<?php echo $postedRole ?>');
@@ -596,7 +605,6 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#orderby_cntl').val('<?php echo $postedOrderby ?>');
             jQuery('#header_cntl').prop("checked", <?php echo $postedHeader == 'false' ? 'false' : 'true' ?>); // default = true
             jQuery('#headers_cntl').val('<?php echo $postedHeaders ?>');
-            jQuery('#add_itemtitle').val('<?php echo $postedItemtitle ?>');
             jQuery('#id_cntl').val('<?php echo $postedId ?>');
             jQuery('#class_cntl').val('<?php echo $postedClass ?>');
             jQuery('#style_cntl').val('<?php echo $postedStyle ?>');
@@ -613,6 +621,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#enc_cntl').val('<?php echo $postedEnc ?>');
             jQuery('#urlonly_cntl').val('<?php echo $postedUrlonly ?>');
             jQuery('#linktext_cntl').val('<?php echo $postedLinktext ?>');
+
             showValidateSubmitTimeHelp(false);
             showHideOptionDivs();
             createShortCodeAndExportLink();
@@ -716,9 +725,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             <option value=""><?php _e('* Select a form *', 'contact-form-7-to-database-extension') ?></option>
             <?php foreach ($rows as $aRow) {
             $formName = $aRow->form_name;
-            $selected = ($formName == $postedForm) ? "selected" : "";
             ?>
-            <option value="<?php echo $formName ?>" <?php echo $selected ?>><?php echo $formName ?></option>
+            <option value="<?php echo $formName ?>"><?php echo $formName ?></option>
             <?php } ?>
         </select>
 
