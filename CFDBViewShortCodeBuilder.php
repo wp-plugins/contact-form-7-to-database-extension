@@ -216,6 +216,21 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             return '';
         }
 
+        function pushNameValue(attr, value, array, errors) {
+            if (value) {
+                if (errors && value.indexOf('"') > -1) {
+                    errors.push('<?php _e('Error: "', 'contact-form-7-to-database-extension'); ?>'
+                            + attr +
+                            '<?php _e('" should not contain double-quotes (")', 'contact-form-7-to-database-extension'); ?>');
+                    value = value.replace('"', "'");
+                }
+                array.push(attr);
+                array.push(value);
+                return true;
+            }
+            return false;
+        }
+
         function getValueUrl(attr, value) {
             if (value) {
                 return attr + '=' + encodeURIComponent(value)
@@ -244,9 +259,14 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         function createShortCodeAndExportLink() {
             var scElements = [];
             var scUrlElements = [];
-            var exportUrlElements = [];
             var scValidationErrors = [];
+
+            var exportUrlElements = [];
             var exportValidationErrors = [];
+
+            var googleScriptElements = [];
+            var googleScriptValidationErrors = [];
+
             var shortcode = jQuery('#shortcode_ctrl').val();
             if (shortcode == '') {
                 jQuery('#shortcode_result_text').html('');
@@ -255,69 +275,101 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             scElements.push(chopLastChar(shortcode));
 
             var formName = jQuery('#form_name_cntl').val();
+            var errMsg;
             if (!formName) {
-                var errMsg = '<?php _e('Error: no form is chosen', 'contact-form-7-to-database-extension') ?>';
+                errMsg = '<?php _e('Error: no form is chosen', 'contact-form-7-to-database-extension') ?>';
                 jQuery('#form_validations_text').html(errMsg);
                 scValidationErrors.push(errMsg);
                 exportValidationErrors.push(errMsg);
+                googleScriptValidationErrors.push(errMsg);
             }
             else {
                 jQuery('#form_validations_text').html('');
                 scElements.push('form="' + formName + '"');
                 scUrlElements.push('form=' + encodeURIComponent(formName));
                 exportUrlElements.push('form=' + encodeURIComponent(formName));
+                googleScriptElements.push('<?php echo get_option('home') ?>');
+                googleScriptElements.push(formName);
+                googleScriptElements.push('<?php echo is_user_logged_in() ?
+                        wp_get_current_user()->user_login :
+                        'user' ?>');
+                googleScriptElements.push('&lt;password&gt;');
             }
 
+            var val;
             if (shortcode != '[cfdb-count]') {
-                scElements.push(getValue('show', jQuery('#show_cntl').val(), scValidationErrors));
-                scUrlElements.push(getValueUrl('show', jQuery('#show_cntl').val()));
-                exportUrlElements.push(getValueUrl('show', jQuery('#show_cntl').val()));
+                val = jQuery('#show_cntl').val();
+                scElements.push(getValue('show', val, scValidationErrors));
+                scUrlElements.push(getValueUrl('show', val));
+                exportUrlElements.push(getValueUrl('show', val));
+                pushNameValue('show', val, googleScriptElements, googleScriptValidationErrors);
 
-                scElements.push(getValue('hide', jQuery('#hide_cntl').val(), scValidationErrors));
-                scUrlElements.push(getValueUrl('hide', jQuery('#hide_cntl').val()));
-                exportUrlElements.push(getValueUrl('hide', jQuery('#hide_cntl').val()));
+                val = jQuery('#hide_cntl').val();
+                scElements.push(getValue('hide', val, scValidationErrors));
+                scUrlElements.push(getValueUrl('hide', val));
+                exportUrlElements.push(getValueUrl('hide', val));
+                pushNameValue('hide', val, googleScriptElements, googleScriptValidationErrors);
             }
 
-            scElements.push(getValue('role', jQuery('#role_cntl').val(), scValidationErrors));
-            scUrlElements.push(getValueUrl('role', jQuery('#role_cntl').val()));
-            exportUrlElements.push(getValueUrl('role', jQuery('#role_cntl').val()));
+            val =  jQuery('#role_cntl').val();
+            scElements.push(getValue('role', val, scValidationErrors));
+            scUrlElements.push(getValueUrl('role', val));
+            exportUrlElements.push(getValueUrl('role', val));
+            pushNameValue('role', val, googleScriptElements, googleScriptValidationErrors);
 
-            scElements.push(getValue('permissionmsg', jQuery('#permissionmsg_cntl').val(), scValidationErrors));
-            scUrlElements.push(getValueUrl('permissionmsg', jQuery('#permissionmsg_cntl').val()));
-            exportUrlElements.push(getValueUrl('permissionmsg', jQuery('#permissionmsg_cntl').val()));
+            val = jQuery('#permissionmsg_cntl').val();
+            scElements.push(getValue('permissionmsg', val, scValidationErrors));
+            scUrlElements.push(getValueUrl('permissionmsg', val));
+            exportUrlElements.push(getValueUrl('permissionmsg', val));
+            pushNameValue('permissionmsg', val, googleScriptElements, googleScriptValidationErrors);
 
-            var filter = getValue('filter', jQuery('#filter_cntl').val(), scValidationErrors);
+            var filter = jQuery('#filter_cntl').val();
+            var search = jQuery('#search_cntl').val();
             if (filter) {
-                scElements.push(filter);
-                scUrlElements.push(getValueUrl('filter', jQuery('#filter_cntl').val()));
-                exportUrlElements.push(getValueUrl('filter', jQuery('#filter_cntl').val()));
+                scElements.push(getValue('filter', filter, scValidationErrors));
+                scUrlElements.push(getValueUrl('filter', filter));
+                exportUrlElements.push(getValueUrl('filter', filter));
+                pushNameValue('filter', filter, googleScriptElements, googleScriptValidationErrors);
 
-                if (jQuery('#search_cntl').val()) {
-                    scValidationErrors.push('<?php _e('Warning: "search" field ignored because "filter" is used (use one but not both)', 'contact-form-7-to-database-extension'); ?>');
+                if (search) {
+                    errMsg = '<?php _e('Warning: "search" field ignored because "filter" is used (use one but not both)', 'contact-form-7-to-database-extension'); ?>';
+                    scValidationErrors.push(errMsg);
+                    exportValidationErrors.push(errMsg);
+                    googleScriptValidationErrors.push(errMsg);
                 }
             }
             else {
-                scElements.push(getValue('search', jQuery('#search_cntl').val(), scValidationErrors));
-                scUrlElements.push(getValueUrl('search', jQuery('#search_cntl').val()));
-                exportUrlElements.push(getValueUrl('search', jQuery('#search_cntl').val()));
+                scElements.push(getValue('search', search, scValidationErrors));
+                scUrlElements.push(getValueUrl('search', search));
+                exportUrlElements.push(getValueUrl('search', search));
+                pushNameValue('search', search, googleScriptElements, googleScriptValidationErrors);
             }
 
             if (shortcode != '[cfdb-count]') {
                 var limitRows = jQuery('#limit_rows_cntl').val();
                 var limitStart = jQuery('#limit_start_cntl').val();
                 if (limitStart && !limitRows) {
-                    scValidationErrors.push('<?php _e('Error: "limit": if you provide a value for "Start Row" then you must also provide a value for "Num Rows"', 'contact-form-7-to-database-extension'); ?>');
+                    errMsg = '<?php _e('Error: "limit": if you provide a value for "Start Row" then you must also provide a value for "Num Rows"', 'contact-form-7-to-database-extension'); ?>';
+                    scValidationErrors.push(errMsg);
+                    exportValidationErrors.push(errMsg);
+                    googleScriptValidationErrors.push(errMsg);
                 }
                 if (limitRows) {
                     if (! /^\d+$/.test(limitRows)) {
-                        scValidationErrors.push('<?php _e('Error: "limit": "Num Rows" must be a positive integer', 'contact-form-7-to-database-extension'); ?>');
+                        errMsg = '<?php _e('Error: "limit": "Num Rows" must be a positive integer', 'contact-form-7-to-database-extension'); ?>';
+                        scValidationErrors.push(errMsg);
+                        exportValidationErrors.push(errMsg);
+                        googleScriptValidationErrors.push(errMsg);
                     }
                     else {
-                        var limitOption = 'limit="';
+                        var limitOption = '';
                         var limitOptionUrl = 'limit=';
                         if (limitStart) {
                             if (! /^\d+$/.test(limitStart)) {
-                                scValidationErrors.push('<?php _e('Error: "limit": "Start Row" must be a positive integer', 'contact-form-7-to-database-extension'); ?>');
+                                errMsg = '<?php _e('Error: "limit": "Start Row" must be a positive integer', 'contact-form-7-to-database-extension'); ?>';
+                                scValidationErrors.push(errMsg);
+                                exportValidationErrors.push(errMsg);
+                                googleScriptValidationErrors.push(errMsg);
                             }
                             else {
                                 limitOption += limitStart + ",";
@@ -326,38 +378,50 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                         }
                         limitOption += limitRows;
                         limitOptionUrl += limitRows;
-                        scElements.push(limitOption + '"');
+                        scElements.push("limit=" + limitOption + '"');
                         scUrlElements.push(limitOptionUrl);
                         exportUrlElements.push(limitOptionUrl);
+                        pushNameValue("limit", limitOption, googleScriptElements, googleScriptValidationErrors);
                     }
                 }
 
-                scElements.push(getValue('random', jQuery('#random_cntl').val(), scValidationErrors));
-                scUrlElements.push(getValueUrl('random', jQuery('#random_cntl').val()));
+                val = jQuery('#random_cntl').val();
+                scElements.push(getValue('random', val, scValidationErrors));
+                scUrlElements.push(getValueUrl('random', val));
+                pushNameValue("random", val, googleScriptElements, googleScriptValidationErrors);
 
-                var orderByElem = getValue('orderby', jQuery('#orderby_cntl').val(), scValidationErrors);
-                if (orderByElem) {
-                    var orderByElemUrl = getValueUrl('orderby', jQuery('#orderby_cntl').val());
+                var orderBy = jQuery('#orderby_cntl').val();
+                if (orderBy) {
+                    var orderByElem = getValue('orderby', val, scValidationErrors);
+                    var orderByElemUrl = getValueUrl('orderby', val);
                     var orderByDir = jQuery('#orderbydir_cntl').val();
                     if (orderByDir) {
+                        orderBy += ' ' + orderByDir;
                         orderByElem = chopLastChar(orderByElem) + ' ' + orderByDir + '"';
                         orderByElemUrl = orderByElemUrl + encodeURIComponent(' ' + orderByDir);
                     }
                     scElements.push(orderByElem);
                     scUrlElements.push(orderByElemUrl);
                     exportUrlElements.push(orderByElemUrl);
+                    pushNameValue("orderby", orderBy, googleScriptElements, googleScriptValidationErrors);
                 }
             }
 
             var scText;
             switch (shortcode) {
                 case '[cfdb-html]':
-                    scElements.push(getValue('filelinks', jQuery('#filelinks_cntl').val(), scValidationErrors));
-                    scUrlElements.push(getValueUrl('filelinks', jQuery('#filelinks_cntl').val()));
-                    scElements.push(getValue('wpautop', jQuery('#wpautop_cntl').val(), scValidationErrors));
-                    scUrlElements.push(getValueUrl('wpautop', jQuery('#wpautop_cntl').val()));
-                    scElements.push(getValue('stripbr', jQuery('#stripbr_cntl').val(), scValidationErrors));
-                    scUrlElements.push(getValueUrl('stripbr', jQuery('#stripbr_cntl').val()));
+                    val = jQuery('#filelinks_cntl').val();
+                    scElements.push(getValue('filelinks', val, scValidationErrors));
+                    scUrlElements.push(getValueUrl('filelinks', val));
+
+                    val = jQuery('#wpautop_cntl').val();
+                    scElements.push(getValue('wpautop', val, scValidationErrors));
+                    scUrlElements.push(getValueUrl('wpautop', val));
+
+                    val = jQuery('#stripbr_cntl').val();
+                    scElements.push(getValue('stripbr', val, scValidationErrors));
+                    scUrlElements.push(getValueUrl('stripbr', val));
+
                     var content = jQuery('#content_cntl').val();
                     scUrlElements.push('content=' + encodeURIComponent(content));
                     scUrlElements.push('enc=HTMLTemplate');
@@ -377,15 +441,23 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     if (!jQuery('#header_cntl').is(':checked')) {
                         scElements.push('header="false"');
                         scUrlElements.push(getValueUrl('header', 'false'));
+                        pushNameValue("header", "false", googleScriptElements, googleScriptValidationErrors);
                     }
-                    scElements.push(getValue('headers', jQuery('#headers_cntl').val(), scValidationErrors));
-                    scUrlElements.push(getValueUrl('headers', jQuery('#headers_cntl').val()));
-                    scElements.push(getValue('id', jQuery('#id_cntl').val(), scValidationErrors));
-                    scUrlElements.push(getValueUrl('id', jQuery('#id_cntl').val()));
-                    scElements.push(getValue('class', jQuery('#class_cntl').val(), scValidationErrors));
-                    scUrlElements.push(getValueUrl('class', jQuery('#class_cntl').val()));
-                    scElements.push(getValue('style', jQuery('#style_cntl').val(), scValidationErrors));
-                    scUrlElements.push(getValueUrl('style', jQuery('#style_cntl').val()));
+                    val = jQuery('#headers_cntl').val();
+                    scElements.push(getValue('headers', val, scValidationErrors));
+                    scUrlElements.push(getValueUrl('headers', val));
+
+                    val = jQuery('#id_cntl').val();
+                    scElements.push(getValue('id', val, scValidationErrors));
+                    scUrlElements.push(getValueUrl('id', val));
+
+                    val = jQuery('#class_cntl').val();
+                    scElements.push(getValue('class', val, scValidationErrors));
+                    scUrlElements.push(getValueUrl('class',val));
+
+                    val = jQuery('#style_cntl').val();
+                    scElements.push(getValue('style', val, scValidationErrors));
+                    scUrlElements.push(getValueUrl('style', val));
                     scUrlElements.push('enc=HTML');
                     scText = join(scElements) + ']';
                     break;
@@ -394,28 +466,41 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                         scElements.push('header="false"');
                         scUrlElements.push(getValueUrl('header', 'false'));
                     }
-                    scElements.push(getValue('headers', jQuery('#headers_cntl').val(), scValidationErrors));
-                    scUrlElements.push(getValueUrl('headers', jQuery('#headers_cntl').val()));
-                    scElements.push(getValue('id', jQuery('#id_cntl').val(), scValidationErrors));
-                    scUrlElements.push(getValueUrl('id', jQuery('#id_cntl').val()));
-                    scElements.push(getValue('class', jQuery('#class_cntl').val(), scValidationErrors));
-                    scUrlElements.push(getValueUrl('class', jQuery('#class_cntl').val()));
-                    scElements.push(getValue('style', jQuery('#style_cntl').val(), scValidationErrors));
-                    scUrlElements.push(getValueUrl('style', jQuery('#style_cntl').val()));
+                    val = jQuery('#headers_cntl').val();
+                    scElements.push(getValue('headers', val, scValidationErrors));
+                    scUrlElements.push(getValueUrl('headers', val));
+
+                    val = jQuery('#id_cntl').val();
+                    scElements.push(getValue('id', val, scValidationErrors));
+                    scUrlElements.push(getValueUrl('id', val));
+
+                    val = jQuery('#class_cntl').val();
+                    scElements.push(getValue('class', val, scValidationErrors));
+                    scUrlElements.push(getValueUrl('class', val));
+
+                    val = jQuery('#style_cntl').val();
+                    scElements.push(getValue('style', val, scValidationErrors));
+                    scUrlElements.push(getValueUrl('style', val));
+
                     if (jQuery('#edit_mode_cntl').attr('checked')) {
                         scElements.push('edit="true"');
                         scUrlElements.push('edit=true');
                     }
-                    scElements.push(getValue('dt_options', jQuery('#dt_options_cntl').val(), scValidationErrors));
-                    scUrlElements.push(getValueUrl('dt_options', jQuery('#dt_options_cntl').val()));
+
+                    val = jQuery('#dt_options_cntl').val();
+                    scElements.push(getValue('dt_options', val, scValidationErrors));
+                    scUrlElements.push(getValueUrl('dt_options', val));
                     scUrlElements.push('enc=DT');
                     scText = join(scElements) + ']';
                     break;
                 case '[cfdb-value]':
-                    scElements.push(getValue('function', jQuery('#function_cntl').val(), scValidationErrors));
-                    scUrlElements.push(getValueUrl('function', jQuery('#function_cntl').val()));
-                    scElements.push(getValue('delimiter', jQuery('#delimiter_cntl').val(), scValidationErrors));
-                    scUrlElements.push(getValueUrl('delimiter', jQuery('#delimiter_cntl').val()));
+                    val = jQuery('#function_cntl').val();
+                    scElements.push(getValue('function', val, scValidationErrors));
+                    scUrlElements.push(getValueUrl('function', val));
+
+                    val = jQuery('#delimiter_cntl').val();
+                    scElements.push(getValue('delimiter', val, scValidationErrors));
+                    scUrlElements.push(getValueUrl('delimiter', val));
                     scUrlElements.push('enc=VALUE');
                     scText = join(scElements) + ']';
                     break;
@@ -424,16 +509,20 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     scText = join(scElements) + ']'; // hopLastChar(scElements.join(' ')) + ']';
                     break;
                 case '[cfdb-json]':
-                    scElements.push(getValue('var', jQuery('#var_cntl').val(), scValidationErrors));
-                    scUrlElements.push(getValueUrl('var', jQuery('#var_cntl').val()));
-                    scElements.push(getValue('format', jQuery('#format_cntl').val(), scValidationErrors));
-                    scUrlElements.push(getValueUrl('format', jQuery('#format_cntl').val()));
+                    val = jQuery('#var_cntl').val();
+                    scElements.push(getValue('var', val, scValidationErrors));
+                    scUrlElements.push(getValueUrl('var', val));
+
+                    val = jQuery('#format_cntl').val();
+                    scElements.push(getValue('format', val, scValidationErrors));
+                    scUrlElements.push(getValueUrl('format', val));
                     scUrlElements.push('enc=JSON');
                     scText = join(scElements) + ']';
                     break;
                 case '[cfdb-export-link]':
-                    scElements.push(getValue('enc', jQuery('#enc_cntl').val(), scValidationErrors));
-                    scUrlElements.push(getValueUrl('enc', jQuery('#enc_cntl').val()));
+                    val = jQuery('#enc_cntl').val();
+                    scElements.push(getValue('enc', val, scValidationErrors));
+                    scUrlElements.push(getValueUrl('enc', val));
                     scElements.push(getValue('urlonly', jQuery('#urlonly_cntl').val(), scValidationErrors));
                     scElements.push(getValue('linktext', jQuery('#linktext_cntl').val(), scValidationErrors));
                     scText = join(scElements) + ']';
@@ -462,30 +551,40 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 jQuery('#shortcode_validations_text').html('');
             }
 
-            // Output export link
-            if (jQuery('#export_cntl').val()) {
-                var exportSelection = jQuery('#export_cntl').val();
+            // Export link or Google Spreadsheet function call
+            var exportSelection = jQuery('#export_cntl').val();
+            if (exportSelection) {
                 exportUrlElements.push(getValueUrl('enc', exportSelection));
                 if (exportSelection == 'RSS') {
                     exportUrlElements.push(getValueUrl('itemtitle', jQuery('#add_itemtitle').val()));
-                }
-                else {
+                } else {
                     if (!jQuery('#export_header_cntl').is(':checked')) {
                         exportUrlElements.push(getValueUrl('header', 'false'));
+                        pushNameValue("header", "false", googleScriptElements, googleScriptValidationErrors);
                     }
+                    val = jQuery('#headers_cntl').val();
+                    scElements.push(getValue('headers', val, scValidationErrors));
+                    pushNameValue("headers", val, googleScriptElements, googleScriptValidationErrors);
                 }
 
-                var exportUrl = urlBase + join(exportUrlElements, '&');
-                jQuery('#export_result_text').html(formName ? ('<a href="' + exportUrl + '">' + exportUrl + '</a>') : '');
-                // Output export errors
-                jQuery('#export_validations_text').html(exportValidationErrors.join('<br/>'));
-            }
-            else {
+                // Output
+                if (exportSelection == 'GLD') {
+                    jQuery('#export_result_text').html(formName ?
+                            ("=cfdbddata(\"" + googleScriptElements.join("\", \"") + "\")") :
+                            "");
+                    jQuery('#export_validations_text').html(googleScriptValidationErrors.join('<br/>'));
+                } else {
+                    var exportUrl = urlBase + join(exportUrlElements, '&');
+                    jQuery('#export_result_text').html(formName ? ('<a href="' + exportUrl + '">' + exportUrl + '</a>') : '');
+                    // Output export errors
+                    jQuery('#export_validations_text').html(exportValidationErrors.join('<br/>'));
+
+                }
+            } else {
                 jQuery('#export_result_text').html('');
                 // Don't report errors
                 jQuery('#export_validations_text').html('');
             }
-
         }
 
         var getFormFieldsUrlBase = '<?php echo $plugin->getFormFieldsAjaxUrlBase() ?>';
@@ -761,9 +860,12 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             <option value="RSS">
                 <?php _e('RSS', 'contact-form-7-to-database-extension'); ?>
             </option>
+            <option value="GLD">
+                <?php _e('Google Spreadsheet Live Data', 'contact-form-7-to-database-extension'); ?>
+            </option>
         </select>
         <span id="export_header_span">
-            <input id="export_header_cntl" type="checkbox" checked="true"/>
+            <input id="export_header_cntl" type="checkbox" checked/>
             <label for="export_header_cntl"><?php _e('Include Header Row', 'contact-form-7-to-database-extension') ?></label>
         </span>
         <span  id="itemtitle_span">
@@ -1048,8 +1150,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
     </div>
     <?php // HTML TEMPLATE  ?>
     <div id="template_div" class="shortcodeoptions">
+        <div><?php _e('[cfdb-html] Options', 'contact-form-7-to-database-extension'); ?></div>
         <div>
-            <div><?php _e('[cfdb-html] Options', 'contact-form-7-to-database-extension'); ?></div>
             <div class="label_box">
                 <label for="filelinks_cntl"><?php _e('filelinks', 'contact-form-7-to-database-extension') ?></label>
                 <a target="_docs" href="http://cfdbplugin.com/?page_id=284#filelinks"><img alt="?" src="<?php echo $infoImg ?>"/></a>
@@ -1091,6 +1193,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
     </div>
     <?php // URL ENC, URL_ONLY LINK_TEXT      ?>
     <div id="url_link_div" class="shortcodeoptions">
+        <div><?php _e('[cfdb-export-link] Options', 'contact-form-7-to-database-extension'); ?></div>
         <div>
             <div class="label_box">
                 <label for="enc_cntl"><?php _e('enc', 'contact-form-7-to-database-extension') ?></label>
