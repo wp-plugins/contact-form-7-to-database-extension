@@ -120,6 +120,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#value_div').hide();
                     jQuery('#template_div').show();
                     jQuery('#url_link_div').hide();
+                    jQuery('#headers_div').hide();
                     break;
                 case "[cfdb-table]":
                     jQuery('#show_hide_div').show();
@@ -130,6 +131,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#value_div').hide();
                     jQuery('#template_div').hide();
                     jQuery('#url_link_div').hide();
+                    jQuery('#headers_div').show();
                     break;
                 case "[cfdb-datatable]":
                     jQuery('#show_hide_div').show();
@@ -140,6 +142,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#value_div').hide();
                     jQuery('#template_div').hide();
                     jQuery('#url_link_div').hide();
+                    jQuery('#headers_div').show();
                     break;
                 case "[cfdb-value]":
                     jQuery('#show_hide_div').show();
@@ -150,6 +153,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#value_div').show();
                     jQuery('#template_div').hide();
                     jQuery('#url_link_div').hide();
+                    jQuery('#headers_div').hide();
                     break;
                 case "[cfdb-count]":
                     jQuery('#show_hide_div').hide();
@@ -160,6 +164,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#value_div').hide();
                     jQuery('#template_div').hide();
                     jQuery('#url_link_div').hide();
+                    jQuery('#headers_div').hide();
                     break;
                 case "[cfdb-json]":
                     jQuery('#show_hide_div').show();
@@ -170,6 +175,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#value_div').hide();
                     jQuery('#template_div').hide();
                     jQuery('#url_link_div').hide();
+                    jQuery('#headers_div').hide();
                     break;
                 case "[cfdb-export-link]":
                     jQuery('#show_hide_div').show();
@@ -180,6 +186,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#value_div').hide();
                     jQuery('#template_div').hide();
                     jQuery('#url_link_div').show();
+                    jQuery('#headers_div').show();
                     break;
                 default:
                     jQuery('#show_hide_div').show();
@@ -190,16 +197,18 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#value_div').hide();
                     jQuery('#template_div').hide();
                     jQuery('#url_link_div').hide();
+                    jQuery('#headers_div').hide();
                     break;
             }
             var exportSelected = jQuery('#export_cntl').val();
-            if (exportSelected == 'RSS') {
-                jQuery('#itemtitle_span').show();
-                jQuery('#export_header_span').hide();
-            }
-            else {
-                jQuery('#itemtitle_span').hide();
-                jQuery('#export_header_span').show();
+            if (exportSelected) {
+                if (exportSelected == 'RSS') {
+                    jQuery('#itemtitle_span').show();
+                }
+                else {
+                    jQuery('#itemtitle_span').hide();
+                    jQuery('#headers_div').show();
+                }
             }
         }
 
@@ -558,12 +567,12 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 if (exportSelection == 'RSS') {
                     exportUrlElements.push(getValueUrl('itemtitle', jQuery('#add_itemtitle').val()));
                 } else {
-                    if (!jQuery('#export_header_cntl').is(':checked')) {
+                    if (!jQuery('#header_cntl').is(':checked')) {
                         exportUrlElements.push(getValueUrl('header', 'false'));
                         pushNameValue("header", "false", googleScriptElements, googleScriptValidationErrors);
                     }
                     val = jQuery('#headers_cntl').val();
-                    scElements.push(getValue('headers', val, scValidationErrors));
+                    exportUrlElements.push(getValueUrl('headers', val, scValidationErrors));
                     pushNameValue("headers", val, googleScriptElements, googleScriptValidationErrors);
                 }
 
@@ -687,7 +696,6 @@ class CFDBViewShortCodeBuilder extends CFDBView {
 
             // Export File
             jQuery('#export_cntl').val('<?php echo $postedEnc ?>');
-            jQuery('#export_header_cntl').prop("checked", <?php echo $postedHeader == 'false' ? 'false' : 'true' ?>); // default = true
             jQuery('#add_itemtitle').val('<?php echo $postedItemtitle ?>');
 
             // Short Code
@@ -763,7 +771,6 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 createShortCodeAndExportLink();
             });
             jQuery('#add_itemtitle').change(createShortCodeAndExportLink);
-            jQuery('#export_header_cntl').click(createShortCodeAndExportLink);
             jQuery('#form_name_cntl').change(createShortCodeAndExportLink);
         });
 
@@ -864,10 +871,6 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 <?php _e('Google Spreadsheet Live Data', 'contact-form-7-to-database-extension'); ?>
             </option>
         </select>
-        <span id="export_header_span">
-            <input id="export_header_cntl" type="checkbox" checked/>
-            <label for="export_header_cntl"><?php _e('Include Header Row', 'contact-form-7-to-database-extension') ?></label>
-        </span>
         <span  id="itemtitle_span">
             <label for="add_itemtitle"><?php _e('Item Title', 'contact-form-7-to-database-extension') ?></label>
             <select name="add_itemtitle" id="add_itemtitle"></select>
@@ -1039,9 +1042,9 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             </select>
         </div>
     </div>
-    <?php // ID, CLASS, STYLE  ?>
-    <div id="html_format_div" class="shortcodeoptions">
-        <div><?php _e('HTML Table Formatting', 'contact-form-7-to-database-extension'); ?></div>
+    <?php // HEADERS  ?>
+    <div id="headers_div" class="shortcodeoptions">
+        <div><?php _e('Table Headers', 'contact-form-7-to-database-extension'); ?></div>
         <div>
             <div class="label_box">
                 <input id="header_cntl" type="checkbox" checked="true"/>
@@ -1060,6 +1063,10 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             <br/>
             <input name="headers_cntl" id="headers_cntl" type="text" size="100" placeholder="<?php _e('field1=Display Name 1,field2=Display Name 2', 'contact-form-7-to-database-extension') ?>"/>
         </div>
+    </div>
+    <?php // ID, CLASS, STYLE  ?>
+    <div id="html_format_div" class="shortcodeoptions">
+        <div><?php _e('HTML Table Formatting', 'contact-form-7-to-database-extension'); ?></div>
         <div>
             <div class="label_box">
                 <label for="id_cntl"><?php _e('id', 'contact-form-7-to-database-extension') ?></label>
