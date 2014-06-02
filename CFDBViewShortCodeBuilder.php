@@ -544,6 +544,15 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     scUrlElements.push(getValueUrl('enc', val));
                     scElements.push(getValue('urlonly', jQuery('#urlonly_cntl').val(), scValidationErrors));
                     scElements.push(getValue('linktext', jQuery('#linktext_cntl').val(), scValidationErrors));
+
+                    if (!jQuery('#header_cntl').is(':checked')) {
+                        scElements.push('header="false"');
+                        scUrlElements.push(getValueUrl('header', 'false'));
+                    }
+                    val = jQuery('#headers_cntl').val();
+                    scElements.push(getValue('headers', val, scValidationErrors));
+                    scUrlElements.push(getValueUrl('headers', val));
+
                     scText = join(scElements) + ']';
                     break;
                 default:

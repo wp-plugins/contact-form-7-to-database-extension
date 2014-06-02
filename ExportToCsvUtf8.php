@@ -119,7 +119,11 @@ class ExportToCsvUtf8 extends ExportBase implements CFDBExport {
         }
         else  {
             foreach ($this->dataIterator->displayColumns as $aCol) {
-                printf('"%s",', str_replace('"', '""', $aCol));
+                $colDisplayValue = $aCol;
+                if ($this->headers && isset($this->headers[$aCol])) {
+                    $colDisplayValue = $this->headers[$aCol];
+                }
+                printf('"%s",', str_replace('"', '""', $colDisplayValue));
             }
             echo $eol;
         }

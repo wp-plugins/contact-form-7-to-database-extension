@@ -58,7 +58,11 @@ class ExportToCsvUtf16le extends ExportBase implements CFDBExport {
         }
         else  {
             foreach ($this->dataIterator->displayColumns as $aCol) {
-                echo $this->prepareCsvValue($aCol);
+                $colDisplayValue = $aCol;
+                if ($this->headers && isset($this->headers[$aCol])) {
+                    $colDisplayValue = $this->headers[$aCol];
+                }
+                echo $this->prepareCsvValue($colDisplayValue);
                 echo $delimiter;
             }
             echo $eol;
