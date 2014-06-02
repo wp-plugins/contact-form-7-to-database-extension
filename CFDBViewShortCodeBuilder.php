@@ -209,6 +209,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#itemtitle_span').hide();
                     jQuery('#headers_div').show();
                 }
+            } else {
+                jQuery('#itemtitle_span').hide();
             }
         }
 
