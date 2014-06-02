@@ -37,6 +37,7 @@ class ExportToGoogleLiveData implements CFDBExport {
         $scriptLink = $pluginUrlDir . 'CFDBGoogleSSLiveData.php';
         $imageUrlDir = $pluginUrlDir . "help";
         $siteUrl = get_option('home');
+        $userName = is_user_logged_in() ? wp_get_current_user()->user_login : 'user';
 
         ob_start();
         ?>
@@ -163,16 +164,18 @@ class ExportToGoogleLiveData implements CFDBExport {
                     </div>
                 </td>
                 <td>
-                    <p><?php _e('Click on a cell A1 in the Spreadsheet (or any cell)', 'contact-form-7-to-database-extension'); ?></p>
-                    <p><?php _e('Enter in the cell the formula:', 'contact-form-7-to-database-extension'); ?></p>
-                    <p><code><?php echo("=cfdbdata(\"$siteUrl\", \"$formName\", \"user\", \"pwd\")") ?></code></p>
-                    <p><?php _e('Replacing <strong>user</strong> and <strong>pwd</strong> with your <u>WordPress</u> site user name and password', 'contact-form-7-to-database-extension'); ?></p>
-                    <p><a href="http://cfdbplugin.com/?page_id=93" target="sc"><?php _e('Standard CFDB shortcode options</a> can be added as additional parameters. For example:', 'contact-form-7-to-database-extension'); ?></p>
-                    <p><code><?php echo("=cfdbdata(\"$siteUrl\", \"$formName\", \"user\", \"pwd\", \"filter\", \"lastname=Simpson\", \"show\", \"firstname,lastname\")") ?></code></p>
+                    <p><?php _e('Click on a cell A1 in the Spreadsheet (or any cell)', 'contact-form-7-to-database-extension'); ?>
+                        <br/><?php _e('Enter in the cell the formula:', 'contact-form-7-to-database-extension'); ?>
+                        <br/><span style="background-color: yellow"><code><?php echo("=cfdbdata(\"$siteUrl\", \"$formName\", \"$userName\", \"&lt;password&gt;\")") ?></code></span>
+                        <br/><?php _e('Replace <strong>&lt;password&gt;</strong> with your <em>WordPress</em> password', 'contact-form-7-to-database-extension'); ?>
+                    </p>
+                    <?php
+                        $scBuilderPageUrl = $siteUrl . '/wp-admin/admin.php?page=CF7DBPluginShortCodeBuilder&enc=GLD&form=' . urlencode($formName);
+                    ?>
+                    <p>
+                        <a href="<?php echo $scBuilderPageUrl ?>" target="sc"><?php _e('Customize the output by creating a Google Spreadsheet Function call with additional options', 'contact-form-7-to-database-extension'); ?></a>
+                    </p>
                 </td>
-            </tr>
-            <tr>
-
             </tr>
             </tbody>
         </table>

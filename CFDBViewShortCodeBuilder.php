@@ -34,6 +34,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         }
         $this->pageHeader($plugin);
 
+        $siteUrl = get_option('home');
+
         // Identify which forms have data in the database
         global $wpdb;
         $tableName = $plugin->getSubmitsTableName();
@@ -201,6 +203,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     break;
             }
             var exportSelected = jQuery('#export_cntl').val();
+            jQuery('#label_export_link').show();
+            jQuery('#label_gld_function').hide();
             if (exportSelected) {
                 if (exportSelected == 'RSS') {
                     jQuery('#itemtitle_span').show();
@@ -208,6 +212,10 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 else {
                     jQuery('#itemtitle_span').hide();
                     jQuery('#headers_div').show();
+                    if (exportSelected == "GLD") {
+                        jQuery('#label_export_link').hide();
+                        jQuery('#label_gld_function').show();
+                    }
                 }
             } else {
                 jQuery('#itemtitle_span').hide();
@@ -299,7 +307,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 scElements.push('form="' + formName + '"');
                 scUrlElements.push('form=' + encodeURIComponent(formName));
                 exportUrlElements.push('form=' + encodeURIComponent(formName));
-                googleScriptElements.push('<?php echo get_option('home') ?>');
+                googleScriptElements.push('<?php echo $siteUrl ?>');
                 googleScriptElements.push(formName);
                 googleScriptElements.push('<?php echo is_user_logged_in() ?
                         wp_get_current_user()->user_login :
@@ -879,15 +887,18 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         </span>
 
         <div id="export_result_div">
-            <?php _e('Generated Export Link:', 'contact-form-7-to-database-extension'); ?>
+            <span id="label_export_link"><?php _e('Generated Export Link:', 'contact-form-7-to-database-extension'); ?></span>
+            <span id="label_gld_function" style="display:none">
+                <?php _e('Generated Google Spreadsheet Function:', 'contact-form-7-to-database-extension'); ?>
+                <?php _e('Replace <strong>&lt;password&gt;</strong> with your <em>WordPress</em> password', 'contact-form-7-to-database-extension'); ?>
+                <br/>
+                <?php _e('Requires code installed in your Google Spreadsheet script editor.'); ?>
+                <a target="code" href="<?php echo $siteUrl ?>/wp-content/plugins/contact-form-7-to-database-extension/CFDBGoogleSSLiveData.php"><?php _e('Get code'); ?></a>.
+                <a target="instructions" href="<?php echo $siteUrl ?>/wp-admin/admin-ajax.php?action=cfdb-export&form=alanine&enc=GLD"><?php _e('See instructions.'); ?></a>
+          </span>
             <br/><div class="generated" id="export_result_text"></div>
         </div>
         <div id="export_validations_text" class="validation"></div>
-        <span style="font-size: x-small;">
-            <a target="_docs"
-               href="http://cfdbplugin.com/?page_id=444"><?php _e('(Did you know: you can create your own short code)', 'contact-form-7-to-database-extension'); ?></a>
-        </span>
-
     </div>
 
 
