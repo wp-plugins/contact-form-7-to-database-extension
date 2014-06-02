@@ -87,6 +87,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.7.3 =
+* Fix for mysql_real_escape_string error
+
 = 2.7.2 =
 * Google Spreadsheet Live Data now fixed. But users need to regenerate Google script code
 * Google Spreadsheet Live Data function now supports all standard short code options (filter, show, hide, etc.)
