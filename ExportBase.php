@@ -449,7 +449,7 @@ class ExportBase {
                 $formNameClause = '`form_name` in ( ' . implode(', ', $formNameArray) . ' )';
             }
             else {
-                $formNameClause =  "`form_name` = '". mysql_real_escape_string($formName) . "'";
+                $formNameClause =  "`form_name` = '". $this->escapeString($formName) . "'";
             }
         }
 
@@ -471,7 +471,7 @@ class ExportBase {
         $sql .= "SELECT `submit_time` AS 'Submitted'";
         foreach ($fields as $aCol) {
             // Escape single quotes in column name
-            $aCol = mysql_real_escape_string($aCol);
+            $aCol = $this->escapeString($aCol);
             $sql .= ",\n max(if(`field_name`='$aCol', `field_value`, null )) AS '$aCol'";
         }
         if (!$count) {
@@ -543,14 +543,32 @@ class ExportBase {
 
     /**
      * @param $anArray array
-     * @return array of quoted mysql_real_escape_string values
+     * @return array of quoted escaped values
      */
     public function escapeAndQuoteArrayValues($anArray) {
         $retArray = array();
         foreach ($anArray as $aValue) {
-            $retArray[] = '\'' . mysql_real_escape_string($aValue) . '\'';
+            $retArray[] = '\'' . $this->escapeString($aValue) . '\'';
         }
         return $retArray;
+    }
+
+    /**
+     * Simple alternative to the deprecated mysql_real_escape_string() function
+     * @param $text String
+     * @return String
+     */
+    public function escapeString($text) {
+        // Taken from: http://www.gamedev.net/topic/448909-php-alternative-to-mysql_real_escape_string/
+        return strtr($text, array(
+                "\x00" => '\x00',
+                "\n" => '\n',
+                "\r" => '\r',
+                '\\' => '\\\\',
+                "'" => "\'",
+                '"' => '\"',
+                "\x1a" => '\x1a'
+        ));
     }
 
     /**
