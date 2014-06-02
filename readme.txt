@@ -87,6 +87,12 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.7.2 =
+* Google Spreadsheet Live Data now fixed. But users need to regenerate Google script code
+* Google Spreadsheet Live Data function now supports all standard short code options (filter, show, hide, etc.)
+* Short Code Builder page now can build function call to be used in Google Spreadsheet
+* [cfdb-export-link], CSV exports and Excel export Links now support "headers" options
+
 = 2.7.1 =
 * Integration with wp-parsidate to shows Shamsi(Jalali) dates.
 
