@@ -87,6 +87,10 @@ class ExportToJson extends ExportBase implements CFDBExport {
         if ($this->options && isset($this->options['format'])) {
             if ($this->options['format'] == 'array' || $this->options['format'] == 'arraynoheader') {
                 $format = $this->options['format'];
+                if (isset($this->options['header']) && $this->options['header'] == 'false') {
+                    // Another way to turn off the header
+                    $format = 'arraynoheader';
+                }
             }
         }
 
@@ -99,7 +103,11 @@ class ExportToJson extends ExportBase implements CFDBExport {
             // Create the column name JSON values only once
             $jsonEscapedColumns = array();
             foreach ($this->dataIterator->displayColumns as $col) {
-                $jsonEscapedColumns[$col] = str_replace($search, $replace, $col);
+                $colDisplayValue = $col;
+                if ($this->headers && isset($this->headers[$col])) {
+                    $colDisplayValue = $this->headers[$col];
+                }
+                $jsonEscapedColumns[$col] = str_replace($search, $replace, $colDisplayValue);
             }
 
             echo "[\n";
@@ -144,7 +152,11 @@ class ExportToJson extends ExportBase implements CFDBExport {
                     else {
                         echo ',';
                     }
-                    printf('"%s"', str_replace($search, $replace, $col));
+                    $colDisplayValue = $col;
+                    if ($this->headers && isset($this->headers[$col])) {
+                        $colDisplayValue = $this->headers[$col];
+                    }
+                    printf('"%s"', str_replace($search, $replace, $colDisplayValue));
                 }
                 echo ']';
                 $firstRow = false;

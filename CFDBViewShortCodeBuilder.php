@@ -179,7 +179,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#value_div').hide();
                     jQuery('#template_div').hide();
                     jQuery('#url_link_div').hide();
-                    jQuery('#headers_div').hide();
+                    jQuery('#headers_div').show();
                     break;
                 case "[cfdb-export-link]":
                     jQuery('#show_hide_div').show();
@@ -219,6 +219,13 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                         jQuery('#gld_userpass_span').show();
                         jQuery('#label_export_link').hide();
                         jQuery('#label_gld_function').show();
+                    }
+
+                    if (exportSelected == "JSON") {
+                        jQuery('#json_div').show();
+                    }
+                    else {
+                        jQuery('#json_div').hide();
                     }
                 }
             } else {
@@ -534,6 +541,15 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     scText = join(scElements) + ']'; // hopLastChar(scElements.join(' ')) + ']';
                     break;
                 case '[cfdb-json]':
+                    if (!jQuery('#header_cntl').is(':checked')) {
+                        scElements.push('header="false"');
+                        scUrlElements.push(getValueUrl('header', 'false'));
+                        pushNameValue("header", "false", googleScriptElements, googleScriptValidationErrors);
+                    }
+                    val = jQuery('#headers_cntl').val();
+                    scElements.push(getValue('headers', val, scValidationErrors));
+                    scUrlElements.push(getValueUrl('headers', val));
+
                     val = jQuery('#var_cntl').val();
                     scElements.push(getValue('var', val, scValidationErrors));
                     scUrlElements.push(getValueUrl('var', val));
@@ -601,6 +617,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     val = jQuery('#headers_cntl').val();
                     exportUrlElements.push(getValueUrl('headers', val, scValidationErrors));
                     pushNameValue("headers", val, googleScriptElements, googleScriptValidationErrors);
+
+                    exportUrlElements.push(getValueUrl('format', jQuery('#format_cntl').val(), scValidationErrors));
                 }
 
                 // Output
@@ -915,6 +933,9 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             </option>
             <option value="GLD">
                 <?php _e('Google Spreadsheet Live Data', 'contact-form-7-to-database-extension'); ?>
+            </option>
+            <option value="JSON">
+                <?php _e('JSON', 'contact-form-7-to-database-extension'); ?>
             </option>
         </select>
         <span  id="itemtitle_span">

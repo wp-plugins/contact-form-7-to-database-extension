@@ -87,6 +87,10 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.7.5 =
+* Simplier Google Live Data implementation
+* [cfdb-json] now supports "header" and "headers" options. Short code builder page now generates JSON export link.
+
 = 2.7.4 =
 * Fix: short code builder page for Google Live Data typo: was giving the spreadsheet function as "cfdbddata" instead of "cfdbdata"
 
