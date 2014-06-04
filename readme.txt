@@ -88,7 +88,7 @@ You can always deactivate the plugin without loosing data.
 == Changelog ==
 
 = 2.7.5 =
-* Simplier Google Live Data implementation
+* Simpler Google Live Data implementation
 * [cfdb-json] now supports "header" and "headers" options. Short code builder page now generates JSON export link.
 
 = 2.7.4 =
