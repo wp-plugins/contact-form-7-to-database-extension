@@ -87,6 +87,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.7.4 =
+* Fix: short code builder page for Google Live Data typo: was giving the spreadsheet function as "cfdbddata" instead of "cfdbdata"
+
 = 2.7.3 =
 * Fix for mysql_real_escape_string error
 

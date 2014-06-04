@@ -598,7 +598,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 // Output
                 if (exportSelection == 'GLD') {
                     jQuery('#export_result_text').html(formName ?
-                            ("=cfdbddata(\"" + googleScriptElements.join("\", \"") + "\")") :
+                            ("=cfdbdata(\"" + googleScriptElements.join("\", \"") + "\")") :
                             "");
                     jQuery('#export_validations_text').html(googleScriptValidationErrors.join('<br/>'));
                 } else {
