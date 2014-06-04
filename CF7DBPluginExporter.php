@@ -19,6 +19,8 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
+require_once('CFDBDeobfuscate.php');
+
 class CF7DBPluginExporter {
 
     static function doExportFromPost() {
@@ -31,10 +33,10 @@ class CF7DBPluginExporter {
         // Assumes coming from CF7DBPlugin::whatsInTheDBPage()
         $key = '3fde789a'; //substr($_COOKIE['PHPSESSID'], - 5); // session_id() doesn't work
         if (isset($params['guser'])) {
-            $params['guser'] = mcrypt_decrypt(MCRYPT_3DES, $key, CF7DBPluginExporter::hexToStr($params['guser']), 'ecb');
+            $params['guser'] = CFDBDeobfuscate::deobfuscateHexString($params['guser'], $key);
         }
         if (isset($params['gpwd'])) {
-            $params['gpwd'] = mcrypt_decrypt(MCRYPT_3DES, $key, CF7DBPluginExporter::hexToStr($params['gpwd']), 'ecb');
+            $params['gpwd'] = CFDBDeobfuscate::deobfuscateHexString($params['gpwd'], $key);
         }
 
         if (!isset($params['enc'])) {
@@ -48,16 +50,6 @@ class CF7DBPluginExporter {
             $params['enc'],
             $params);
     }
-
-// Taken from http://ditio.net/2008/11/04/php-string-to-hex-and-hex-to-string-functions/
-    static function hexToStr($hex) {
-        $string = '';
-        for ($i = 0; $i < strlen($hex) - 1; $i += 2) {
-            $string .= chr(hexdec($hex[$i] . $hex[$i + 1]));
-        }
-        return $string;
-    }
-
 
     static function export($formName, $encoding, $options) {
 
