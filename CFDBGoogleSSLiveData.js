@@ -55,13 +55,28 @@ function cfdbdata(site_url, form_name, user, password /*, [option_name, option_v
     param_array.push("username=" + encodeURI(user));
     param_array.push("password=" + encodeURI(password));
     param_array.push("cfdb-action=cfdb-export");
+    param_array.push("enc=JSON");
+    param_array.push("format=array");
     param_array.push("form=" + encodeURI(form_name));
 
     var args = arg_slice(arguments, 4);
     args = process_name_value_args(args);
     param_array = param_array.concat(args);
 
-    return fetch_csv_url(site_url, param_array);
+    return fetch_json_url(site_url, param_array);
+}
+
+function fetch_json_url(site_url, param_array) {
+    var url = site_url + "/wp-admin/admin-ajax.php";
+    var payload = param_array.join("&");
+    var response = UrlFetchApp.fetch(url, { method: "post", payload: payload });
+    var content = response.getContentText();
+    if (content.indexOf("<strong>ERROR") == 0) {
+        // If error message is returned, just return that as the content
+        return content;
+    }
+    //Logger.log(content); // For Debugging
+    return JSON.parse(content);
 }
 
 /**
@@ -115,131 +130,4 @@ function process_name_value_args(array) {
         flag = !flag;
     }
     return name_value_array;
-}
-
-/**
- * Fetch CSV data from WordPress URL. Specific to CFDB plugin.
- * Uses CFDB plugin CSV export URL
- * @param site_url WordPress site top level URL
- * @param param_array array of URI-encoded ["name=value"] elements intended as POST parameters
- * @returns {*} array (multidimensional) of data suitable for Google Spreadsheet to display.
- * String error message if there is a login failure
- */
-function fetch_csv_url(site_url, param_array) {
-    var url = site_url + "/wp-admin/admin-ajax.php";
-    var payload = param_array.join("&");
-    var response = UrlFetchApp.fetch(url, { method: "post", payload: payload });
-    var content = response.getContentText();
-    if (content.indexOf("<strong>ERROR") == 0) {
-        // If error message is returned, just return that as the content
-        return content;
-    }
-    //Logger.log(content); // For Debugging
-    return csvToArray(content);
-}
-
-/**
- * Taken from: http://stackoverflow.com/questions/1293147/javascript-code-to-parse-csv-data
- * Used to parse csv text into an array that Google Spreadsheet can put into cells
- * @param text String csv text
- * @returns {Array} of data suitable for Google Spreadsheets to display
- */
-function csvToArray(text) {
-    text = csvParseToArray(text, ",");
-    var arr = [];
-    var c = [];
-    for (var i = 0; i < text.length - 1; i++) {
-        c = [];
-        for (var j = 0; j < text[0].length; j++) {
-            c.push(text[i][j]);
-        }
-        arr.push(c);
-    }
-    return arr;
-}
-
-/**
- * Taken from: http://stackoverflow.com/questions/1293147/javascript-code-to-parse-csv-data
- * This will parse a delimited string into an array of arrays.
- * @param strData String csv text
- * @param strDelimiter String optional. The default delimiter is the comma.
- * @returns {*[]}
- * @constructor
- */
-function csvParseToArray(strData, strDelimiter) {
-    // Check to see if the delimiter is defined. If not,
-    // then default to comma.
-    strDelimiter = (strDelimiter || ",");
-
-    // Create a regular expression to parse the CSV values.
-    var objPattern = new RegExp(
-            (
-                // Delimiters.
-                    "(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
-
-                        // Quoted fields.
-                            "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
-
-                        // Standard fields.
-                            "([^\"\\" + strDelimiter + "\\r\\n]*))"
-                    ),
-            "gi"
-    );
-
-    // Create an array to hold our data. Give the array
-    // a default empty first row.
-    var arrData = [
-        []
-    ];
-
-    // Create an array to hold our individual pattern
-    // matching groups.
-    var arrMatches;
-
-    // Keep looping over the regular expression matches
-    // until we can no longer find a match.
-    while (arrMatches = objPattern.exec(strData)) {
-
-        // Get the delimiter that was found.
-        var strMatchedDelimiter = arrMatches[ 1 ];
-
-        // Check to see if the given delimiter has a length
-        // (is not the start of string) and if it matches
-        // field delimiter. If id does not, then we know
-        // that this delimiter is a row delimiter.
-        if (
-                strMatchedDelimiter.length &&
-                        (strMatchedDelimiter != strDelimiter)
-                ) {
-
-            // Since we have reached a new row of data,
-            // add an empty row to our data array.
-            arrData.push([]);
-
-        }
-
-        // Now that we have our delimiter out of the way,
-        // let's check to see which kind of value we
-        // captured (quoted or unquoted).
-        var strMatchedValue;
-        if (arrMatches[ 2 ]) {
-
-            // We found a quoted value. When we capture
-            // this value, unescape any double quotes.
-            strMatchedValue = arrMatches[ 2 ].replace(
-                    new RegExp("\"\"", "g"),
-                    "\""
-            );
-        } else {
-            // We found a non-quoted value.
-            strMatchedValue = arrMatches[ 3 ];
-        }
-
-        // Now that we have our value string, let's add
-        // it to the data array.
-        arrData[ arrData.length - 1 ].push(strMatchedValue);
-    }
-
-    // Return the parsed data.
-    return( arrData );
 }
