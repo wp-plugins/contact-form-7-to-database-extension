@@ -302,7 +302,6 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             var shortcode = jQuery('#shortcode_ctrl').val();
             if (shortcode == '') {
                 jQuery('#shortcode_result_text').html('');
-                jQuery('#url_result_link').html('').attr('href', '#');
             }
             scElements.push(chopLastChar(shortcode));
 
@@ -586,12 +585,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
 
             if (shortcode) {
                 // Output short code text
-                jQuery('#shortcode_result_text').html(scText);
-
-                // Output short code test link
                 var scUrl = urlBase + join(scUrlElements, '&');
-                jQuery('#url_result_link').html(
-                        '<a target="_cfdb_export" href="' + scUrl + '"><?php _e('(Test Short Code Results)', 'contact-form-7-to-database-extension'); ?></a>');
+                jQuery('#shortcode_result_text').html('<a target="_cfdb_sc_results" href="' + scUrl + '">' + scText + '</a>');
 
                 // Output short code errors
                 jQuery('#shortcode_validations_text').html(scValidationErrors.join('<br/>'));
@@ -639,11 +634,11 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     } else {
                         exportValidationErrors.push("<?php _e('Warning: the function includes your WP login information. Avoid sharing it.') ?>");
                         jQuery('#export_result_text').html(formName ?
-                                ("<a href=" + exportUrl + ">=IMPORTDATA(\"" + exportUrl + "\")</a>") :
+                                ("<a target='_cfdb_exp_results' href='" + exportUrl + "'>=IMPORTDATA(\"" + exportUrl + "\")</a>") :
                                 "");
                     }
                 } else {
-                    jQuery('#export_result_text').html(formName ? ('<a href="' + exportUrl + '">' + exportUrl + '</a>') : '');
+                    jQuery('#export_result_text').html(formName ? ('<a target="_cfdb_exp_results" href="' + exportUrl + '">' + exportUrl + '</a>') : '');
                 }
 
                 // Output export errors
@@ -994,7 +989,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
 
 
         <div id="shortcode_result_div">
-            <?php _e('Generated Short Code:', 'contact-form-7-to-database-extension'); ?> &nbsp;&nbsp;&nbsp;<span style="font-size: smaller;" id="url_result_link"></span>
+            <?php _e('Generated Short Code:', 'contact-form-7-to-database-extension'); ?>
             <br/><div class="generated" id="shortcode_result_text"></div>
         </div>
         <div id="shortcode_validations_text" class="validation"></div>
