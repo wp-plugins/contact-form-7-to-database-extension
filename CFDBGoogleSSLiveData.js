@@ -94,10 +94,11 @@ function arg_slice(args, position) {
 /**
  * Converts array like ['a', '1', 'b', '2'] to ['a=1', 'b=2']
  * where each value is made to be URI-encoded.
- * Purposed of this is to transform and array of name,value arguments
+ * Purpose of this is to transform and array of name,value arguments
  * into HTTP GET/POST parameters
  * @param array Array like ['a', '1', 'b', '2']
  * @returns {Array} like ['a=1', 'b=2'].
+ * where each value (a, 1, b, 2) are URL-Encoded
  * If there is an odd number of arguments then the last one is dropped
  * (expecting pairs of name,value)
  */
@@ -133,6 +134,7 @@ function fetch_csv_url(site_url, param_array) {
         // If error message is returned, just return that as the content
         return content;
     }
+    //Logger.log(content); // For Debugging
     return csvToArray(content);
 }
 
