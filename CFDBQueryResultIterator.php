@@ -67,7 +67,7 @@ class CFDBQueryResultIterator {
     var $plugin;
 
     /**
-     * @var CF7DBEvalutator|CF7FilterParser|CF7SearchEvaluator
+     * @var CFDBEvaluator|CFDBFilterParser|CFDBSearchEvaluator
      */
     var $rowFilter;
 
@@ -84,7 +84,7 @@ class CFDBQueryResultIterator {
 
     /**
      * @param  $sql string
-     * @param  $rowFilter CF7DBEvalutator|CF7FilterParser|CF7SearchEvaluator
+     * @param  $rowFilter CFDBEvaluator|CFDBFilterParser|CFDBSearchEvaluator
      * @param  $queryOptions array
      */
     public function query(&$sql, $rowFilter, $queryOptions = array()) {

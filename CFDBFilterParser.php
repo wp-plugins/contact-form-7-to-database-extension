@@ -19,8 +19,8 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once('CF7DBEvalutator.php');
-include_once('CF7DBValueConverter.php');
+include_once('CFDBEvaluator.php');
+include_once('CFDBValueConverter.php');
 
 /**
  * Used to parse boolean expression strings like 'field1=value1&&field2=value2||field3=value3&&field4=value4'
@@ -29,7 +29,7 @@ include_once('CF7DBValueConverter.php');
  * $operator is any PHP comparison operator or '=' which is interpreted as '=='.
  * $value has a special case where if it is 'null' it is interpreted as the value null
  */
-class CF7FilterParser implements CF7DBEvalutator {
+class CFDBFilterParser implements CFDBEvaluator {
 
     /**
      * @var array of arrays of string where the top level array is broken down on the || delimiters
@@ -37,7 +37,7 @@ class CF7FilterParser implements CF7DBEvalutator {
     var $tree;
 
     /**
-     * @var CF7DBValueConverter callback that can be used to pre-process values in the filter string
+     * @var CFDBValueConverter callback that can be used to pre-process values in the filter string
      * passed into parseFilterString($filterString).
      * For example, a function might take the value '$user_email' and replace it with an actual email address
      * just prior to checking it against input data in call evaluate($data)
@@ -287,7 +287,7 @@ class CF7FilterParser implements CF7DBEvalutator {
     }
 
     /**
-     * @param  $converter CF7DBValueConverter
+     * @param  $converter CFDBValueConverter
      * @return void
      */
     public function setComparisonValuePreprocessor($converter) {

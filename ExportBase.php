@@ -70,7 +70,7 @@ class ExportBase {
     var $headers;
 
     /**
-     * @var CF7DBEvalutator|CF7FilterParser|CF7SearchEvaluator
+     * @var CFDBEvaluator|CFDBFilterParser|CFDBSearchEvaluator
      */
     var $rowFilter;
 
@@ -159,9 +159,9 @@ class ExportBase {
             $filters = array();
 
             if (isset($this->options['filter'])) {
-                require_once('CF7FilterParser.php');
+                require_once('CFDBFilterParser.php');
                 require_once('DereferenceShortcodeVars.php');
-                $aFilter = new CF7FilterParser;
+                $aFilter = new CFDBFilterParser;
                 $aFilter->setComparisonValuePreprocessor(new DereferenceShortcodeVars);
                 $aFilter->parseFilterString($this->options['filter']);
                 if ($this->debug) {
@@ -173,8 +173,8 @@ class ExportBase {
             }
 
             if (isset($this->options['search'])) {
-                require_once('CF7SearchEvaluator.php');
-                $aFilter = new CF7SearchEvaluator;
+                require_once('CFDBSearchEvaluator.php');
+                $aFilter = new CFDBSearchEvaluator;
                 $aFilter->setSearch($this->options['search']);
                 $filters[] = $aFilter;
             }
