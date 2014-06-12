@@ -87,6 +87,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8 =
+* Can put functions in short code filters. <a target="_cfdb_doc" href="http://cfdbplugin.com/?page_id=1073">See documentation</a>
+
 = 2.7.5 =
 * Simpler Google Live Data implementation
 * [cfdb-json] now supports "header" and "headers" options. Short code builder page now generates JSON export link.

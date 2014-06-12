@@ -161,8 +161,13 @@ class ExportBase {
             if (isset($this->options['filter'])) {
                 require_once('CFDBFilterParser.php');
                 require_once('DereferenceShortcodeVars.php');
+                require_once('CFDBPermittedFilterFunctions.php');
                 $aFilter = new CFDBFilterParser;
                 $aFilter->setComparisonValuePreprocessor(new DereferenceShortcodeVars);
+                $permittedFunctions = CFDBPermittedFilterFunctions::getInstance();
+                $permitAll = $this->plugin->getOption('FunctionsInShortCodes', 'false') === 'true';
+                $permittedFunctions->setPermitAllFunctions($permitAll);
+                $aFilter->setPermittedFilterFunctions($permittedFunctions);
                 $aFilter->parseFilterString($this->options['filter']);
                 if ($this->debug) {
                     echo '<pre>\'' . $this->options['filter'] . "'\n";

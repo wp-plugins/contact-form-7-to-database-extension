@@ -47,7 +47,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     public function getOptionMetaData() {
         return array(
             //'_version' => array('Installed Version'), // For testing upgrades
-            'Donated' => array(__('I have donated to this plugin', 'contact-form-7-to-database-extension'), 'false', 'true'),
+            //'Donated' => array(__('I have donated to this plugin', 'contact-form-7-to-database-extension'), 'false', 'true'),
             'IntegrateWithCF7' => array(__('Capture form submissions from Contact Form 7 Plugin', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'IntegrateWithFSCF' => array(__('Capture form submissions from Fast Secure Contact Form Plugin', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'IntegrateWithJetPackContactForm' => array(__('Capture form submissions from JetPack Contact Form', 'contact-form-7-to-database-extension'), 'true', 'false'),
@@ -58,6 +58,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                                     'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
             'CanChangeSubmitData' => array(__('Can Edit/Delete Submission data', 'contact-form-7-to-database-extension'),
                                            'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
+            'FunctionsInShortCodes' => array(__('Allow Any Function in Short Codes', 'contact-form-7-to-database-extension') .
+                    ' <a target="_blank" href="http://cfdbplugin.com/?page_id=1073">' . __('(Creates a security hole)', 'contact-form-7-to-database-extension') . '</a>', 'false', 'true'),
             'AllowRSS' => array(__('Allow RSS URLs', 'contact-form-7-to-database-extension') .
                     ' <a target="_blank" href="http://cfdbplugin.com/?p=918">' . __('(Creates a security hole)', 'contact-form-7-to-database-extension') . '</a>', 'false', 'true'),
             'Timezone' => array(__('Timezone to capture Submit Time. Blank will use WordPress Timezone setting. <a target="_blank" href="http://www.php.net/manual/en/timezones.php">Options</a>', 'contact-form-7-to-database-extension')),

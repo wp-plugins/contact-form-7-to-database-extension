@@ -21,6 +21,7 @@
 
 include_once('CFDBEvaluator.php');
 include_once('CFDBValueConverter.php');
+require_once('CFDBPermittedFilterFunctions.php');
 
 /**
  * Used to parse boolean expression strings like 'field1=value1&&field2=value2||field3=value3&&field4=value4'
@@ -43,6 +44,11 @@ class CFDBFilterParser implements CFDBEvaluator {
      * just prior to checking it against input data in call evaluate($data)
      */
     var $compValuePreprocessor;
+
+    /**
+     * @var CFDBPermittedFilterFunctions
+     */
+    var $permittedFilterFunctions;
 
     public function hasFilters() {
         return count($this->tree) > 0; // count is null-safe
@@ -100,10 +106,48 @@ class CFDBFilterParser implements CFDBEvaluator {
             $andSubTree = array();
             foreach ($arrayOfANDedStrings as $anExpressionString) {
                 $exprArray = $this->parseExpression($anExpressionString);
+                $count = count($exprArray);
+                if ($count > 0) {
+                    $exprArray[0] = $this->parseValidFunction($exprArray[0]);
+                    if ($count > 2) {
+                        $exprArray[2] = $this->parseValidFunction($exprArray[2]);
+                    } else {
+                        $exprArray[1] = '==='; // need === with boolean true during evaluation
+                        $exprArray[2] = true;
+                    }
+
+                    // if one side of the operation is a function and the other is 'true' or 'false'
+                    // then convert to Boolean true or false which signals to not try to dereference
+                    // true or false during evaluateComparison()
+                    if (is_array($exprArray[0])) {
+                        if ($exprArray[2] === 'true') {
+                            $exprArray[2] = true;
+                        } else if ($exprArray[2] === 'false') {
+                            $exprArray[2] = false;
+                        }
+                    }
+                    if (is_array($exprArray[2])) {
+                        if ($exprArray[0] === 'true') {
+                            $exprArray[0] = true;
+                        }
+                        if ($exprArray[0] === 'false') {
+                            $exprArray[0] = false;
+                        }
+                    }
+                }
                 $andSubTree[] = $exprArray;
             }
             $this->tree[] = $andSubTree;
         }
+    }
+
+    /**
+     * To prevent a security hole, not all functions are permitted
+     * @param $functionName string
+     * @return bool
+     */
+    public function functionIsPermitted($functionName) {
+        return $this->permittedFilterFunctions->isFunctionPermitted($functionName);
     }
 
     /**
@@ -141,6 +185,42 @@ class CFDBFilterParser implements CFDBEvaluator {
                           $comparisonExpression, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
     }
 
+    public function parseValidFunction($filterString) {
+        $parsed = $this->parseFunction($filterString);
+        if (is_array($parsed)) {
+            if (!is_callable($parsed[0]) || !$this->functionIsPermitted($parsed[0])) {
+                return $filterString;
+            }
+        }
+        return $parsed;
+    }
+
+    /**
+     * @param $filterString string
+     * @return string|array if a function like "funct(arg1, arg2, ...)" then returns array['funct', arg1, arg2, ...]
+     * otherwise just returns the string passed in
+     */
+    public function parseFunction($filterString) {
+        $matches = array();
+        // Parse function name
+        if (preg_match('/^(\w+)\((.*)\)$/', trim($filterString), $matches)) {
+            $functionArray = array();
+            $functionArray[] = $matches[1]; // function name
+            // Parse function parameters
+            $matches[2] = trim($matches[2]);
+            if ($matches[2] != '') {
+                $paramMatches = explode(',', $matches[2]);
+                foreach ($paramMatches as $param) {
+                    $param = trim($param);
+                    if ($param != '') {
+                        $functionArray[] = $param;
+                    }
+                }
+            }
+            return $functionArray;
+        }
+        return $filterString;
+    }
 
     /**
      * Evaluate expression against input data. Assumes parseFilterString was called to set up the expression to
@@ -185,23 +265,42 @@ class CFDBFilterParser implements CFDBEvaluator {
 
     public function evaluateComparison($andExpr, &$data) {
         if (is_array($andExpr) && count($andExpr) == 3) {
-            $left = isset($data[$andExpr[0]]) ? $data[$andExpr[0]] : null;
-            $op = $andExpr[1];
-            $right = $andExpr[2];
-            if ($this->compValuePreprocessor) {
-                try {
-                    $right = $this->compValuePreprocessor->convert($right);
-                }
-                catch (Exception $ex) {
-                    trigger_error($ex, E_USER_NOTICE);
+            // $andExpr = [$left $op $right]
+
+            // Left operand
+            $left = $andExpr[0];
+            // Boolean type means it was set in parseFilterString in response
+            // to a filter like "function(x)" that was turned into an expression
+            // like "true = function(x)"
+            if ($left !== true && $left !== false) {
+                if (is_array($left)) { // function call
+                    $left = $this->evaluateFunction($left, $data);
+                } else {
+                    $left = $this->preprocessValues($left);
+                    // Dereference $left assuming it is the name of a form field
+                    // and set it to the value of the field. When not found make it null
+                    $left = isset($data[$left]) ? $data[$left] : null;
                 }
             }
-            if ($andExpr[0] == 'submit_time') {
+
+            // Operator
+            $op = $andExpr[1];
+
+            // Right operand
+            $right = $andExpr[2];
+            if (is_array($right)) { // function call
+                $right = $this->evaluateFunction($right, $data);
+            } else {
+                $right = $this->preprocessValues($right);
+            }
+
+            if ($andExpr[0] === 'submit_time') {
                 if (!is_numeric($right)) {
                     $right = strtotime($right);
                 }
             }
-            if (!$left && !$right) {
+
+            if ($left === null && $right === null) {
                 // Addresses case where 'Submitted Login' = $user_login but there exist some submissions
                 // with no 'Submitted Login' field. Without this clause, those rows where 'Submitted Login' == null
                 // would be returned when what we really want to is affirm that there is a 'Submitted Login' value ($left)
@@ -213,6 +312,44 @@ class CFDBFilterParser implements CFDBEvaluator {
         return false;
     }
 
+    /**
+     * @param $text string
+     * @return mixed
+     */
+    public function preprocessValues($text) {
+        if ($this->compValuePreprocessor) {
+            try {
+                $text = $this->compValuePreprocessor->convert($text);
+            } catch (Exception $ex) {
+                trigger_error($ex, E_USER_NOTICE);
+            }
+        }
+        return $text;
+    }
+
+    /**
+     * @param $functionArray array ['function name', 'param1', 'param2', ...]
+     * @param $data array [name => value]
+     * @return mixed
+     */
+    public function evaluateFunction($functionArray, &$data) {
+        $functionName = array_shift($functionArray);
+        for ($i=0; $i<count($functionArray); $i++) {
+            $functionArray[$i] = $this->preprocessValues($functionArray[$i]);
+
+            // See if the parameter is a field name that can be dereferenced.
+            $functionArray[$i] = isset($data[$functionArray[$i]]) ?
+                    $data[$functionArray[$i]] :
+                    $functionArray[$i];
+
+            // Dereference PHP Constants
+            if (defined($functionArray[$i])) {
+                $functionArray[$i] = constant($functionArray[$i]);
+            }
+        }
+        return call_user_func_array($functionName, $functionArray);
+    }
+
 
     /**
      * @param  $left mixed
@@ -221,7 +358,7 @@ class CFDBFilterParser implements CFDBEvaluator {
      * @return bool evaluation of comparison $left $operator $right
      */
     public function evaluateLeftOpRightComparison($left, $operator, $right) {
-        if ($right == 'null') {
+        if ($right === 'null') {
             // special case
             $right = null;
         }
@@ -292,6 +429,14 @@ class CFDBFilterParser implements CFDBEvaluator {
      */
     public function setComparisonValuePreprocessor($converter) {
         $this->compValuePreprocessor = $converter;
+    }
+
+    /**
+     * @param $cFDBPermittedFilterFunctions CFDBPermittedFilterFunctions
+     * @return void
+     */
+    public function setPermittedFilterFunctions($cFDBPermittedFilterFunctions) {
+        $this->permittedFilterFunctions = $cFDBPermittedFilterFunctions;
     }
 
 }
