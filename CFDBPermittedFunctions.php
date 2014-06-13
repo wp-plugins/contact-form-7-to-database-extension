@@ -20,7 +20,7 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-class CFDBPermittedFilterFunctions
+class CFDBPermittedFunctions
 {
 
     var $permitAllFunctions = false;
@@ -90,14 +90,14 @@ class CFDBPermittedFilterFunctions
 
 
     public function init() {
-        $this->permittedFunctions = CFDBPermittedFilterFunctions::$defaultPermitted;
+        $this->permittedFunctions = CFDBPermittedFunctions::$defaultPermitted;
     }
 
     public static function getInstance()
     {
         static $inst = null;
         if ($inst === null) {
-            $inst = new CFDBPermittedFilterFunctions();
+            $inst = new CFDBPermittedFunctions();
             $inst->init();
         }
         return $inst;
@@ -128,10 +128,10 @@ class CFDBPermittedFilterFunctions
 }
 
 /**
- * A function wrapper to register function names in a CFDBPermittedFilterFunctions singleton
+ * A function wrapper to register function names in a CFDBPermittedFunctions singleton
  * @param $function_name
  */
 function cfdb_register_function($function_name)
 {
-    CFDBPermittedFilterFunctions::getInstance()->addPermittedFunction($function_name);
+    CFDBPermittedFunctions::getInstance()->addPermittedFunction($function_name);
 }

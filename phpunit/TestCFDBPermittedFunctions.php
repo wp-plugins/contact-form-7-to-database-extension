@@ -1,15 +1,15 @@
 <?php
 
-include_once('../CFDBPermittedFilterFunctions.php');
+include_once('../CFDBPermittedFunctions.php');
 
-class TestCFDBPermittedFilterFunctions extends PHPUnit_Framework_TestCase {
+class TestCFDBPermittedFunctions extends PHPUnit_Framework_TestCase {
 
     public function tearDown() {
-        CFDBPermittedFilterFunctions::getInstance()->init();
+        CFDBPermittedFunctions::getInstance()->init();
     }
 
     public function testSet() {
-        $p = CFDBPermittedFilterFunctions::getInstance();
+        $p = CFDBPermittedFunctions::getInstance();
         $this->assertFalse($p->isFunctionPermitted('blahblah'));
 
         $p->setPermitAllFunctions(false);
@@ -23,7 +23,7 @@ class TestCFDBPermittedFilterFunctions extends PHPUnit_Framework_TestCase {
     }
 
     public function testAddFunction() {
-        $p = CFDBPermittedFilterFunctions::getInstance();
+        $p = CFDBPermittedFunctions::getInstance();
         $this->assertFalse($p->isFunctionPermitted('blahblah'));
 
         $p->addPermittedFunction("blahblah");
@@ -32,19 +32,19 @@ class TestCFDBPermittedFilterFunctions extends PHPUnit_Framework_TestCase {
 
     public function testSingleton() {
         $this->assertFalse(
-                CFDBPermittedFilterFunctions::getInstance()->isFunctionPermitted('blahblah'));
-        CFDBPermittedFilterFunctions::getInstance()->addPermittedFunction('blahblah');
+                CFDBPermittedFunctions::getInstance()->isFunctionPermitted('blahblah'));
+        CFDBPermittedFunctions::getInstance()->addPermittedFunction('blahblah');
         $this->assertTrue(
-                CFDBPermittedFilterFunctions::getInstance()->isFunctionPermitted('blahblah'));
+                CFDBPermittedFunctions::getInstance()->isFunctionPermitted('blahblah'));
 
     }
 
     public function testRegisterFunction() {
         $this->assertFalse(
-                CFDBPermittedFilterFunctions::getInstance()->isFunctionPermitted('blahblah'));
+                CFDBPermittedFunctions::getInstance()->isFunctionPermitted('blahblah'));
         cfdb_register_function('blahblah');
         $this->assertTrue(
-                CFDBPermittedFilterFunctions::getInstance()->isFunctionPermitted('blahblah'));
+                CFDBPermittedFunctions::getInstance()->isFunctionPermitted('blahblah'));
     }
 
 } 

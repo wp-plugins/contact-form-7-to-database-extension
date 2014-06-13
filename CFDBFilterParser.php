@@ -21,7 +21,7 @@
 
 include_once('CFDBEvaluator.php');
 include_once('CFDBValueConverter.php');
-require_once('CFDBPermittedFilterFunctions.php');
+require_once('CFDBPermittedFunctions.php');
 
 /**
  * Used to parse boolean expression strings like 'field1=value1&&field2=value2||field3=value3&&field4=value4'
@@ -46,7 +46,7 @@ class CFDBFilterParser implements CFDBEvaluator {
     var $compValuePreprocessor;
 
     /**
-     * @var CFDBPermittedFilterFunctions
+     * @var CFDBPermittedFunctions
      */
     var $permittedFilterFunctions;
 
@@ -432,7 +432,7 @@ class CFDBFilterParser implements CFDBEvaluator {
     }
 
     /**
-     * @param $cFDBPermittedFilterFunctions CFDBPermittedFilterFunctions
+     * @param $cFDBPermittedFilterFunctions CFDBPermittedFunctions
      * @return void
      */
     public function setPermittedFilterFunctions($cFDBPermittedFilterFunctions) {
