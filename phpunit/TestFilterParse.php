@@ -1070,7 +1070,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals('strtoupper', $p->tree[0][1][0][0]);
         $this->assertEquals('zzz',        $p->tree[0][1][0][1]);
-        $this->assertEquals('===',        $p->tree[0][1][1]); // sets the operator
+        $this->assertEquals('==',         $p->tree[0][1][1]); // sets the operator
         $this->assertEquals(true,         $p->tree[0][1][2]);
     }
 

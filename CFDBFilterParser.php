@@ -112,7 +112,8 @@ class CFDBFilterParser implements CFDBEvaluator {
                     if ($count > 2) {
                         $exprArray[2] = $this->parseValidFunction($exprArray[2]);
                     } else {
-                        $exprArray[1] = '==='; // need === with boolean true during evaluation
+                        // Case of "function()" parse as if "function()==true"
+                        $exprArray[1] = '==';
                         $exprArray[2] = true;
                     }
 
