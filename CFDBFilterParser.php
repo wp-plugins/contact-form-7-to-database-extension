@@ -147,7 +147,10 @@ class CFDBFilterParser implements CFDBEvaluator {
      * @return bool
      */
     public function functionIsPermitted($functionName) {
-        return $this->permittedFilterFunctions->isFunctionPermitted($functionName);
+        if ($this->permittedFilterFunctions) {
+            return $this->permittedFilterFunctions->isFunctionPermitted($functionName);
+        }
+        return true;
     }
 
     /**
@@ -271,7 +274,7 @@ class CFDBFilterParser implements CFDBEvaluator {
             $left = $andExpr[0];
             // Boolean type means it was set in parseFilterString in response
             // to a filter like "function(x)" that was turned into an expression
-            // like "true = function(x)"
+            // like "function(x) === true"
             if ($left !== true && $left !== false) {
                 if (is_array($left)) { // function call
                     $left = $this->evaluateFunction($left, $data);
@@ -346,6 +349,10 @@ class CFDBFilterParser implements CFDBEvaluator {
             if (defined($functionArray[$i])) {
                 $functionArray[$i] = constant($functionArray[$i]);
             }
+        }
+        if (empty($functionArray)) {
+            // If function has no parameters, pass in the whole form entry associative array
+            $functionArray[] = $data;
         }
         return call_user_func_array($functionName, $functionArray);
     }

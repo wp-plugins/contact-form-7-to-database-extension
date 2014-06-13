@@ -1252,7 +1252,62 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
         $this->assertTrue($p->evaluate($data));
     }
 
+    public function test_filterTrue() {
+        $p = new CFDBFilterParser;
+        $p->parseFilterString('filterTrue()');
+        print_r($p->tree);
+        $data = array('field' =>'hello');
+        $this->assertTrue($p->evaluate($data));
+    }
 
+    public function test_filterTrueEqualsTrue() {
+        $p = new CFDBFilterParser;
+        $p->parseFilterString('filterTrue()=true');
+        print_r($p->tree);
+        $data = array('field' =>'hello');
+        $this->assertTrue($p->evaluate($data));
+    }
+
+    public function test_filterTrueEqualsTrue2() {
+        $p = new CFDBFilterParser;
+        $p->parseFilterString('true=filterTrue()');
+        print_r($p->tree);
+        $data = array('field' =>'hello');
+        $this->assertTrue($p->evaluate($data));
+    }
+
+    public function test_filterFalse() {
+        $p = new CFDBFilterParser;
+        $p->parseFilterString('filterFalse()');
+        print_r($p->tree);
+        $data = array('field' =>'hello');
+        $this->assertFalse($p->evaluate($data));
+    }
+
+    public function test_filterFalseEqualFalse() {
+        $p = new CFDBFilterParser;
+        $p->parseFilterString('filterFalse()=false');
+        print_r($p->tree);
+        $data = array('field' =>'hello');
+        $this->assertTrue($p->evaluate($data));
+    }
+
+    public function test_filterFalseEqualFalse2() {
+        $p = new CFDBFilterParser;
+        $p->parseFilterString('false=filterFalse()');
+        print_r($p->tree);
+        $data = array('field' =>'hello');
+        $this->assertTrue($p->evaluate($data));
+    }
+
+
+}
+
+function filterTrue() {
+    return true;
+}
+function filterFalse() {
+    return false;
 }
 
 class ChangeNameToValue implements CFDBValueConverter {
