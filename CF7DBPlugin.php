@@ -536,10 +536,6 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      */
     public function saveFormData($cf7) {
         try {
-            $title = stripslashes($cf7->title);
-            if ($this->fieldMatches($title, $this->getNoSaveForms())) {
-                return; // Don't save in DB
-            }
 
             $time = function_exists('microtime') ? microtime(true) : time();
             $ip = (isset($_SERVER['X_FORWARDED_FOR'])) ? $_SERVER['X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
@@ -555,6 +551,13 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             $cf7->user = $user;
             try {
                 $newCf7 = apply_filters('cfdb_form_data', $cf7);
+
+                // Get title after applying filter
+                $title = stripslashes($cf7->title);
+                if ($this->fieldMatches($title, $this->getNoSaveForms())) {
+                    return; // Don't save in DB
+                }
+
                 if ($newCf7 && is_object($newCf7)) {
                     $cf7 = $newCf7;
                     $time = $cf7->submit_time;
