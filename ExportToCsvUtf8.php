@@ -25,8 +25,14 @@ require_once('CFDBExport.php');
 class ExportToCsvUtf8 extends ExportBase implements CFDBExport {
 
     var $useBom = false;
-    var $useShiftJIS = false; // for Japanese
     var $bak = false;
+
+    // For Japanese
+    var $useShiftJIS = false;
+    // The code number of Japanese two-byte character "ãƒ¼" is separated by Japanese encoding types.
+    // Hyphen, Centered dot
+    var $utf_escape_patterns_search =  array('/\xE2\x80\x93/', '/\xE2\x80\xA2/');
+    var $utf_escape_patterns_replace = array("\xE2\x88\x92",   "\xE3\x83\xBB");
 
     public function setUseBom($use) {
         $this->useBom = $use;
@@ -85,18 +91,10 @@ class ExportToCsvUtf8 extends ExportBase implements CFDBExport {
      * @return string
      */
     public function japanese_convert_utf8_to_sjis($str) {
-        $utf_escape_patterns_revert = array(
-            // The code number of Japanese two-byte character "ãƒ¼" is separated by Japanese encoding types.
-            '/\xE2\x80\x93/' => "\xE2\x88\x92", // Hyphen
-            '/\xE2\x80\xA2/' => "\xE3\x83\xBB" // Centered dot
-        );
-
-        $str = preg_replace(
-            array_keys($utf_escape_patterns_revert),
-            array_values($utf_escape_patterns_revert),
-            $str);
-
-        return $str;
+        return preg_replace(
+                $this->utf_escape_patterns_search,
+                $this->utf_escape_patterns_replace,
+                $str);
     }
 
 
