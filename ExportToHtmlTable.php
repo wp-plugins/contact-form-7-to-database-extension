@@ -39,7 +39,8 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
      * Echo a table of submitted form data
      * @param string $formName
      * @param array $options
-     * @return void
+     * @return void|string returns String when called from a short code,
+     * otherwise echo's output and returns void
      */
     public function export($formName, $options = null) {
         $this->setOptions($options);
