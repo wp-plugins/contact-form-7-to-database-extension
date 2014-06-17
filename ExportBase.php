@@ -384,39 +384,8 @@ class ExportBase {
      * @return void
      */
     protected function setDataIterator($formName, $submitTimeKeyName = null) {
-        $submitTimes = null;
 
-        if (isset($this->options['random'])) {
-            $numRandom = intval($this->options['random']);
-            if ($numRandom > 0) {
-                // Digression: query for n unique random submit_time values
-                $justSubmitTimes = new ExportBase();
-                $justSubmitTimes->setOptions($this->options);
-                $justSubmitTimes->setCommonOptions();
-                unset($justSubmitTimes->options['random']);
-                $justSubmitTimes->showColumns = array('submit_time');
-                $jstSql = $justSubmitTimes->getPivotQuery($formName);
-                $justSubmitTimes->setDataIterator($formName, 'submit_time');
-                $justSubmitTimes->dataIterator->query(
-                    $jstSql,
-                    $justSubmitTimes->rowFilter);
-
-                $allSubmitTimes = null;
-                while ($justSubmitTimes->dataIterator->nextRow()) {
-                    $allSubmitTimes[] = $justSubmitTimes->dataIterator->row['submit_time'];
-                }
-                if (!empty($allSubmitTimes)) {
-                    if (count($allSubmitTimes) < $numRandom) {
-                        $submitTimes = $allSubmitTimes;
-                    }
-                    else {
-                        shuffle($allSubmitTimes); // randomize
-                        $submitTimes = array_slice($allSubmitTimes, 0, $numRandom);
-                    }
-                }
-            }
-        }
-
+        $submitTimes = $this->queryRandomSubmitTimes($formName);
 
         $sql = $this->getPivotQuery($formName, false, $submitTimes);
         $this->dataIterator = new CFDBQueryResultIterator();
@@ -617,6 +586,51 @@ class ExportBase {
 
     public function hasFilterOrTransform() {
         return !empty($this->rowFilter) || !empty($this->transform);
+    }
+
+    /**
+     * Query for n random submit times if 'random' option is set indicting number of random
+     * values to return (n)
+     * @param $formName
+     * @return array|null array of n submit_times or null if not applicable
+     */
+    protected function queryRandomSubmitTimes($formName) {
+        $submitTimes = null;
+
+        if (isset($this->options['random'])) {
+            $numRandom = intval($this->options['random']);
+            if ($numRandom > 0) {
+                // Digression: query for n unique random submit_time values
+                $justSubmitTimes = new ExportBase();
+                $justSubmitTimes->setOptions($this->options);
+                $justSubmitTimes->setCommonOptions();
+                unset($justSubmitTimes->options['random']);
+                $justSubmitTimes->showColumns = array('submit_time');
+                $jstSql = $justSubmitTimes->getPivotQuery($formName);
+                $justSubmitTimes->setDataIterator($formName, 'submit_time');
+                $justSubmitTimes->dataIterator->query(
+                        $jstSql,
+                        $justSubmitTimes->rowFilter);
+
+                $allSubmitTimes = null;
+                while ($justSubmitTimes->dataIterator->nextRow()) {
+                    $allSubmitTimes[] = $justSubmitTimes->dataIterator->row['submit_time'];
+                }
+                if (!empty($allSubmitTimes)) {
+                    if (count($allSubmitTimes) < $numRandom) {
+                        $submitTimes = $allSubmitTimes;
+                        return $submitTimes;
+                    } else {
+                        shuffle($allSubmitTimes); // randomize
+                        $submitTimes = array_slice($allSubmitTimes, 0, $numRandom);
+                        return $submitTimes;
+                    }
+                }
+                return $submitTimes;
+            }
+            return $submitTimes;
+        }
+        return $submitTimes;
     }
 
 }
