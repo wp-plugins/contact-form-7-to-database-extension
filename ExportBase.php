@@ -75,6 +75,11 @@ class ExportBase {
     var $rowFilter;
 
     /**
+     * @var CFDBEvaluator
+     */
+    var $transform;
+
+    /**
      * @var bool
      */
     var $isFromShortCode = false;
@@ -156,19 +161,23 @@ class ExportBase {
                 }
             }
 
-            $filters = array();
+            $permittedFunctions = null;
+            if (isset($this->options['filter']) || isset($this->options['trans'])) {
+                $permittedFunctions = CFDBPermittedFunctions::getInstance();
+                $permitAll = $this->plugin->getOption('FunctionsInShortCodes', 'false') === 'true';
+                $permittedFunctions->setPermitAllFunctions($permitAll);
+            }
 
+
+            $filters = array();
             if (isset($this->options['filter'])) {
                 require_once('CFDBFilterParser.php');
                 require_once('DereferenceShortcodeVars.php');
                 require_once('CFDBPermittedFunctions.php');
                 $aFilter = new CFDBFilterParser;
                 $aFilter->setComparisonValuePreprocessor(new DereferenceShortcodeVars);
-                $permittedFunctions = CFDBPermittedFunctions::getInstance();
-                $permitAll = $this->plugin->getOption('FunctionsInShortCodes', 'false') === 'true';
-                $permittedFunctions->setPermitAllFunctions($permitAll);
                 $aFilter->setPermittedFilterFunctions($permittedFunctions);
-                $aFilter->parseFilterString($this->options['filter']);
+                $aFilter->parse($this->options['filter']);
                 if ($this->debug) {
                     echo '<pre>\'' . $this->options['filter'] . "'\n";
                     print_r($aFilter->tree);
@@ -184,19 +193,24 @@ class ExportBase {
                 $filters[] = $aFilter;
             }
 
-            if (isset($this->options['cfilter'])) {
-                if (function_exists($this->options['cfilter'])) {
-                    require_once('CFDBFunctionEvaluator.php');
-                    $aFilter = new CFDBFunctionEvaluator;
-                    $aFilter->setFunction($this->options['cfilter']);
-                    $filters[] = $aFilter;
+            $transforms = array();
+            if (isset($this->options['trans'])) {
+                require_once('CFDBTransformParser.php');
+                require_once('DereferenceShortcodeVars.php');
+                require_once('CFDBPermittedFunctions.php');
+                $xform = new CFDBTransformParser();
+                $xform->setComparisonValuePreprocessor(new DereferenceShortcodeVars);
+                $permittedFunctions = CFDBPermittedFunctions::getInstance();
+                $permitAll = $this->plugin->getOption('FunctionsInShortCodes', 'false') === 'true';
+                $permittedFunctions->setPermitAllFunctions($permitAll);
+                $xform->setPermittedFilterFunctions($permittedFunctions);
+                $xform->parse($this->options['trans']);
+                if ($this->debug) {
+                    echo '<pre>\'' . $this->options['trans'] . "'\n";
+                    print_r($xform->tree);
+                    echo '</pre>';
                 }
-                else if (class_exists($this->options['cfilter'])) {
-                    require_once('CFDBClassEvaluator.php');
-                    $aFilter = new CFDBClassEvaluator;
-                    $aFilter->setClassName($this->options['cfilter']);
-                    $filters[] = $aFilter;
-                }
+                $transforms[] = $xform;
             }
 
             $numFilters = count($filters);
@@ -207,6 +221,16 @@ class ExportBase {
                 require_once('CFDBCompositeEvaluator.php');
                 $this->rowFilter = new CFDBCompositeEvaluator;
                 $this->rowFilter->setEvaluators($filters);
+            }
+
+            $numTransforms = count($transforms);
+            if ($numTransforms == 1) {
+                $this->transform = $transforms[0];
+            }
+            else if ($numTransforms > 1) {
+                require_once('CFDBCompositeEvaluator.php');
+                $this->transform = new CFDBCompositeEvaluator;
+                $this->transform->setEvaluators($transforms);
             }
 
             if (isset($this->options['headers'])) { // e.g. "col1=Column 1 Display Name,col2=Column2 Display Name"
@@ -402,7 +426,7 @@ class ExportBase {
         if ($submitTimeKeyName) {
             $queryOptions['submitTimeKeyName'] = $submitTimeKeyName;
         }
-        if (!empty($this->rowFilter) && isset($this->options['limit'])) {
+        if (isset($this->options['limit']) && $this->hasFilterOrTransform()) {
             // have data iterator apply the limit if it is not already
             // being applied in SQL directly, which we do when there are
             // no filter constraints.
@@ -537,7 +561,7 @@ class ExportBase {
                 }
             }
 
-            if (empty($this->rowFilter) && $this->options && isset($this->options['limit'])) {
+            if (!$this->hasFilterOrTransform() && $this->options && isset($this->options['limit'])) {
                 // If no filter constraints and have a limit, add limit to the SQL
                 $sql .= "\nLIMIT " . $this->options['limit'];
             }
@@ -590,4 +614,9 @@ class ExportBase {
         }
         return $count;
     }
+
+    public function hasFilterOrTransform() {
+        return !empty($this->rowFilter) || !empty($this->transform);
+    }
+
 }

@@ -20,8 +20,7 @@
 */
 
 include_once('CFDBEvaluator.php');
-include_once('CFDBValueConverter.php');
-require_once('CFDBPermittedFunctions.php');
+require_once('CFDBParserBase.php');
 
 /**
  * Used to parse boolean expression strings like 'field1=value1&&field2=value2||field3=value3&&field4=value4'
@@ -30,25 +29,13 @@ require_once('CFDBPermittedFunctions.php');
  * $operator is any PHP comparison operator or '=' which is interpreted as '=='.
  * $value has a special case where if it is 'null' it is interpreted as the value null
  */
-class CFDBFilterParser implements CFDBEvaluator {
+class CFDBFilterParser extends CFDBParserBase implements CFDBEvaluator {
 
     /**
      * @var array of arrays of string where the top level array is broken down on the || delimiters
      */
     var $tree;
 
-    /**
-     * @var CFDBValueConverter callback that can be used to pre-process values in the filter string
-     * passed into parseFilterString($filterString).
-     * For example, a function might take the value '$user_email' and replace it with an actual email address
-     * just prior to checking it against input data in call evaluate($data)
-     */
-    var $compValuePreprocessor;
-
-    /**
-     * @var CFDBPermittedFunctions
-     */
-    var $permittedFilterFunctions;
 
     public function hasFilters() {
         return count($this->tree) > 0; // count is null-safe
@@ -98,7 +85,7 @@ class CFDBFilterParser implements CFDBEvaluator {
      * @param  $filterString string with delimiters && and/or ||
      * which each element being an array of strings broken on the && delimiter
      */
-    public function parseFilterString($filterString) {
+    public function parse($filterString) {
         $this->tree = array();
         $arrayOfORedStrings = $this->parseORs($filterString);
         foreach ($arrayOfORedStrings as $anANDString) {
@@ -143,39 +130,6 @@ class CFDBFilterParser implements CFDBEvaluator {
     }
 
     /**
-     * To prevent a security hole, not all functions are permitted
-     * @param $functionName string
-     * @return bool
-     */
-    public function functionIsPermitted($functionName) {
-        if ($this->permittedFilterFunctions) {
-            return $this->permittedFilterFunctions->isFunctionPermitted($functionName);
-        }
-        return true;
-    }
-
-    /**
-     * @param  $filterString
-     * @return array
-     */
-    public function parseORs($filterString) {
-        return preg_split('/\|\|/', $filterString, -1, PREG_SPLIT_NO_EMPTY);
-    }
-
-    /**
-     * @param  $filterString
-     * @return array
-     */
-    public function parseANDs($filterString) {
-        // Deal with various && encoding problems
-        $filterString = html_entity_decode($filterString);
-
-        $retVal = preg_split('/&&/', $filterString, -1, PREG_SPLIT_NO_EMPTY);
-        //echo "<pre>Parsed '$filterString' into " . print_r($retVal, true) . '</pre>';
-        return $retVal;
-    }
-
-    /**
      * Parse a comparison expression into its three components
      * @param  $comparisonExpression string in the form 'value1' . 'operator' . 'value2' where
      * operator is a php comparison operator or '='
@@ -189,45 +143,8 @@ class CFDBFilterParser implements CFDBEvaluator {
                           $comparisonExpression, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
     }
 
-    public function parseValidFunction($filterString) {
-        $parsed = $this->parseFunction($filterString);
-        if (is_array($parsed)) {
-            if (!is_callable($parsed[0]) || !$this->functionIsPermitted($parsed[0])) {
-                return $filterString;
-            }
-        }
-        return $parsed;
-    }
-
     /**
-     * @param $filterString string
-     * @return string|array if a function like "funct(arg1, arg2, ...)" then returns array['funct', arg1, arg2, ...]
-     * otherwise just returns the string passed in
-     */
-    public function parseFunction($filterString) {
-        $matches = array();
-        // Parse function name
-        if (preg_match('/^(\w+)\((.*)\)$/', trim($filterString), $matches)) {
-            $functionArray = array();
-            $functionArray[] = $matches[1]; // function name
-            // Parse function parameters
-            $matches[2] = trim($matches[2]);
-            if ($matches[2] != '') {
-                $paramMatches = explode(',', $matches[2]);
-                foreach ($paramMatches as $param) {
-                    $param = trim($param);
-                    if ($param != '') {
-                        $functionArray[] = $param;
-                    }
-                }
-            }
-            return $functionArray;
-        }
-        return $filterString;
-    }
-
-    /**
-     * Evaluate expression against input data. Assumes parseFilterString was called to set up the expression to
+     * Evaluate expression against input data. Assumes parse was called to set up the expression to
      * evaluate. Expression should have key . operator . value tuples and input $data should have the same keys
      * with values to check against them.
      * For example, an expression in this object is 'name=john' and the input data has [ 'name' => 'john' ]. In
@@ -236,16 +153,8 @@ class CFDBFilterParser implements CFDBEvaluator {
      * @return boolean result of evaluating $data against expression tree
      */
     public function evaluate(&$data) {
-        if (function_exists('get_option')) {
-            $tz = get_option('CF7DBPlugin_Timezone'); // see CFDBPlugin->setTimezone()
-            if (!$tz) {
-                $tz =  get_option('timezone_string');
-            }
-            if ($tz) {
-                date_default_timezone_set($tz);
-            }
-        }
-        
+        $this->setTimezone();
+
         $retVal = true;
         if ($this->tree) {
             $retVal = false;
@@ -273,7 +182,7 @@ class CFDBFilterParser implements CFDBEvaluator {
 
             // Left operand
             $left = $andExpr[0];
-            // Boolean type means it was set in parseFilterString in response
+            // Boolean type means it was set in parse in response
             // to a filter like "function(x)" that was turned into an expression
             // like "function(x) === true"
             if ($left !== true && $left !== false) {
@@ -314,21 +223,6 @@ class CFDBFilterParser implements CFDBEvaluator {
             return $this->evaluateLeftOpRightComparison($left, $op, $right);
         }
         return false;
-    }
-
-    /**
-     * @param $text string
-     * @return mixed
-     */
-    public function preprocessValues($text) {
-        if ($this->compValuePreprocessor) {
-            try {
-                $text = $this->compValuePreprocessor->convert($text);
-            } catch (Exception $ex) {
-                trigger_error($ex, E_USER_NOTICE);
-            }
-        }
-        return $text;
     }
 
     /**
@@ -431,20 +325,5 @@ class CFDBFilterParser implements CFDBEvaluator {
         return $retVal;
     }
 
-    /**
-     * @param  $converter CFDBValueConverter
-     * @return void
-     */
-    public function setComparisonValuePreprocessor($converter) {
-        $this->compValuePreprocessor = $converter;
-    }
-
-    /**
-     * @param $cFDBPermittedFilterFunctions CFDBPermittedFunctions
-     * @return void
-     */
-    public function setPermittedFilterFunctions($cFDBPermittedFilterFunctions) {
-        $this->permittedFilterFunctions = $cFDBPermittedFilterFunctions;
-    }
 
 }

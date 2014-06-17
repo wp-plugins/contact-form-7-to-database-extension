@@ -5,7 +5,7 @@ include_once('../CFDBFilterParser.php');
 include_once('../CFDBValueConverter.php');
 include_once('../DereferenceShortcodeVars.php');
 
-class TestFilterParse extends PHPUnit_Framework_TestCase {
+class TestCFDBFilterParser extends PHPUnit_Framework_TestCase {
 
 
     public function test1() {
@@ -140,7 +140,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
      */
     public function test_parseFilterString_1() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=bbb');
+        $p->parse('aaa=bbb');
         $tree = $p->getFilterTree();
 
         $this->assertEquals('aaa', $tree[0][0][0], print_r($tree, true));
@@ -180,7 +180,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
      */
     public function test_parseFilterString_2() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=bbb||ccc=ddd');
+        $p->parse('aaa=bbb||ccc=ddd');
         $tree = $p->getFilterTree();
         $this->assertEquals('aaa', $tree[0][0][0], print_r($tree, true));
         $this->assertEquals('=', $tree[0][0][1], print_r($tree, true));
@@ -233,7 +233,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
      */
     public function test_parseFilterString_3() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=bbb||ccc=ddd&&eee=fff');
+        $p->parse('aaa=bbb||ccc=ddd&&eee=fff');
         $tree = $p->getFilterTree();
         $this->assertEquals(count($tree), 2, print_r($tree, true));
 
@@ -302,7 +302,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
  */
     public function test_parseFilterString_4() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=bbb||ccc=ddd&&eee=fff&&ggg=hhh');
+        $p->parse('aaa=bbb||ccc=ddd&&eee=fff&&ggg=hhh');
         $tree = $p->getFilterTree();
         $this->assertEquals(count($tree), 2, print_r($tree, true));
 
@@ -383,7 +383,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
      */
     public function test_parseFilterString_5() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=bbb&&yyy=zzz&&www=xxx||ccc=ddd&&eee=fff&&ggg=hhh');
+        $p->parse('aaa=bbb&&yyy=zzz&&www=xxx||ccc=ddd&&eee=fff&&ggg=hhh');
         $tree = $p->getFilterTree();
         $this->assertEquals(count($tree), 2, print_r($tree, true));
 
@@ -418,7 +418,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_parseFilterString_6() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('');
+        $p->parse('');
         $tree = $p->getFilterTree();
         $this->assertEquals(count($tree), 0);
     }
@@ -448,15 +448,15 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_hasFilters() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=bbb');
+        $p->parse('aaa=bbb');
         //$tree = $p->getFilterTree();
         $this->assertTrue($p->hasFilters());
 
-        $p->parseFilterString('aaa=bbb&&yyy=zzz&&www=xxx||ccc=ddd&&eee=fff&&ggg=hhh');
+        $p->parse('aaa=bbb&&yyy=zzz&&www=xxx||ccc=ddd&&eee=fff&&ggg=hhh');
         //$tree = $p->getFilterTree();
         $this->assertTrue($p->hasFilters());
 
-        $p->parseFilterString('');
+        $p->parse('');
         //$tree = $p->getFilterTree();
         $this->assertFalse($p->hasFilters());
     }
@@ -552,35 +552,35 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_evaluate_1t() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=bbb');
+        $p->parse('aaa=bbb');
         $data = array('aaa' => 'bbb');
         $this->assertTrue($p->evaluate($data));
     }
 
     public function test_evaluate_1f() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=bbb');
+        $p->parse('aaa=bbb');
         $data = array('aaa' => 'xxx');
         $this->assertFalse($p->evaluate($data));
     }
 
     public function test_evaluate_2tOR() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=bbb||ccc=ddd');
+        $p->parse('aaa=bbb||ccc=ddd');
         $data = array('aaa' => 'bbb', 'ccc' => 'ddd');
         $this->assertTrue($p->evaluate($data));
     }
 
     public function test_evaluate_2tAND() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=bbb&&ccc=ddd');
+        $p->parse('aaa=bbb&&ccc=ddd');
         $data = array('aaa' => 'bbb', 'ccc' => 'ddd');
         $this->assertTrue($p->evaluate($data));
     }
 
     public function test_evaluate_2f() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=xxx&&ccc=ddd');
+        $p->parse('aaa=xxx&&ccc=ddd');
         $data = array('aaa' => 'bbb', 'ccc' => 'ddd');
         $this->assertFalse($p->evaluate($data));
     }
@@ -594,7 +594,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_evaluate_4() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=xxx||ccc=ddd');
+        $p->parse('aaa=xxx||ccc=ddd');
         $data = array('aaa' => 'bbb', 'ccc' => 'ddd');
         $this->assertTrue($p->evaluate($data));
     }
@@ -602,7 +602,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_evaluate_5() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=bbb&&yyy=zzz&&www=xxx||ccc=ddd&&eee=fff&&ggg=hhh');
+        $p->parse('aaa=bbb&&yyy=zzz&&www=xxx||ccc=ddd&&eee=fff&&ggg=hhh');
 
         $data = array(
             'aaa' => 'bbb',
@@ -618,7 +618,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_evaluate_6() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=bbb&&yyy=zzz&&www=xxx||ccc=ddd&&eee=fff&&ggg=hhh');
+        $p->parse('aaa=bbb&&yyy=zzz&&www=xxx||ccc=ddd&&eee=fff&&ggg=hhh');
 
         $data = array(
             'aaa' => 'XXXX',
@@ -634,7 +634,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_evaluate_7() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=bbb&&yyy=zzz&&www=xxx||ccc=ddd&&eee=fff&&ggg=hhh');
+        $p->parse('aaa=bbb&&yyy=zzz&&www=xxx||ccc=ddd&&eee=fff&&ggg=hhh');
 
         $data = array(
             'aaa' => 'XXXX',
@@ -650,7 +650,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_evaluate_8() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=bbb&&yyy=zzz&&www=xxx||ccc=ddd&&eee=fff&&ggg=hhh');
+        $p->parse('aaa=bbb&&yyy=zzz&&www=xxx||ccc=ddd&&eee=fff&&ggg=hhh');
 
         $data = array(
             'aaa' => 'XXXX',
@@ -667,14 +667,14 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_evaluate_9() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa>3');
+        $p->parse('aaa>3');
         $data = array('aaa' => 4);
         $this->assertTrue($p->evaluate($data));
     }
 
     public function test_evaluate_nullValue() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=null&&yyy=zzz');
+        $p->parse('aaa=null&&yyy=zzz');
 
         $data = array(
             //'aaa' => 'bbb',
@@ -685,7 +685,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_evaluate_nullValue2() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=null&&yyy=zzz');
+        $p->parse('aaa=null&&yyy=zzz');
 
         $data = array(
             'aaa' => 'null',
@@ -696,14 +696,14 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_evaluate_regex1() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa~~/^b/');
+        $p->parse('aaa~~/^b/');
         $data = array('aaa' => 'bbbb');
         $this->assertTrue($p->evaluate($data));
     }
 
     public function test_evaluate_regex2() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa~~/^b/');
+        $p->parse('aaa~~/^b/');
         $data = array('aaa' => 'abbb');
         $this->assertFalse($p->evaluate($data));
     }
@@ -712,7 +712,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
     public function test_setComparisonValuePreprocessor1() {
         $p = new CFDBFilterParser;
         $p->setComparisonValuePreprocessor(new ChangeNameToValue('$stuff', 'AAA'));
-        $p->parseFilterString('aaa=$stuff');
+        $p->parse('aaa=$stuff');
         $data = array('aaa' => 'AAA');
         $this->assertTrue($p->evaluate($data));
     }
@@ -720,7 +720,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
     public function test_setComparisonValuePreprocessor2() {
         $p = new CFDBFilterParser;
         $p->setComparisonValuePreprocessor(new ChangeNameToValue('$stuff', 'AAA'));
-        $p->parseFilterString('aaa=$stuff');
+        $p->parse('aaa=$stuff');
         $data = array('aaa' => 'BBB');
         $this->assertFalse($p->evaluate($data));
     }
@@ -731,50 +731,50 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
         $data = array('your-message' => 'admin',
                       'your-email' => 'mike@simpson-software-studio.com');
 
-        $p->parseFilterString('your-email=$user_email');
+        $p->parse('your-email=$user_email');
         $this->assertTrue($p->evaluate($data));
 
-        $p->parseFilterString('your-message=$user_login');
+        $p->parse('your-message=$user_login');
         $this->assertTrue($p->evaluate($data));
 
-        $p->parseFilterString('your-message=$user_login&&your-email=$user_email');
+        $p->parse('your-message=$user_login&&your-email=$user_email');
         $this->assertTrue($p->evaluate($data));
 
-        $p->parseFilterString('your-message=$user_login||your-email=$user_email');
+        $p->parse('your-message=$user_login||your-email=$user_email');
         $this->assertTrue($p->evaluate($data));
 
-        $p->parseFilterString('your-message=$user_login||your-email!=$user_email');
+        $p->parse('your-message=$user_login||your-email!=$user_email');
         $this->assertTrue($p->evaluate($data));
 
-        $p->parseFilterString('your-message=$user_login&&your-email!=$user_email');
+        $p->parse('your-message=$user_login&&your-email!=$user_email');
         $this->assertFalse($p->evaluate($data));
 
     }
 
     public function test_submit_time() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('submit_time=1305930218.2452');
+        $p->parse('submit_time=1305930218.2452');
         $data = array('submit_time' => '1305930218.2452');
         $this->assertTrue($p->evaluate($data));
 
         $p = new CFDBFilterParser;
-        $p->parseFilterString('submit_time=1305930218.2452');
+        $p->parse('submit_time=1305930218.2452');
         $data = array('submit_time' => '1305930218.9999');
         $this->assertFalse($p->evaluate($data));
 
         $p = new CFDBFilterParser;
-        $p->parseFilterString('submit_time<1305930218.9999');
+        $p->parse('submit_time<1305930218.9999');
         $data = array('submit_time' => '1305930218.2452');
         $this->assertTrue($p->evaluate($data));
 
         $p = new CFDBFilterParser;
-        $p->parseFilterString('submit_time<=1305930218.9999');
+        $p->parse('submit_time<=1305930218.9999');
         $data = array('submit_time' => '1305930218.2452');
         $this->assertTrue($p->evaluate($data));
 
 
         $p = new CFDBFilterParser;
-        $p->parseFilterString('submit_time>1305930218');
+        $p->parse('submit_time>1305930218');
         $data = array('submit_time' => '1305930218.2452');
         $this->assertTrue($p->evaluate($data));
 
@@ -784,7 +784,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
     public function test_submit_time_with_relative() {
         date_default_timezone_set('America/New_York');
         $p = new CFDBFilterParser;
-        $p->parseFilterString('submit_time<8 weeks ago');
+        $p->parse('submit_time<8 weeks ago');
 
         $nineWeeksAgo =  microtime(true) - (60 * 60 * 24 * 7 * 9);
         $data = array('submit_time' => $nineWeeksAgo);
@@ -801,12 +801,12 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
          $p = new CFDBFilterParser;
          $p->setComparisonValuePreprocessor(new DereferenceShortcodeVars);
-         $p->parseFilterString($comparisonExpression);
+         $p->parse($comparisonExpression);
 //         echo '<pre>'; print_r($p->tree); echo '</pre>';
          $this->assertEquals('<=', $p->tree[0][0][1]);
 
          $comparisonExpression = 'submit_time&gt;=1305930218.2452';
-         $p->parseFilterString($comparisonExpression);
+         $p->parse($comparisonExpression);
          $this->assertEquals('>=', $p->tree[0][0][1]);
     }
 
@@ -858,7 +858,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
         $filterText = 'Week Number?=52&&Year=2015';
         $p = new CFDBFilterParser;
-        $p->parseFilterString($filterText);
+        $p->parse($filterText);
 
         print_r($p->getFilterTree());
 
@@ -1035,7 +1035,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_parse_function() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=AAA&&yyy=strtoupper(zzz)');
+        $p->parse('aaa=AAA&&yyy=strtoupper(zzz)');
 
         $this->assertEquals('aaa', $p->tree[0][0][0]);
         $this->assertEquals('=', $p->tree[0][0][1]);
@@ -1049,7 +1049,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_evaluate_unknown_function() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=AAA&&yyy=hello(zzz)');
+        $p->parse('aaa=AAA&&yyy=hello(zzz)');
 
         $this->assertEquals('aaa', $p->tree[0][0][0]);
         $this->assertEquals('=', $p->tree[0][0][1]);
@@ -1062,7 +1062,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_parse_function_injected_boolean() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=AAA&&strtoupper(zzz)');
+        $p->parse('aaa=AAA&&strtoupper(zzz)');
 
         $this->assertEquals('aaa', $p->tree[0][0][0]);
         $this->assertEquals('=',   $p->tree[0][0][1]);
@@ -1076,7 +1076,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_parse_function_boolean_true() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=AAA&&true=strtoupper(zzz)');
+        $p->parse('aaa=AAA&&true=strtoupper(zzz)');
 
         $this->assertEquals('aaa', $p->tree[0][0][0]);
         $this->assertEquals('=', $p->tree[0][0][1]);
@@ -1090,7 +1090,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_parse_function_boolean_false() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=AAA&&false=strtoupper(zzz)');
+        $p->parse('aaa=AAA&&false=strtoupper(zzz)');
 
         $this->assertEquals('aaa', $p->tree[0][0][0]);
         $this->assertEquals('=', $p->tree[0][0][1]);
@@ -1104,7 +1104,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_parse_function_boolean_true2() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=AAA&&strtoupper(zzz)=true');
+        $p->parse('aaa=AAA&&strtoupper(zzz)=true');
 
         $this->assertEquals('aaa', $p->tree[0][0][0]);
         $this->assertEquals('=',   $p->tree[0][0][1]);
@@ -1118,7 +1118,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_parse_function_boolean_false2() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('aaa=AAA&&strtoupper(zzz)=false');
+        $p->parse('aaa=AAA&&strtoupper(zzz)=false');
 
         $this->assertEquals('aaa', $p->tree[0][0][0]);
         $this->assertEquals('=',   $p->tree[0][0][1]);
@@ -1132,21 +1132,21 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_evaluate_function_1() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('fname=AAA&&strtoupper(lname)=ZZZ');
+        $p->parse('fname=AAA&&strtoupper(lname)=ZZZ');
         $data = array('fname' => 'AAA');
         $this->assertFalse($p->evaluate($data));
     }
 
     public function test_evaluate_function_1_1() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('fname=AAA&&strtoupper(zzz)=ZZZ');
+        $p->parse('fname=AAA&&strtoupper(zzz)=ZZZ');
         $data = array('fname' => 'AAA');
         $this->assertTrue($p->evaluate($data));
     }
 
     public function test_evaluate_function_1_2() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('fname=AAA&&strtoupper(lname)=ZZZ');
+        $p->parse('fname=AAA&&strtoupper(lname)=ZZZ');
         $data = array('fname' => 'AAA',
                       'lname' => 'zzz');
         $this->assertTrue($p->evaluate($data));
@@ -1154,7 +1154,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_evaluate_function_2() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('fname=AAA&&is_numeric(lname)');
+        $p->parse('fname=AAA&&is_numeric(lname)');
         $data = array('fname' => 'AAA',
                       'lname' => '123');
         $this->assertTrue($p->evaluate($data));
@@ -1162,7 +1162,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_evaluate_function_2_1() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('fname=AAA&&true=is_numeric(lname)');
+        $p->parse('fname=AAA&&true=is_numeric(lname)');
         $data = array('fname' => 'AAA',
                       'lname' => '123');
         $this->assertTrue($p->evaluate($data));
@@ -1170,7 +1170,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_evaluate_function_2_2() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('fname=AAA&&false=is_numeric(lname)');
+        $p->parse('fname=AAA&&false=is_numeric(lname)');
         $data = array('fname' => 'AAA',
                       'lname' => 'abc');
         $this->assertTrue($p->evaluate($data));
@@ -1178,7 +1178,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_evaluate_function_2_3() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('fname=AAA&&is_numeric(lname)=true');
+        $p->parse('fname=AAA&&is_numeric(lname)=true');
         $data = array('fname' => 'AAA',
                       'lname' => '123');
         $this->assertTrue($p->evaluate($data));
@@ -1186,7 +1186,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_evaluate_function_2_3_1() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('fname=AAA&&is_numeric(lname)=true');
+        $p->parse('fname=AAA&&is_numeric(lname)=true');
         $data = array('fname' => 'AAA',
                       'lname' => 'abc');
         $this->assertFalse($p->evaluate($data));
@@ -1194,7 +1194,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_evaluate_function_2_4() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('fname=AAA&&is_numeric(lname)=false');
+        $p->parse('fname=AAA&&is_numeric(lname)=false');
         $data = array('fname' => 'AAA',
                       'lname' => 'abc');
         $this->assertTrue($p->evaluate($data));
@@ -1202,7 +1202,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_evaluate_function_2_4_1() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('fname=AAA&&is_numeric(lname)=false');
+        $p->parse('fname=AAA&&is_numeric(lname)=false');
         $data = array('fname' => 'AAA',
                       'lname' => '123');
         $this->assertFalse($p->evaluate($data));
@@ -1213,7 +1213,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
         $p = new CFDBFilterParser;
         $p->setComparisonValuePreprocessor(new ChangeNameToValue('$user_login', 'msimpson'));
 
-        $p->parseFilterString('Submitted Login=$user_login');
+        $p->parse('Submitted Login=$user_login');
         $data = array('Submitted Login' => 'msimpson');
         $this->assertTrue($p->evaluate($data));
     }
@@ -1223,7 +1223,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
         $p = new CFDBFilterParser;
         $p->setComparisonValuePreprocessor(new ChangeNameToValue('$user_login', 'msimpson'));
 
-        $p->parseFilterString('Submitted Login=$user_login');
+        $p->parse('Submitted Login=$user_login');
         $data = array('Submitted Login' => 'admin');
         $this->assertFalse($p->evaluate($data));
     }
@@ -1233,28 +1233,28 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
         $p = new CFDBFilterParser;
         $p->setComparisonValuePreprocessor(new ChangeNameToValue('$user_login', null));
 
-        $p->parseFilterString('Submitted Login=$user_login');
+        $p->parse('Submitted Login=$user_login');
         $data = array();
         $this->assertFalse($p->evaluate($data));
     }
 
     public function test_null_field() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('field=null');
+        $p->parse('field=null');
         $data = array();
         $this->assertTrue($p->evaluate($data));
     }
 
     public function test_constants_params() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('str_pad(field,10,.,STR_PAD_BOTH)=..hello...');
+        $p->parse('str_pad(field,10,.,STR_PAD_BOTH)=..hello...');
         $data = array('field' =>'hello');
         $this->assertTrue($p->evaluate($data));
     }
 
     public function test_filterTrue() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('filterTrue()');
+        $p->parse('filterTrue()');
         print_r($p->tree);
         $data = array('field' =>'hello');
         $this->assertTrue($p->evaluate($data));
@@ -1262,7 +1262,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_filterTrueEqualsTrue() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('filterTrue()=true');
+        $p->parse('filterTrue()=true');
         print_r($p->tree);
         $data = array('field' =>'hello');
         $this->assertTrue($p->evaluate($data));
@@ -1270,7 +1270,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_filterTrueEqualsTrue2() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('true=filterTrue()');
+        $p->parse('true=filterTrue()');
         print_r($p->tree);
         $data = array('field' =>'hello');
         $this->assertTrue($p->evaluate($data));
@@ -1278,7 +1278,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_filterFalse() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('filterFalse()');
+        $p->parse('filterFalse()');
         print_r($p->tree);
         $data = array('field' =>'hello');
         $this->assertFalse($p->evaluate($data));
@@ -1286,7 +1286,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_filterFalseEqualFalse() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('filterFalse()=false');
+        $p->parse('filterFalse()=false');
         print_r($p->tree);
         $data = array('field' =>'hello');
         $this->assertTrue($p->evaluate($data));
@@ -1294,7 +1294,7 @@ class TestFilterParse extends PHPUnit_Framework_TestCase {
 
     public function test_filterFalseEqualFalse2() {
         $p = new CFDBFilterParser;
-        $p->parseFilterString('false=filterFalse()');
+        $p->parse('false=filterFalse()');
         print_r($p->tree);
         $data = array('field' =>'hello');
         $this->assertTrue($p->evaluate($data));
@@ -1338,5 +1338,5 @@ class ChangeUserVar implements CFDBValueConverter {
 
 
 
-//$suite = new PHPUnit_Framework_TestSuite("TestFilterParse");
+//$suite = new PHPUnit_Framework_TestSuite("TestCFDBFilterParser");
 //PHPUnit_TextUI_TestRunner::run($suite);
