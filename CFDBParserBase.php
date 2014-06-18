@@ -139,7 +139,8 @@ abstract class CFDBParserBase {
     }
 
     public function setTimezone() {
-        if (function_exists('get_option')) {
+        static $timezoneNotSet = true;
+        if ($timezoneNotSet && function_exists('get_option')) {
             $tz = get_option('CF7DBPlugin_Timezone'); // see CFDBPlugin->setTimezone()
             if (!$tz) {
                 $tz = get_option('timezone_string');
@@ -147,6 +148,7 @@ abstract class CFDBParserBase {
             if ($tz) {
                 date_default_timezone_set($tz);
             }
+            $timezoneNotSet = false;
         }
     }
 
