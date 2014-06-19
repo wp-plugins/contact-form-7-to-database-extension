@@ -1053,8 +1053,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         </div>
     </div>
     <?php // TRANS ?>
-        <?php _e('Transform', 'contact-form-7-to-database-extension'); ?>
         <div id="trans_div" class="shortcodeoptions">
+        <?php _e('Transform', 'contact-form-7-to-database-extension'); ?>
         <div>
             <div class="label_box">
                 <label for="trans_cntl"><?php _e('trans', 'contact-form-7-to-database-extension') ?></label>
