@@ -19,10 +19,18 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 require_once('CFDBParserBase.php');
+require_once('CFDBTransformByFunctionIterator.php');
+require_once('CFDBTransformByClassIterator.php');
 
 class CFDBTransformParser extends CFDBParserBase {
 
     var $tree = array();
+
+    /**
+     * @var array[CFDBDataIterator]
+     */
+    var $transformIterators = array();
+
 
     public function getExpressionTree() {
         return $this->tree;
@@ -44,7 +52,7 @@ class CFDBTransformParser extends CFDBParserBase {
             } else {
                 $function = trim($rawExpression[0]); // function call
             }
-            $function = $this->parseFunctionOrClass($function); // ["zz(a,b,c)"] -> ["zz", "a", "b", "c"]
+            $function = $this->parseValidFunctionOrClassTransform($function); // ["zz(a,b,c)"] -> ["zz", "a", "b", "c"]
             if (is_array($function)) {
                 $expression = array_merge($expression, $function);
             } else {
@@ -66,28 +74,62 @@ class CFDBTransformParser extends CFDBParserBase {
                 PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
     }
 
-    public function parseFunctionOrClass($function) {
-        // TODO: parseFunction needs to allow for Classes
-        return $this->parseFunction($function);
-    }
 
-
-    public function evaluate(&$data) {
-        $this->setTimezone();
+    public function setupTransforms() {
         if ($this->tree) {
-            foreach ($this->tree as $xformArray) {
-                $this->transform($data, $xformArray);
+            /** @var $previousTransformIterator CFDBDataIteratorDecorator */
+            $previousTransformIterator = null;
+            foreach ($this->tree as $transformArray) {
+                // [field, =, func, a1, a2, ...] or [func] or [class] or [class, a1, a2, ...]
+                $transform = null;
+                if (!empty($transformArray)) {
+                    $transform = null;
+                    if (class_exists($transformArray[0])) {
+                        $reflect = new ReflectionClass($transformArray[0]);
+                        $args = array_slice($transformArray, 1);
+                        $instance = $reflect->newInstanceArgs($args);
+                        $transform = new CFDBTransformByClassIterator();
+                        /** @var $instance CFDBTransform */
+                        $transform->setTransformObject($instance);
+                    } else {
+                        // assume it is a function
+                        $transform = new CFDBTransformByFunctionIterator();
+                        $transform->setFunctionEvaluator($this->functionEvaluator);
+                        if (count($transformArray) > 1 && $transformArray[1] == '=') {
+                            // [field_name, =, function_name, arg1, arg2, ...]
+                            $transform->setFieldToAssign($transformArray[0]);
+                            $transform->setFunctionArray(array_slice($transformArray, 2));
+                        } else {
+                            // [function_name, arg1, arg2, ...]
+                            $transform->setFunctionArray($transformArray);
+                        }
+                    }
+                    // Set the data source for each transform as the previous transform
+                    // to set up a pipeline/decorator pattern.
+                    // The first transform is left with null data source to be hooked up later
+                    // to query results.
+                    $transform->setSource($previousTransformIterator); // is null for first one
+                    $previousTransformIterator = $transform;
+                    $this->transformIterators[] = $transform;
+                }
             }
         }
     }
 
-    public function transform(&$data, $xformArray) {
-        // if we have just a function, pass the whole data set
-        // TODO
-
-        // if we have a "field=function(...)" then iterate over the data set and call for each function
-        // TODO
+    /**
+     * @param $dataSource CFDBDataIterator
+     */
+    public function setDataSource($dataSource) {
+        if (count($this->transformIterators) > 0) {
+            $this->transformIterators[0]->setSource($dataSource);
+        }
     }
 
+    /**
+     * @return CFDBDataIteratorDecorator
+     */
+    public function getIterator() {
+        return end($this->transformIterators);
+    }
 
-} 
+}

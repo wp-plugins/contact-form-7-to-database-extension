@@ -19,17 +19,14 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-class CFDBQueryResultIterator {
+require_once('CFDBDataIterator.php');
+
+class CFDBQueryResultIterator extends CFDBDataIterator {
 
     /**
      * @var resource
      */
     var $results;
-
-    /**
-     * @var array
-     */
-    var $row;
 
     /**
      * @var string
@@ -55,11 +52,6 @@ class CFDBQueryResultIterator {
      * @var array
      */
     var $columns;
-
-    /**
-     * @var array
-     */
-    var $displayColumns = array();
 
     /**
      * @var CF7DBPlugin
@@ -98,8 +90,7 @@ class CFDBQueryResultIterator {
             if (isset($limitVals[1])) {
                 $this->limitStart = trim($limitVals[0]);
                 $this->limitEnd = $this->limitStart + trim($limitVals[1]);
-            }
-            else if (isset($limitVals[0])) {
+            } else if (isset($limitVals[0])) {
                 $this->limitEnd = trim($limitVals[0]);
             }
         }
@@ -124,8 +115,7 @@ class CFDBQueryResultIterator {
                         }
                     }
                     $wpdb->set_charset($con, DB_CHARSET, $collate);
-                }
-                else {
+                } else {
                     $setCharset = 'SET NAMES \'' . DB_CHARSET . '\'';
                     if (defined('DB_COLLATE')) {
                         if (DB_COLLATE != '') {
@@ -149,8 +139,7 @@ class CFDBQueryResultIterator {
                 trigger_error('mysql_unbuffered_query failed: ' . mysql_error(), E_USER_NOTICE);
                 return;
             }
-        }
-        else {
+        } else {
             $this->results = @mysql_query($sql, $con);
             if (!$this->results) {
                 trigger_error('mysql_query failed. Try adding <code>unbuffered="true"</code> to your short code. <br/>' . mysql_error(), E_USER_WARNING);
@@ -169,8 +158,7 @@ class CFDBQueryResultIterator {
                 }
             }
             $this->onFirstRow = true;
-        }
-        else {
+        } else {
             $this->onFirstRow = false;
         }
     }

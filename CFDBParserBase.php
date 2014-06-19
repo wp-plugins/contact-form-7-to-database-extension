@@ -19,20 +19,23 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
+require_once('CFDBFunctionEvaluator.php');
+
 abstract class CFDBParserBase {
 
     /**
-     * @var CFDBValueConverter callback that can be used to pre-process values in the filter string
-     * passed into parse($filterString).
-     * For example, a function might take the value '$user_email' and replace it with an actual email address
-     * just prior to checking it against input data in call evaluate($data)
+     * @var CFDBFunctionEvaluator
      */
-    var $compValuePreprocessor;
+    var $functionEvaluator;
 
     /**
      * @var CFDBPermittedFunctions
      */
     var $permittedFilterFunctions;
+
+    public function __construct() {
+        $this->functionEvaluator = new CFDBFunctionEvaluator();
+    }
 
     public abstract function parse($string);
 
@@ -41,7 +44,7 @@ abstract class CFDBParserBase {
      * @return void
      */
     public function setComparisonValuePreprocessor($converter) {
-        $this->compValuePreprocessor = $converter;
+        $this->functionEvaluator->setCompValuePreprocessor($converter);
     }
 
     /**
@@ -50,21 +53,6 @@ abstract class CFDBParserBase {
      */
     public function setPermittedFilterFunctions($cFDBPermittedFilterFunctions) {
         $this->permittedFilterFunctions = $cFDBPermittedFilterFunctions;
-    }
-
-    /**
-     * @param $text string
-     * @return mixed
-     */
-    public function preprocessValues($text) {
-        if ($this->compValuePreprocessor) {
-            try {
-                $text = $this->compValuePreprocessor->convert($text);
-            } catch (Exception $ex) {
-                trigger_error($ex, E_USER_NOTICE);
-            }
-        }
-        return $text;
     }
 
     /**
@@ -87,6 +75,26 @@ abstract class CFDBParserBase {
             }
         }
         return $parsed;
+    }
+
+    public function parseValidFunctionOrClassTransform($transString) {
+        $parsed = $this->parseFunction($transString);
+
+        if (!is_array($parsed)) {
+            return $parsed;
+        }
+
+        if (class_exists($parsed[0])) {
+            return $parsed;
+        }
+
+        $isFunction = is_callable($parsed[0]);
+        $isPermitted = $this->functionIsPermitted($parsed[0]);
+        if ($isFunction && $isPermitted) {
+            return $parsed;
+        }
+
+        return $transString;
     }
 
 

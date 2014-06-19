@@ -75,7 +75,7 @@ class ExportBase {
     var $rowFilter;
 
     /**
-     * @var CFDBEvaluator
+     * @var CFDBTransformParser
      */
     var $transform;
 
@@ -95,7 +95,7 @@ class ExportBase {
     var $plugin;
 
     /**
-     * @var CFDBQueryResultIterator
+     * @var CFDBDataIterator|CFDBQueryResultIterator
      */
     var $dataIterator;
 
@@ -163,8 +163,9 @@ class ExportBase {
 
             $permittedFunctions = null;
             if (isset($this->options['filter']) || isset($this->options['trans'])) {
+                require_once('CFDBPermittedFunctions.php');
                 $permittedFunctions = CFDBPermittedFunctions::getInstance();
-                $permitAll = $this->plugin->getOption('FunctionsInShortCodes', 'false') === 'true';
+                $permitAll = $this->queryPermitAllFunctions();
                 $permittedFunctions->setPermitAllFunctions($permitAll);
             }
 
@@ -173,7 +174,6 @@ class ExportBase {
             if (isset($this->options['filter'])) {
                 require_once('CFDBFilterParser.php');
                 require_once('DereferenceShortcodeVars.php');
-                require_once('CFDBPermittedFunctions.php');
                 $aFilter = new CFDBFilterParser;
                 $aFilter->setComparisonValuePreprocessor(new DereferenceShortcodeVars);
                 $aFilter->setPermittedFilterFunctions($permittedFunctions);
@@ -193,26 +193,6 @@ class ExportBase {
                 $filters[] = $aFilter;
             }
 
-            $transforms = array();
-            if (isset($this->options['trans'])) {
-                require_once('CFDBTransformParser.php');
-                require_once('DereferenceShortcodeVars.php');
-                require_once('CFDBPermittedFunctions.php');
-                $xform = new CFDBTransformParser();
-                $xform->setComparisonValuePreprocessor(new DereferenceShortcodeVars);
-                $permittedFunctions = CFDBPermittedFunctions::getInstance();
-                $permitAll = $this->plugin->getOption('FunctionsInShortCodes', 'false') === 'true';
-                $permittedFunctions->setPermitAllFunctions($permitAll);
-                $xform->setPermittedFilterFunctions($permittedFunctions);
-                $xform->parse($this->options['trans']);
-                if ($this->debug) {
-                    echo '<pre>\'' . $this->options['trans'] . "'\n";
-                    print_r($xform->tree);
-                    echo '</pre>';
-                }
-                $transforms[] = $xform;
-            }
-
             $numFilters = count($filters);
             if ($numFilters == 1) {
                 $this->rowFilter = $filters[0];
@@ -223,14 +203,19 @@ class ExportBase {
                 $this->rowFilter->setEvaluators($filters);
             }
 
-            $numTransforms = count($transforms);
-            if ($numTransforms == 1) {
-                $this->transform = $transforms[0];
-            }
-            else if ($numTransforms > 1) {
-                require_once('CFDBCompositeEvaluator.php');
-                $this->transform = new CFDBCompositeEvaluator;
-                $this->transform->setEvaluators($transforms);
+            if (isset($this->options['trans'])) {
+                require_once('CFDBTransformParser.php');
+                require_once('DereferenceShortcodeVars.php');
+                $this->transform = new CFDBTransformParser();
+                $this->transform->setComparisonValuePreprocessor(new DereferenceShortcodeVars);
+                $this->transform->setPermittedFilterFunctions($permittedFunctions);
+                $this->transform->parse($this->options['trans']);
+                if ($this->debug) {
+                    echo '<pre>\'' . $this->options['trans'] . "'\n";
+                    print_r($this->transform->tree);
+                    echo '</pre>';
+                }
+                $this->transform->setupTransforms();
             }
 
             if (isset($this->options['headers'])) { // e.g. "col1=Column 1 Display Name,col2=Column2 Display Name"
@@ -388,8 +373,6 @@ class ExportBase {
         $submitTimes = $this->queryRandomSubmitTimes($formName);
 
         $sql = $this->getPivotQuery($formName, false, $submitTimes);
-        $this->dataIterator = new CFDBQueryResultIterator();
-//        $this->dataIterator->fileColumns = $this->getFileMetaData($formName);
 
         $queryOptions = array();
         if ($submitTimeKeyName) {
@@ -405,8 +388,25 @@ class ExportBase {
             $queryOptions['unbuffered'] = $this->options['unbuffered'];
         }
 
-        $this->dataIterator->query($sql, $this->rowFilter, $queryOptions);
-        $this->dataIterator->displayColumns = $this->getColumnsToDisplay($this->dataIterator->columns);
+        if ($this->transform && !empty($this->transform->transformIterators)) {
+            $this->transform->setTimezone();
+
+            // do query, hookup that iterator as first
+            // hookup last iterator as $this->dataIterator
+            $queryIterator = new CFDBQueryResultIterator();
+            $queryIterator->query($sql, null, array());
+            // TODO: which query options to pass
+            // TODO: ending transform to apply query options...
+            // TODO: setting displayColumns
+            $this->transform->setDataSource($queryIterator);
+            $this->dataIterator = $this->transform->getIterator();
+
+        } else {
+            $this->dataIterator = new CFDBQueryResultIterator();
+            $this->dataIterator->query($sql, $this->rowFilter, $queryOptions);
+            $this->dataIterator->displayColumns = $this->getColumnsToDisplay($this->dataIterator->columns);
+        }
+
     }
 
 //    protected function &getFileMetaData($formName) {
@@ -585,7 +585,7 @@ class ExportBase {
     }
 
     public function hasFilterOrTransform() {
-        return !empty($this->rowFilter) || !empty($this->transform);
+        return $this->rowFilter || $this->transform;
     }
 
     /**
@@ -631,6 +631,13 @@ class ExportBase {
             return $submitTimes;
         }
         return $submitTimes;
+    }
+
+    /**
+     * @return bool
+     */
+    public function queryPermitAllFunctions() {
+        return $this->plugin->getOption('FunctionsInShortCodes', 'false') === 'true';
     }
 
 }
