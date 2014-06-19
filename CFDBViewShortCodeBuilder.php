@@ -51,6 +51,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         $postedForm = isset($_REQUEST['form']) ? $_REQUEST['form'] : '';
         $postedEnc = isset($_REQUEST['enc']) ? $_REQUEST['enc'] : '';
         $postedSC = isset($_REQUEST['sc']) ? ('[' . $_REQUEST['sc'] . ']') : '';
+        $postedTrans = isset($_REQUEST['trans']) ? ($_REQUEST['trans']) : '';
         $postedShow = isset($_REQUEST['show']) ? ($_REQUEST['show']) : '';
         $postedHide = isset($_REQUEST['hide']) ? ($_REQUEST['hide']) : '';
         $postedRole = isset($_REQUEST['role']) ? ($_REQUEST['role']) : '';
@@ -353,6 +354,13 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             scUrlElements.push(getValueUrl('permissionmsg', val));
             exportUrlElements.push(getValueUrl('permissionmsg', val));
             pushNameValue('permissionmsg', val, googleScriptElements, googleScriptValidationErrors);
+
+            var trans = jQuery('#trans_cntl').val();
+            scElements.push(getValue('trans', trans, scValidationErrors));
+            scUrlElements.push(getValueUrl('trans', trans));
+            exportUrlElements.push(getValueUrl('trans', trans));
+            pushNameValue('trans', trans, googleScriptElements, googleScriptValidationErrors);
+
 
             var filter = jQuery('#filter_cntl').val();
             var search = jQuery('#search_cntl').val();
@@ -725,6 +733,21 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             createShortCodeAndExportLink();
         }
 
+        function addToTrans() {
+            var value = jQuery('#trans_cntl').val();
+            if (value) {
+                value += "&&";
+            }
+            var field = jQuery('#add_trans').val()
+            if (field) {
+                value += field;
+                value += "="
+            }
+            value += jQuery('#trans_val').val();
+            jQuery('#trans_cntl').val(value);
+            createShortCodeAndExportLink();
+        }
+
         function addFieldToHeaders() {
             var col = jQuery('#add_headers').val();
             var disp = jQuery('#headers_val').val();
@@ -759,6 +782,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#hide_cntl').val('<?php echo $postedHide ?>');
             jQuery('#role_cntl').val('<?php echo $postedRole ?>');
             jQuery('#permissionmsg_cntl').val('<?php echo $postedPermissionmsg ?>');
+            jQuery('#trans_cntl').val('<?php echo $postedTrans ?>');
             jQuery('#search_cntl').val('<?php echo $postedSearch ?>');
             jQuery('#filter_cntl').val('<?php echo $postedFilter ?>');
             jQuery('#limit_rows_cntl').val('<?php echo $postedLimitNumRows ?>');
@@ -807,6 +831,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#btn_hide').click(addFieldToHide);
             jQuery('#btn_orderby').click(addFieldToOrderBy);
             jQuery('#btn_filter').click(addFieldToFilter);
+            jQuery('#btn_trans').click(addToTrans);
             jQuery('#header_cntl').click(createShortCodeAndExportLink);
             jQuery('#edit_mode_cntl').click(createShortCodeAndExportLink);
             jQuery('#btn_headers').click(addFieldToHeaders);
@@ -1027,7 +1052,22 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             </select>
         </div>
     </div>
-    <?php // SHOW HIDE permissionmsg ?>
+    <?php // TRANS ?>
+        <?php _e('Transform', 'contact-form-7-to-database-extension'); ?>
+        <div id="trans_div" class="shortcodeoptions">
+        <div>
+            <div class="label_box">
+                <label for="trans_cntl"><?php _e('trans', 'contact-form-7-to-database-extension') ?></label>
+                <a target="_docs" href="http://cfdbplugin.com/?page_id=1076"><img alt="?" src="<?php echo $infoImg ?>"/></a>
+            </div>
+            <select name="add_trans" id="add_trans"></select>
+            <input name="trans_val" id="trans_val" type="text" size="20" placeholder="<?php _e('PHP function or class', 'contact-form-7-to-database-extension') ?>"/>
+            <button id="btn_trans">&raquo;</button>
+            <br/>
+            <input name="trans_cntl" id="trans_cntl" type="text" size="100" placeholder="<?php _e('transform expression', 'contact-form-7-to-database-extension') ?>"/>
+        </div>
+    </div>
+    <?php // SHOW HIDE ?>
     <div id="show_hide_div" class="shortcodeoptions">
         <?php _e('Which fields/columns do you want to display?', 'contact-form-7-to-database-extension'); ?>
         <div>
