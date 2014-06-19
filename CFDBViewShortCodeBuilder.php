@@ -75,6 +75,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 break;
         }
 
+        $postedUnbuffered = isset($_REQUEST['unbuffered']) ? ($_REQUEST['unbuffered']) : '';
         $postedRandom = isset($_REQUEST['random']) ? ($_REQUEST['random']) : '';
         $postedOrderby = isset($_REQUEST['orderby']) ? ($_REQUEST['orderby']) : '';
         $postedHeader = isset($_REQUEST['header']) ? ($_REQUEST['header']) : '';
@@ -428,6 +429,12 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 scElements.push(getValue('random', val, scValidationErrors));
                 scUrlElements.push(getValueUrl('random', val));
                 pushNameValue("random", val, googleScriptElements, googleScriptValidationErrors);
+
+                if (jQuery('#unbuffered_cntl').is(':checked')) {
+                    scElements.push('unbuffered="true"');
+                    scUrlElements.push(getValueUrl('unbuffered', 'checked'));
+                    pushNameValue("checked", "checked", googleScriptElements, googleScriptValidationErrors);
+                }
 
                 var orderBy = jQuery('#orderby_cntl').val();
                 if (orderBy) {
@@ -833,6 +840,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#btn_filter').click(addFieldToFilter);
             jQuery('#btn_trans').click(addToTrans);
             jQuery('#header_cntl').click(createShortCodeAndExportLink);
+            jQuery('#unbuffered_cntl').click(createShortCodeAndExportLink);
             jQuery('#edit_mode_cntl').click(createShortCodeAndExportLink);
             jQuery('#btn_headers').click(addFieldToHeaders);
             jQuery('#btn_content').click(function() {
@@ -1140,6 +1148,13 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         </div>
         <div>
             <div class="label_box">
+                <label for="unbuffered_cntl"><?php _e('unbuffered', 'contact-form-7-to-database-extension') ?></label>
+                <a target="_docs" href="http://cfdbplugin.com/?p=696"><img alt="?" src="<?php echo $infoImg ?>"/></a>
+                <input id="unbuffered_cntl" type="checkbox"/>
+            </div>
+        </div>
+        <div>
+            <div class="label_box">
                 <label for="random_cntl"><?php _e('random', 'contact-form-7-to-database-extension') ?></label>
                 <a target="_docs" href="http://cfdbplugin.com/?page_id=89#random"><img alt="?" src="<?php echo $infoImg ?>"/></a>
             </div>
@@ -1164,7 +1179,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         <div><?php _e('Table Headers', 'contact-form-7-to-database-extension'); ?></div>
         <div>
             <div class="label_box">
-                <input id="header_cntl" type="checkbox" checked="true"/>
+                <input id="header_cntl" type="checkbox" checked/>
                 <label for="header_cntl"><?php _e('Include Header Row', 'contact-form-7-to-database-extension') ?></label>
             </div>
         </div>
