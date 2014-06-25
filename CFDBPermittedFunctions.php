@@ -20,6 +20,9 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * @singleton
+ */
 class CFDBPermittedFunctions
 {
 

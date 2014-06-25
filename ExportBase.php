@@ -20,6 +20,7 @@
 */
 
 require_once('CF7DBPlugin.php');
+require_once('CFDBQueryResultIteratorFactory.php');
 require_once('CFDBQueryResultIterator.php');
 
 class ExportBase {
@@ -388,23 +389,15 @@ class ExportBase {
             $queryOptions['unbuffered'] = $this->options['unbuffered'];
         }
 
+        $this->dataIterator = CFDBQueryResultIteratorFactory::getInstance()->newQueryIterator();
+        $this->dataIterator->query($sql, $this->rowFilter, $queryOptions);
+        $this->dataIterator->displayColumns = $this->getColumnsToDisplay($this->dataIterator->columns);
+
         if ($this->transform && !empty($this->transform->transformIterators)) {
             $this->transform->setTimezone();
-
-            // do query, hookup that iterator as first
-            // hookup last iterator as $this->dataIterator
-            $queryIterator = new CFDBQueryResultIterator();
-            $queryIterator->query($sql, null, array());
-            // TODO: which query options to pass
-            // TODO: ending transform to apply query options...
-            // TODO: setting displayColumns
-            $this->transform->setDataSource($queryIterator);
+            // Hookup query iterator as first transform, hookup last iterator as $this->dataIterator
+            $this->transform->setDataSource($this->dataIterator);
             $this->dataIterator = $this->transform->getIterator();
-
-        } else {
-            $this->dataIterator = new CFDBQueryResultIterator();
-            $this->dataIterator->query($sql, $this->rowFilter, $queryOptions);
-            $this->dataIterator->displayColumns = $this->getColumnsToDisplay($this->dataIterator->columns);
         }
 
     }

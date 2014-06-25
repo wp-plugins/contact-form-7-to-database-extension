@@ -19,23 +19,46 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('CFDBDataIterator.php');
+require_once('CFDBQueryResultIterator.php');
 
-abstract class CFDBDataIteratorDecorator extends CFDBDataIterator {
-
-    /**
-     * @var CFDBDataIterator
-     */
-    var $source;
+/**
+ * @singleton
+ */
+class CFDBQueryResultIteratorFactory {
 
     /**
-     * @param $source CFDBDataIterator
+     * @var CFDBQueryResultIterator mock instance
      */
-    public function setSource($source) {
-        $this->source = $source;
-        if ($source) {
-            $this->displayColumns = $source->displayColumns;
+    var $mock;
+
+    public static function getInstance() {
+        static $inst = null;
+        if ($inst === null) {
+            $inst = new CFDBQueryResultIteratorFactory();
         }
+        return $inst;
     }
 
-}
+    /**
+     * @param $mock CFDBQueryResultIterator mock for CFDBQueryResultIterator
+     */
+    public function setQueryResultsIteratorMock($mock) {
+        $this->mock = $mock;
+    }
+
+    public function clearMock() {
+        $this->mock = null;
+    }
+
+    /**
+     * Factory method for getting a new CFDBQueryResultIterator or mock.
+     * @return CFDBQueryResultIterator (or mock)
+     */
+    public function newQueryIterator() {
+        if ($this->mock) {
+            return $this->mock;
+        }
+        return new CFDBQueryResultIterator();
+    }
+
+} 
