@@ -102,7 +102,7 @@ class ExportToJson extends ExportBase implements CFDBExport {
 
             // Create the column name JSON values only once
             $jsonEscapedColumns = array();
-            foreach ($this->dataIterator->displayColumns as $col) {
+            foreach ($this->dataIterator->getDisplayColumns() as $col) {
                 $colDisplayValue = $col;
                 if ($this->headers && isset($this->headers[$col])) {
                     $colDisplayValue = $this->headers[$col];
@@ -121,7 +121,7 @@ class ExportToJson extends ExportBase implements CFDBExport {
                 }
                 echo '{';
                 $firstCol = true;
-                foreach ($this->dataIterator->displayColumns as $col) {
+                foreach ($this->dataIterator->getDisplayColumns() as $col) {
                     if ($firstCol) {
                         $firstCol = false;
                     }
@@ -145,7 +145,7 @@ class ExportToJson extends ExportBase implements CFDBExport {
                 // Add header
                 $firstCol = true;
                 echo '[';
-                foreach ($this->dataIterator->displayColumns as $col) {
+                foreach ($this->dataIterator->getDisplayColumns() as $col) {
                     if ($firstCol) {
                         $firstCol = false;
                     }
@@ -171,7 +171,7 @@ class ExportToJson extends ExportBase implements CFDBExport {
                 }
                 $firstCol = true;
                 echo '[';
-                foreach ($this->dataIterator->displayColumns as $col) {
+                foreach ($this->dataIterator->getDisplayColumns() as $col) {
                     if ($firstCol) {
                         $firstCol = false;
                     }

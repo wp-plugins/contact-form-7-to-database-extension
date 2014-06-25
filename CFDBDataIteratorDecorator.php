@@ -33,9 +33,13 @@ abstract class CFDBDataIteratorDecorator extends CFDBDataIterator {
      */
     public function setSource($source) {
         $this->source = $source;
-        if ($source) {
-            $this->displayColumns = $source->displayColumns;
+    }
+
+    public function getDisplayColumns() {
+        if (empty($this->displayColumns)) {
+            return $this->source->getDisplayColumns();
         }
+        return $this->displayColumns;
     }
 
 }

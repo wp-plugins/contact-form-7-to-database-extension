@@ -116,7 +116,7 @@ class ExportToCsvUtf8 extends ExportBase implements CFDBExport {
            // do not output column headers
         }
         else  {
-            foreach ($this->dataIterator->displayColumns as $aCol) {
+            foreach ($this->dataIterator->getDisplayColumns() as $aCol) {
                 $colDisplayValue = $aCol;
                 if ($this->headers && isset($this->headers[$aCol])) {
                     $colDisplayValue = $this->headers[$aCol];
@@ -135,7 +135,7 @@ class ExportToCsvUtf8 extends ExportBase implements CFDBExport {
                     $this->dataIterator->row['fields_with_file'] != null) {
                 $fields_with_file = explode(',', $this->dataIterator->row['fields_with_file']);
             }
-            foreach ($this->dataIterator->displayColumns as $aCol) {
+            foreach ($this->dataIterator->getDisplayColumns() as $aCol) {
                 $cell = isset($this->dataIterator->row[$aCol]) ? $this->dataIterator->row[$aCol] : '';
                 if ($showFileUrlsInExport &&
                         $fields_with_file &&

@@ -216,7 +216,7 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
             <?php
 
             }
-            foreach ($this->dataIterator->displayColumns as $aCol) {
+            foreach ($this->dataIterator->getDisplayColumns() as $aCol) {
                 $colDisplayValue = $aCol;
                 if ($this->headers && isset($this->headers[$aCol])) {
                     $colDisplayValue = $this->headers[$aCol];
@@ -248,7 +248,7 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
                 if (isset($this->dataIterator->row['fields_with_file']) && $this->dataIterator->row['fields_with_file'] != null) {
                     $fields_with_file = explode(',', $this->dataIterator->row['fields_with_file']);
                 }
-                foreach ($this->dataIterator->displayColumns as $aCol) {
+                foreach ($this->dataIterator->getDisplayColumns() as $aCol) {
                     $cell = $this->rawValueToPresentationValue(
                         $this->dataIterator->row[$aCol],
                         $showLineBreaks,

@@ -79,7 +79,7 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
         if (!empty($matches) && is_array($matches[1])) {
             foreach ($matches[1] as $aSubVar) {
                 // Each is expected to be a name of a column
-                if (in_array($aSubVar, $this->dataIterator->displayColumns)) {
+                if (in_array($aSubVar, $this->dataIterator->getDisplayColumns())) {
                     $colNamesToSub[] = $aSubVar;
                     $varNamesToSub[] = '${' . $aSubVar . '}';
                 }

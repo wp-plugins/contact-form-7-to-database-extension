@@ -25,14 +25,14 @@ class TestTransforms extends PHPUnit_Framework_TestCase {
 
     public function setUp() {
         $data = array(
-                array('submit_time' => '1401303038.5193', 'Submitted' => '2014-05-28 14:50:38 -04:00', 'name' => 'b1', 'age' => '2000', 'Submitted Login' => 'msimpson', 'Submitted From' => '192.168.1.1'),
-                array('submit_time' => '1401303030.4485', 'Submitted' => '2014-05-28 14:50:30 -04:00', 'name' => 'a2', 'age' => '30', 'Submitted Login' => 'msimpson', 'Submitted From' => '192.168.1.1'),
-                array('submit_time' => '1401303022.9142', 'Submitted' => '2014-05-28 14:50:22 -04:00', 'name' => 'a', 'age' => '9', 'Submitted Login' => 'msimpson', 'Submitted From' => '192.168.1.1'),
-                array('submit_time' => '1401303016.1247', 'Submitted' => '2014-05-28 14:50:16 -04:00', 'name' => '11', 'age' => '20', 'Submitted Login' => 'msimpson', 'Submitted From' => '192.168.1.1'),
-                array('submit_time' => '1401303009.4765', 'Submitted' => '2014-05-28 14:50:09 -04:00', 'name' => '2', 'age' => '20.001', 'Submitted Login' => 'msimpson', 'Submitted From' => '192.168.1.1'),
-                array('submit_time' => '1401302992.7106', 'Submitted' => '2014-05-28 14:49:52 -04:00', 'name' => 'j', 'age' => '1500', 'Submitted Login' => 'msimpson', 'Submitted From' => '192.168.1.1'),
-                array('submit_time' => '1401302985.4975', 'Submitted' => '2014-05-28 14:49:45 -04:00', 'name' => 'd', 'age' => '.99999', 'Submitted Login' => 'msimpson', 'Submitted From' => '192.168.1.1'),
-                array('submit_time' => '1401302974.9052', 'Submitted' => '2014-05-28 14:49:34 -04:00', 'name' => 'm', 'age' => '900', 'Submitted Login' => 'msimpson', 'Submitted From' => '192.168.1.1'),
+                array('submit_time' => '1401303038.5193', 'Submitted' => '2014-05-28 14:50:38 -04:00', 'name' => 'b1', 'age' => '2000', 'Submitted Login' => 'msimpson', 'Submitted From' => '192.168.1.1', 'misc' => 'x1'),
+                array('submit_time' => '1401303030.4485', 'Submitted' => '2014-05-28 14:50:30 -04:00', 'name' => 'a2', 'age' => '30', 'Submitted Login' => 'msimpson', 'Submitted From' => '192.168.1.1', 'misc' => 'X11'),
+                array('submit_time' => '1401303022.9142', 'Submitted' => '2014-05-28 14:50:22 -04:00', 'name' => 'a', 'age' => '9', 'Submitted Login' => 'msimpson', 'Submitted From' => '192.168.1.1', 'misc' => 'X101'),
+                array('submit_time' => '1401303016.1247', 'Submitted' => '2014-05-28 14:50:16 -04:00', 'name' => 'p1', 'age' => '20', 'Submitted Login' => 'msimpson', 'Submitted From' => '192.168.1.1', 'misc' => 'x2'),
+                array('submit_time' => '1401303009.4765', 'Submitted' => '2014-05-28 14:50:09 -04:00', 'name' => 'p2', 'age' => '20.001', 'Submitted Login' => 'msimpson', 'Submitted From' => '192.168.1.1', 'misc' => 'x6'),
+                array('submit_time' => '1401302992.7106', 'Submitted' => '2014-05-28 14:49:52 -04:00', 'name' => 'j', 'age' => '1500', 'Submitted Login' => 'msimpson', 'Submitted From' => '192.168.1.1', 'misc' => 'X8'),
+                array('submit_time' => '1401302985.4975', 'Submitted' => '2014-05-28 14:49:45 -04:00', 'name' => 'd', 'age' => '.99999', 'Submitted Login' => 'msimpson', 'Submitted From' => '192.168.1.1', 'misc' => 'x123'),
+                array('submit_time' => '1401302974.9052', 'Submitted' => '2014-05-28 14:49:34 -04:00', 'name' => 'm', 'age' => '900', 'Submitted Login' => 'msimpson', 'Submitted From' => '192.168.1.1', 'misc' => 'x12'),
         );
         $mock = new MockQueryResultIterator($data);
         CFDBQueryResultIteratorFactory::getInstance()->setQueryResultsIteratorMock($mock);
@@ -72,9 +72,31 @@ class TestTransforms extends PHPUnit_Framework_TestCase {
         $this->assertTrue(strpos($text, 'P2') > 0);
     }
 
+    public function testLexicalSortClass() {
+        $options = array();
+        $options['trans'] = 'SortByField(misc)';
+
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+
+        $stuff = json_decode($text);
+        $idx = 0;
+        $this->assertTrue(is_array($stuff));
+        $this->assertEquals('X101', $stuff[$idx++]->misc);
+        $this->assertEquals('X11', $stuff[$idx++]->misc);
+        $this->assertEquals('X8', $stuff[$idx++]->misc);
+        $this->assertEquals('x1', $stuff[$idx++]->misc);
+        $this->assertEquals('x12', $stuff[$idx++]->misc);
+        $this->assertEquals('x123', $stuff[$idx++]->misc);
+        $this->assertEquals('x2', $stuff[$idx++]->misc);
+        $this->assertEquals('x6', $stuff[$idx++]->misc);
+    }
+
     public function testNaturalSortClass() {
         $options = array();
-        $options['trans'] = 'NaturalSortByField(name)';
+        $options['trans'] = 'NaturalSortByField(misc)';
 
         $exp = new ExportToJson();
         ob_start();
@@ -83,12 +105,38 @@ class TestTransforms extends PHPUnit_Framework_TestCase {
 
         $stuff = json_decode($text);
         $this->assertTrue(is_array($stuff));
-        $this->assertEquals('2', $stuff[0]->name);
-        $this->assertEquals('11', $stuff[1]->name);
-        $this->assertEquals('a', $stuff[2]->name);
-        $this->assertEquals('a2', $stuff[3]->name);
+        $idx = 0;
+        $this->assertEquals('X8', $stuff[$idx++]->misc);
+        $this->assertEquals('X11', $stuff[$idx++]->misc);
+        $this->assertEquals('X101', $stuff[$idx++]->misc);
+        $this->assertEquals('x1', $stuff[$idx++]->misc);
+        $this->assertEquals('x2', $stuff[$idx++]->misc);
+        $this->assertEquals('x6', $stuff[$idx++]->misc);
+        $this->assertEquals('x12', $stuff[$idx++]->misc);
+        $this->assertEquals('x123', $stuff[$idx++]->misc);
     }
 
+    public function testTransformThenSort() {
+        $options = array();
+        $options['trans'] = 'misc=strtoupper(misc)&&NaturalSortByField(misc)';
+
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+
+        $stuff = json_decode($text);
+        $this->assertTrue(is_array($stuff));
+        $idx = 0;
+        $this->assertEquals('X1', $stuff[$idx++]->misc);
+        $this->assertEquals('X2', $stuff[$idx++]->misc);
+        $this->assertEquals('X6', $stuff[$idx++]->misc);
+        $this->assertEquals('X8', $stuff[$idx++]->misc);
+        $this->assertEquals('X11', $stuff[$idx++]->misc);
+        $this->assertEquals('X12', $stuff[$idx++]->misc);
+        $this->assertEquals('X101', $stuff[$idx++]->misc);
+        $this->assertEquals('X123', $stuff[$idx++]->misc);
+    }
 
 }
 

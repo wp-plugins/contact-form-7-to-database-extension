@@ -37,11 +37,11 @@ class SortByField extends SortTransform {
     }
 
     public function sort($a, $b) {
-        $result = strnatcmp($a[$this->fieldName1], $b[$this->fieldName1]);
+        $result = strcmp($a[$this->fieldName1], $b[$this->fieldName1]);
         if ($result == 0 && $this->fieldName2) {
             $result = strcmp($a[$this->fieldName2], $b[$this->fieldName2]);
             if ($result == 0 && $this->fieldName3) {
-                $result = strnatcmp($a[$this->fieldName3], $b[$this->fieldName3]);
+                $result = strcmp($a[$this->fieldName3], $b[$this->fieldName3]);
             }
         }
         return $result;

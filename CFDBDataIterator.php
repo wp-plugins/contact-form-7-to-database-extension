@@ -32,6 +32,12 @@ abstract class CFDBDataIterator {
      */
     var $displayColumns = array();
 
+    /**
+     * @return array[string]
+     */
+    public function getDisplayColumns() {
+        return $this->displayColumns;
+    }
 
     /**
      * Fetch next row into variable
