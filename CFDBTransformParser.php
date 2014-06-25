@@ -22,6 +22,10 @@ require_once('CFDBParserBase.php');
 require_once('CFDBTransformByFunctionIterator.php');
 require_once('CFDBTransformByClassIterator.php');
 
+// Includes these just to have them as known classes in case they are in the transform.
+require_once('trans/SortByField.php');
+require_once('trans/NaturalSortByField.php');
+
 class CFDBTransformParser extends CFDBParserBase {
 
     var $tree = array();

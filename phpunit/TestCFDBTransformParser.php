@@ -668,29 +668,6 @@ class SortByLname /* implements CFDBTransform */ {
     }
 }
 
-class SortByField {
-
-    var $fieldName;
-    var $data = array();
-
-    function __construct($fieldName) {
-        $this->fieldName = $fieldName;
-    }
-
-    public function addEntry(&$entry) {
-        $this->data[] = $entry;
-    }
-
-    public function sort($a, $b) {
-        return strcmp($a[$this->fieldName], $b[$this->fieldName]);
-    }
-
-    public function getTransformedData() {
-        usort($this->data, array($this, 'sort'));
-        return $this->data;
-    }
-
-}
 
 class UpperAll {
     var $data = array();

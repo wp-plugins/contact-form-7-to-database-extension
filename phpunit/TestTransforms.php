@@ -65,7 +65,6 @@ class TestTransforms extends PHPUnit_Framework_TestCase {
         $exp->export('Ages', $options);
         $text = ob_get_contents();
 
-        ///echo $text;
         $this->assertTrue(strlen($text) > 20);
         $this->assertTrue(strpos($text, 'msimpson') > 0);
         $this->assertTrue(strpos($text, 'B1') > 0);
