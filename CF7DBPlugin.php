@@ -532,7 +532,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * Also callback from Fast Secure Contact Form
      * @param $cf7 WPCF7_ContactForm|object the former when coming from CF7, the latter $fsctf_posted_data object variable
      * if coming from FSCF
-     * @return void
+     * @return bool
      */
     public function saveFormData($cf7) {
         try {
@@ -686,6 +686,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         catch (Exception $ex) {
             error_log(sprintf('CFDB Error: %s:%s %s  %s', $ex->getFile(), $ex->getLine(), $ex->getMessage(), $ex->getTraceAsString()));
         }
+
+        // Indicate success to WordPress so it continues processing other unrelated hooks.
+        return true;
     }
 
     /**
@@ -713,6 +716,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * @param $post_id int
      * @param $all_values array
      * @param $extra_values array
+     * @return bool
      */
     public function saveJetPackContactFormData($post_id, $all_values, $extra_values) {
 
@@ -734,7 +738,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             'title' => $title,
             'posted_data' => $all_values,
             'uploaded_files' => null);
-        $this->saveFormData($data);
+        return $this->saveFormData($data);
     }
 
     /**
@@ -743,6 +747,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * http://www.gravityhelp.com/documentation/page/Entry_Object
      * @param $form Form Object The current form
      * http://www.gravityhelp.com/documentation/page/Form_Object
+     * @return bool
      */
     public function saveGravityFormData($entry, $form) {
 
@@ -754,7 +759,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
         // Iterate through the field definitions and get their values
         if (! is_array($form['fields'])) {
-            return;
+            return true;
         }
         foreach ($form['fields'] as $field) {
             if (! is_array($field)) {
@@ -844,7 +849,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             'title' => $form['title'],
             'posted_data' => $postedData,
             'uploaded_files' => $uploadFiles);
-        $this->saveFormData($data);
+        return $this->saveFormData($data);
     }
 
     /**

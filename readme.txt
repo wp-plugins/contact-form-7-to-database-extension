@@ -89,6 +89,7 @@ You can always deactivate the plugin without loosing data.
 
 = 2.8 =
 * Can put functions in short code filters. <a target="_cfdb_doc" href="http://cfdbplugin.com/?page_id=1073">See documentation</a>
+* Bug fix: hook to save form data was not returning "true" an causing subsequent hooks for other plugins to not be called.
 
 = 2.7.5 =
 * Simpler Google Live Data implementation
