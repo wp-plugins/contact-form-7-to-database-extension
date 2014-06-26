@@ -209,7 +209,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             var exportSelected = jQuery('#export_cntl').val();
             jQuery('#label_export_link').show();
             jQuery('#label_gld_function').hide();
-            jQuery('#gld_userpass_span').hide();
+            jQuery('#userpass_span_msg').show();
+            jQuery('#gld_userpass_span_msg').hide();
             if (exportSelected) {
                 if (exportSelected == 'RSS') {
                     jQuery('#itemtitle_span').show();
@@ -218,7 +219,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#itemtitle_span').hide();
                     jQuery('#headers_div').show();
                     if (exportSelected == "GLD") {
-                        jQuery('#gld_userpass_span').show();
+                        jQuery('#userpass_span_msg').hide();
+                        jQuery('#gld_userpass_span_msg').show();
                         jQuery('#label_export_link').hide();
                         jQuery('#label_gld_function').show();
                     }
@@ -232,7 +234,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 }
             } else {
                 jQuery('#itemtitle_span').hide();
-                jQuery('#gld_userpass_span').hide();
+                jQuery('#userpass_span_msg').show();
+                jQuery('#gld_userpass_span_msg').hide();
                 jQuery('#label_gld_script').hide();
             }
         }
@@ -631,14 +634,21 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     exportUrlElements.push(getValueUrl('format', jQuery('#format_cntl').val(), scValidationErrors));
                 }
 
+                var user = jQuery("#gld_user").val();
+                var pass = jQuery("#gld_pass").val();
+                if (user || pass) {
+                    var key = '3M#v$-.u';
+                    exportUrlElements.push("l=" + encodeURI(printHex(des(key, user + "/" + pass, 1))));
+                    urlBase = '<?php echo admin_url('admin-ajax.php') ?>?action=cfdb-login&cfdb-action=cfdb-export&';
+                    exportValidationErrors.push("<?php _e('Warning: the function includes your WP login information. Avoid sharing it.') ?>");
+                }
+
                 // Output
                 var exportUrl = urlBase + join(exportUrlElements, '&');
                 if (exportSelection == 'GLD') {
-//                    jQuery('#export_validations_text').html(googleScriptValidationErrors.join('<br/>'));
-                    urlBase = '<?php echo admin_url('admin-ajax.php') ?>?action=cfdb-login&cfdb-action=cfdb-export&';
-                    var key = '3M#v$-.u';
-                    exportUrlElements.push("l=" + encodeURI(printHex(des(key, jQuery("#gld_user").val() + "/" + jQuery("#gld_pass").val(), 1))));
-                    exportUrl = urlBase + join(exportUrlElements, '&');
+                    if (!user || !pass) {
+                        exportValidationErrors.push("<?php _e('Error: WP User and Password are required for the Google Spreadsheet to pull data from your WordPress site.') ?>");
+                    }
                     if (exportUrl.length > 255) {
                         exportValidationErrors.push("<?php _e('Because the generated URL would be too long, you must use this alternative function and add its script to your Google Spreadsheet') ?>");
                         jQuery('#label_gld_script').show();
@@ -647,7 +657,6 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                                 ("=cfdbdata(\"" + googleScriptElements.join("\", \"") + "\")") :
                                 "");
                     } else {
-                        exportValidationErrors.push("<?php _e('Warning: the function includes your WP login information. Avoid sharing it.') ?>");
                         jQuery('#export_result_text').html(formName ?
                                 ("<a target='_cfdb_exp_results' href='" + exportUrl + "'>=IMPORTDATA(\"" + exportUrl + "\")</a>") :
                                 "");
@@ -970,9 +979,14 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             <label for="add_itemtitle"><?php _e('Item Title', 'contact-form-7-to-database-extension') ?></label>
             <select name="add_itemtitle" id="add_itemtitle"></select>
         </span>
-        <span  id="gld_userpass_span" style="display:none">
+        <span id="userpass_span">
             <br/>
-            <?php _e('Provid a WP login for the Google Spreadsheet to use to connect to your WP site', 'contact-form-7-to-database-extension'); ?>
+            <span id="gld_userpass_span_msg">
+            <?php _e('Provide a WP login for the Google Spreadsheet to use to connect to your WP site', 'contact-form-7-to-database-extension'); ?>
+            </span>
+            <span id="userpass_span_msg" style="display: none">
+            <?php _e('Optional: provide a WP login for the link to work without being already logged in', 'contact-form-7-to-database-extension'); ?>
+            </span>
             <br/>
             <label for="gld_user"><?php _e('WP User', 'contact-form-7-to-database-extension') ?></label>
             <input id="gld_user" type="text" value="<?php echo $userName; ?>"/>
@@ -1150,7 +1164,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             <div class="label_box">
                 <label for="unbuffered_cntl"><?php _e('unbuffered', 'contact-form-7-to-database-extension') ?></label>
                 <a target="_docs" href="http://cfdbplugin.com/?p=696"><img alt="?" src="<?php echo $infoImg ?>"/></a>
-                <input id="unbuffered_cntl" type="checkbox"/>
+                <input id="unbuffered_cntl" type="checkbox" <?php echo $postedUnbuffered == 'true' ? 'checked' : ''?>/>
             </div>
         </div>
         <div>
