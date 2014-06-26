@@ -122,8 +122,10 @@ class CFDBTransformByClassIterator extends CFDBDataIteratorDecorator {
             }
         }
 
+        // Ignore metadata columns for purposes of determining display columns)
+        $metadataCols = array('fields_with_file', 'submit_time', 'Submit_Time_Key');
         foreach ($dataCols as $col) {
-            if (!in_array($col, $newDisplayColumns)) {
+            if (!in_array($col, $metadataCols) && !in_array($col, $newDisplayColumns)) {
                 $newDisplayColumns[] = $col;
             }
         }

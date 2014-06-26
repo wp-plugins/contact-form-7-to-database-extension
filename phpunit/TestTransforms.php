@@ -162,7 +162,22 @@ class TestTransforms extends PHPUnit_Framework_TestCase {
         $this->assertFalse(isset($stuff[0]->fields_with_file));
         $this->assertFalse(isset($stuff[0]->submit_time));
         $this->assertFalse(isset($stuff[0]->Submit_Time_Key));
+    }
 
+    public function test_hide_metadata_when_sort() {
+        $options = array();
+        $options['trans'] = 'NaturalSortByField(name)';
+
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+        $stuff = json_decode($text);
+        $this->assertTrue(is_array($stuff));
+
+        $this->assertFalse(isset($stuff[0]->fields_with_file));
+        $this->assertFalse(isset($stuff[0]->submit_time));
+        $this->assertFalse(isset($stuff[0]->Submit_Time_Key));
     }
 
     public function test_limit() {
