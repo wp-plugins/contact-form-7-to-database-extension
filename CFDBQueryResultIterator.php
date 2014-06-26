@@ -34,7 +34,7 @@ class CFDBQueryResultIterator extends CFDBAbstractQueryResultsIterator {
      * on all remaining rows to free resources.
      * @return void
      */
-    protected function freeResult() {
+    public function freeResult() {
         if ($this->results) {
             mysql_free_result($this->results);
             $this->results = null;
@@ -43,11 +43,11 @@ class CFDBQueryResultIterator extends CFDBAbstractQueryResultsIterator {
     /**
      * @return array associative
      */
-    protected function fetchRow() {
+    public function fetchRow() {
         return mysql_fetch_assoc($this->results);
     }
 
-    protected function hasResults() {
+    public function hasResults() {
         return !empty($this->results);
     }
 
@@ -56,7 +56,7 @@ class CFDBQueryResultIterator extends CFDBAbstractQueryResultsIterator {
      * @param $queryOptions
      * @return void
      */
-    protected function queryDataSource(&$sql, $queryOptions) {
+    public function queryDataSource(&$sql, $queryOptions) {
         // For performance reasons, we bypass $wpdb so we can call mysql_unbuffered_query
         $con = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD, true);
         if (!$con) {

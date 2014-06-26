@@ -24,7 +24,7 @@ class MockQueryResultIterator extends CFDBAbstractQueryResultsIterator {
      * @param $queryOptions array associative
      * @return void
      */
-    protected function queryDataSource(&$sql, $queryOptions) {
+    public function queryDataSource(&$sql, $queryOptions) {
         // Do nothing. $data injected.
     }
 
@@ -32,7 +32,7 @@ class MockQueryResultIterator extends CFDBAbstractQueryResultsIterator {
      * Get the next row from query results
      * @return array associative
      */
-    protected function fetchRow() {
+    public function fetchRow() {
         $row = array_shift($this->data);
         return $row;
     }
@@ -40,7 +40,7 @@ class MockQueryResultIterator extends CFDBAbstractQueryResultsIterator {
     /**
      * @return boolean
      */
-    protected function hasResults() {
+    public function hasResults() {
         return !empty($this->data);
     }
 
@@ -49,6 +49,6 @@ class MockQueryResultIterator extends CFDBAbstractQueryResultsIterator {
      * on all remaining rows to free resources.
      * @return void
      */
-    protected function freeResult() {
+    public function freeResult() {
     }
 }

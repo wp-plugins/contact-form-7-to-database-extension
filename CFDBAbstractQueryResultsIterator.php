@@ -76,25 +76,25 @@ abstract class CFDBAbstractQueryResultsIterator extends CFDBDataIterator {
      * @param $queryOptions array associative
      * @return void
      */
-    abstract protected function queryDataSource(&$sql, $queryOptions);
+    abstract public function queryDataSource(&$sql, $queryOptions);
 
     /**
      * Get the next row from query results
      * @return array associative
      */
-    abstract protected function fetchRow();
+    abstract public function fetchRow();
 
     /**
      * @return boolean
      */
-    abstract protected function hasResults();
+    abstract public function hasResults();
 
     /**
      * If you do not iterate over all the rows returned, be sure to call this function
      * on all remaining rows to free resources.
      * @return void
      */
-    abstract protected function freeResult();
+    abstract public function freeResult();
 
     /**
      * @param  $sql string
