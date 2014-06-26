@@ -46,6 +46,13 @@ class CFDBTransformEndpoint extends CFDBDataIteratorDecorator {
             return false;
         }
     }
+
+    /**
+     * @return CFDBTransformEndpointQueryResultsIterator
+     */
+    public function getPostProcessor() {
+        return $this->postProcessor;
+    }
 }
 
 

@@ -167,7 +167,7 @@ class TestTransforms extends PHPUnit_Framework_TestCase {
 
     public function test_limit() {
         $options = array();
-        $options['trans'] = 'name=strtoupper(name)';
+        $options['trans'] = 'misc=strtoupper(misc)';
         $options['limit'] = '2';
 
         $exp = new ExportToJson();
@@ -178,13 +178,13 @@ class TestTransforms extends PHPUnit_Framework_TestCase {
         $this->assertTrue(is_array($stuff));
 
         $this->assertEquals(2, count($stuff));
-        $this->assertEquals('x1', $stuff[0]->misc);
-        $this->assertEquals('x11', $stuff[1]->misc);
+        $this->assertEquals('X1', $stuff[0]->misc);
+        $this->assertEquals('X11', $stuff[1]->misc);
     }
 
     public function test_limit_range() {
         $options = array();
-        $options['trans'] = 'name=strtoupper(name)';
+        $options['trans'] = 'misc=strtoupper(misc)';
         $options['limit'] = '3,2'; // 2 rows starting at row 3
 
         $exp = new ExportToJson();
@@ -195,8 +195,8 @@ class TestTransforms extends PHPUnit_Framework_TestCase {
         $this->assertTrue(is_array($stuff));
 
         $this->assertEquals(2, count($stuff));
-        $this->assertEquals('X101', $stuff[0]->misc);
-        $this->assertEquals('x2', $stuff[1]->misc);
+        $this->assertEquals('X2', $stuff[0]->misc);
+        $this->assertEquals('X6', $stuff[1]->misc);
     }
 
     public function test_order_by() {
@@ -211,8 +211,8 @@ class TestTransforms extends PHPUnit_Framework_TestCase {
         $stuff = json_decode($text);
         $this->assertTrue(is_array($stuff));
 
-        $this->assertEquals('A', $stuff[0]->misc);
-        $this->assertEquals('A2', $stuff[1]->misc);
+        $this->assertEquals('A', $stuff[0]->name);
+        $this->assertEquals('A2', $stuff[1]->name);
     }
 
     public function test_order_by_different_fields() {

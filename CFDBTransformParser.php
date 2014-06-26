@@ -18,9 +18,11 @@
     along with Contact Form to Database.
     If not, see <http://www.gnu.org/licenses/>.
 */
+
 require_once('CFDBParserBase.php');
 require_once('CFDBTransformByFunctionIterator.php');
 require_once('CFDBTransformByClassIterator.php');
+require_once('CFDBTransformEndpoint.php');
 
 // Includes these just to have them as known classes in case they are in the transform.
 require_once('trans/SortByField.php');
@@ -116,6 +118,12 @@ class CFDBTransformParser extends CFDBParserBase {
                     $previousTransformIterator = $transform;
                     $this->transformIterators[] = $transform;
                 }
+            }
+            if ($previousTransformIterator) {
+                // Stick a CFDBTransformEndpoint at the end of the list of transforms
+                $transform = new CFDBTransformEndpoint();
+                $transform->setSource($previousTransformIterator);
+                $this->transformIterators[] = $transform;
             }
         }
     }

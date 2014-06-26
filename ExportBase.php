@@ -430,12 +430,29 @@ class ExportBase {
         $this->dataIterator = CFDBQueryResultIteratorFactory::getInstance()->newQueryIterator();
 
         if ($this->transform && !empty($this->transform->transformIterators)) {
-            // If we have a transform, use 'tfilter' and 'tlimit' as the 'filter' and 'limit' for the
-            // query (CFDBQueryResultIterator).
+            $postProcessOptions = $queryOptions; // make a copy
 
+            // If we have a transform, then alternatively-named options like 'tlimit' are used
+            // in the actual query (CFDBQueryResultIterator) whereas the normally named
+            // ones are handled by the CFDBTransformEndpoint post-processor
+            unset($queryOptions['limit']);
             if (isset($this->options['tlimit'])) {
                 $queryOptions['limit'] = $this->options['tlimit'];
             }
+            unset($queryOptions['orderby']);
+            if (isset($this->options['torderby'])) {
+                $queryOptions['orderby'] = $this->options['torderby'];
+            }
+            // These aren't really needed b/c we have already setup $this->rowTransformFilter
+            unset($queryOptions['filter']);
+            if (isset($this->options['tfilter'])) {
+                $queryOptions['filter'] = $this->options['tfilter'];
+            }
+            unset($queryOptions['search']);
+            if (isset($this->options['tsearch'])) {
+                $queryOptions['search'] = $this->options['tsearch'];
+            }
+
             $this->dataIterator->query($sql, $this->rowTransformFilter, $queryOptions);
             $this->dataIterator->displayColumns = $this->getColumnsToDisplay($this->dataIterator->columns);
 
@@ -443,6 +460,9 @@ class ExportBase {
             // Hookup query iterator as first transform, hookup last iterator as $this->dataIterator
             $this->transform->setDataSource($this->dataIterator);
             $this->dataIterator = $this->transform->getIterator();
+
+            // $this->dataIterator is a CFDBTransformEndpoint
+            $this->dataIterator->getPostProcessor()->query($sql, $this->rowFilter, $postProcessOptions);
 
         } else {
             // No transform, just query
