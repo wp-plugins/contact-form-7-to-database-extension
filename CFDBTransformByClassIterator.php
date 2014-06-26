@@ -90,7 +90,7 @@ class CFDBTransformByClassIterator extends CFDBDataIteratorDecorator {
         $this->count = count($this->transformedData);
         if ($this->count > 0) {
             $this->idx = -1; // nextRow will ++ it
-            $this->row =& $this->transformedData[$this->idx];
+            $this->row =& $this->transformedData[0];
         }
     }
 
