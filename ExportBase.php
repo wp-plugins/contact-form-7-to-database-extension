@@ -472,7 +472,7 @@ class ExportBase {
             }
 
             $this->dataIterator->query($sql, $this->rowTransformFilter, $queryOptions);
-            $this->dataIterator->displayColumns = $this->getColumnsToDisplay($this->dataIterator->columns);
+            $queryDisplayColumns = $this->getColumnsToDisplay($this->dataIterator->columns);
 
             $this->transform->setTimezone();
             // Hookup query iterator as first transform, hookup last iterator as $this->dataIterator
@@ -481,6 +481,11 @@ class ExportBase {
 
             // $this->dataIterator is a CFDBTransformEndpoint
             $this->dataIterator->getPostProcessor()->query($sql, $this->rowFilter, $postProcessOptions);
+
+            $displayColumns = $this->getColumnsToDisplay($this->dataIterator->getDisplayColumns());
+
+            // Not sure why I need to do this to make show/hide work in some cases
+            $this->dataIterator->displayColumns = empty($displayColumns) ? $queryDisplayColumns : $displayColumns;
 
         } else {
             // No transform, just query

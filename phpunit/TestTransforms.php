@@ -278,6 +278,24 @@ class TestTransforms extends PHPUnit_Framework_TestCase {
         $this->assertEquals('Mike', $stuff[1]->first_name);
     }
 
+    public function test_headers() {
+        $options = array();
+        $options['trans'] = 'HardCodedData';
+        $options['headers'] = 'first_name=FIRST,last_name=LAST';
+
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+
+        $stuff = json_decode($text);
+        $this->assertTrue(is_array($stuff));
+        $this->assertEquals('Mike', $stuff[0]->FIRST);
+        $this->assertEquals('Simpson', $stuff[0]->LAST);
+        $this->assertEquals('Oya', $stuff[1]->FIRST);
+        $this->assertEquals('Simpson', $stuff[1]->LAST);
+    }
+
     public function test_filter() {
         $options = array();
         $options['trans'] = 'misc=strtoupper(misc)';
@@ -394,6 +412,62 @@ class TestTransforms extends PHPUnit_Framework_TestCase {
         $this->assertEquals($idx+2, $stuff[$idx]->index); ++$idx;
     }
 
+    public function test_show() {
+        $options = array();
+        $options['trans'] = 'misc=strtoupper(misc)';
+        $options['orderby'] = 'misc DESC';
+        $options['show'] = 'name,age';
+
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+        $stuff = json_decode($text);
+        $this->assertTrue(is_array($stuff));
+
+        $this->assertFalse(isset($stuff[0]->misc));
+        $this->assertFalse(isset($stuff[0]->Submitted));
+        $this->assertEquals('d', $stuff[0]->name);
+        $this->assertEquals('.99999', $stuff[0]->age);
+    }
+
+    public function test_show_submit_time() {
+        $options = array();
+        $options['trans'] = 'misc=strtoupper(misc)';
+        $options['orderby'] = 'misc DESC';
+        $options['show'] = 'name,submit_time';
+
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+        $stuff = json_decode($text);
+        $this->assertTrue(is_array($stuff));
+
+        $this->assertFalse(isset($stuff[0]->misc));
+        $this->assertFalse(isset($stuff[0]->Submitted));
+        $this->assertEquals('d', $stuff[0]->name);
+        $this->assertEquals('1401302985.4975', $stuff[0]->submit_time);
+    }
+
+    public function test_hide() {
+        $options = array();
+        $options['trans'] = 'misc=strtoupper(misc)';
+        $options['orderby'] = 'misc DESC';
+        $options['hide'] = 'misc,Submitted';
+
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+        $stuff = json_decode($text);
+        $this->assertTrue(is_array($stuff));
+
+        $this->assertFalse(isset($stuff[0]->misc));
+        $this->assertFalse(isset($stuff[0]->Submitted));
+        $this->assertEquals('d', $stuff[0]->name);
+        $this->assertEquals('.99999', $stuff[0]->age);
+    }
 
     // todo: somehow to test random?
 
