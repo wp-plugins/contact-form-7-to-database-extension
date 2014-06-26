@@ -16,6 +16,18 @@ function get_option($optionName) {
             return "Anyone";
         }
 
+        switch ($optionName) {
+            case 'SubmitDateTimeFormat':
+                return 'F j, Y g:i a';
+
+            case 'date_format':
+                return 'F j, Y';
+
+            case 'time_format':
+                return 'g:i a';
+        }
+
+
         $count = count($options[$optionName]);
         if ($count == 1) {
             return null;

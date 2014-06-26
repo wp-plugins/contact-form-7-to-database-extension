@@ -76,6 +76,11 @@ class ExportBase {
     var $rowFilter;
 
     /**
+     * @var CFDBEvaluator|CFDBFilterParser|CFDBSearchEvaluator
+     */
+    var $rowTFilter;
+
+    /**
      * @var CFDBTransformParser
      */
     var $transform;
@@ -187,11 +192,34 @@ class ExportBase {
                 $filters[] = $aFilter;
             }
 
+            $tfilters = array();
+            if (isset($this->options['tfilter'])) {
+                require_once('CFDBFilterParser.php');
+                require_once('DereferenceShortcodeVars.php');
+                $aFilter = new CFDBFilterParser;
+                $aFilter->setComparisonValuePreprocessor(new DereferenceShortcodeVars);
+                $aFilter->setPermittedFilterFunctions($permittedFunctions);
+                $aFilter->parse($this->options['tfilter']);
+                if ($this->debug) {
+                    echo '<pre>\'' . $this->options['tfilter'] . "'\n";
+                    print_r($aFilter->tree);
+                    echo '</pre>';
+                }
+                $tfilters[] = $aFilter;
+            }
+
             if (isset($this->options['search'])) {
                 require_once('CFDBSearchEvaluator.php');
                 $aFilter = new CFDBSearchEvaluator;
                 $aFilter->setSearch($this->options['search']);
                 $filters[] = $aFilter;
+            }
+
+            if (isset($this->options['tsearch'])) {
+                require_once('CFDBSearchEvaluator.php');
+                $aFilter = new CFDBSearchEvaluator;
+                $aFilter->setSearch($this->options['tsearch']);
+                $tfilters[] = $aFilter;
             }
 
             $numFilters = count($filters);
@@ -202,6 +230,16 @@ class ExportBase {
                 require_once('CFDBCompositeEvaluator.php');
                 $this->rowFilter = new CFDBCompositeEvaluator;
                 $this->rowFilter->setEvaluators($filters);
+            }
+
+            $numTFilters = count($tfilters);
+            if ($numTFilters == 1) {
+                $this->rowTFilter = $tfilters[0];
+            }
+            else if ($numTFilters > 1) {
+                require_once('CFDBCompositeEvaluator.php');
+                $this->rowTFilter = new CFDBCompositeEvaluator;
+                $this->rowTFilter->setEvaluators($tfilters);
             }
 
             if (isset($this->options['trans'])) {
@@ -390,16 +428,26 @@ class ExportBase {
         }
 
         $this->dataIterator = CFDBQueryResultIteratorFactory::getInstance()->newQueryIterator();
-        $this->dataIterator->query($sql, $this->rowFilter, $queryOptions);
-        $this->dataIterator->displayColumns = $this->getColumnsToDisplay($this->dataIterator->columns);
 
         if ($this->transform && !empty($this->transform->transformIterators)) {
+            // If we have a transform, use 'tfilter' and 'tlimit' as the 'filter' and 'limit' for the
+            // query (CFDBQueryResultIterator).
+            if (isset($this->options['tlimit'])) {
+                $queryOptions['limit'] = $this->options['tlimit'];
+            }
+            $this->dataIterator->query($sql, $this->rowTFilter, $queryOptions);
+            $this->dataIterator->displayColumns = $this->getColumnsToDisplay($this->dataIterator->columns);
+
             $this->transform->setTimezone();
             // Hookup query iterator as first transform, hookup last iterator as $this->dataIterator
             $this->transform->setDataSource($this->dataIterator);
             $this->dataIterator = $this->transform->getIterator();
-        }
 
+        } else {
+            // No transform, just query
+            $this->dataIterator->query($sql, $this->rowFilter, $queryOptions);
+            $this->dataIterator->displayColumns = $this->getColumnsToDisplay($this->dataIterator->columns);
+        }
     }
 
 //    protected function &getFileMetaData($formName) {

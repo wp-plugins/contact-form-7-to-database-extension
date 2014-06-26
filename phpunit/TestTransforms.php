@@ -25,6 +25,7 @@ class TestTransforms extends PHPUnit_Framework_TestCase {
     }
 
     public function setUp() {
+        date_default_timezone_set('America/New_York');
         $str = file_get_contents('TestTransforms.json');
         $data = json_decode($str, true);
         $mock = new MockQueryResultIterator($data);

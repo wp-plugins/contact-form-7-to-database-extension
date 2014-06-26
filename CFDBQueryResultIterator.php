@@ -19,83 +19,44 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('CFDBDataIterator.php');
+require_once('CFDBAbstractQueryResultsIterator.php');
 
-class CFDBQueryResultIterator extends CFDBDataIterator {
+class CFDBQueryResultIterator extends CFDBAbstractQueryResultsIterator {
 
     /**
      * @var resource
      */
     var $results;
 
-    /**
-     * @var string
-     */
-    var $submitTimeKeyName;
 
     /**
-     * @var int
+     * If you do not iterate over all the rows returned, be sure to call this function
+     * on all remaining rows to free resources.
+     * @return void
      */
-    var $limitEnd;
-
-    /**
-     * @var int
-     */
-    var $idx;
-
-    /**
-     * @var int
-     */
-    var $limitStart;
-
-    /**
-     * @var array
-     */
-    var $columns;
-
-    /**
-     * @var CF7DBPlugin
-     */
-    var $plugin;
-
-    /**
-     * @var CFDBEvaluator|CFDBFilterParser|CFDBSearchEvaluator
-     */
-    var $rowFilter;
-
-    /**
-     * @var array
-     */
-//    var $fileColumns;
-
-    /**
-     * @var bool
-     */
-    var $onFirstRow = false;
-
-
-    /**
-     * @param  $sql string
-     * @param  $rowFilter CFDBEvaluator|CFDBFilterParser|CFDBSearchEvaluator
-     * @param  $queryOptions array
-     */
-    public function query(&$sql, $rowFilter, $queryOptions = array()) {
-        $this->rowFilter = $rowFilter;
-        $this->results = null;
-        $this->row = null;
-        $this->plugin = new CF7DBPlugin();
-        $this->submitTimeKeyName = isset($queryOptions['submitTimeKeyName']) ? $queryOptions['submitTimeKeyName'] : null;
-        if (isset($queryOptions['limit'])) {
-            $limitVals = explode(',', $queryOptions['limit']);
-            if (isset($limitVals[1])) {
-                $this->limitStart = trim($limitVals[0]);
-                $this->limitEnd = $this->limitStart + trim($limitVals[1]);
-            } else if (isset($limitVals[0])) {
-                $this->limitEnd = trim($limitVals[0]);
-            }
+    protected function freeResult() {
+        if ($this->results) {
+            mysql_free_result($this->results);
+            $this->results = null;
         }
-        $this->idx = -1;
+    }
+    /**
+     * @return array associative
+     */
+    protected function fetchRow() {
+        return mysql_fetch_assoc($this->results);
+    }
 
+    protected function hasResults() {
+        return !empty($this->results);
+    }
+
+    /**
+     * @param $sql
+     * @param $queryOptions
+     * @return void
+     */
+    protected function queryDataSource(&$sql, $queryOptions) {
         // For performance reasons, we bypass $wpdb so we can call mysql_unbuffered_query
         $con = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD, true);
         if (!$con) {
@@ -146,90 +107,7 @@ class CFDBQueryResultIterator extends CFDBDataIterator {
                 return;
             }
         }
-
-
-        $this->columns = array();
-        $this->row = mysql_fetch_assoc($this->results);
-        if ($this->row) {
-            foreach (array_keys($this->row) as $aCol) {
-                // hide this metadata column
-                if ('fields_with_file' != $aCol) {
-                    $this->columns[] = $aCol;
-                }
-            }
-            $this->onFirstRow = true;
-        } else {
-            $this->onFirstRow = false;
-        }
     }
 
-    /**
-     * Fetch next row into variable
-     * @return bool if next row exists
-     */
-    public function nextRow() {
-        if (!$this->results) {
-            return false;
-        }
 
-        while (true) {
-            if (!$this->onFirstRow) {
-                $this->row = mysql_fetch_assoc($this->results);
-            }
-            $this->onFirstRow = false;
-
-            if (!$this->row) {
-                mysql_free_result($this->results);
-                $this->results = null;
-                return false;
-            }
-
-            // Format the date
-            $submitTime = $this->row['Submitted'];
-            $this->row['submit_time'] = $submitTime;
-            $this->row['Submitted'] = $this->plugin->formatDate($submitTime);
-
-            // Determine if row is filtered
-            if ($this->rowFilter) {
-                $match = $this->rowFilter->evaluate($this->row);
-                if (!$match) {
-                    continue;
-                }
-            }
-
-            $this->idx += 1;
-            if ($this->limitStart && $this->idx < $this->limitStart) {
-                continue;
-            }
-            if ($this->limitEnd && $this->idx >= $this->limitEnd) {
-                while (mysql_fetch_array($this->results)) ;
-                mysql_free_result($this->results);
-                $this->results = null;
-                $this->row = null;
-                return false;
-            }
-
-            // Keep the unformatted submitTime if needed
-            if ($this->submitTimeKeyName) {
-                $this->row[$this->submitTimeKeyName] = $submitTime;
-            }
-            break;
-        }
-        if (!$this->row) {
-            mysql_free_result($this->results);
-            $this->results = null;
-        }
-        return $this->row ? true : false;
-    }
-
-    /**
-     * If you do not iterate over all the rows returned, be sure to call this function
-     * when done with the result set to free it.
-     * @return void
-     */
-    public function freeResults() {
-        if ($this->results) {
-            mysql_free_result($this->results);
-        }
-    }
 }
