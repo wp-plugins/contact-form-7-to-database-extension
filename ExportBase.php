@@ -262,7 +262,7 @@ class ExportBase {
                             $ascOrDesc = 'ASC';
                         }
                         // Append a Sort transform
-                        $transformOption .= '&&NaturalSortByFieldAscDesc(' . $anOrderBy . ',' . $ascOrDesc . ')';
+                        $transformOption .= '&&NaturalSortByField(' . $anOrderBy . ',' . $ascOrDesc . ')';
                     }
                 }
 

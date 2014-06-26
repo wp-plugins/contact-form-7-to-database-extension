@@ -24,22 +24,27 @@
 require_once('SortTransform.php');
 
 
-class SortByField extends SortTransform {
+class SortByMultiField extends SortTransform {
 
-    var $fieldName;
-    var $reverse;
+    var $fieldName1;
+    var $fieldName2;
+    var $fieldName3;
 
-    function __construct($fieldName, $ascDesc = 'ASC') {
-        $this->fieldName = $fieldName;
-        $this->reverse = strtoupper($ascDesc) == 'DESC';
+    function __construct($fieldName1, $fieldName2 = null, $fieldName3 = null) {
+        $this->fieldName1 = $fieldName1;
+        $this->fieldName2 = $fieldName2;
+        $this->fieldName3 = $fieldName3;
     }
 
     public function sort($a, $b) {
-        $result = strcmp($a[$this->fieldName], $b[$this->fieldName]);
-        if ($this->reverse) {
-            $result *= -1;
+        $result = strcmp($a[$this->fieldName1], $b[$this->fieldName1]);
+        if ($result == 0 && $this->fieldName2) {
+            $result = strcmp($a[$this->fieldName2], $b[$this->fieldName2]);
+            if ($result == 0 && $this->fieldName3) {
+                $result = strcmp($a[$this->fieldName3], $b[$this->fieldName3]);
+            }
         }
         return $result;
     }
 
-} 
+}

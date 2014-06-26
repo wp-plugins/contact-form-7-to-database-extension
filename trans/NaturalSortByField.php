@@ -25,23 +25,18 @@ require_once('SortTransform.php');
 
 class NaturalSortByField extends SortTransform {
 
-    var $fieldName1;
-    var $fieldName2;
-    var $fieldName3;
+    var $fieldName;
+    var $reverse;
 
-    function __construct($fieldName1, $fieldName2 = null, $fieldName3 = null) {
-        $this->fieldName1 = $fieldName1;
-        $this->fieldName2 = $fieldName2;
-        $this->fieldName3 = $fieldName3;
+    function __construct($fieldName, $ascDesc = 'ASC') {
+        $this->fieldName = $fieldName;
+        $this->reverse = strtoupper($ascDesc) == 'DESC';
     }
 
     public function sort($a, $b) {
-        $result = strnatcmp($a[$this->fieldName1], $b[$this->fieldName1]);
-        if ($result == 0 && $this->fieldName2) {
-            $result = strnatcmp($a[$this->fieldName2], $b[$this->fieldName2]);
-            if ($result == 0 && $this->fieldName3) {
-                $result = strnatcmp($a[$this->fieldName3], $b[$this->fieldName3]);
-            }
+        $result = strnatcmp($a[$this->fieldName], $b[$this->fieldName]);
+        if ($this->reverse) {
+            $result *= -1;
         }
         return $result;
     }
