@@ -248,9 +248,27 @@ class ExportBase {
                 $this->transform = new CFDBTransformParser();
                 $this->transform->setComparisonValuePreprocessor(new DereferenceShortcodeVars);
                 $this->transform->setPermittedFilterFunctions($permittedFunctions);
-                $this->transform->parse($this->options['trans']);
+
+                $transformOption = $this->options['trans'];
+                // Set up "orderby" post-processing
+                if (isset($this->options['orderby'])) {
+                    $orderByStrings = explode(',', $this->options['orderby']);
+                    foreach ($orderByStrings as $anOrderBy) {
+                        $anOrderBy = trim($anOrderBy);
+                        $ascOrDesc = null;
+                        list($ascOrDesc, $anOrderBy) = $this->parseOrderBy($anOrderBy);
+                        $ascOrDesc = trim($ascOrDesc);
+                        if (empty($ascOrDesc)) {
+                            $ascOrDesc = 'ASC';
+                        }
+                        // Append a Sort transform
+                        $transformOption .= '&&NaturalSortByFieldAscDesc(' . $anOrderBy . ',' . $ascOrDesc . ')';
+                    }
+                }
+
+                $this->transform->parse($transformOption);
                 if ($this->debug) {
-                    echo '<pre>\'' . $this->options['trans'] . "'\n";
+                    echo '<pre>\'' . $transformOption . "'\n";
                     print_r($this->transform->tree);
                     echo '</pre>';
                 }
@@ -548,17 +566,7 @@ class ExportBase {
                 foreach ($orderByStrings as $anOrderBy) {
                     $anOrderBy = trim($anOrderBy);
                     $ascOrDesc = null;
-                    if (strtoupper(substr($anOrderBy, -5)) == ' DESC'){
-                        $ascOrDesc = " DESC";
-                        $anOrderBy = trim(substr($anOrderBy, 0, -5));
-                    }
-                    else if (strtoupper(substr($anOrderBy, -4)) == ' ASC'){
-                        $ascOrDesc = " ASC";
-                        $anOrderBy = trim(substr($anOrderBy, 0, -4));
-                    }
-                    if ($anOrderBy == 'Submitted') {
-                        $anOrderBy = 'submit_time';
-                    }
+                    list($ascOrDesc, $anOrderBy) = $this->parseOrderBy($anOrderBy);
                     if (in_array($anOrderBy, $fields) || $anOrderBy == 'submit_time') {
                         $orderBys[] = '`' . $anOrderBy . '`' . $ascOrDesc;
                     }
@@ -700,6 +708,26 @@ class ExportBase {
      */
     public function queryPermitAllFunctions() {
         return $this->plugin->getOption('FunctionsInShortCodes', 'false') === 'true';
+    }
+
+    /**
+     * @param $anOrderBy string a single order by clause like "field1 DESC"
+     * @return array
+     */
+    protected function parseOrderBy($anOrderBy) {
+        $ascOrDesc = null;
+        if (strtoupper(substr($anOrderBy, -5)) == ' DESC') {
+            $ascOrDesc = ' DESC';
+            $anOrderBy = trim(substr($anOrderBy, 0, -5));
+        } else if (strtoupper(substr($anOrderBy, -4)) == ' ASC') {
+            $ascOrDesc = ' ASC';
+            $anOrderBy = trim(substr($anOrderBy, 0, -4));
+        }
+        if ($anOrderBy == 'Submitted') {
+            $anOrderBy = 'submit_time';
+            return array($ascOrDesc, $anOrderBy);
+        }
+        return array($ascOrDesc, $anOrderBy);
     }
 
 }

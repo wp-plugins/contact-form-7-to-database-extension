@@ -215,6 +215,38 @@ class TestTransforms extends PHPUnit_Framework_TestCase {
         $this->assertEquals('A2', $stuff[1]->name);
     }
 
+    public function test_order_by_desc() {
+        $options = array();
+        $options['trans'] = 'name=strtoupper(name)';
+        $options['orderby'] = 'name DESC';
+
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+        $stuff = json_decode($text);
+        $this->assertTrue(is_array($stuff));
+
+        $this->assertEquals('P2', $stuff[0]->name);
+        $this->assertEquals('P1', $stuff[1]->name);
+    }
+
+    public function test_multiple_order_by_desc() {
+        $options = array();
+        $options['trans'] = 'name=strtoupper(name)';
+        $options['orderby'] = 'Submitted Login DESC,name DESC';
+
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+        $stuff = json_decode($text);
+        $this->assertTrue(is_array($stuff));
+
+        $this->assertEquals('P2', $stuff[0]->name);
+        $this->assertEquals('P1', $stuff[1]->name);
+    }
+
     public function test_order_by_different_fields() {
         $options = array();
         $options['trans'] = 'HardCodedData';
@@ -340,11 +372,11 @@ class TestTransforms extends PHPUnit_Framework_TestCase {
         $this->assertTrue(is_array($stuff));
 
         $idx = 0;
-        $this->assertEquals($idx, $stuff[$idx+1]->index); ++$idx;
-        $this->assertEquals($idx, $stuff[$idx+1]->index); ++$idx;
-        $this->assertEquals($idx, $stuff[$idx+1]->index); ++$idx;
-        $this->assertEquals($idx, $stuff[$idx+1]->index); ++$idx;
-        $this->assertEquals($idx, $stuff[$idx+1]->index); ++$idx;
+        $this->assertEquals($idx+2, $stuff[$idx]->index); ++$idx;
+        $this->assertEquals($idx+2, $stuff[$idx]->index); ++$idx;
+        $this->assertEquals($idx+2, $stuff[$idx]->index); ++$idx;
+        $this->assertEquals($idx+2, $stuff[$idx]->index); ++$idx;
+        $this->assertEquals($idx+2, $stuff[$idx]->index); ++$idx;
     }
 
 
@@ -389,8 +421,8 @@ class AddField extends BaseTransform {
 
     public function getTransformedData() {
         $idx = 0;
-        foreach ($this->data as $entry) {
-            $entry['index'] = $idx;
+        foreach ($this->data as &$entry) {
+            $entry['index'] = $idx++;
         }
         return $this->data;
     }
