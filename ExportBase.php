@@ -78,7 +78,7 @@ class ExportBase {
     /**
      * @var CFDBEvaluator|CFDBFilterParser|CFDBSearchEvaluator
      */
-    var $rowTFilter;
+    var $rowTransformFilter;
 
     /**
      * @var CFDBTransformParser
@@ -192,7 +192,7 @@ class ExportBase {
                 $filters[] = $aFilter;
             }
 
-            $tfilters = array();
+            $transformFilters = array();
             if (isset($this->options['tfilter'])) {
                 require_once('CFDBFilterParser.php');
                 require_once('DereferenceShortcodeVars.php');
@@ -205,7 +205,7 @@ class ExportBase {
                     print_r($aFilter->tree);
                     echo '</pre>';
                 }
-                $tfilters[] = $aFilter;
+                $transformFilters[] = $aFilter;
             }
 
             if (isset($this->options['search'])) {
@@ -219,7 +219,7 @@ class ExportBase {
                 require_once('CFDBSearchEvaluator.php');
                 $aFilter = new CFDBSearchEvaluator;
                 $aFilter->setSearch($this->options['tsearch']);
-                $tfilters[] = $aFilter;
+                $transformFilters[] = $aFilter;
             }
 
             $numFilters = count($filters);
@@ -232,14 +232,14 @@ class ExportBase {
                 $this->rowFilter->setEvaluators($filters);
             }
 
-            $numTFilters = count($tfilters);
-            if ($numTFilters == 1) {
-                $this->rowTFilter = $tfilters[0];
+            $numTransformFilters = count($transformFilters);
+            if ($numTransformFilters == 1) {
+                $this->rowTransformFilter = $transformFilters[0];
             }
-            else if ($numTFilters > 1) {
+            else if ($numTransformFilters > 1) {
                 require_once('CFDBCompositeEvaluator.php');
-                $this->rowTFilter = new CFDBCompositeEvaluator;
-                $this->rowTFilter->setEvaluators($tfilters);
+                $this->rowTransformFilter = new CFDBCompositeEvaluator;
+                $this->rowTransformFilter->setEvaluators($transformFilters);
             }
 
             if (isset($this->options['trans'])) {
@@ -432,10 +432,11 @@ class ExportBase {
         if ($this->transform && !empty($this->transform->transformIterators)) {
             // If we have a transform, use 'tfilter' and 'tlimit' as the 'filter' and 'limit' for the
             // query (CFDBQueryResultIterator).
+
             if (isset($this->options['tlimit'])) {
                 $queryOptions['limit'] = $this->options['tlimit'];
             }
-            $this->dataIterator->query($sql, $this->rowTFilter, $queryOptions);
+            $this->dataIterator->query($sql, $this->rowTransformFilter, $queryOptions);
             $this->dataIterator->displayColumns = $this->getColumnsToDisplay($this->dataIterator->columns);
 
             $this->transform->setTimezone();
