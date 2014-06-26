@@ -3,7 +3,7 @@
 include_once('../CFDBQueryResultIteratorFactory.php');
 include_once('../ExportToCsvUtf8.php');
 include_once('../ExportToJson.php');
-include_once('../trans/BaseTransform.php');
+include_once('../BaseTransform.php');
 
 include_once('MockQueryResultIterator.php');
 include_once('WP_Mock_Functions.php');
