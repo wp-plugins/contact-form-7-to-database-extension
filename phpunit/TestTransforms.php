@@ -246,6 +246,22 @@ class TestTransforms extends PHPUnit_Framework_TestCase {
         $this->assertEquals('P1', $stuff[1]->name);
     }
 
+    public function test_order_by_desc_case() {
+        $options = array();
+        $options['trans'] = 'name=strtoupper(name)';
+        $options['orderby'] = 'name desc';
+
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+        $stuff = json_decode($text);
+        $this->assertTrue(is_array($stuff));
+
+        $this->assertEquals('P2', $stuff[0]->name);
+        $this->assertEquals('P1', $stuff[1]->name);
+    }
+
     public function test_multiple_order_by_desc() {
         $options = array();
         $options['trans'] = 'name=strtoupper(name)';
