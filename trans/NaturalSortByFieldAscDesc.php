@@ -26,16 +26,16 @@ require_once('SortTransform.php');
 class NaturalSortByFieldAscDesc extends SortTransform {
 
     var $fieldName;
-    var $ascDesc;
+    var $reverse;
 
     function __construct($fieldName, $ascDesc = 'ASC') {
         $this->fieldName = $fieldName;
-        $this->ascDesc = strtoupper($ascDesc);
+        $this->reverse = strtoupper($ascDesc) == 'DESC';
     }
 
     public function sort($a, $b) {
         $result = strnatcmp($a[$this->fieldName], $b[$this->fieldName]);
-        if ($this->ascDesc == 'DESC') {
+        if ($this->reverse) {
             $result *= -1;
         }
         return $result;
