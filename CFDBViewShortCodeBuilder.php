@@ -1098,7 +1098,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 <a target="_docs" href="http://cfdbplugin.com/?page_id=89#show"><img alt="?" src="<?php echo $infoImg ?>"/></a>
             </div>
             <select name="add_show" id="add_show"></select><button id="btn_show">&raquo;</button>
-            <input name="show_cntl" id="show_cntl" type="text" size="100" placeholder="<?php _e('comma-delimited list of field', 'contact-form-7-to-database-extension') ?>"/>
+            <input name="show_cntl" id="show_cntl" type="text" size="100" placeholder="<?php _e('field1,field2,field3', 'contact-form-7-to-database-extension') ?>"/>
         </div>
         <div>
             <div class="label_box">
@@ -1106,7 +1106,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 <a target="_docs" href="http://cfdbplugin.com/?page_id=89#hide"><img alt="?" src="<?php echo $infoImg ?>"/></a>
             </div>
             <select name="add_hide" id="add_hide"></select><button id="btn_hide">&raquo;</button>
-            <input name="hide_cntl" id="hide_cntl" type="text" size="100" placeholder="<?php _e('comma-delimited list of field', 'contact-form-7-to-database-extension') ?>"/>
+            <input name="hide_cntl" id="hide_cntl" type="text" size="100" placeholder="<?php _e('field1,field2,field3', 'contact-form-7-to-database-extension') ?>"/>
         </div>
     </div>
     <?php // SEARCH FILTER  ?>
@@ -1180,7 +1180,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 <a target="_docs" href="http://cfdbplugin.com/?page_id=89#orderby"><img alt="?" src="<?php echo $infoImg ?>"/></a>
             </div>
             <select name="add_orderby" id="add_orderby"></select><button id="btn_orderby" placeholder="<?php _e('field', 'contact-form-7-to-database-extension') ?>">&raquo;</button>
-            <input name="orderby_cntl" id="orderby_cntl" type="text" size="100" placeholder="<?php _e('comma-delimited list of field', 'contact-form-7-to-database-extension') ?>"/>
+            <input name="orderby_cntl" id="orderby_cntl" type="text" size="100" placeholder="<?php _e('field1,field2,field3', 'contact-form-7-to-database-extension') ?>"/>
             <select id="orderbydir_cntl" name="orderbydir_cntl">
                 <option value=""></option>
                 <option value="ASC"><?php _e('ASC', 'contact-form-7-to-database-extension') ?></option>
