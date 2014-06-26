@@ -100,7 +100,7 @@ class CFDBTransformByClassIterator extends CFDBDataIteratorDecorator {
             $this->fixDisplayColumns($sourceDisplayCols);
             return $this->displayColumns;
         }
-        return parent::getDisplayColumns();
+        return $this->displayColumns;
     }
 
     protected function fixDisplayColumns($sourceDisplayCols) {

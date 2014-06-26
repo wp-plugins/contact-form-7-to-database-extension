@@ -146,22 +146,209 @@ class TestTransforms extends PHPUnit_Framework_TestCase {
         $this->assertEquals('Oya', $stuff[1]->first_name);
     }
 
-    // todo:
+    public function test_hide_metadata() {
+        $options = array();
+        $options['trans'] = 'name=strtoupper(name)';
 
-    // hide metadata fields
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+        $stuff = json_decode($text);
+        $this->assertTrue(is_array($stuff));
+        $this->assertEquals('B1', $stuff[0]->name);
 
-    // show/hide
+        $this->assertFalse(isset($stuff[0]->fields_with_file));
+        $this->assertFalse(isset($stuff[0]->submit_time));
+        $this->assertFalse(isset($stuff[0]->Submit_Time_Key));
 
-    // limit
+    }
 
-    // order by
+    public function test_limit() {
+        $options = array();
+        $options['trans'] = 'name=strtoupper(name)';
+        $options['limit'] = '2';
 
-    // random
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+        $stuff = json_decode($text);
+        $this->assertTrue(is_array($stuff));
+
+        $this->assertEquals(2, count($stuff));
+        $this->assertEquals('x1', $stuff[0]->misc);
+        $this->assertEquals('x11', $stuff[1]->misc);
+    }
+
+    public function test_limit_range() {
+        $options = array();
+        $options['trans'] = 'name=strtoupper(name)';
+        $options['limit'] = '3,2'; // 2 rows starting at row 3
+
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+        $stuff = json_decode($text);
+        $this->assertTrue(is_array($stuff));
+
+        $this->assertEquals(2, count($stuff));
+        $this->assertEquals('X101', $stuff[0]->misc);
+        $this->assertEquals('x2', $stuff[1]->misc);
+    }
+
+    public function test_order_by() {
+        $options = array();
+        $options['trans'] = 'name=strtoupper(name)';
+        $options['orderby'] = 'name';
+
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+        $stuff = json_decode($text);
+        $this->assertTrue(is_array($stuff));
+
+        $this->assertEquals('A', $stuff[0]->misc);
+        $this->assertEquals('A2', $stuff[1]->misc);
+    }
+
+    public function test_order_by_different_fields() {
+        $options = array();
+        $options['trans'] = 'HardCodedData';
+        $options['orderby'] = 'first_name DESC';
+
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+        $stuff = json_decode($text);
+        $this->assertTrue(is_array($stuff));
+
+        $this->assertEquals('Oya', $stuff[0]->first_name);
+        $this->assertEquals('Mike', $stuff[1]->first_name);
+    }
+
+    public function test_filter() {
+        $options = array();
+        $options['trans'] = 'misc=strtoupper(misc)';
+        $options['filter'] = 'misc~~/^X1/';
+
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+        $stuff = json_decode($text);
+        $this->assertTrue(is_array($stuff));
+
+        $idx=0;
+        $this->assertEquals('X1', $stuff[$idx++]->misc);
+        $this->assertEquals('X11', $stuff[$idx++]->misc);
+        $this->assertEquals('X101', $stuff[$idx++]->misc);
+        $this->assertEquals('X123', $stuff[$idx++]->misc);
+        $this->assertEquals('X12', $stuff[$idx++]->misc);
+    }
+
+    public function test_search() {
+        $options = array();
+        $options['trans'] = 'misc=strtoupper(misc)';
+        $options['search'] = 'X1';
+
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+        $stuff = json_decode($text);
+        $this->assertTrue(is_array($stuff));
+
+        $idx=0;
+        $this->assertEquals('X1', $stuff[$idx++]->misc);
+        $this->assertEquals('X11', $stuff[$idx++]->misc);
+        $this->assertEquals('X101', $stuff[$idx++]->misc);
+        $this->assertEquals('X123', $stuff[$idx++]->misc);
+        $this->assertEquals('X12', $stuff[$idx++]->misc);
+    }
+
+    public function test_XCount() {
+        $options = array();
+        $options['trans'] = 'XCount';
+
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+        $stuff = json_decode($text);
+        $this->assertTrue(is_array($stuff));
+
+        $this->assertEquals('X1', $stuff[0]->name);
+        $this->assertEquals(5, $stuff[0]->count);
+
+        $this->assertEquals('X2', $stuff[1]->name);
+        $this->assertEquals(1, $stuff[1]->count);
+    }
+
+    public function test_tfilter() {
+        $options = array();
+        $options['trans'] = 'XCount';
+        $options['tfilter'] = 'misc~~/^X1/';
+
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+        $stuff = json_decode($text);
+        $this->assertTrue(is_array($stuff));
+
+        $this->assertEquals('X1', $stuff[0]->name);
+        $this->assertEquals(2, $stuff[0]->count);
+
+        $this->assertEquals('X2', $stuff[1]->name);
+        $this->assertEquals(0, $stuff[1]->count);
+    }
+
+    public function test_add_field() {
+        $options = array();
+        $options['trans'] = 'AddField';
+
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+        $stuff = json_decode($text);
+        $this->assertTrue(is_array($stuff));
+
+        $idx = 0;
+        $this->assertEquals($idx, $stuff[$idx]->index); ++$idx;
+        $this->assertEquals($idx, $stuff[$idx]->index); ++$idx;
+        $this->assertEquals($idx, $stuff[$idx]->index); ++$idx;
+        $this->assertEquals($idx, $stuff[$idx]->index); ++$idx;
+        $this->assertEquals($idx, $stuff[$idx]->index); ++$idx;
+    }
+
+    public function test_add_field_then_filter() {
+        $options = array();
+        $options['trans'] = 'AddField';
+        $options['filter'] = 'index>1';
+
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+        $stuff = json_decode($text);
+        $this->assertTrue(is_array($stuff));
+
+        $idx = 0;
+        $this->assertEquals($idx, $stuff[$idx+1]->index); ++$idx;
+        $this->assertEquals($idx, $stuff[$idx+1]->index); ++$idx;
+        $this->assertEquals($idx, $stuff[$idx+1]->index); ++$idx;
+        $this->assertEquals($idx, $stuff[$idx+1]->index); ++$idx;
+        $this->assertEquals($idx, $stuff[$idx+1]->index); ++$idx;
+    }
 
 
-    // filter & search
-    // Test filter on transformed values
-    // t-filter?
+    // todo: somehow to test random?
+
 
 }
 
@@ -173,7 +360,39 @@ class HardCodedData extends BaseTransform {
                 array('first_name' => 'Oya', 'last_name' => 'Simpson')
         );
     }
+}
 
+
+class XCount extends BaseTransform {
+
+    public function getTransformedData() {
+        $x1 = 0;
+        $x2 = 0;
+        foreach ($this->data as $entry) {
+            if (strpos(strtoupper($entry['misc']), 'X1') === 0) {
+                ++$x1;
+            }
+            if (strpos(strtoupper($entry['misc']), 'X2') === 0) {
+                ++$x2;
+            }
+        }
+        return array(
+            array('name' => 'X1', 'count' => $x1),
+            array('name' => 'X2', 'count' => $x2)
+        );
+    }
+}
+
+
+class AddField extends BaseTransform {
+
+    public function getTransformedData() {
+        $idx = 0;
+        foreach ($this->data as $entry) {
+            $entry['index'] = $idx;
+        }
+        return $this->data;
+    }
 }
 
 
