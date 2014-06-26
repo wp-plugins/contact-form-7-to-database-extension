@@ -334,7 +334,7 @@ class TestCFDBTransformParser extends PHPUnit_Framework_TestCase {
 
     public function test_eval_class_2() {
         $t = new CFDBTransformParser;
-        $t->parse('UpperAll');
+        $t->parse('UpperAllClass');
         $t->setupTransforms();
 
         $data = array(
@@ -504,7 +504,7 @@ class TestCFDBTransformParser extends PHPUnit_Framework_TestCase {
     // test chain of transforms all classes
     public function test_eval_class_chain_1() {
         $t = new CFDBTransformParser;
-        $t->parse('SortByField(fname)&&UpperAll');
+        $t->parse('SortByField(fname)&&UpperAllClass');
         $t->setupTransforms();
 
         $data = array(
@@ -531,7 +531,7 @@ class TestCFDBTransformParser extends PHPUnit_Framework_TestCase {
 
     public function test_eval_class_chain_2() {
         $t = new CFDBTransformParser;
-        $t->parse('UpperAll&&SortByField(fname)');
+        $t->parse('UpperAllClass&&SortByField(fname)');
         $t->setupTransforms();
 
         $data = array(
@@ -669,7 +669,7 @@ class SortByLname /* implements CFDBTransform */ {
 }
 
 
-class UpperAll {
+class UpperAllClass {
     var $data = array();
     public function addEntry(&$entry) {
         $this->data[] = $entry;
