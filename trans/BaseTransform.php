@@ -21,24 +21,19 @@
 
 //namespace trans;
 
-require_once('BaseTransform.php');
-
 /**
- * Subclass this and implement the "sort" function to create
- * a sort transform using your own criteria.
+ * Subclass this class and override getTransformedData() to return different data
  */
-abstract class SortTransform extends BaseTransform {
+abstract class BaseTransform {
 
-    public function getTransformedData() {
-        usort($this->data, array($this, 'sort'));
-        return $this->data;
+    var $data = array();
+
+    public function addEntry(&$entry) {
+        $this->data[] = $entry;
     }
 
-    /**
-     * @param $a array: associative array of 1 form entry
-     * @param $b array: associative array of 1 form entry
-     * @return -1 if a>b, 0 if a==b, 1 if a<b
-     */
-    public abstract function sort($a, $b);
+    public function getTransformedData() {
+        return $this->data;
+    }
 
 } 

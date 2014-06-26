@@ -57,19 +57,9 @@ class CFDBTransformByClassIterator extends CFDBDataIteratorDecorator {
      */
     public function nextRow() {
         if (!$this->transformedData) {
-            // On first iteration, loop the entire $source data set and transform it.
-            while ($this->source->nextRow()) {
-                $this->transformObject->addEntry($this->source->row);
-            }
-            $this->transformedData = $this->transformObject->getTransformedData();
-            $this->count = count($this->transformedData);
-            if ($this->count > 0) {
-                $this->idx = 0;
-                $this->row =& $this->transformedData[$this->idx];
-                return true;
-            } else {
-                return false;
-            }
+            $this->initData();
+            $this->idx = 0;
+            return $this->count > 0;
         } else {
             if (++$this->idx < $this->count) {
                 $this->row =& $this->transformedData[$this->idx];
@@ -78,6 +68,67 @@ class CFDBTransformByClassIterator extends CFDBDataIteratorDecorator {
                 return false;
             }
         }
+    }
+
+    /**
+     * @return bool
+     */
+    protected function initData() {
+        if ($this->transformedData) {
+            return; // Already initialized
+        }
+
+        // Loop the entire $source data set and transform it.
+        while ($this->source->nextRow()) {
+            $this->transformObject->addEntry($this->source->row);
+        }
+
+        // Transform the data
+        $this->transformedData = $this->transformObject->getTransformedData();
+
+        // Init count for iteration
+        $this->count = count($this->transformedData);
+        if ($this->count > 0) {
+            $this->idx = -1; // nextRow will ++ it
+            $this->row =& $this->transformedData[$this->idx];
+        }
+    }
+
+    public function getDisplayColumns() {
+        if (empty($this->displayColumns)) {
+            $sourceDisplayCols = parent::getDisplayColumns(); // gets form source transform
+            $this->fixDisplayColumns($sourceDisplayCols);
+            return $this->displayColumns;
+        }
+        return parent::getDisplayColumns();
+    }
+
+    protected function fixDisplayColumns($sourceDisplayCols) {
+
+        if (empty($this->transformedData)) {
+            $this->initData();
+        }
+
+        if (!empty($this->displayColumns)) {
+            return;
+        }
+
+        $dataCols = array_keys($this->transformedData[0]);
+        $newDisplayColumns = array();
+
+        foreach ($sourceDisplayCols as $col) {
+            if (in_array($col, $dataCols)) {
+                $newDisplayColumns[] = $col;
+            }
+        }
+
+        foreach ($dataCols as $col) {
+            if (!in_array($col, $newDisplayColumns)) {
+                $newDisplayColumns[] = $col;
+            }
+        }
+
+        $this->displayColumns = $newDisplayColumns;
     }
 
 }

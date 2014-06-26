@@ -3,6 +3,7 @@
 include_once('../CFDBQueryResultIteratorFactory.php');
 include_once('../ExportToCsvUtf8.php');
 include_once('../ExportToJson.php');
+include_once('../trans/BaseTransform.php');
 
 include_once('MockQueryResultIterator.php');
 include_once('WP_Mock_Functions.php');
@@ -136,6 +137,32 @@ class TestTransforms extends PHPUnit_Framework_TestCase {
         $this->assertEquals('X12', $stuff[$idx++]->misc);
         $this->assertEquals('X101', $stuff[$idx++]->misc);
         $this->assertEquals('X123', $stuff[$idx++]->misc);
+    }
+
+    public function testSimpleStat() {
+        $options = array();
+        $options['trans'] = 'HardCodedData';
+
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+
+        $stuff = json_decode($text);
+        $this->assertTrue(is_array($stuff));
+        $this->assertEquals('Mike', $stuff[0]->first_name);
+        $this->assertEquals('Oya', $stuff[1]->first_name);
+    }
+
+}
+
+class HardCodedData extends BaseTransform {
+
+    public function getTransformedData() {
+        return array(
+                array('first_name' => 'Mike', 'last_name' => 'Simpson'),
+                array('first_name' => 'Oya', 'last_name' => 'Simpson')
+        );
     }
 
 }
