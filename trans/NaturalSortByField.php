@@ -21,24 +21,12 @@
 
 //namespace trans;
 
-require_once('SortTransform.php');
+require_once('SortByFunctionAndField.php');
 
-class NaturalSortByField extends SortTransform {
-
-    var $fieldName;
-    var $reverse;
+class NaturalSortByField extends SortByFunctionAndField {
 
     function __construct($fieldName, $ascDesc = 'ASC') {
-        $this->fieldName = $fieldName;
-        $this->reverse = strtoupper($ascDesc) == 'DESC';
-    }
-
-    public function sort($a, $b) {
-        $result = strnatcmp($a[$this->fieldName], $b[$this->fieldName]);
-        if ($this->reverse) {
-            $result *= -1;
-        }
-        return $result;
+        parent::__construct('strnatcmp', $fieldName, $ascDesc);
     }
 
 } 
