@@ -479,7 +479,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     scElements.push(getValue('stripbr', val, scValidationErrors));
                     scUrlElements.push(getValueUrl('stripbr', val));
 
-                    var content = jQuery('#content_cntl').val();
+                    var template = jQuery('#content_cntl').val();
+                    var content = template;
                     var contentHeader = jQuery('#content_header_cntl').val();
                     var contentFooter = jQuery('#content_footer_cntl').val();
                     if (contentHeader) {
@@ -494,7 +495,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                             // Escape html tags for display on page
                             content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') +
                             '[/cfdb-html]';
-                    if (content == "") {
+                    if (template == "") {
                         scValidationErrors.push('<?php _e('Error: [cfdb-html] has empty Template. It will not output anything. ', 'contact-form-7-to-database-extension'); ?>');
                         jQuery('#content_cntl').addClass('validation'); // highlight template area
                     }
