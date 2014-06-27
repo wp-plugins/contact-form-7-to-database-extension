@@ -58,10 +58,22 @@ class CFDBQueryResultIterator extends CFDBAbstractQueryResultsIterator {
      */
     public function queryDataSource(&$sql, $queryOptions) {
         // For performance reasons, we bypass $wpdb so we can call mysql_unbuffered_query
-        $con = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD, true);
-        if (!$con) {
-            trigger_error("MySQL Connection failed: " . mysql_error(), E_USER_NOTICE);
-            return;
+
+        $useMysqli = $this->shouldUseMySqli();
+
+        $con = null;
+        if ($useMysqli) {
+            $con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+            if (!$con) {
+                trigger_error("MySQL Connection failed: " . mysqli_error($con), E_USER_NOTICE);
+                return;
+            }
+        } else {
+            $con = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD, true);
+            if (!$con) {
+                trigger_error("MySQL Connection failed: " . mysql_error($con), E_USER_NOTICE);
+                return;
+            }
         }
 
         // Target charset is in wp-config.php DB_CHARSET
@@ -83,31 +95,67 @@ class CFDBQueryResultIterator extends CFDBAbstractQueryResultsIterator {
                             $setCharset = $setCharset . ' COLLATE \'' . DB_COLLATE . '\'';
                         }
                     }
-                    mysql_query($setCharset, $con);
+                    if ($useMysqli) {
+                        mysqli_query($con, $setCharset);
+                    } else {
+                        mysql_query($setCharset, $con);
+                    }
                 }
             }
         }
 
-        if (!mysql_select_db(DB_NAME, $con)) {
-            trigger_error('MySQL DB Select failed: ' . mysql_error(), E_USER_NOTICE);
-            return;
+        if (!$useMysqli) {
+            if (!mysql_select_db(DB_NAME, $con)) {
+                trigger_error('MySQL DB Select failed: ' . mysql_error(), E_USER_NOTICE);
+                return;
+            }
         }
 
         if (isset($queryOptions['unbuffered']) && $queryOptions['unbuffered'] === 'true') {
             // FYI: using mysql_unbuffered_query disrupted nested shortcodes if the nested one does a query also
-            $this->results = mysql_unbuffered_query($sql, $con);
-            if (!$this->results) {
-                trigger_error('mysql_unbuffered_query failed: ' . mysql_error(), E_USER_NOTICE);
-                return;
+            if ($useMysqli) {
+                $this->results = mysqli_query($con, $sql, MYSQLI_USE_RESULT);
+                if (!$this->results) {
+                    trigger_error('mysqli_query failed: ' . mysql_error(), E_USER_NOTICE);
+                    return;
+                }
+            } else {
+                $this->results = mysql_unbuffered_query($sql, $con);
+                if (!$this->results) {
+                    trigger_error('mysql_unbuffered_query failed: ' . mysql_error(), E_USER_NOTICE);
+                    return;
+                }
             }
         } else {
-            $this->results = @mysql_query($sql, $con);
-            if (!$this->results) {
-                trigger_error('mysql_query failed. Try adding <code>unbuffered="true"</code> to your short code. <br/>' . mysql_error(), E_USER_WARNING);
-                return;
+            if ($useMysqli) {
+                $this->results = @mysqli_query($con, $sql);
+                if (!$this->results) {
+                    trigger_error('mysqli_query failed. Try adding <code>unbuffered="true"</code> to your short code. <br/>' . mysql_error(), E_USER_WARNING);
+                    return;
+                }
+            } else {
+                $this->results = @mysql_query($sql, $con);
+                if (!$this->results) {
+                    trigger_error('mysql_query failed. Try adding <code>unbuffered="true"</code> to your short code. <br/>' . mysql_error(), E_USER_WARNING);
+                    return;
+                }
             }
         }
     }
 
+    public function shouldUseMySqli() {
+        // This code taken from wp-db.php and adapted
+        $use_mysqli = false;
+        if ( function_exists( 'mysqli_connect' ) ) {
+            if ( defined( 'WP_USE_EXT_MYSQL' ) ) {
+                $use_mysqli = ! WP_USE_EXT_MYSQL;
+            } elseif ( version_compare( phpversion(), '5.5', '>=' ) || ! function_exists( 'mysql_connect' ) ) {
+                $use_mysqli = true;
+            } elseif ( false !== strpos( $GLOBALS['wp_version'], '-' ) ) {
+                $use_mysqli = true;
+            }
+        }
+        return $use_mysqli;
+    }
 
 }
