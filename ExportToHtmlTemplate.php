@@ -21,6 +21,7 @@
 
 require_once('ExportBase.php');
 require_once('CFDBExport.php');
+require_once('CFDBHtmlTemplateContentParser.php');
 
 class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
 
@@ -118,8 +119,17 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
             $options['content'] = str_replace('<br />', '', $options['content']);
         }
 
-        // Evaluation IF-expressions
-        // todo: modify $options['content']
+        // Break out Header, Footer and Template
+        $header = null;
+        $template = null;
+        $footer = null;
+        $contentParser = new CFDBHtmlTemplateContentParser;
+        list($header, $template, $footer) = $contentParser->parseHeaderTemplateFooter($options['content']);
+
+        if ($header) {
+            // Allow for short codes in header
+            echo do_shortcode($header);
+        }
 
         while ($this->dataIterator->nextRow()) {
             // Evaluation IF-expressions
@@ -127,7 +137,7 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
 
             if (empty($colNamesToSub)) {
                 // Process nested short codes
-                echo do_shortcode($options['content']);
+                echo do_shortcode($template);
             }
             else {
                 $fields_with_file = null;
@@ -174,9 +184,15 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
                     $replacements[$i] = nl2br($replacements[$i]); // preserve line breaks
                 }
                 // Process nested short codes
-                echo do_shortcode(str_replace($varNamesToSub, $replacements, $options['content']));
+                echo do_shortcode(str_replace($varNamesToSub, $replacements, $template));
             }
         }
+
+        if ($footer) {
+            // Allow for short codes in footer
+            echo do_shortcode($footer);
+        }
+
 
         if ($this->isFromShortCode) {
             // If called from a shortcode, need to return the text,

@@ -66,3 +66,7 @@ class Mock_WP_User {
 function wp_get_current_user() {
     return new Mock_WP_User();
 }
+
+function do_shortcode($content) {
+    return $content;
+}
