@@ -49,7 +49,7 @@ Use the short code builder page to set short code options.
 
 == Frequently Asked Questions ==
 
-== Is there a tutorial? ==
+= Is there a tutorial? =
 See the <a href="https://www.youtube.com/watch?v=mcbIKJK6EJ0">Video Tutorial</a>
 
 = I installed the plugin but I don't see any of my forms listed in the administration page =
