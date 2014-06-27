@@ -421,7 +421,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                         }
                         limitOption += limitRows;
                         limitOptionUrl += limitRows;
-                        scElements.push("limit=" + limitOption + '"');
+                        scElements.push('limit="' + limitOption + '"');
                         scUrlElements.push(limitOptionUrl);
                         exportUrlElements.push(limitOptionUrl);
                         pushNameValue("limit", limitOption, googleScriptElements, googleScriptValidationErrors);
