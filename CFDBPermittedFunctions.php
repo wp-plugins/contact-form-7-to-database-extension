@@ -88,7 +88,12 @@ class CFDBPermittedFunctions
             'gmstrftime',
             'mktime',
             'strftime',
-            'time'
+            'time',
+            'intval',
+            'boolval',
+            'floatval',
+            'strval'
+
     );
 
 
