@@ -113,7 +113,14 @@ class CFDBTransformByClassIterator extends CFDBDataIteratorDecorator {
             return;
         }
 
-        $dataCols = array_keys($this->transformedData[0]);
+        $dataCols = null;
+        if ($this->transformedData == null ||
+                !isset($this->transformedData[0]) ||
+                !is_array($this->transformedData[0])) {
+            $dataCols = array();
+        } else {
+            $dataCols = array_keys($this->transformedData[0]);
+        }
         $newDisplayColumns = array();
 
         foreach ($sourceDisplayCols as $col) {
