@@ -38,13 +38,6 @@ class MockQueryResultIterator extends CFDBAbstractQueryResultsIterator {
     }
 
     /**
-     * @return boolean
-     */
-    public function hasResults() {
-        return !empty($this->data);
-    }
-
-    /**
      * If you do not iterate over all the rows returned, be sure to call this function
      * on all remaining rows to free resources.
      * @return void

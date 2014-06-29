@@ -84,10 +84,6 @@ abstract class CFDBAbstractQueryResultsIterator extends CFDBDataIterator {
      */
     abstract public function fetchRow();
 
-    /**
-     * @return boolean
-     */
-    abstract public function hasResults();
 
     /**
      * If you do not iterate over all the rows returned, be sure to call this function
@@ -138,10 +134,6 @@ abstract class CFDBAbstractQueryResultsIterator extends CFDBDataIterator {
      * @return bool if next row exists
      */
     public function nextRow() {
-        if (!$this->hasResults()) {
-            return false;
-        }
-
         while (true) {
             if (!$this->onFirstRow) {
                 $this->row = $this->fetchRow();

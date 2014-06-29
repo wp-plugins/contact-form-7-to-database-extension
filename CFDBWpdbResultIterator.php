@@ -22,8 +22,19 @@ require_once('CFDBAbstractQueryResultsIterator.php');
 
 class CFDBWpdbResultIterator extends CFDBAbstractQueryResultsIterator {
 
+    /**
+     * @var array[associative array]
+     */
     var $wpdbResults;
+
+    /**
+     * @var int
+     */
     var $wpdbIdx = 0;
+
+    /**
+     * @var int
+     */
     var $wpdbLen = 0;
 
     /**
@@ -36,7 +47,6 @@ class CFDBWpdbResultIterator extends CFDBAbstractQueryResultsIterator {
         global $wpdb;
         $this->wpdbResults =
                 $wpdb->get_results($sql, ARRAY_A);
-        //$this->len = count($this->results);
         $this->wpdbLen = $wpdb->num_rows;
     }
 
@@ -45,14 +55,10 @@ class CFDBWpdbResultIterator extends CFDBAbstractQueryResultsIterator {
      * @return array associative
      */
     public function fetchRow() {
-        return $this->wpdbResults[$this->wpdbIdx++];
-    }
-
-    /**
-     * @return boolean
-     */
-    public function hasResults() {
-        return $this->wpdbIdx < $this->wpdbLen;
+        if ($this->wpdbIdx < $this->wpdbLen) {
+            return $this->wpdbResults[$this->wpdbIdx++];
+        }
+        return false;
     }
 
     /**

@@ -19,7 +19,8 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('CFDBQueryResultIterator.php');
+require_once('CFDBWpdbResultIterator.php');
+require_once('CFDBWpdbUnbufferedResultIterator.php');
 
 /**
  * @singleton
@@ -52,13 +53,18 @@ class CFDBQueryResultIteratorFactory {
 
     /**
      * Factory method for getting a new CFDBQueryResultIterator or mock.
-     * @return CFDBQueryResultIterator (or mock)
+     * @param $unbuffered bool
+     * @return CFDBAbstractQueryResultsIterator (or mock)
      */
-    public function newQueryIterator() {
+    public function newQueryIterator($unbuffered = false) {
         if ($this->mock) {
             return $this->mock;
         }
-        return new CFDBQueryResultIterator();
+        if ($unbuffered) {
+          return new CFDBWpdbUnbufferedResultIterator;
+        } else {
+            return new CFDBWpdbResultIterator;
+        }
     }
 
 } 

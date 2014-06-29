@@ -446,11 +446,17 @@ class ExportBase {
             // no filter constraints.
             $queryOptions['limit'] = $this->options['limit'];
         }
+        $unbuffered = false;;
         if (isset($this->options['unbuffered'])) {
             $queryOptions['unbuffered'] = $this->options['unbuffered'];
+            $unbuffered = $queryOptions['unbuffered'] == 'true';
         }
 
-        $this->dataIterator = CFDBQueryResultIteratorFactory::getInstance()->newQueryIterator();
+        if ($this->debug) {
+            $queryOptions['debug'] = 'true';
+        }
+
+        $this->dataIterator = CFDBQueryResultIteratorFactory::getInstance()->newQueryIterator($unbuffered);
 
         if ($this->transform && !empty($this->transform->transformIterators)) {
             $postProcessOptions = $queryOptions; // make a copy
