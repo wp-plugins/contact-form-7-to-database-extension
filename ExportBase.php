@@ -129,7 +129,12 @@ class ExportBase {
                     $this->options['fromshortcode'] === true;
 
             if (!isset($this->options['unbuffered'])) {
-                $this->options['unbuffered'] = $this->isFromShortCode ? 'false' : 'true';
+                //$this->options['unbuffered'] = $this->isFromShortCode ? 'false' : 'true'; // todo
+                $this->options['unbuffered'] = 'false';
+            } else {
+                if ($this->options['unbuffered'] == 'checked') {
+                    $this->options['unbuffered'] = 'true';
+                }
             }
 
             if (isset($this->options['showColumns'])) {

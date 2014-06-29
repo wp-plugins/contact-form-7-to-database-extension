@@ -443,8 +443,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
 
                 if (jQuery('#unbuffered_cntl').is(':checked')) {
                     scElements.push('unbuffered="true"');
-                    scUrlElements.push(getValueUrl('unbuffered', 'checked'));
-                    pushNameValue("checked", "checked", googleScriptElements, googleScriptValidationErrors);
+                    scUrlElements.push(getValueUrl('unbuffered', 'true'));
+                    pushNameValue("unbuffered", "true", googleScriptElements, googleScriptValidationErrors);
                 }
 
                 var orderBy = jQuery('#orderby_cntl').val();
