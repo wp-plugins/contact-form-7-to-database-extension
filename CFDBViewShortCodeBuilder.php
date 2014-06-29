@@ -444,6 +444,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 if (jQuery('#unbuffered_cntl').is(':checked')) {
                     scElements.push('unbuffered="true"');
                     scUrlElements.push(getValueUrl('unbuffered', 'true'));
+                    exportUrlElements.push('unbuffered=true');
                     pushNameValue("unbuffered", "true", googleScriptElements, googleScriptValidationErrors);
                 }
 
