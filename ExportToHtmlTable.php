@@ -21,6 +21,7 @@
 
 require_once('ExportBase.php');
 require_once('CFDBExport.php');
+require_once('CFDBShortCodeContentParser.php');
 
 class ExportToHtmlTable extends ExportBase implements CFDBExport {
 
@@ -114,6 +115,20 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
         // Query DB for the data for that form
         $submitTimeKeyName = 'Submit_Time_Key';
         $this->setDataIterator($formName, $submitTimeKeyName);
+
+        // Break out sections: Before, Content, After
+        $before = '';
+        $content = '';
+        $after = '';
+        if (isset($options['content'])) {
+            $contentParser = new CFDBShortCodeContentParser;
+            list($before, $content, $after) = $contentParser->parseBeforeContentAfter($options['content']);
+        }
+
+        if ($before) {
+            // Allow for short codes in "before"
+            echo do_shortcode($before);
+        }
 
         if ($useDT) {
             $dtJsOptions = isset($options['dt_options']) ?
@@ -233,10 +248,13 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
             $showLineBreaks = $this->plugin->getOption('ShowLineBreaksInDataTable');
             $showLineBreaks = 'false' != $showLineBreaks;
             while ($this->dataIterator->nextRow()) {
-                $submitKey = $this->dataIterator->row[$submitTimeKeyName];
+                $submitKey = '';
+                if (isset($this->dataIterator->row[$submitTimeKeyName])) {
+                    $submitKey = $this->dataIterator->row[$submitTimeKeyName];
+                }
                 ?>
                 <tr>
-                <?php if ($canDelete) { // Put in the delete checkbox ?>
+                <?php if ($canDelete && $submitKey) { // Put in the delete checkbox ?>
                     <td align="center">
                         <input type="checkbox" id="delete_<?php echo $submitKey ?>" name="<?php echo $submitKey ?>" value="row"/>
                     </td>
@@ -266,6 +284,11 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
             </tbody>
         </table>
         <?php
+
+        if ($after) {
+            // Allow for short codes in "after"
+            echo do_shortcode($after);
+        }
 
         if ($this->isFromShortCode) {
             // If called from a shortcode, need to return the text,

@@ -119,21 +119,22 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
             $options['content'] = str_replace('<br />', '', $options['content']);
         }
 
-        // Break out Header, Footer and Template
-        $header = null;
-        $template = null;
-        $footer = null;
-        $contentParser = new CFDBShortCodeContentParser;
-        list($header, $template, $footer) = $contentParser->parseBeforeContentAfter($options['content']);
+        // Break out sections: Before, Template, After
+        $before = '';
+        $template = '';
+        $after = '';
+        if (isset($options['content'])) {
+            $contentParser = new CFDBShortCodeContentParser;
+            list($before, $template, $after) = $contentParser->parseBeforeContentAfter($options['content']);
+        }
 
-        if ($header) {
-            // Allow for short codes in header
-            echo do_shortcode($header);
+        if ($before) {
+            // Allow for short codes in "before"
+            echo do_shortcode($before);
         }
 
         while ($this->dataIterator->nextRow()) {
-            // Evaluation IF-expressions
-            // todo: modify $options['content']
+            // todo: Evaluation IF-expressions
 
             if (empty($colNamesToSub)) {
                 // Process nested short codes
@@ -188,9 +189,9 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
             }
         }
 
-        if ($footer) {
-            // Allow for short codes in footer
-            echo do_shortcode($footer);
+        if ($after) {
+            // Allow for short codes in "after"
+            echo do_shortcode($after);
         }
 
 

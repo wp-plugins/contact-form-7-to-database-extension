@@ -21,6 +21,7 @@
 
 require_once('ExportBase.php');
 require_once('CFDBExport.php');
+require_once('CFDBShortCodeContentParser.php');
 
 class ExportToJson extends ExportBase implements CFDBExport {
 
@@ -59,6 +60,20 @@ class ExportToJson extends ExportBase implements CFDBExport {
             ob_start();
         }
 
+        // Break out sections: Before, Content, After
+        $before = '';
+        $content = '';
+        $after = '';
+        if (isset($options['content'])) {
+            $contentParser = new CFDBShortCodeContentParser;
+            list($before, $content, $after) = $contentParser->parseBeforeContentAfter($options['content']);
+        }
+
+        if ($before) {
+            // Allow for short codes in "before"
+            echo do_shortcode($before);
+        }
+
         if ($html) {
             ?>
             <script type="text/javascript" language="JavaScript">
@@ -71,6 +86,11 @@ class ExportToJson extends ExportBase implements CFDBExport {
         }
         else {
             echo $this->echoJsonEncode();
+        }
+
+        if ($after) {
+            // Allow for short codes in "after"
+            echo do_shortcode($after);
         }
 
         if ($this->isFromShortCode) {

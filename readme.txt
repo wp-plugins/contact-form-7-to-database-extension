@@ -87,7 +87,7 @@ You can always deactivate the plugin without loosing data.
 * Can put functions in short code filters. <a target="_cfdb_doc" href="http://cfdbplugin.com/?page_id=1073">See documentation</a>
 * Can transform data coming into short codes by assigning functions or classes in the new "trans" short code attribute. <a target="_cfdb_doc" href="http://cfdbplugin.com/?page_id=1076">See documentation</a>
 * All short code options can be set to $_POST(value), $_GET(value), $_COOKIE(value)
-* [cfdb-html] now allows for an optional header and footer section
+* Most short codes now allows for an optional "before" and "after" section
 * Support for MySqli which should fix some character encoding issues
 * Bug fix: hook to save form data was not returning "true" an causing subsequent hooks for other plugins to not be called.
 

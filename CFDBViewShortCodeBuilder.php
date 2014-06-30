@@ -482,13 +482,13 @@ class CFDBViewShortCodeBuilder extends CFDBView {
 
                     var template = jQuery('#content_cntl').val();
                     var content = template;
-                    var contentHeader = jQuery('#before_cntl').val();
-                    var contentFooter = jQuery('#after_cntl').val();
-                    if (contentHeader) {
-                        content = "<?php echo CFDBShortCodeContentParser::BEFORE_START_DELIMITER ?>" + contentHeader + "<?php echo CFDBShortCodeContentParser::BEFORE_END_DELIMITER ?>" + content;
+                    var contentBefore = jQuery('#before_cntl').val();
+                    var contentAfter = jQuery('#after_cntl').val();
+                    if (contentBefore) {
+                        content = "<?php echo CFDBShortCodeContentParser::BEFORE_START_DELIMITER ?>" + contentBefore + "<?php echo CFDBShortCodeContentParser::BEFORE_END_DELIMITER ?>" + content;
                     }
-                    if (contentFooter) {
-                        content += "<?php echo CFDBShortCodeContentParser::AFTER_START_DELIMITER ?>" + contentFooter + "<?php echo CFDBShortCodeContentParser::AFTER_END_DELIMITER ?>";
+                    if (contentAfter) {
+                        content += "<?php echo CFDBShortCodeContentParser::AFTER_START_DELIMITER ?>" + contentAfter + "<?php echo CFDBShortCodeContentParser::AFTER_END_DELIMITER ?>";
                     }
                     scUrlElements.push('content=' + encodeURIComponent(content));
                     scUrlElements.push('enc=HTMLTemplate');
@@ -525,8 +525,25 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     val = jQuery('#style_cntl').val();
                     scElements.push(getValue('style', val, scValidationErrors));
                     scUrlElements.push(getValueUrl('style', val));
+
+                    var contentBefore = jQuery('#before_cntl').val();
+                    var contentAfter = jQuery('#after_cntl').val();
+                    var content = '';
+                    if (contentBefore) {
+                        content = "<?php echo CFDBShortCodeContentParser::BEFORE_START_DELIMITER ?>" + contentBefore + "<?php echo CFDBShortCodeContentParser::BEFORE_END_DELIMITER ?>" + content;
+                    }
+                    if (contentAfter) {
+                        content += "<?php echo CFDBShortCodeContentParser::AFTER_START_DELIMITER ?>" + contentAfter + "<?php echo CFDBShortCodeContentParser::AFTER_END_DELIMITER ?>";
+                    }
+                    scUrlElements.push('content=' + encodeURIComponent(content));
+
                     scUrlElements.push('enc=HTML');
                     scText = join(scElements) + ']';
+                    if (content) {
+                        // Escape html tags for display on page
+                        scText += content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') +
+                                        '[/cfdb-table]';
+                    }
                     break;
                 case '[cfdb-datatable]':
                     if (!jQuery('#header_cntl').is(':checked')) {
@@ -557,8 +574,25 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     val = jQuery('#dt_options_cntl').val();
                     scElements.push(getValue('dt_options', val, scValidationErrors));
                     scUrlElements.push(getValueUrl('dt_options', val));
+
+                    var contentBefore = jQuery('#before_cntl').val();
+                    var contentAfter = jQuery('#after_cntl').val();
+                    var content = '';
+                    if (contentBefore) {
+                        content = "<?php echo CFDBShortCodeContentParser::BEFORE_START_DELIMITER ?>" + contentBefore + "<?php echo CFDBShortCodeContentParser::BEFORE_END_DELIMITER ?>" + content;
+                    }
+                    if (contentAfter) {
+                        content += "<?php echo CFDBShortCodeContentParser::AFTER_START_DELIMITER ?>" + contentAfter + "<?php echo CFDBShortCodeContentParser::AFTER_END_DELIMITER ?>";
+                    }
+                    scUrlElements.push('content=' + encodeURIComponent(content));
+
                     scUrlElements.push('enc=DT');
                     scText = join(scElements) + ']';
+                    if (content) {
+                        // Escape html tags for display on page
+                        scText += content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') +
+                                '[/cfdb-datatable]';
+                    }
                     break;
                 case '[cfdb-value]':
                     val = jQuery('#function_cntl').val();
@@ -568,12 +602,45 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     val = jQuery('#delimiter_cntl').val();
                     scElements.push(getValue('delimiter', val, scValidationErrors));
                     scUrlElements.push(getValueUrl('delimiter', val));
+
+                    var contentBefore = jQuery('#before_cntl').val();
+                    var contentAfter = jQuery('#after_cntl').val();
+                    var content = '';
+                    if (contentBefore) {
+                        content = "<?php echo CFDBShortCodeContentParser::BEFORE_START_DELIMITER ?>" + contentBefore + "<?php echo CFDBShortCodeContentParser::BEFORE_END_DELIMITER ?>" + content;
+                    }
+                    if (contentAfter) {
+                        content += "<?php echo CFDBShortCodeContentParser::AFTER_START_DELIMITER ?>" + contentAfter + "<?php echo CFDBShortCodeContentParser::AFTER_END_DELIMITER ?>";
+                    }
+                    scUrlElements.push('content=' + encodeURIComponent(content));
+
                     scUrlElements.push('enc=VALUE');
                     scText = join(scElements) + ']';
+                    if (content) {
+                        // Escape html tags for display on page
+                        scText += content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') +
+                                '[/cfdb-value]';
+                    }
                     break;
                 case '[cfdb-count]':
+                    var contentBefore = jQuery('#before_cntl').val();
+                    var contentAfter = jQuery('#after_cntl').val();
+                    var content = '';
+                    if (contentBefore) {
+                        content = "<?php echo CFDBShortCodeContentParser::BEFORE_START_DELIMITER ?>" + contentBefore + "<?php echo CFDBShortCodeContentParser::BEFORE_END_DELIMITER ?>" + content;
+                    }
+                    if (contentAfter) {
+                        content += "<?php echo CFDBShortCodeContentParser::AFTER_START_DELIMITER ?>" + contentAfter + "<?php echo CFDBShortCodeContentParser::AFTER_END_DELIMITER ?>";
+                    }
+                    scUrlElements.push('content=' + encodeURIComponent(content));
+
                     scUrlElements.push('enc=COUNT');
                     scText = join(scElements) + ']'; // hopLastChar(scElements.join(' ')) + ']';
+                    if (content) {
+                        // Escape html tags for display on page
+                        scText += content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') +
+                                '[/cfdb-count]';
+                    }
                     break;
                 case '[cfdb-json]':
                     if (!jQuery('#header_cntl').is(':checked')) {
@@ -592,8 +659,25 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     val = jQuery('#format_cntl').val();
                     scElements.push(getValue('format', val, scValidationErrors));
                     scUrlElements.push(getValueUrl('format', val));
+
+                    var contentBefore = jQuery('#before_cntl').val();
+                    var contentAfter = jQuery('#after_cntl').val();
+                    var content = '';
+                    if (contentBefore) {
+                        content = "<?php echo CFDBShortCodeContentParser::BEFORE_START_DELIMITER ?>" + contentBefore + "<?php echo CFDBShortCodeContentParser::BEFORE_END_DELIMITER ?>" + content;
+                    }
+                    if (contentAfter) {
+                        content += "<?php echo CFDBShortCodeContentParser::AFTER_START_DELIMITER ?>" + contentAfter + "<?php echo CFDBShortCodeContentParser::AFTER_END_DELIMITER ?>";
+                    }
+                    scUrlElements.push('content=' + encodeURIComponent(content));
+
                     scUrlElements.push('enc=JSON');
                     scText = join(scElements) + ']';
+                    if (content) {
+                        // Escape html tags for display on page
+                        scText += content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') +
+                                '[/cfdb-json]';
+                    }
                     break;
                 case '[cfdb-export-link]':
                     val = jQuery('#enc_cntl').val();
@@ -1211,6 +1295,25 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             </select>
         </div>
     </div>
+    <?php // BEFORE and AFTER  ?>
+    <div id="beforeafter_div" class="shortcodeoptions">
+        <div>
+            <div class="label_box">
+                <label for="before_cntl"><?php _e('Before', 'contact-form-7-to-database-extension') ?></label>
+                <a target="_docs" href="http://cfdbplugin.com/?page_id=284#before"><img alt="?" src="<?php echo $infoImg ?>"/></a><br/>
+            </div>
+            <br/>
+            <textarea name="before_cntl" id="before_cntl" cols="100" rows="5" placeholder="<?php _e('Optional HTML/Javascript before the short code output', 'contact-form-7-to-database-extension') ?>"></textarea>
+        </div>
+        <div>
+            <div class="label_box">
+                <label for="after_cntl"><?php _e('After', 'contact-form-7-to-database-extension') ?></label>
+                <a target="_docs" href="http://cfdbplugin.com/?page_id=284#after"><img alt="?" src="<?php echo $infoImg ?>"/></a>
+            </div>
+            <br/>
+            <textarea name="after_cntl" id="after_cntl" cols="100" rows="5" placeholder="<?php _e('Optional HTML/Javascript after the short code output', 'contact-form-7-to-database-extension') ?>"></textarea>
+        </div>
+    </div>
     <?php // HEADERS  ?>
     <div id="headers_div" class="shortcodeoptions">
         <div><?php _e('Table Headers', 'contact-form-7-to-database-extension'); ?></div>
@@ -1255,7 +1358,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 <label for="style_cntl"><?php _e('style', 'contact-form-7-to-database-extension') ?></label>
                 <a target="_docs" href="http://cfdbplugin.com/?page_id=93#style"><img alt="?" src="<?php echo $infoImg ?>"/></a>
             </div>
-            <input name="style_cntl" id="style_cntl" type="text" size="100" placeholder="<?php _e('HTML style', 'contact-form-7-to-database-extension') ?>"/>
+            <input name="style_cntl" id="style_cntl" type="text" size="100" placeholder="<?php _e('CSS style', 'contact-form-7-to-database-extension') ?>"/>
         </div>
     </div>
     <?php // DT_OPTIONS  ?>
@@ -1360,27 +1463,11 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         </div>
         <div>
             <div class="label_box">
-                <label for="before_cntl"><?php _e('Header', 'contact-form-7-to-database-extension') ?></label>
-                <a target="_docs" href="http://cfdbplugin.com/?page_id=284#cfdb-html-header"><img alt="?" src="<?php echo $infoImg ?>"/></a><br/>
-            </div>
-            <br/>
-            <textarea name="before_cntl" id="before_cntl" cols="100" rows="5" placeholder="<?php _e('Option Header HTML', 'contact-form-7-to-database-extension') ?>"></textarea>
-        </div>
-        <div>
-            <div class="label_box">
                 <label for="content_cntl"><?php _e('Template', 'contact-form-7-to-database-extension') ?></label>
-                <a target="_docs" href="http://cfdbplugin.com/?page_id=284#before"><img alt="?" src="<?php echo $infoImg ?>"/></a>
+                <a target="_docs" href="http://cfdbplugin.com/?page_id=284#template"><img alt="?" src="<?php echo $infoImg ?>"/></a>
             </div>
             <select name="add_content" id="add_content"></select><button id="btn_content">&raquo;</button><br/>
             <textarea name="content_cntl" id="content_cntl" cols="100" rows="10" placeholder="<?php _e('Per-entry HTML using ${field name} variables', 'contact-form-7-to-database-extension') ?>"></textarea>
-        </div>
-        <div>
-            <div class="label_box">
-                <label for="after_cntl"><?php _e('Footer', 'contact-form-7-to-database-extension') ?></label>
-                <a target="_docs" href="http://cfdbplugin.com/?page_id=284#after"><img alt="?" src="<?php echo $infoImg ?>"/></a>
-            </div>
-            <br/>
-            <textarea name="after_cntl" id="after_cntl" cols="100" rows="5" placeholder="<?php _e('Optional Footer HTML', 'contact-form-7-to-database-extension') ?>"></textarea>
         </div>
     </div>
     <?php // URL ENC, URL_ONLY LINK_TEXT      ?>
