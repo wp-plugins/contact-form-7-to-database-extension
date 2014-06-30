@@ -988,11 +988,11 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             <option value="IQY">
                 <?php _e('Excel Internet Query', 'contact-form-7-to-database-extension'); ?>
             </option>
-            <option value="RSS">
-                <?php _e('RSS', 'contact-form-7-to-database-extension'); ?>
-            </option>
             <option value="GLD">
                 <?php _e('Google Spreadsheet Live Data', 'contact-form-7-to-database-extension'); ?>
+            </option>
+            <option value="RSS">
+                <?php _e('RSS', 'contact-form-7-to-database-extension'); ?>
             </option>
             <option value="JSON">
                 <?php _e('JSON', 'contact-form-7-to-database-extension'); ?>
