@@ -1,0 +1,121 @@
+<?php
+
+include_once('../DereferenceShortcodeVars.php');
+include_once('../ExportBase.php');
+include_once('WP_Mock_Functions.php');
+
+$_POST = null;
+
+class TestDereferenceShortcodeVars_Export extends PHPUnit_Framework_TestCase {
+
+    public function setUp() {
+        global $_POST;
+        $_POST = array();
+    }
+
+    public function dataProviderReplace() {
+        $data = array();
+        $data[] = array('debug', 'true');
+        $data[] = array('unbuffered', 'true');
+        $data[] = array('class', 'myclass');
+        $data[] = array('style', 'mystyle');
+        $data[] = array('id', 'myid');
+        $data[] = array('permissionmsg', 'false');
+        $data[] = array('orderby', 'name');
+        $data[] = array('orderby', 'name DESC');
+        $data[] = array('limit', '10');
+        $data[] = array('limit', '20,10');
+        $data[] = array('tlimit', '10');
+        $data[] = array('tlimit', '20,10');
+        $data[] = array('header', 'true');
+        $data[] = array('filter', 'name=Simpson');
+        $data[] = array('tfilter', 'name=Simpson');
+        $data[] = array('search', 'Simpson');
+        $data[] = array('tsearch', 'Simpson');
+        $data[] = array('trans', 'name=Simpson');
+        return $data;
+    }
+
+    /**
+     * @dataProvider dataProviderReplace
+     */
+    public function test_general_option($name, $value) {
+        $options = array();
+        $exp = new ExportBase;
+        $exp->setOptions($options);
+
+        $options[$name] = '$_POST(' .$name .')';
+        $_POST[$name] = $value;
+        $exp->setOptions($options);
+        $exp->setCommonOptions(true);
+        $this->assertEquals($value, $exp->options[$name], "$name=$value");
+    }
+
+    public function test_show() {
+        $options = array();
+        $exp = new ExportBase;
+        $exp->setOptions($options);
+
+        $options['show'] = 's1,s2,s3,$_POST(s),s6';
+        $_POST['s'] = 's4,s5';
+        $exp->setOptions($options);
+        $exp->setCommonOptions(true);
+        $this->assertEquals(explode(',', 's1,s2,s3,s4,s5,s6'), $exp->showColumns);
+    }
+
+    public function test_hide() {
+        $options = array();
+        $exp = new ExportBase;
+        $exp->setOptions($options);
+
+        $options['hide'] = 'h1,h2,h3,$_POST(h),h6';
+        $_POST['h'] = 'h4,h5';
+        $exp->setOptions($options);
+        $exp->setCommonOptions(true);
+        $this->assertEquals(explode(',', 'h1,h2,h3,h4,h5,h6'), $exp->hideColumns);
+    }
+
+    public function test_headers() {
+        $options = array();
+        $exp = new ExportBase;
+        $exp->setOptions($options);
+
+        $options['headers'] = 'h1=$_POST(h1),h2=$_POST(h2),h3=H_3';
+        $_POST['h1'] = 'H_1';
+        $_POST['h2'] = 'H_2';
+        $exp->setOptions($options);
+        $exp->setCommonOptions(true);
+        $this->assertEquals(
+                array(
+                        'h1' => 'H_1',
+                        'h2' => 'H_2',
+                        'h3' => 'H_3',
+                ),
+                $exp->headers);
+    }
+
+
+    public function dataProviderNoReplace() {
+        $data = array();
+        $data[] = array('role', 'Anyone');
+        $data[] = array('fromshortcode', 'name=Simpson');
+        return $data;
+    }
+
+    /**
+     * @dataProvider dataProviderNoReplace
+     */
+    public function test_general_option_no_replace($name, $value) {
+        $options = array();
+        $exp = new ExportBase;
+        $exp->setOptions($options);
+
+        $options[$name] = '$_POST(' .$name .')';
+        $_POST[$name] = $value;
+        $exp->setOptions($options);
+        $exp->setCommonOptions(true);
+        // No replacement expected
+        $this->assertEquals('$_POST(' .$name .')', $exp->options[$name], "$name=$value");
+    }
+
+}

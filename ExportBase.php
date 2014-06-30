@@ -22,6 +22,7 @@
 require_once('CF7DBPlugin.php');
 require_once('CFDBQueryResultIteratorFactory.php');
 require_once('CFDBQueryResultIterator.php');
+require_once('DereferenceShortcodeVars.php');
 
 class ExportBase {
 
@@ -114,13 +115,28 @@ class ExportBase {
      * @param  $options array|null
      * @return void
      */
-    protected function setOptions($options) {
+    public function setOptions($options) {
         $this->options = $options;
     }
 
-    protected function setCommonOptions($htmlOptions = false) {
+    public function dereferenceOption($optionName) {
+        if (isset($this->options[$optionName])) {
+            $dereferenceVars = new DereferenceShortcodeVars;
+            $this->options[$optionName] = $dereferenceVars->convert($this->options[$optionName]);
+        }
+    }
+
+    public function setCommonOptions($htmlOptions = false) {
 
         if ($this->options && is_array($this->options)) {
+            foreach (array(
+                             'debug', 'permissionmsg', 'unbuffered', 'show', 'hide', 'class', 'style', 'id',
+                             'orderby', 'limit', 'tlimit', 'header', 'headers', 'content',
+                             'filter', 'tfilter', 'search', 'tsearch', 'trans')
+                     as $optionName) {
+                $this->dereferenceOption($optionName);
+            }
+
             if (isset($this->options['debug']) && $this->options['debug'] != 'false') {
                 $this->debug = true;
             }
@@ -184,7 +200,6 @@ class ExportBase {
             $filters = array();
             if (isset($this->options['filter'])) {
                 require_once('CFDBFilterParser.php');
-                require_once('DereferenceShortcodeVars.php');
                 $aFilter = new CFDBFilterParser;
                 $aFilter->setComparisonValuePreprocessor(new DereferenceShortcodeVars);
                 $aFilter->setPermittedFilterFunctions($permittedFunctions);
@@ -200,7 +215,6 @@ class ExportBase {
             $transformFilters = array();
             if (isset($this->options['tfilter'])) {
                 require_once('CFDBFilterParser.php');
-                require_once('DereferenceShortcodeVars.php');
                 $aFilter = new CFDBFilterParser;
                 $aFilter->setComparisonValuePreprocessor(new DereferenceShortcodeVars);
                 $aFilter->setPermittedFilterFunctions($permittedFunctions);
@@ -249,7 +263,6 @@ class ExportBase {
 
             if (isset($this->options['trans'])) {
                 require_once('CFDBTransformParser.php');
-                require_once('DereferenceShortcodeVars.php');
                 $this->transform = new CFDBTransformParser();
                 $this->transform->setComparisonValuePreprocessor(new DereferenceShortcodeVars);
                 $this->transform->setPermittedFilterFunctions($permittedFunctions);
