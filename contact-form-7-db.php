@@ -13,9 +13,7 @@
 $CF7DBPlugin_minimalRequiredPhpVersion = '5.0';
 
 /**
- * Check the PHP version and give a useful error message if the user's version is less than the required version
- * @return boolean true if version check passed. If false, triggers an error which WP will handle, by displaying
- * an error message on the Admin page
+ * echo error message indicating wrong minimum PHP version required
  */
 function CF7DBPlugin_noticePhpVersionWrong() {
     global $CF7DBPlugin_minimalRequiredPhpVersion;
@@ -26,7 +24,11 @@ function CF7DBPlugin_noticePhpVersionWrong() {
          '</div>';
 }
 
-
+/**
+ * Check the PHP version and give a useful error message if the user's version is less than the required version
+ * @return boolean true if version check passed. If false, triggers an error which WP will handle, by displaying
+ * an error message on the Admin page
+ */
 function CF7DBPlugin_PhpVersionCheck() {
     global $CF7DBPlugin_minimalRequiredPhpVersion;
     if (version_compare(phpversion(), $CF7DBPlugin_minimalRequiredPhpVersion) < 0) {
