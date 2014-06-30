@@ -34,99 +34,63 @@ class ExportToHtmlTemplateTest extends PHPUnit_Framework_TestCase {
         $this->bufferOutput = true;
     }
 
-    public function test_export_no_header_no_footer() {
-        $data = array(
-                array('first-name' => 'John', 'last-name' => 'Doe'),
-                array('first-name' => 'Richard', 'last-name' => 'Roe')
-        );
-        $this->exportSetup($data);
-        $options = array();
-        $options['content'] =
-                '<p>To: ${first-name} ${last-name}</p>';
 
-        $exp = new ExportToHtmlTemplate();
-        ob_start();
-        $exp->export('Form', $options);
-        $text = ob_get_contents();
+    public function dataProvider() {
+        $data = array();
 
-        $expected =
+        $data[] = array('no header, no footer',
+                '<p>To: ${first-name} ${last-name}</p>',
                 '<p>To: John Doe</p>' .
-                '<p>To: Richard Roe</p>';
-        $this->assertEquals($expected, $text);
-    }
+                '<p>To: Richard Roe</p>');
 
-    public function test_export_header_no_footer() {
-        $data = array(
-                array('first-name' => 'John', 'last-name' => 'Doe'),
-                array('first-name' => 'Richard', 'last-name' => 'Roe')
-        );
-        $this->exportSetup($data);
-        $options = array();
-        $options['content'] =
+        $data[] = array('header, no footer',
                 '{{BEFORE}}<p><b>Registered Users</b></p>{{/BEFORE}}' .
-                '<p>To: ${first-name} ${last-name}</p>';
-
-
-        $exp = new ExportToHtmlTemplate();
-        ob_start();
-        $exp->export('Form', $options);
-        $text = ob_get_contents();
-
-        $expected =
+                '<p>To: ${first-name} ${last-name}</p>',
                 '<p><b>Registered Users</b></p>' .
                 '<p>To: John Doe</p>' .
-                '<p>To: Richard Roe</p>';
-        $this->assertEquals($expected, $text);
-    }
-
-    public function test_export_no_header_footer() {
-        $data = array(
-                array('first-name' => 'John', 'last-name' => 'Doe'),
-                array('first-name' => 'Richard', 'last-name' => 'Roe')
+                '<p>To: Richard Roe</p>'
         );
-        $this->exportSetup($data);
-        $options = array();
-        $options['content'] =
+
+        $data[] = array('no header, footer',
                 '<p>To: ${first-name} ${last-name}</p>' .
-                '{{AFTER}}<p><b>Thank you!</b></p>{{/AFTER}}';
-
-
-        $exp = new ExportToHtmlTemplate();
-        ob_start();
-        $exp->export('Form', $options);
-        $text = ob_get_contents();
-
-        $expected =
+                '{{AFTER}}<p><b>Thank you!</b></p>{{/AFTER}}',
                 '<p>To: John Doe</p>' .
                 '<p>To: Richard Roe</p>' .
-                '<p><b>Thank you!</b></p>';
-        $this->assertEquals($expected, $text);
-    }
-
-    public function test_export_header_footer() {
-        $data = array(
-                array('first-name' => 'John', 'last-name' => 'Doe'),
-                array('first-name' => 'Richard', 'last-name' => 'Roe')
+                '<p><b>Thank you!</b></p>'
         );
-        $this->exportSetup($data);
-        $options = array();
-        $options['content'] =
+
+        $data[] = array('header, footer',
                 '{{BEFORE}}<p><b>Registered Users</b></p>{{/BEFORE}}' .
                 '<p>To: ${first-name} ${last-name}</p>' .
-                '{{AFTER}}<p><b>Thank you!</b></p>{{/AFTER}}';
-
-
-        $exp = new ExportToHtmlTemplate();
-        ob_start();
-        $exp->export('Form', $options);
-        $text = ob_get_contents();
-
-        $expected =
+                '{{AFTER}}<p><b>Thank you!</b></p>{{/AFTER}}',
                 '<p><b>Registered Users</b></p>' .
                 '<p>To: John Doe</p>' .
                 '<p>To: Richard Roe</p>' .
-                '<p><b>Thank you!</b></p>';
-        $this->assertEquals($expected, $text);
+                '<p><b>Thank you!</b></p>'
+        );
+
+        return $data;
+    }
+
+    /**
+     * @dataProvider dataProvider
+     */
+    public function test_export($message, $content, $expected) {
+        $data = array(
+                array('first-name' => 'John', 'last-name' => 'Doe'),
+                array('first-name' => 'Richard', 'last-name' => 'Roe')
+        );
+        $this->exportSetup($data);
+        $options = array();
+        $options['content'] = $content;
+
+        $exp = new ExportToHtmlTemplate();
+        ob_start();
+        $exp->export('Form', $options);
+        $text = ob_get_contents();
+
+        $this->assertEquals($expected, $text, $message);
+
     }
 
 }
