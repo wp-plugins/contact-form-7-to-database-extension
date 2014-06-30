@@ -6,7 +6,7 @@ include_once('WP_Mock_Functions.php');
 
 $_POST = null;
 
-class TestDereferenceShortcodeVars_Export extends PHPUnit_Framework_TestCase {
+class DereferenceShortcodeVars_ExportTest extends PHPUnit_Framework_TestCase {
 
     public function setUp() {
         global $_POST;

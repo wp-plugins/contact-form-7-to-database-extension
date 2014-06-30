@@ -2,7 +2,7 @@
 
 require_once('../CFDBShortCodeContentParser.php');
 
-class TestCFDBShortCodeContentParser extends PHPUnit_Framework_TestCase {
+class CFDBShortCodeContentParserTest extends PHPUnit_Framework_TestCase {
 
     public function test_parseHeaderTemplateFooter_no_header_no_footer() {
         $parser = new CFDBShortCodeContentParser();

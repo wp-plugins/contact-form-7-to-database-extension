@@ -2,7 +2,7 @@
 
 include_once('../CFDBTransformParser.php');
 
-class TestCFDBTransformParser extends PHPUnit_Framework_TestCase {
+class CFDBTransformParserTest extends PHPUnit_Framework_TestCase {
 
     public function  test_parse_1_1() {
         $p = new CFDBTransformParser;

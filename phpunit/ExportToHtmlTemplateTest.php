@@ -6,7 +6,7 @@ include_once('MockQueryResultIterator.php');
 include_once('WP_Mock_Functions.php');
 include_once('WPDB_Mock.php');
 
-class TestExportToHtmlTemplate extends PHPUnit_Framework_TestCase {
+class ExportToHtmlTemplateTest extends PHPUnit_Framework_TestCase {
 
     var $bufferOutput = false;
 

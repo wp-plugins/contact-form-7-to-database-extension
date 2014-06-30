@@ -2,7 +2,7 @@
 
 include_once('../CFDBPermittedFunctions.php');
 
-class TestCFDBPermittedFunctions extends PHPUnit_Framework_TestCase {
+class CFDBPermittedFunctionsTest extends PHPUnit_Framework_TestCase {
 
     public function tearDown() {
         CFDBPermittedFunctions::getInstance()->init();

@@ -2,7 +2,7 @@
 
 include_once('../DereferenceShortcodeVars.php');
 
-class TestDereferenceShortcodeVars extends PHPUnit_Framework_TestCase {
+class DereferenceShortcodeVarsTest extends PHPUnit_Framework_TestCase {
 
     public function test() {
         $dref = new DereferenceShortcodeVars;

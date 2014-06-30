@@ -1,11 +1,10 @@
 <?php
 
-//require_once 'PHPUnit/Framework.php';
 include_once('../CFDBFilterParser.php');
 include_once('../CFDBValueConverter.php');
 include_once('../DereferenceShortcodeVars.php');
 
-class TestCFDBFilterParser extends PHPUnit_Framework_TestCase {
+class CFDBFilterParserTest extends PHPUnit_Framework_TestCase {
 
 
     public function test1() {
@@ -1338,5 +1337,5 @@ class ChangeUserVar implements CFDBValueConverter {
 
 
 
-//$suite = new PHPUnit_Framework_TestSuite("TestCFDBFilterParser");
+//$suite = new PHPUnit_Framework_TestSuite("CFDBFilterParserTest");
 //PHPUnit_TextUI_TestRunner::run($suite);
