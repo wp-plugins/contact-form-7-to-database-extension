@@ -101,7 +101,7 @@ class ExportBase {
     var $plugin;
 
     /**
-     * @var CFDBDataIterator|CFDBQueryResultIterator
+     * @var CFDBDataIterator|CFDBAbstractQueryResultsIterator
      */
     var $dataIterator;
 

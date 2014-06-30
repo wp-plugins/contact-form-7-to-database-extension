@@ -28,7 +28,7 @@ require_once('CFDBWpdbUnbufferedResultIterator.php');
 class CFDBQueryResultIteratorFactory {
 
     /**
-     * @var CFDBQueryResultIterator mock instance
+     * @var CFDBAbstractQueryResultsIterator mock instance
      */
     var $mock;
 
@@ -41,7 +41,7 @@ class CFDBQueryResultIteratorFactory {
     }
 
     /**
-     * @param $mock CFDBQueryResultIterator mock for CFDBQueryResultIterator
+     * @param $mock CFDBAbstractQueryResultsIterator mock for CFDBQueryResultIterator
      */
     public function setQueryResultsIteratorMock($mock) {
         $this->mock = $mock;
