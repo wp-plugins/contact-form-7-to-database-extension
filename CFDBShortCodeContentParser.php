@@ -20,22 +20,22 @@
 */
 
 
-class CFDBHtmlTemplateContentParser {
+class CFDBShortCodeContentParser {
 
-    const HEADER_START_DELIMITER = '{{HEADER}}';
-    const HEADER_END_DELIMITER = '{{/HEADER}}';
+    const BEFORE_START_DELIMITER = '{{BEFORE}}';
+    const BEFORE_END_DELIMITER = '{{/BEFORE}}';
 
-    const FOOTER_START_DELIMITER = '{{FOOTER}}';
-    const FOOTER_END_DELIMITER = '{{/FOOTER}}';
+    const AFTER_START_DELIMITER = '{{AFTER}}';
+    const AFTER_END_DELIMITER = '{{/AFTER}}';
 
     /**
      * @param $content string
-     * @return array[$header, $template, $footer]
+     * @return array[$before, $template, $after]
      */
-    public function parseHeaderTemplateFooter($content) {
-        $header = null;
-        $startDelimiter = self::HEADER_START_DELIMITER;
-        $endDelimiter = self::HEADER_END_DELIMITER;
+    public function parseBeforeContentAfter($content) {
+        $before = null;
+        $startDelimiter = self::BEFORE_START_DELIMITER;
+        $endDelimiter = self::BEFORE_END_DELIMITER;
         $startDelimiterStartPos = strpos($content, $startDelimiter);
         $endDelimiterStartPos = strpos($content, $endDelimiter);
         if ($startDelimiterStartPos !== false &&
@@ -43,24 +43,24 @@ class CFDBHtmlTemplateContentParser {
                 $startDelimiterStartPos < $endDelimiterStartPos) {
             $startDelimiterEndPos = $startDelimiterStartPos + strlen($startDelimiter);
             $endDelimiterEndPos = $endDelimiterStartPos + strlen($endDelimiter);
-            $header = substr($content, $startDelimiterEndPos, $endDelimiterStartPos - $startDelimiterEndPos);
+            $before = substr($content, $startDelimiterEndPos, $endDelimiterStartPos - $startDelimiterEndPos);
             $content = substr($content, $endDelimiterEndPos, strlen($content) - $startDelimiterEndPos);
         }
 
-        $footer = null;
-        $startDelimiter = self::FOOTER_START_DELIMITER;
-        $endDelimiter = self::FOOTER_END_DELIMITER;
+        $after = null;
+        $startDelimiter = self::AFTER_START_DELIMITER;
+        $endDelimiter = self::AFTER_END_DELIMITER;
         $startDelimiterStartPos = strpos($content, $startDelimiter);
         $endDelimiterStartPos = strpos($content, $endDelimiter);
         if ($startDelimiterStartPos !== false &&
                 $endDelimiterStartPos !== false &&
                 $startDelimiterStartPos < $endDelimiterStartPos) {
             $startDelimiterEndPos = $startDelimiterStartPos + strlen($startDelimiter);
-            $footer = substr($content, $startDelimiterEndPos, $endDelimiterStartPos - $startDelimiterEndPos);
+            $after = substr($content, $startDelimiterEndPos, $endDelimiterStartPos - $startDelimiterEndPos);
             $content = substr($content, 0, $startDelimiterStartPos);
         }
 
-        return array($header, $content, $footer);
+        return array($before, $content, $after);
     }
 
 } 

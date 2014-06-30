@@ -1,17 +1,17 @@
 <?php
 
-require_once('../CFDBHtmlTemplateContentParser.php');
+require_once('../CFDBShortCodeContentParser.php');
 
-class TestCFDBHtmlTemplateContentParser extends PHPUnit_Framework_TestCase {
+class TestCFDBShortCodeContentParser extends PHPUnit_Framework_TestCase {
 
     public function test_parseHeaderTemplateFooter_no_header_no_footer() {
-        $parser = new CFDBHtmlTemplateContentParser();
+        $parser = new CFDBShortCodeContentParser();
         $content = 'Name: ${fname} ${lname}';
 
         $header = null;
         $template = null;
         $footer = null;
-        list($header, $template, $footer) = $parser->parseHeaderTemplateFooter($content);
+        list($header, $template, $footer) = $parser->parseBeforeContentAfter($content);
 
         $this->assertEquals(null, $header);
         $this->assertEquals($content, $template);
@@ -19,13 +19,13 @@ class TestCFDBHtmlTemplateContentParser extends PHPUnit_Framework_TestCase {
     }
 
     public function test_parseHeaderTemplateFooter_header_no_footer() {
-        $parser = new CFDBHtmlTemplateContentParser();
-        $content = '{{HEADER}}This is my header{{/HEADER}}Name: ${fname} ${lname}';
+        $parser = new CFDBShortCodeContentParser();
+        $content = '{{BEFORE}}This is my header{{/BEFORE}}Name: ${fname} ${lname}';
 
         $header = null;
         $template = null;
         $footer = null;
-        list($header, $template, $footer) = $parser->parseHeaderTemplateFooter($content);
+        list($header, $template, $footer) = $parser->parseBeforeContentAfter($content);
 
         $this->assertEquals('This is my header', $header);
         $this->assertEquals('Name: ${fname} ${lname}', $template);
@@ -33,13 +33,13 @@ class TestCFDBHtmlTemplateContentParser extends PHPUnit_Framework_TestCase {
     }
 
     public function test_parseHeaderTemplateFooter_no_header_footer() {
-        $parser = new CFDBHtmlTemplateContentParser();
-        $content = 'Name: ${fname} ${lname}{{FOOTER}}This is my footer{{/FOOTER}}';
+        $parser = new CFDBShortCodeContentParser();
+        $content = 'Name: ${fname} ${lname}{{AFTER}}This is my footer{{/AFTER}}';
 
         $header = null;
         $template = null;
         $footer = null;
-        list($header, $template, $footer) = $parser->parseHeaderTemplateFooter($content);
+        list($header, $template, $footer) = $parser->parseBeforeContentAfter($content);
 
         $this->assertEquals(null, $header);
         $this->assertEquals('Name: ${fname} ${lname}', $template);
@@ -47,13 +47,13 @@ class TestCFDBHtmlTemplateContentParser extends PHPUnit_Framework_TestCase {
     }
 
     public function test_parseHeaderTemplateFooter_header_footer() {
-        $parser = new CFDBHtmlTemplateContentParser();
-        $content = '{{HEADER}}This is my header{{/HEADER}}Name: ${fname} ${lname}{{FOOTER}}This is my footer{{/FOOTER}}';
+        $parser = new CFDBShortCodeContentParser();
+        $content = '{{BEFORE}}This is my header{{/BEFORE}}Name: ${fname} ${lname}{{AFTER}}This is my footer{{/AFTER}}';
 
         $header = null;
         $template = null;
         $footer = null;
-        list($header, $template, $footer) = $parser->parseHeaderTemplateFooter($content);
+        list($header, $template, $footer) = $parser->parseBeforeContentAfter($content);
 
         $this->assertEquals('This is my header', $header);
         $this->assertEquals('Name: ${fname} ${lname}', $template);

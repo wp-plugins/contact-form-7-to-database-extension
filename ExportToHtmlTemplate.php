@@ -21,7 +21,7 @@
 
 require_once('ExportBase.php');
 require_once('CFDBExport.php');
-require_once('CFDBHtmlTemplateContentParser.php');
+require_once('CFDBShortCodeContentParser.php');
 
 class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
 
@@ -123,8 +123,8 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
         $header = null;
         $template = null;
         $footer = null;
-        $contentParser = new CFDBHtmlTemplateContentParser;
-        list($header, $template, $footer) = $contentParser->parseHeaderTemplateFooter($options['content']);
+        $contentParser = new CFDBShortCodeContentParser;
+        list($header, $template, $footer) = $contentParser->parseBeforeContentAfter($options['content']);
 
         if ($header) {
             // Allow for short codes in header

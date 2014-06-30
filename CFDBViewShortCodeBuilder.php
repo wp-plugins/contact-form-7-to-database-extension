@@ -21,7 +21,7 @@
 
 require_once('CF7DBPlugin.php');
 require_once('CFDBView.php');
-require_once('CFDBHtmlTemplateContentParser.php');
+require_once('CFDBShortCodeContentParser.php');
 
 class CFDBViewShortCodeBuilder extends CFDBView {
 
@@ -95,11 +95,11 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         $postedWpautop = isset($_REQUEST['wpautop']) ? ($_REQUEST['wpautop']) : '';
         $postedStripbr = isset($_REQUEST['stripbr']) ? ($_REQUEST['stripbr']) : '';
         $postedContent = isset($_REQUEST['content']) ? ($_REQUEST['content']) : '';
-        $postedContentHeader = '';
-        $postedContentFooter = '';
+        $postedContentBefore = '';
+        $postedContentAfter = '';
         if ($postedContent) {
-            $parser = new CFDBHtmlTemplateContentParser;
-            list($postedContentHeader, $postedContent, $postedContentFooter) = $parser->parseHeaderTemplateFooter($postedContent);
+            $parser = new CFDBShortCodeContentParser;
+            list($postedContentBefore, $postedContent, $postedContentAfter) = $parser->parseBeforeContentAfter($postedContent);
         }
 
         $postedUrlonly = isset($_REQUEST['urlonly']) ? ($_REQUEST['urlonly']) : '';
@@ -482,13 +482,13 @@ class CFDBViewShortCodeBuilder extends CFDBView {
 
                     var template = jQuery('#content_cntl').val();
                     var content = template;
-                    var contentHeader = jQuery('#content_header_cntl').val();
-                    var contentFooter = jQuery('#content_footer_cntl').val();
+                    var contentHeader = jQuery('#before_cntl').val();
+                    var contentFooter = jQuery('#after_cntl').val();
                     if (contentHeader) {
-                        content = "<?php echo CFDBHtmlTemplateContentParser::HEADER_START_DELIMITER ?>" + contentHeader + "<?php echo CFDBHtmlTemplateContentParser::HEADER_END_DELIMITER ?>" + content;
+                        content = "<?php echo CFDBShortCodeContentParser::BEFORE_START_DELIMITER ?>" + contentHeader + "<?php echo CFDBShortCodeContentParser::BEFORE_END_DELIMITER ?>" + content;
                     }
                     if (contentFooter) {
-                        content += "<?php echo CFDBHtmlTemplateContentParser::FOOTER_START_DELIMITER ?>" + contentFooter + "<?php echo CFDBHtmlTemplateContentParser::FOOTER_END_DELIMITER ?>";
+                        content += "<?php echo CFDBShortCodeContentParser::AFTER_START_DELIMITER ?>" + contentFooter + "<?php echo CFDBShortCodeContentParser::AFTER_END_DELIMITER ?>";
                     }
                     scUrlElements.push('content=' + encodeURIComponent(content));
                     scUrlElements.push('enc=HTMLTemplate');
@@ -841,8 +841,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#wpautop_cntl').val('<?php echo $postedWpautop ?>');
             jQuery('#stripbr_cntl').val('<?php echo $postedStripbr ?>');
             jQuery('#content_cntl').val('<?php echo $postedContent ?>');
-            jQuery('#content_header_cntl').val('<?php echo $postedContentHeader ?>');
-            jQuery('#content_footer_cntl').val('<?php echo $postedContentFooter ?>');
+            jQuery('#before_cntl').val('<?php echo $postedContentBefore ?>');
+            jQuery('#after_cntl').val('<?php echo $postedContentAfter ?>');
             jQuery('#enc_cntl').val('<?php echo $postedEnc ?>');
             jQuery('#urlonly_cntl').val('<?php echo $postedUrlonly ?>');
             jQuery('#linktext_cntl').val('<?php echo $postedLinktext ?>');
@@ -1360,27 +1360,27 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         </div>
         <div>
             <div class="label_box">
-                <label for="content_header_cntl"><?php _e('Header', 'contact-form-7-to-database-extension') ?></label>
+                <label for="before_cntl"><?php _e('Header', 'contact-form-7-to-database-extension') ?></label>
                 <a target="_docs" href="http://cfdbplugin.com/?page_id=284#cfdb-html-header"><img alt="?" src="<?php echo $infoImg ?>"/></a><br/>
             </div>
             <br/>
-            <textarea name="content_header_cntl" id="content_header_cntl" cols="100" rows="5" placeholder="<?php _e('Option Header HTML', 'contact-form-7-to-database-extension') ?>"></textarea>
+            <textarea name="before_cntl" id="before_cntl" cols="100" rows="5" placeholder="<?php _e('Option Header HTML', 'contact-form-7-to-database-extension') ?>"></textarea>
         </div>
         <div>
             <div class="label_box">
                 <label for="content_cntl"><?php _e('Template', 'contact-form-7-to-database-extension') ?></label>
-                <a target="_docs" href="http://cfdbplugin.com/?page_id=284#template"><img alt="?" src="<?php echo $infoImg ?>"/></a>
+                <a target="_docs" href="http://cfdbplugin.com/?page_id=284#before"><img alt="?" src="<?php echo $infoImg ?>"/></a>
             </div>
             <select name="add_content" id="add_content"></select><button id="btn_content">&raquo;</button><br/>
             <textarea name="content_cntl" id="content_cntl" cols="100" rows="10" placeholder="<?php _e('Per-entry HTML using ${field name} variables', 'contact-form-7-to-database-extension') ?>"></textarea>
         </div>
         <div>
             <div class="label_box">
-                <label for="content_footer_cntl"><?php _e('Footer', 'contact-form-7-to-database-extension') ?></label>
-                <a target="_docs" href="http://cfdbplugin.com/?page_id=284#cfdb-html-footer"><img alt="?" src="<?php echo $infoImg ?>"/></a>
+                <label for="after_cntl"><?php _e('Footer', 'contact-form-7-to-database-extension') ?></label>
+                <a target="_docs" href="http://cfdbplugin.com/?page_id=284#after"><img alt="?" src="<?php echo $infoImg ?>"/></a>
             </div>
             <br/>
-            <textarea name="content_footer_cntl" id="content_footer_cntl" cols="100" rows="5" placeholder="<?php _e('Optional Footer HTML', 'contact-form-7-to-database-extension') ?>"></textarea>
+            <textarea name="after_cntl" id="after_cntl" cols="100" rows="5" placeholder="<?php _e('Optional Footer HTML', 'contact-form-7-to-database-extension') ?>"></textarea>
         </div>
     </div>
     <?php // URL ENC, URL_ONLY LINK_TEXT      ?>

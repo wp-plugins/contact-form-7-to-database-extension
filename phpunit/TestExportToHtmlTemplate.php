@@ -63,7 +63,7 @@ class TestExportToHtmlTemplate extends PHPUnit_Framework_TestCase {
         $this->exportSetup($data);
         $options = array();
         $options['content'] =
-                '{{HEADER}}<p><b>Registered Users</b></p>{{/HEADER}}' .
+                '{{BEFORE}}<p><b>Registered Users</b></p>{{/BEFORE}}' .
                 '<p>To: ${first-name} ${last-name}</p>';
 
 
@@ -88,7 +88,7 @@ class TestExportToHtmlTemplate extends PHPUnit_Framework_TestCase {
         $options = array();
         $options['content'] =
                 '<p>To: ${first-name} ${last-name}</p>' .
-                '{{FOOTER}}<p><b>Thank you!</b></p>{{/FOOTER}}';
+                '{{AFTER}}<p><b>Thank you!</b></p>{{/AFTER}}';
 
 
         $exp = new ExportToHtmlTemplate();
@@ -111,9 +111,9 @@ class TestExportToHtmlTemplate extends PHPUnit_Framework_TestCase {
         $this->exportSetup($data);
         $options = array();
         $options['content'] =
-                '{{HEADER}}<p><b>Registered Users</b></p>{{/HEADER}}' .
+                '{{BEFORE}}<p><b>Registered Users</b></p>{{/BEFORE}}' .
                 '<p>To: ${first-name} ${last-name}</p>' .
-                '{{FOOTER}}<p><b>Thank you!</b></p>{{/FOOTER}}';
+                '{{AFTER}}<p><b>Thank you!</b></p>{{/AFTER}}';
 
 
         $exp = new ExportToHtmlTemplate();
