@@ -705,11 +705,14 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 async: false,
                 success: function(json) {
                     var optionsHtml = '<option value=""></option>';
-                    jQuery(json).each(function() {
+                    jQuery(json).each(function () {
                         optionsHtml += '<option value="' + this + '">' + this + '</option>';
+                    });
+                    optionsHtml += '<option value="$_POST(param)">$_POST(param)</option>';
+                    optionsHtml += '<option value="$_GET(param)">$_GET(param)</option>';
+                    optionsHtml += '<option value="$_COOKIE(param)">$_COOKIE(param)</option>';
                     jQuery('[id^=add]').html(optionsHtml).removeAttr('disabled');
                     jQuery('[id^=btn]').removeAttr('disabled');
-                    });
                 }
             });
         }
