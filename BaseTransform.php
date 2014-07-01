@@ -19,8 +19,6 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-//namespace trans;
-
 /**
  * Subclass this class and override getTransformedData() to return different data
  */

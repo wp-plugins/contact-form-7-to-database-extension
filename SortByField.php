@@ -19,8 +19,6 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-//namespace trans;
-
 require_once('SortByFunctionAndField.php');
 
 
