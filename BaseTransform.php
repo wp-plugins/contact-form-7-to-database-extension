@@ -22,7 +22,7 @@
 /**
  * Subclass this class and override getTransformedData() to return different data
  */
-abstract class BaseTransform {
+class BaseTransform {
 
     var $data = array();
 
