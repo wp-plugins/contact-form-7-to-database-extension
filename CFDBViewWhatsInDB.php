@@ -353,7 +353,7 @@ class CFDBViewWhatsInDB extends CFDBView {
         ?>
         <script type="text/javascript">
             (function ($) {
-                var url = "<?php echo admin_url('admin-ajax.php') ?>?action=cfdb-export&form=<?php echo urlencode($currSelection) ?>&enc=ENTRY&submit_time=";
+                var url = "admin.php?page=<?php echo $plugin->getDBPageSlug() ?>&form_name=<?php echo urlencode($currSelection) ?>&submit_time=";
                 $('td[title="Submitted"] div').each(
                         function () {
                             var submitTime = $(this).attr('id').split(",");

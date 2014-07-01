@@ -991,9 +991,16 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * @return void
      */
     public function whatsInTheDBPage() {
-        require_once('CFDBViewWhatsInDB.php');
-        $view = new CFDBViewWhatsInDB;
-        $view->display($this);
+        if (isset($_REQUEST['form_name']) && isset($_REQUEST['submit_time'])) {
+            require_once('ExportEntry.php');
+            $exp = new ExportEntry();
+            $exp->export($_REQUEST['form_name'], array('submit_time' => $_REQUEST['submit_time']));
+
+        } else {
+            require_once('CFDBViewWhatsInDB.php');
+            $view = new CFDBViewWhatsInDB;
+            $view->display($this);
+        }
     }
 
     static $checkForCustomDateFormat = true;

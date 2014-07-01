@@ -27,6 +27,8 @@ class ExportEntry extends ExportToHtmlTemplate implements CFDBExport {
 
     var $submitTime;
 
+    var $tableId = 'cfdb_entry';
+
     /**
      * @param $formName string
      * @param $options array of option_name => option_value
@@ -47,8 +49,26 @@ class ExportEntry extends ExportToHtmlTemplate implements CFDBExport {
 
     public function modifyContent($template) {
         $cssUrl = $this->plugin->getPluginDirUrl() . '/css/misctable.css';
-        $template = '{{BEFORE}}<link rel="stylesheet" href="' . $cssUrl . '">{{/BEFORE}}';
-        $template .= '<table><tbody></tbody>';
+        $cssTag = '<link rel="stylesheet" href="' . $cssUrl . '">';
+
+        $javascript = '';
+        if ($this->plugin->isEditorActive()) {
+            $cfdbEditUrl = admin_url('admin-ajax.php') . '?action=cfdb-edit';
+            $cfdbGetValueUrl = admin_url('admin-ajax.php') . '?action=cfdb-getvalue';
+            $loadImg = plugins_url('/../contact-form-to-database-extension-edit/img/load.gif', __FILE__);
+            $javascript = sprintf(
+                    '
+<script type="text/javascript">
+    jQuery(document).ready(
+            function () {
+                cfdbEntryEditable("%s", "%s", "%s", "%s");
+            });
+</script>',
+                    $this->tableId, $cfdbEditUrl, $cfdbGetValueUrl, $loadImg);
+        }
+
+        $template = "{{BEFORE}}$cssTag{{/BEFORE}}" ;
+        $template .= '<table id="' . $this->tableId . '"><tbody></tbody>';
         $cols = $this->dataIterator->getDisplayColumns();
         foreach ($cols as $aCol) {
             $colDisplayValue = $aCol;
@@ -59,6 +79,7 @@ class ExportEntry extends ExportToHtmlTemplate implements CFDBExport {
                     $colDisplayValue, $aCol, $this->submitTime, $aCol, $aCol);
         }
         $template .= '</tbody></table>';
+        $template .= "{{AFTER}}$javascript{{/AFTER}}";
         return $template;
     }
 
