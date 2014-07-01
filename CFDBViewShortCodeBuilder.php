@@ -1181,21 +1181,6 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             </select>
         </div>
     </div>
-    <?php // TRANS ?>
-        <div id="trans_div" class="shortcodeoptions">
-        <?php _e('Transform', 'contact-form-7-to-database-extension'); ?>
-        <div>
-            <div class="label_box">
-                <label for="trans_cntl"><?php _e('trans', 'contact-form-7-to-database-extension') ?></label>
-                <a target="_docs" href="http://cfdbplugin.com/?page_id=1076"><img alt="?" src="<?php echo $infoImg ?>"/></a>
-            </div>
-            <select name="add_trans" id="add_trans"></select>
-            <input name="trans_val" id="trans_val" type="text" size="20" placeholder="<?php _e('PHP function or class', 'contact-form-7-to-database-extension') ?>"/>
-            <button id="btn_trans">&raquo;</button>
-            <br/>
-            <input name="trans_cntl" id="trans_cntl" type="text" size="100" placeholder="<?php _e('transform expression', 'contact-form-7-to-database-extension') ?>"/>
-        </div>
-    </div>
     <?php // SHOW HIDE ?>
     <div id="show_hide_div" class="shortcodeoptions">
         <?php _e('Which fields/columns do you want to display?', 'contact-form-7-to-database-extension'); ?>
@@ -1293,25 +1278,6 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 <option value="ASC"><?php _e('ASC', 'contact-form-7-to-database-extension') ?></option>
                 <option value="DESC"><?php _e('DESC', 'contact-form-7-to-database-extension') ?></option>
             </select>
-        </div>
-    </div>
-    <?php // BEFORE and AFTER  ?>
-    <div id="beforeafter_div" class="shortcodeoptions">
-        <div>
-            <div class="label_box">
-                <label for="before_cntl"><?php _e('Before', 'contact-form-7-to-database-extension') ?></label>
-                <a target="_docs" href="http://cfdbplugin.com/?page_id=284#before"><img alt="?" src="<?php echo $infoImg ?>"/></a><br/>
-            </div>
-            <br/>
-            <textarea name="before_cntl" id="before_cntl" cols="100" rows="5" placeholder="<?php _e('Optional HTML/Javascript before the short code output', 'contact-form-7-to-database-extension') ?>"></textarea>
-        </div>
-        <div>
-            <div class="label_box">
-                <label for="after_cntl"><?php _e('After', 'contact-form-7-to-database-extension') ?></label>
-                <a target="_docs" href="http://cfdbplugin.com/?page_id=284#after"><img alt="?" src="<?php echo $infoImg ?>"/></a>
-            </div>
-            <br/>
-            <textarea name="after_cntl" id="after_cntl" cols="100" rows="5" placeholder="<?php _e('Optional HTML/Javascript after the short code output', 'contact-form-7-to-database-extension') ?>"></textarea>
         </div>
     </div>
     <?php // HEADERS  ?>
@@ -1514,6 +1480,40 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 <a target="_docs" href="http://cfdbplugin.com/?page_id=419#linktext"><img alt="?" src="<?php echo $infoImg ?>"/></a>
             </div>
             <input name="linktext_cntl" id="linktext_cntl" type="text" size="30"/>
+        </div>
+    </div>
+    <?php // BEFORE and AFTER  ?>
+    <div id="beforeafter_div" class="shortcodeoptions">
+        <div>
+            <div class="label_box">
+                <label for="before_cntl"><?php _e('Before', 'contact-form-7-to-database-extension') ?></label>
+                <a target="_docs" href="http://cfdbplugin.com/?page_id=284#before"><img alt="?" src="<?php echo $infoImg ?>"/></a><br/>
+            </div>
+            <br/>
+            <textarea name="before_cntl" id="before_cntl" cols="100" rows="5" placeholder="<?php _e('Optional HTML/Javascript before the short code output', 'contact-form-7-to-database-extension') ?>"></textarea>
+        </div>
+        <div>
+            <div class="label_box">
+                <label for="after_cntl"><?php _e('After', 'contact-form-7-to-database-extension') ?></label>
+                <a target="_docs" href="http://cfdbplugin.com/?page_id=284#after"><img alt="?" src="<?php echo $infoImg ?>"/></a>
+            </div>
+            <br/>
+            <textarea name="after_cntl" id="after_cntl" cols="100" rows="5" placeholder="<?php _e('Optional HTML/Javascript after the short code output', 'contact-form-7-to-database-extension') ?>"></textarea>
+        </div>
+    </div>
+    <?php // TRANS ?>
+    <div id="trans_div" class="shortcodeoptions">
+        <?php _e('Transform', 'contact-form-7-to-database-extension'); ?>
+        <div>
+            <div class="label_box">
+                <label for="trans_cntl"><?php _e('trans', 'contact-form-7-to-database-extension') ?></label>
+                <a target="_docs" href="http://cfdbplugin.com/?page_id=1076"><img alt="?" src="<?php echo $infoImg ?>"/></a>
+            </div>
+            <select name="add_trans" id="add_trans"></select>
+            <input name="trans_val" id="trans_val" type="text" size="20" placeholder="<?php _e('PHP function or class', 'contact-form-7-to-database-extension') ?>"/>
+            <button id="btn_trans">&raquo;</button>
+            <br/>
+            <input name="trans_cntl" id="trans_cntl" type="text" size="100" placeholder="<?php _e('transform expression', 'contact-form-7-to-database-extension') ?>"/>
         </div>
     </div>
     <?php
