@@ -88,6 +88,7 @@ You can always deactivate the plugin without loosing data.
 * Can transform data coming into short codes by assigning functions or classes in the new "trans" short code attribute. <a target="_cfdb_doc" href="http://cfdbplugin.com/?page_id=1076">See documentation</a>
 * All short code options can be set to $_POST(value), $_GET(value), $_COOKIE(value)
 * Most short codes now allows for an optional "before" and "after" section
+* Admin page view now has links on each row to bring up a window with just that entry's data. Easier to read adn suitable for printing.
 * Support for MySqli which should fix some character encoding issues
 * Bug fix: hook to save form data was not returning "true" an causing subsequent hooks for other plugins to not be called.
 

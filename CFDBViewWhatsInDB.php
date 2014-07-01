@@ -351,7 +351,17 @@ class CFDBViewWhatsInDB extends CFDBView {
             }
         }
         ?>
-    <div style="margin-top:1em"> <?php // Footer ?>
+        <script type="text/javascript">
+            (function ($) {
+                var url = "<?php echo admin_url('admin-ajax.php') ?>?action=cfdb-export&form=<?php echo urlencode($currSelection) ?>&enc=ENTRY&submit_time=";
+                $('td[title="Submitted"] div').each(
+                        function () {
+                            var submitTime = $(this).attr('id').split(",");
+                            $(this).html('<a target="_cfdb_entry" href="' + url + submitTime[0] + '">' + $(this).html() + '</a>');
+                        })
+            })(jQuery);
+        </script>
+        <div style="margin-top:1em"> <?php // Footer ?>
         <table style="width:100%;">
             <tbody>
             <tr>

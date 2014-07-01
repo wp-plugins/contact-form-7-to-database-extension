@@ -147,6 +147,11 @@ class CF7DBPluginExporter {
                 $exporter = new ExportToRSS();
                 $exporter->export($formName, $options);
                 break;
+            case 'ENTRY':
+                require_once('ExportEntry.php');
+                $exporter = new ExportEntry();
+                $exporter->export($formName, $options);
+                break;
             case 'CSVUTF8':
             default:
                 require_once('ExportToCsvUtf8.php');

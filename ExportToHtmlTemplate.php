@@ -71,6 +71,7 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
         $submitTimeKeyName = 'Submit_Time_Key';
         $this->setDataIterator($formName, $submitTimeKeyName);
 
+        $options['content'] = $this->modifyContent($options['content']);
 
         $matches = array();
         preg_match_all('/\$\{([^}]+)\}/', $options['content'], $matches);
@@ -205,5 +206,13 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
 
     }
 
+    /**
+     * Intended to be overridden
+     * @param $template string
+     * @return string
+     */
+    public function modifyContent($template) {
+        return $template;
+    }
 
 }
