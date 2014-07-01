@@ -59,7 +59,10 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         $postedPermissionmsg = isset($_REQUEST['permissionmsg']) ? ($_REQUEST['permissionmsg']) : '';
         $postedSearch = isset($_REQUEST['search']) ? ($_REQUEST['search']) : '';
         $postedFilter = isset($_REQUEST['filter']) ? ($_REQUEST['filter']) : '';
+        $postedTSearch = isset($_REQUEST['tsearch']) ? ($_REQUEST['tsearch']) : '';
+        $postedTFilter = isset($_REQUEST['tfilter']) ? ($_REQUEST['tfilter']) : '';
         $postedLimit = isset($_REQUEST['limit']) ? ($_REQUEST['limit']) : '';
+        $postedTLimit = isset($_REQUEST['tlimit']) ? ($_REQUEST['tlimit']) : '';
 
         $postedLimitComponents = explode(',', $postedLimit);
         $postedLimitStart = '';
@@ -79,6 +82,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         $postedUnbuffered = isset($_REQUEST['unbuffered']) ? ($_REQUEST['unbuffered']) : '';
         $postedRandom = isset($_REQUEST['random']) ? ($_REQUEST['random']) : '';
         $postedOrderby = isset($_REQUEST['orderby']) ? ($_REQUEST['orderby']) : '';
+        $postedTOrderby = isset($_REQUEST['torderby']) ? ($_REQUEST['torderby']) : '';
         $postedHeader = isset($_REQUEST['header']) ? ($_REQUEST['header']) : '';
         $postedHeaders = isset($_REQUEST['headers']) ? ($_REQUEST['headers']) : '';
         $postedItemtitle = isset($_REQUEST['itemtitle']) ? ($_REQUEST['itemtitle']) : '';
@@ -318,14 +322,18 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             }
             scElements.push(chopLastChar(shortcode));
 
+            var pushErrorMessagesToAll = function(errMsg) {
+                scValidationErrors.push(errMsg);
+                exportValidationErrors.push(errMsg);
+                googleScriptValidationErrors.push(errMsg);
+            };
+
             var formName = jQuery('#form_name_cntl').val();
             var errMsg;
             if (!formName) {
                 errMsg = '<?php _e('Error: no form is chosen', 'contact-form-7-to-database-extension') ?>';
                 jQuery('#form_validations_text').html(errMsg);
-                scValidationErrors.push(errMsg);
-                exportValidationErrors.push(errMsg);
-                googleScriptValidationErrors.push(errMsg);
+                pushErrorMessagesToAll(errMsg);
             }
             else {
                 jQuery('#form_validations_text').html('');
@@ -340,101 +348,97 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 googleScriptElements.push('&lt;password&gt;');
             }
 
+            var pushValueToAll = function(name, val) {
+                scElements.push(getValue(name, val, scValidationErrors));
+                scUrlElements.push(getValueUrl(name, val));
+                exportUrlElements.push(getValueUrl(name, val));
+                pushNameValue(name, val, googleScriptElements, googleScriptValidationErrors);
+            };
+
             var val;
             if (shortcode != '[cfdb-count]') {
                 val = jQuery('#show_cntl').val();
-                scElements.push(getValue('show', val, scValidationErrors));
-                scUrlElements.push(getValueUrl('show', val));
-                exportUrlElements.push(getValueUrl('show', val));
-                pushNameValue('show', val, googleScriptElements, googleScriptValidationErrors);
+                pushValueToAll('show', val);
 
                 val = jQuery('#hide_cntl').val();
-                scElements.push(getValue('hide', val, scValidationErrors));
-                scUrlElements.push(getValueUrl('hide', val));
-                exportUrlElements.push(getValueUrl('hide', val));
-                pushNameValue('hide', val, googleScriptElements, googleScriptValidationErrors);
+                pushValueToAll('hide', val);
             }
 
             val =  jQuery('#role_cntl').val();
-            scElements.push(getValue('role', val, scValidationErrors));
-            scUrlElements.push(getValueUrl('role', val));
-            exportUrlElements.push(getValueUrl('role', val));
-            pushNameValue('role', val, googleScriptElements, googleScriptValidationErrors);
+            pushValueToAll('role', val);
 
             val = jQuery('#permissionmsg_cntl').val();
-            scElements.push(getValue('permissionmsg', val, scValidationErrors));
-            scUrlElements.push(getValueUrl('permissionmsg', val));
-            exportUrlElements.push(getValueUrl('permissionmsg', val));
-            pushNameValue('permissionmsg', val, googleScriptElements, googleScriptValidationErrors);
+            pushValueToAll('permissionmsg', val);
 
             var trans = jQuery('#trans_cntl').val();
-            scElements.push(getValue('trans', trans, scValidationErrors));
-            scUrlElements.push(getValueUrl('trans', trans));
-            exportUrlElements.push(getValueUrl('trans', trans));
-            pushNameValue('trans', trans, googleScriptElements, googleScriptValidationErrors);
+            pushValueToAll('trans', val);
 
 
+            var handleFilterSearch = function(filterName, filter, searchName, search) {
+                if (filter) {
+                    pushValueToAll(filterName, filter);
+                    if (search) {
+                        var errMsg = '<?php _e('Warning: "search" field ignored because FIELD is used (use one but not both)', 'contact-form-7-to-database-extension'); ?>'.replace('FIELD', filterName);
+                        pushErrorMessagesToAll(errMsg);
+                    }
+                }
+                else {
+                    pushValueToAll(searchName, search);
+                }
+            };
             var filter = jQuery('#filter_cntl').val();
             var search = jQuery('#search_cntl').val();
-            if (filter) {
-                scElements.push(getValue('filter', filter, scValidationErrors));
-                scUrlElements.push(getValueUrl('filter', filter));
-                exportUrlElements.push(getValueUrl('filter', filter));
-                pushNameValue('filter', filter, googleScriptElements, googleScriptValidationErrors);
+            handleFilterSearch('filter', filter, 'search', search);
 
-                if (search) {
-                    errMsg = '<?php _e('Warning: "search" field ignored because "filter" is used (use one but not both)', 'contact-form-7-to-database-extension'); ?>';
-                    scValidationErrors.push(errMsg);
-                    exportValidationErrors.push(errMsg);
-                    googleScriptValidationErrors.push(errMsg);
-                }
-            }
-            else {
-                scElements.push(getValue('search', search, scValidationErrors));
-                scUrlElements.push(getValueUrl('search', search));
-                exportUrlElements.push(getValueUrl('search', search));
-                pushNameValue('search', search, googleScriptElements, googleScriptValidationErrors);
-            }
+            var tfilter = jQuery('#tfilter_cntl').val();
+            var tsearch = jQuery('#tsearch_cntl').val();
+            handleFilterSearch('tfilter', tfilter, 'tsearch', tsearch);
+
 
             if (shortcode != '[cfdb-count]') {
+
+                var handleLimit = function (limitName, limitRows, limitStart) {
+                    if (limitStart && !limitRows) {
+                        errMsg = '<?php _e('Error: "FIELD": if you provide a value for "Start Row" then you must also provide a value for "Num Rows"', 'contact-form-7-to-database-extension'); ?>'.replace('FIELD', limitName);
+                        pushErrorMessagesToAll(errMsg);
+                    }
+                    if (limitRows) {
+                        if (!/^\d+$/.test(limitRows)) {
+                            errMsg = '<?php _e('Error: "FIELD": "Num Rows" must be a positive integer', 'contact-form-7-to-database-extension'); ?>'.replace('FIELD', limitName);
+                            pushErrorMessagesToAll(errMsg);
+                        }
+                        else {
+                            var limitOption = '';
+                            var limitOptionUrl = limitName + '=';
+                            if (limitStart) {
+                                if (!/^\d+$/.test(limitStart)) {
+                                    errMsg = '<?php _e('Error: "FIELD": "Start Row" must be a positive integer', 'contact-form-7-to-database-extension'); ?>'.replace('FIELD', limitName);
+                                    pushErrorMessagesToAll(errMsg);
+                                }
+                                else {
+                                    limitOption += limitStart + ",";
+                                    limitOptionUrl += encodeURIComponent(limitStart + ",");
+                                }
+                            }
+                            limitOption += limitRows;
+                            limitOptionUrl += limitRows;
+                            scElements.push(limitName + '="' + limitOption + '"');
+                            scUrlElements.push(limitOptionUrl);
+                            exportUrlElements.push(limitOptionUrl);
+                            pushNameValue(limitName, limitOption, googleScriptElements, googleScriptValidationErrors);
+                        }
+                    }
+                };
+
                 var limitRows = jQuery('#limit_rows_cntl').val();
                 var limitStart = jQuery('#limit_start_cntl').val();
-                if (limitStart && !limitRows) {
-                    errMsg = '<?php _e('Error: "limit": if you provide a value for "Start Row" then you must also provide a value for "Num Rows"', 'contact-form-7-to-database-extension'); ?>';
-                    scValidationErrors.push(errMsg);
-                    exportValidationErrors.push(errMsg);
-                    googleScriptValidationErrors.push(errMsg);
-                }
-                if (limitRows) {
-                    if (! /^\d+$/.test(limitRows)) {
-                        errMsg = '<?php _e('Error: "limit": "Num Rows" must be a positive integer', 'contact-form-7-to-database-extension'); ?>';
-                        scValidationErrors.push(errMsg);
-                        exportValidationErrors.push(errMsg);
-                        googleScriptValidationErrors.push(errMsg);
-                    }
-                    else {
-                        var limitOption = '';
-                        var limitOptionUrl = 'limit=';
-                        if (limitStart) {
-                            if (! /^\d+$/.test(limitStart)) {
-                                errMsg = '<?php _e('Error: "limit": "Start Row" must be a positive integer', 'contact-form-7-to-database-extension'); ?>';
-                                scValidationErrors.push(errMsg);
-                                exportValidationErrors.push(errMsg);
-                                googleScriptValidationErrors.push(errMsg);
-                            }
-                            else {
-                                limitOption += limitStart + ",";
-                                limitOptionUrl += encodeURIComponent(limitStart + ",");
-                            }
-                        }
-                        limitOption += limitRows;
-                        limitOptionUrl += limitRows;
-                        scElements.push('limit="' + limitOption + '"');
-                        scUrlElements.push(limitOptionUrl);
-                        exportUrlElements.push(limitOptionUrl);
-                        pushNameValue("limit", limitOption, googleScriptElements, googleScriptValidationErrors);
-                    }
-                }
+                handleLimit('limit', limitRows, limitStart);
+
+                var tlimitRows = jQuery('#tlimit_rows_cntl').val();
+                var tlimitStart = jQuery('#tlimit_start_cntl').val();
+                handleLimit('tlimit', tlimitRows, tlimitStart);
+
+
 
                 val = jQuery('#random_cntl').val();
                 scElements.push(getValue('random', val, scValidationErrors));
@@ -448,21 +452,27 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     pushNameValue("unbuffered", "true", googleScriptElements, googleScriptValidationErrors);
                 }
 
-                var orderBy = jQuery('#orderby_cntl').val();
-                if (orderBy) {
-                    var orderByElem = getValue('orderby', val, scValidationErrors);
-                    var orderByElemUrl = getValueUrl('orderby', val);
-                    var orderByDir = jQuery('#orderbydir_cntl').val();
-                    if (orderByDir) {
-                        orderBy += ' ' + orderByDir;
-                        orderByElem = chopLastChar(orderByElem) + ' ' + orderByDir + '"';
-                        orderByElemUrl = orderByElemUrl + encodeURIComponent(' ' + orderByDir);
+                var handleOrderBy = function (name, val) {
+                    if (val) {
+                        var orderByElem = getValue(name, val, scValidationErrors);
+                        var orderByElemUrl = getValueUrl(name, val);
+                        var orderByDir = jQuery('#' + name + 'dir_cntl').val();
+                        if (orderByDir) {
+                            orderBy += ' ' + orderByDir;
+                            orderByElem = chopLastChar(orderByElem) + ' ' + orderByDir + '"';
+                            orderByElemUrl = orderByElemUrl + encodeURIComponent(' ' + orderByDir);
+                        }
+                        scElements.push(orderByElem);
+                        scUrlElements.push(orderByElemUrl);
+                        exportUrlElements.push(orderByElemUrl);
+                        pushNameValue(name, orderBy, googleScriptElements, googleScriptValidationErrors);
                     }
-                    scElements.push(orderByElem);
-                    scUrlElements.push(orderByElemUrl);
-                    exportUrlElements.push(orderByElemUrl);
-                    pushNameValue("orderby", orderBy, googleScriptElements, googleScriptValidationErrors);
-                }
+                };
+                var orderBy = jQuery('#orderby_cntl').val();
+                handleOrderBy('orderby', orderBy);
+
+                var torderBy = jQuery('#torderby_cntl').val();
+                handleOrderBy('torderby', torderBy);
             }
 
             var scText;
@@ -835,22 +845,22 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             createShortCodeAndExportLink();
         }
 
-        function addFieldToOrderBy() {
-            var value = jQuery('#orderby_cntl').val();
+        function addFieldToOrderBy(field) {
+            var value = jQuery('#' + field + '_cntl').val();
             if (value) {
                 value += ',';
             }
-            jQuery('#orderby_cntl').val(value + jQuery('#add_orderby').val());
+            jQuery('#' + field + '_cntl').val(value + jQuery('#add_' + field).val());
             createShortCodeAndExportLink();
         }
 
-        function addFieldToFilter() {
-            var value = jQuery('#filter_cntl').val();
+        function addFieldToFilter(field) {
+            var value = jQuery('#' + field + '_cntl').val();
             if (value) {
-                value += jQuery('#filter_bool').val();
+                value += jQuery('#' + field + '_bool').val();
             }
-            value += jQuery('#add_filter').val() + jQuery('#filter_op').val() + jQuery('#filter_val').val();
-            jQuery('#filter_cntl').val(value);
+            value += jQuery('#add_' + field).val() + jQuery('#' + field + '_op').val() + jQuery('#' + field + '_val').val();
+            jQuery('#' + field + '_cntl').val(value);
             createShortCodeAndExportLink();
         }
 
@@ -906,10 +916,13 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#trans_cntl').val('<?php echo $postedTrans ?>');
             jQuery('#search_cntl').val('<?php echo $postedSearch ?>');
             jQuery('#filter_cntl').val('<?php echo $postedFilter ?>');
+            jQuery('#tsearch_cntl').val('<?php echo $postedTSearch ?>');
+            jQuery('#tfilter_cntl').val('<?php echo $postedTFilter ?>');
             jQuery('#limit_rows_cntl').val('<?php echo $postedLimitNumRows ?>');
             jQuery('#limit_start_cntl').val('<?php echo $postedLimitStart ?>');
             jQuery('#random_cntl').val('<?php echo $postedRandom ?>');
             jQuery('#orderby_cntl').val('<?php echo $postedOrderby ?>');
+            jQuery('#torderby_cntl').val('<?php echo $postedTOrderby ?>');
             jQuery('#header_cntl').prop("checked", <?php echo $postedHeader == 'false' ? 'false' : 'true' ?>); // default = true
             jQuery('#headers_cntl').val('<?php echo $postedHeaders ?>');
             jQuery('#id_cntl').val('<?php echo $postedId ?>');
@@ -952,8 +965,18 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#form_name_cntl').change(getFormFields);
             jQuery('#btn_show').click(addFieldToShow);
             jQuery('#btn_hide').click(addFieldToHide);
-            jQuery('#btn_orderby').click(addFieldToOrderBy);
-            jQuery('#btn_filter').click(addFieldToFilter);
+            jQuery('#btn_orderby').click(function () {
+                addFieldToOrderBy('orderby');
+            });
+            jQuery('#btn_torderby').click(function () {
+                addFieldToOrderBy('torderby');
+            });
+            jQuery('#btn_filter').click(function () {
+                addFieldToFilter('filter');
+            });
+            jQuery('#btn_tfilter').click(function () {
+                addFieldToFilter('tfilter');
+            });
             jQuery('#btn_trans').click(addToTrans);
             jQuery('#header_cntl').click(createShortCodeAndExportLink);
             jQuery('#unbuffered_cntl').click(createShortCodeAndExportLink);
@@ -1514,6 +1537,64 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             <button id="btn_trans">&raquo;</button>
             <br/>
             <input name="trans_cntl" id="trans_cntl" type="text" size="100" placeholder="<?php _e('transform expression', 'contact-form-7-to-database-extension') ?>"/>
+        </div>
+        <div>
+            <div class="label_box">
+                <label for="tsearch_cntl"><?php _e('tsearch', 'contact-form-7-to-database-extension') ?></label>
+                <a target="_docs" href="http://cfdbplugin.com/#tsearch"><img alt="?" src="<?php echo $infoImg ?>"/></a>
+            </div>
+            <input name="tsearch_cntl" id="tsearch_cntl" type="text" size="30" placeholder="<?php _e('search text', 'contact-form-7-to-database-extension') ?>"/>
+        </div>
+        <div>
+            <div class="label_box">
+                <label for="tfilter_cntl"><?php _e('tfilter', 'contact-form-7-to-database-extension') ?></label>
+                <a target="_docs" href="http://cfdbplugin.com/#tfilter"><img alt="?" src="<?php echo $infoImg ?>"/></a>
+            </div>
+            <select name="tfilter_bool" id="tfilter_bool">
+                <option value="&&">&&</option>
+                <option value="||">||</option>
+            </select>
+            <select name="add_tfilter" id="add_tfilter"></select>
+            <select name="tfilter_op" id="tfilter_op">
+                <option value="=">=</option>
+                <option value="!=">!=</option>
+                <option value=">">></option>
+                <option value="<"><</option>
+                <option value="<="><=</option>
+                <option value="<="><=</option>
+                <option value="===">===</option>
+                <option value="!==">!==</option>
+                <option value="~~">~~</option>
+            </select>
+            <input name="tfilter_val" id="tfilter_val" type="text" size="20" placeholder="<?php _e('value', 'contact-form-7-to-database-extension') ?>"/>
+            <button id="btn_tfilter">&raquo;</button>
+            <span id="span_validate_submit_time" style="display:none;">
+                <button id="btn_validate_submit_time"><?php _e('Validate submit_time', 'contact-form-7-to-database-extension'); ?></button>
+                <a target="_blank" href="http://cfdbplugin.com/?page_id=553"><?php _e('Formats', 'contact-form-7-to-database-extension'); ?></a>
+            </span>
+            <br/>
+            <input name="tfilter_cntl" id="tfilter_cntl" type="text" size="100" placeholder="<?php _e('filter expression', 'contact-form-7-to-database-extension') ?>"/>
+        </div>
+        <div>
+            <div class="label_box">
+                <label for="tlimit_rows_cntl"><?php _e('tlimit', 'contact-form-7-to-database-extension') ?></label>
+                <a target="_docs" href="http://cfdbplugin.com/?#tlimit"><img alt="?" src="<?php echo $infoImg ?>"/></a>
+            </div>
+            <?php _e('Num Rows', 'contact-form-7-to-database-extension') ?> <input name="tlimit_rows_cntl" id="tlimit_rows_cntl" type="text" size="10" placeholder="<?php _e('number', 'contact-form-7-to-database-extension') ?>"/>
+            <?php _e('Start Row (0)', 'contact-form-7-to-database-extension') ?> <input name="tlimit_start_cntl" id="tlimit_start_cntl" type="text" size="10" placeholder="<?php _e('number', 'contact-form-7-to-database-extension') ?>"/>
+        </div>
+        <div id="torderby_div">
+            <div class="label_box">
+                <label for="torderby_cntl"><?php _e('torderby', 'contact-form-7-to-database-extension') ?></label>
+                <a target="_docs" href="http://cfdbplugin.com/?#torderby"><img alt="?" src="<?php echo $infoImg ?>"/></a>
+            </div>
+            <select name="add_torderby" id="add_torderby"></select><button id="btn_torderby" placeholder="<?php _e('field', 'contact-form-7-to-database-extension') ?>">&raquo;</button>
+            <input name="torderby_cntl" id="torderby_cntl" type="text" size="100" placeholder="<?php _e('field1,field2,field3', 'contact-form-7-to-database-extension') ?>"/>
+            <select id="torderbydir_cntl" name="torderbydir_cntl">
+                <option value=""></option>
+                <option value="ASC"><?php _e('ASC', 'contact-form-7-to-database-extension') ?></option>
+                <option value="DESC"><?php _e('DESC', 'contact-form-7-to-database-extension') ?></option>
+            </select>
         </div>
     </div>
     <?php
