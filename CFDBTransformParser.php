@@ -26,7 +26,10 @@ require_once('CFDBTransformEndpoint.php');
 
 // Includes these just to have them as known classes in case they are in the transform.
 require_once('SortByField.php');
+require_once('SortByMultiField.php');
 require_once('NaturalSortByField.php');
+require_once('NaturalSortByMultiField.php');
+require_once('SortByDateField.php');
 
 class CFDBTransformParser extends CFDBParserBase {
 
