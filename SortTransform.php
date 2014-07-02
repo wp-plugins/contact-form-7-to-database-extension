@@ -35,7 +35,7 @@ abstract class SortTransform extends BaseTransform {
     /**
      * @param $a array: associative array of 1 form entry
      * @param $b array: associative array of 1 form entry
-     * @return -1 if a>b, 0 if a==b, 1 if a<b
+     * @return int -1 if a>b, 0 if a==b, 1 if a<b
      */
     public abstract function sort($a, $b);
 
