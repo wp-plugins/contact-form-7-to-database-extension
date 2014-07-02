@@ -20,14 +20,14 @@
 */
 
 require_once('SortTransform.php');
-//require_once('CFDBPermittedFunctions.php');
+require_once('CFDBPermittedFunctions.php');
 
 class SortByFunctionAndField extends SortTransform {
 
     var $functionName;
     var $fieldName;
     var $reverse;
-//    var $functionPermitted;
+    var $functionPermitted;
 
     /**
      * @param $functionName string name of sort function such as strcmp, strcasecmp, strnatcmp
@@ -38,7 +38,7 @@ class SortByFunctionAndField extends SortTransform {
         $this->functionName = $functionName;
         $this->fieldName = $fieldName;
         $this->reverse = strtoupper($ascDesc) == 'DESC';
-//        $this->functionPermitted = CFDBPermittedFunctions::getInstance()->isFunctionPermitted($functionName);
+        $this->functionPermitted = CFDBPermittedFunctions::getInstance()->isFunctionPermitted($functionName);
     }
 
     /**
@@ -47,10 +47,10 @@ class SortByFunctionAndField extends SortTransform {
      * @return int -1 if $a>$b, 0 if equal, 1 if $a<$b
      */
     public function sort($a, $b) {
-//        if (!$this->functionPermitted) {
-//            trigger_error('Function not permitted by CFDB: ' . $this->functionName, E_USER_NOTICE);
-//            return 0;
-//        }
+        if (!$this->functionPermitted) {
+            trigger_error('Function not permitted by CFDB: ' . $this->functionName, E_USER_NOTICE);
+            return 0;
+        }
 
         if (!isset($a[$this->fieldName]) || !isset($b[$this->fieldName])) {
             return 0; // ambiguous due to field missing
