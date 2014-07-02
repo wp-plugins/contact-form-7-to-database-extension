@@ -370,7 +370,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             val = jQuery('#permissionmsg_cntl').val();
             pushValueToAll('permissionmsg', val);
 
-            var trans = jQuery('#trans_cntl').val();
+            val = jQuery('#trans_cntl').val();
             pushValueToAll('trans', val);
 
 
