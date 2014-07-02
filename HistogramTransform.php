@@ -21,19 +21,41 @@
 
 require_once('CFDBTransform.php');
 
-/**
- * Subclass this class and override getTransformedData() to return different data
- */
-class BaseTransform implements CFDBTransform {
+abstract class HistogramTransform implements CFDBTransform {
 
-    var $data = array();
+    /**
+     * @var string field holding the value
+     */
+    var $valueField;
 
-    public function addEntry(&$entry) {
-        $this->data[] = $entry;
+    /**
+     * @var string field to group by
+     */
+    var $groupByField;
+
+    /**
+     * @var array of name => value
+     */
+    var $values = array();
+
+    function __construct($valueField, $groupByField) {
+        $this->valueField = $valueField;
+        $this->groupByField = $groupByField;
     }
+
+    abstract public function addEntry(&$entry);
 
     public function getTransformedData() {
-        return $this->data;
+        $data = array();
+        foreach ($this->values as $name => $value) {
+            if (empty($this->groupByField)) {
+                $data[] = array($this->valueField => $value);
+            } else {
+                $data[] = array($this->groupByField => $name, $this->valueField => $value);
+            }
+        }
+        return $data;
     }
 
-} 
+
+}

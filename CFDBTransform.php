@@ -30,7 +30,7 @@ interface CFDBTransform {
      * @param $entry array associative array of a single for entry
      * @return void
      */
-    public function addEntry($entry);
+    public function addEntry(&$entry);
 
     /**
      * Call this when done adding entries. Apply transform across all entered data,
@@ -38,6 +38,6 @@ interface CFDBTransform {
      * what was input (e.g. statistics)
      * @return array of associative of array of data.
      */
-    public function &getTransformedData();
+    public function getTransformedData();
 
 } 

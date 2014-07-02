@@ -19,21 +19,27 @@
     If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('CFDBTransform.php');
+require_once('HistogramTransform.php');
 
-/**
- * Subclass this class and override getTransformedData() to return different data
- */
-class BaseTransform implements CFDBTransform {
+class CountField extends HistogramTransform {
 
-    var $data = array();
+    function __construct($valueField, $groupByField = null) {
+        parent::__construct($valueField, $groupByField);
+    }
 
     public function addEntry(&$entry) {
-        $this->data[] = $entry;
+        if (array_key_exists($this->valueField, $entry)) {
+            $value = $entry[$this->valueField];
+            $groupByName = empty($this->groupByField) ? $this->valueField : $entry[$this->groupByField];
+
+            if ($value !== null && $value !== '') {
+                if (array_key_exists($groupByName, $this->values)) {
+                    $this->values[$groupByName]++;
+                } else {
+                    $this->values[$groupByName] = 1;
+                }
+            }
+        }
     }
 
-    public function getTransformedData() {
-        return $this->data;
-    }
-
-} 
+}

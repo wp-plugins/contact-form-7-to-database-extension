@@ -31,6 +31,12 @@ require_once('NaturalSortByField.php');
 require_once('NaturalSortByMultiField.php');
 require_once('SortByDateField.php');
 
+require_once('CountField.php');
+require_once('SumField.php');
+require_once('MinField.php');
+require_once('MaxField.php');
+require_once('AverageField.php');
+
 class CFDBTransformParser extends CFDBParserBase {
 
     var $tree = array();
