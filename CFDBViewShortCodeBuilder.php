@@ -1530,7 +1530,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         <div>
             <div class="label_box">
                 <label for="trans_cntl"><?php _e('trans', 'contact-form-7-to-database-extension') ?></label>
-                <a target="_docs" href="http://cfdbplugin.com/?page_id=1076"><img alt="?" src="<?php echo $infoImg ?>"/></a>
+                <a target="_docs" href="http://cfdbplugin.com/?page_id=1118#trans"><img alt="?" src="<?php echo $infoImg ?>"/></a>
             </div>
             <select name="add_trans" id="add_trans"></select>
             <input name="trans_val" id="trans_val" type="text" size="20" placeholder="<?php _e('PHP function or class', 'contact-form-7-to-database-extension') ?>"/>
@@ -1541,14 +1541,14 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         <div>
             <div class="label_box">
                 <label for="tsearch_cntl"><?php _e('tsearch', 'contact-form-7-to-database-extension') ?></label>
-                <a target="_docs" href="http://cfdbplugin.com/#tsearch"><img alt="?" src="<?php echo $infoImg ?>"/></a>
+                <a target="_docs" href="http://cfdbplugin.com/?page_id=1118#tsearch"><img alt="?" src="<?php echo $infoImg ?>"/></a>
             </div>
             <input name="tsearch_cntl" id="tsearch_cntl" type="text" size="30" placeholder="<?php _e('search text', 'contact-form-7-to-database-extension') ?>"/>
         </div>
         <div>
             <div class="label_box">
                 <label for="tfilter_cntl"><?php _e('tfilter', 'contact-form-7-to-database-extension') ?></label>
-                <a target="_docs" href="http://cfdbplugin.com/#tfilter"><img alt="?" src="<?php echo $infoImg ?>"/></a>
+                <a target="_docs" href="http://cfdbplugin.com/?page_id=1118#tfilter"><img alt="?" src="<?php echo $infoImg ?>"/></a>
             </div>
             <select name="tfilter_bool" id="tfilter_bool">
                 <option value="&&">&&</option>
@@ -1578,7 +1578,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         <div>
             <div class="label_box">
                 <label for="tlimit_rows_cntl"><?php _e('tlimit', 'contact-form-7-to-database-extension') ?></label>
-                <a target="_docs" href="http://cfdbplugin.com/?#tlimit"><img alt="?" src="<?php echo $infoImg ?>"/></a>
+                <a target="_docs" href="http://cfdbplugin.com/?page_id=1118#tlimit"><img alt="?" src="<?php echo $infoImg ?>"/></a>
             </div>
             <?php _e('Num Rows', 'contact-form-7-to-database-extension') ?> <input name="tlimit_rows_cntl" id="tlimit_rows_cntl" type="text" size="10" placeholder="<?php _e('number', 'contact-form-7-to-database-extension') ?>"/>
             <?php _e('Start Row (0)', 'contact-form-7-to-database-extension') ?> <input name="tlimit_start_cntl" id="tlimit_start_cntl" type="text" size="10" placeholder="<?php _e('number', 'contact-form-7-to-database-extension') ?>"/>
@@ -1586,7 +1586,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         <div id="torderby_div">
             <div class="label_box">
                 <label for="torderby_cntl"><?php _e('torderby', 'contact-form-7-to-database-extension') ?></label>
-                <a target="_docs" href="http://cfdbplugin.com/?#torderby"><img alt="?" src="<?php echo $infoImg ?>"/></a>
+                <a target="_docs" href="http://cfdbplugin.com/?page_id=1118#torderby"><img alt="?" src="<?php echo $infoImg ?>"/></a>
             </div>
             <select name="add_torderby" id="add_torderby"></select><button id="btn_torderby" placeholder="<?php _e('field', 'contact-form-7-to-database-extension') ?>">&raquo;</button>
             <input name="torderby_cntl" id="torderby_cntl" type="text" size="100" placeholder="<?php _e('field1,field2,field3', 'contact-form-7-to-database-extension') ?>"/>
