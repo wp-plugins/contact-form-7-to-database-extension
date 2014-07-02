@@ -147,6 +147,25 @@ class TransformsTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('Oya', $stuff[1]->first_name);
     }
 
+    public function test_function_on_entry() {
+        $options = array();
+        $options['trans'] = 'upperall2';
+
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+
+        $stuff = json_decode($text);
+        $this->assertTrue(is_array($stuff));
+        $this->assertEquals('B1', $stuff[0]->name);
+        $this->assertEquals('X1', $stuff[0]->misc);
+        $this->assertEquals('A2', $stuff[1]->name);
+        $this->assertEquals('X11', $stuff[1]->misc);
+        $this->assertEquals('A', $stuff[2]->name);
+        $this->assertEquals('X101', $stuff[2]->misc);
+    }
+
     public function test_hide_metadata() {
         $options = array();
         $options['trans'] = 'name=strtoupper(name)';
@@ -534,3 +553,9 @@ class AddField extends BaseTransform {
 }
 
 
+function upperall2($entry) {
+    foreach ($entry as $key => $value) {
+        $entry[$key] = strtoupper($value);
+    }
+    return $entry;
+}
