@@ -37,6 +37,8 @@ require_once('MinField.php');
 require_once('MaxField.php');
 require_once('AverageField.php');
 
+require_once('cfdb-transform-functions.php');
+
 class CFDBTransformParser extends CFDBParserBase {
 
     var $tree = array();

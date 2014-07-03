@@ -115,6 +115,8 @@ abstract class CFDBParserBase {
                 $paramMatches = explode(',', $matches[2]);
                 foreach ($paramMatches as $param) {
                     $param = trim($param);
+                    $param = stripslashes($param);
+                    $param = $this->unSingleQuoteString($param);
                     if ($param != '') {
                         $functionArray[] = $param;
                     }
@@ -123,6 +125,18 @@ abstract class CFDBParserBase {
             return $functionArray;
         }
         return $filterString;
+    }
+
+    /**
+     * @param $string string
+     * @return string
+     */
+    public function unSingleQuoteString($string) {
+        $matches = array();
+        if (preg_match("/'(.*)'/", $string, $matches)) {
+            return $matches[1];
+        }
+        return $string;
     }
 
     /**

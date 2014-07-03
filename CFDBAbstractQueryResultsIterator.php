@@ -121,6 +121,7 @@ abstract class CFDBAbstractQueryResultsIterator extends CFDBDataIterator {
                 // hide this metadata column
                 if ('fields_with_file' != $aCol) {
                     $this->columns[] = $aCol;
+                    $this->displayColumns[] = $aCol;
                 }
             }
             $this->onFirstRow = true;

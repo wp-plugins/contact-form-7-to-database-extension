@@ -408,7 +408,7 @@ class TransformsTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(0, $stuff[1]->count);
     }
 
-    public function test_add_field() {
+    public function test_add_field_by_class() {
         $options = array();
         $options['trans'] = 'AddField';
 
@@ -425,6 +425,28 @@ class TransformsTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($idx, $stuff[$idx]->index); ++$idx;
         $this->assertEquals($idx, $stuff[$idx]->index); ++$idx;
         $this->assertEquals($idx, $stuff[$idx]->index); ++$idx;
+    }
+
+    public function test_add_field_by_assignment() {
+        $options = array();
+        $options['trans'] = 'newfield=strtoupper(name)';
+
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+        $stuff = json_decode($text);
+        $this->assertTrue(is_array($stuff));
+
+        $idx = 0;
+        $this->assertEquals('B1', $stuff[$idx]->newfield); ++$idx;
+        $this->assertEquals('A2', $stuff[$idx]->newfield); ++$idx;
+        $this->assertEquals('A', $stuff[$idx]->newfield); ++$idx;
+        $this->assertEquals('P1', $stuff[$idx]->newfield); ++$idx;
+        $this->assertEquals('P2', $stuff[$idx]->newfield); ++$idx;
+        $this->assertEquals('J', $stuff[$idx]->newfield); ++$idx;
+        $this->assertEquals('D', $stuff[$idx]->newfield); ++$idx;
+        $this->assertEquals('M', $stuff[$idx]->newfield); ++$idx;
     }
 
     public function test_add_field_then_filter() {

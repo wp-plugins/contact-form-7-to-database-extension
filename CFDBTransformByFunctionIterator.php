@@ -79,5 +79,15 @@ class CFDBTransformByFunctionIterator extends CFDBDataIteratorDecorator {
         return false;
     }
 
+    public function getDisplayColumns() {
+        if (empty($this->displayColumns)) {
+            $cols = $this->source->getDisplayColumns();
+            if ($this->fieldToAssign) {
+                $cols[] = $this->fieldToAssign;
+                return $cols;
+            }
+        }
+        return $this->displayColumns;
+    }
 
 }

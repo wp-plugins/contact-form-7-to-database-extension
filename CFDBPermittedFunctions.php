@@ -23,14 +23,15 @@
 /**
  * @singleton
  */
-class CFDBPermittedFunctions
-{
+class CFDBPermittedFunctions {
 
     var $permitAllFunctions = false;
 
     var $permittedFunctions;
 
     static $defaultPermitted = array(
+
+        // PHP functions
             'addcslashes',
             'addslashes',
             'chop',
@@ -92,7 +93,10 @@ class CFDBPermittedFunctions
             'intval',
             'boolval',
             'floatval',
-            'strval'
+            'strval',
+
+        // CFDB-defined functions
+            'concat'
 
     );
 
@@ -101,8 +105,7 @@ class CFDBPermittedFunctions
         $this->permittedFunctions = CFDBPermittedFunctions::$defaultPermitted;
     }
 
-    public static function getInstance()
-    {
+    public static function getInstance() {
         static $inst = null;
         if ($inst === null) {
             $inst = new CFDBPermittedFunctions();
@@ -111,13 +114,11 @@ class CFDBPermittedFunctions
         return $inst;
     }
 
-    public function setPermitAllFunctions($trueOrFalse)
-    {
+    public function setPermitAllFunctions($trueOrFalse) {
         $this->permitAllFunctions = $trueOrFalse;
     }
 
-    public function isFunctionPermitted($functionName)
-    {
+    public function isFunctionPermitted($functionName) {
         if ($this->permitAllFunctions === true) {
             return true;
         } else {
@@ -125,8 +126,7 @@ class CFDBPermittedFunctions
         }
     }
 
-    public function addPermittedFunction($functionName)
-    {
+    public function addPermittedFunction($functionName) {
         if ($functionName && !in_array($functionName, $this->permittedFunctions)) {
             $this->permittedFunctions[] = $functionName;
         }
@@ -139,7 +139,6 @@ class CFDBPermittedFunctions
  * A function wrapper to register function names in a CFDBPermittedFunctions singleton
  * @param $function_name
  */
-function cfdb_register_function($function_name)
-{
+function cfdb_register_function($function_name) {
     CFDBPermittedFunctions::getInstance()->addPermittedFunction($function_name);
 }
