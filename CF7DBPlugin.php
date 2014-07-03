@@ -558,16 +558,16 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                     $user = $cf7->user;
                 }
                 else {
-                    error_log('CFDB Error: No or invalid value returned from "cfdb_form_data" filter: ' .
-                            print_r($newCf7, true));
+                    //error_log('CFDB Error: No or invalid value returned from "cfdb_form_data" filter: ' .
+                    //        print_r($newCf7, true));
                     // Returning null from cfdb_form_data is a way to stop from saving the form
-                    return;
+                    return true;
                 }
 
                 // Get title after applying filter
                 $title = stripslashes($cf7->title);
                 if ($this->fieldMatches($title, $this->getNoSaveForms())) {
-                    return; // Don't save in DB
+                    return true; // Don't save in DB
                 }
 
             }
