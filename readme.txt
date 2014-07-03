@@ -90,6 +90,7 @@ You can always deactivate the plugin without loosing data.
 * Most short codes now allows for an optional "before" and "after" section
 * Admin page view now has links on each row to bring up a window with just that entry's data. Easier to read and print (and edit if Editor extension is installed)
 * Support for MySqli which should fix some character encoding issues
+* Returning null from cfdb_form_data filter now stops the form from saving
 * Bug fix: hook to save form data was not returning "true" an causing subsequent hooks for other plugins to not be called.
 
 = 2.7.5 =

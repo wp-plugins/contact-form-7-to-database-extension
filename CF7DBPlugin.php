@@ -551,13 +551,6 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             $cf7->user = $user;
             try {
                 $newCf7 = apply_filters('cfdb_form_data', $cf7);
-
-                // Get title after applying filter
-                $title = stripslashes($cf7->title);
-                if ($this->fieldMatches($title, $this->getNoSaveForms())) {
-                    return; // Don't save in DB
-                }
-
                 if ($newCf7 && is_object($newCf7)) {
                     $cf7 = $newCf7;
                     $time = $cf7->submit_time;
@@ -567,7 +560,16 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 else {
                     error_log('CFDB Error: No or invalid value returned from "cfdb_form_data" filter: ' .
                             print_r($newCf7, true));
+                    // Returning null from cfdb_form_data is a way to stop from saving the form
+                    return;
                 }
+
+                // Get title after applying filter
+                $title = stripslashes($cf7->title);
+                if ($this->fieldMatches($title, $this->getNoSaveForms())) {
+                    return; // Don't save in DB
+                }
+
             }
             catch (Exception $ex) {
                 error_log(sprintf('CFDB Error: %s:%s %s  %s', $ex->getFile(), $ex->getLine(), $ex->getMessage(), $ex->getTraceAsString()));
