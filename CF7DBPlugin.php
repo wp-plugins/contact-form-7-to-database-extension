@@ -1239,7 +1239,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         if (!$this->isEditorActive()) {
             return;
         }
-        $requiredEditorVersion = '1.3';
+        $requiredEditorVersion = '1.3.1';
         $editorData = $this->getEditorPluginData();
         if (isset($editorData['Version'])) {
             if (version_compare($editorData['Version'], $requiredEditorVersion) == -1) {
