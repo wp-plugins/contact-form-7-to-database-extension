@@ -132,6 +132,20 @@ class TransformsTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('X123', $stuff[$idx++]->misc);
     }
 
+    public function testNoDuplicateColumnAfterTransformThenSort() {
+        $options = array();
+        $options['trans'] = 'misc=strtoupper(misc)&&NaturalSortByField(misc)';
+        $options['tlimit'] = '1';
+
+        $exp = new ExportToJson();
+        ob_start();
+        $exp->export('Ages', $options);
+        $text = ob_get_contents();
+
+        // misc should not appear twice
+        $this->assertEquals(1, substr_count($text, 'misc'));
+    }
+
     public function testSimpleStat() {
         $options = array();
         $options['trans'] = 'HardCodedData';
