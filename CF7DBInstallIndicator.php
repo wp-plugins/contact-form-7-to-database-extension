@@ -183,7 +183,10 @@ abstract class CF7DBInstallIndicator extends CF7DBOptionsManager {
      * @return void
      */
     protected function saveInstalledVersion() {
-        $this->setVersionSaved($this->getVersion());
+        $version = $this->getVersion();
+        if ($version) {
+            $this->setVersionSaved($version);
+        }
     }
 
 }
