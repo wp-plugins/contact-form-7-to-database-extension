@@ -83,6 +83,10 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8.2 =
+* Bug fix: cases where blank version saved to DB was causing the plugin to keep trying to upgrade
+* Bug fix: data with blank column name was causing query to fail and data not to be displayed
+
 = 2.8.1 =
 * Bug fix: transform re-assigning the value of a column was creating a duplicate column
 
