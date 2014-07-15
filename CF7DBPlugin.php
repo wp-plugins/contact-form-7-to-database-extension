@@ -273,7 +273,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
         // Hook into Contact Form 7 when a form post is made to save the data to the DB
         if ($this->getOption('IntegrateWithCF7', 'true') == 'true') {
-            add_action('wpcf7_before_send_mail', array(&$this, 'saveFormData'));
+            add_action('wpcf7_before_send_mail', array(&$this, 'saveCF7FormData'));
         }
 
         // Hook into Fast Secure Contact Form
@@ -530,13 +530,33 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * Callback from Contact Form 7. CF7 passes an object with the posted data which is inserted into the database
      * by this function.
      * Also callback from Fast Secure Contact Form
+     * @param $cf7 WPCF7_ContactForm
+     * @return bool
+     */
+    public function saveCF7FormData($cf7) {
+        if (!isset($cf7->posted_data) && class_exists('WPCF7_Submission')) {
+            // Contact Form 7 version 3.9 removed $cf7->posted_data and now
+            // we have to retrieve it from an API
+            $submission = WPCF7_Submission::get_instance();
+            if ($submission) {
+                $cf7->posted_data = $submission->get_posted_data();
+                //error_log(print_r($cf7->posted_data, true)); // debug
+            }
+        }
+        $this->saveFormData($cf7);
+        return true;
+    }
+
+    /**
+     * Callback for saving form data. Originally based on Contact Form 7's callback object
+     * with submission data in $cf7->posted_data. However that has changed over time.
+     * FSCF sends an object matching this data structure. Other form plugins have their data
+     * transformed into the expected data structure via other callbacks in this class
      * @param $cf7 WPCF7_ContactForm|object the former when coming from CF7, the latter $fsctf_posted_data object variable
-     * if coming from FSCF
      * @return bool
      */
     public function saveFormData($cf7) {
         try {
-
             $time = function_exists('microtime') ? microtime(true) : time();
             $ip = (isset($_SERVER['X_FORWARDED_FOR'])) ? $_SERVER['X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
 

@@ -84,6 +84,7 @@ You can always deactivate the plugin without loosing data.
 == Changelog ==
 
 = 2.8.2 =
+* IMPORTANT: Contact Form 7 users will need to update to this version when they update to Contact Form 7 version 3.9 otherwise data will no longer be saved in the database!
 * Bug fix: cases where blank version saved to DB was causing the plugin to keep trying to upgrade
 * Bug fix: data with blank column name was causing query to fail and data not to be displayed
 
