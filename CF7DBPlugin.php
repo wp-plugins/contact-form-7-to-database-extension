@@ -529,7 +529,6 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     /**
      * Callback from Contact Form 7. CF7 passes an object with the posted data which is inserted into the database
      * by this function.
-     * Also callback from Fast Secure Contact Form
      * @param $cf7 WPCF7_ContactForm
      * @return bool
      */
@@ -539,11 +538,15 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             // we have to retrieve it from an API
             $submission = WPCF7_Submission::get_instance();
             if ($submission) {
-                $cf7->posted_data = $submission->get_posted_data();
-                //error_log(print_r($cf7->posted_data, true)); // debug
+                $data = array();
+                $data['title'] = $cf7->title();
+                $data['posted_data'] = $submission->get_posted_data();
+                $data['uploaded_files'] = $submission->uploaded_files();
+                $this->saveFormData((object) $data);
             }
+        } else {
+            $this->saveFormData($cf7);
         }
-        $this->saveFormData($cf7);
         return true;
     }
 
@@ -583,16 +586,21 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                     // Returning null from cfdb_form_data is a way to stop from saving the form
                     return true;
                 }
-
-                // Get title after applying filter
-                $title = stripslashes($cf7->title);
-                if ($this->fieldMatches($title, $this->getNoSaveForms())) {
-                    return true; // Don't save in DB
-                }
-
             }
             catch (Exception $ex) {
                 error_log(sprintf('CFDB Error: %s:%s %s  %s', $ex->getFile(), $ex->getLine(), $ex->getMessage(), $ex->getTraceAsString()));
+            }
+
+            // Get title after applying filter
+            if (isset($cf7->title)) {
+                $title = $cf7->title;
+            } else {
+                $title = 'Unknown';
+            }
+            $title = stripslashes($title);
+
+            if ($this->fieldMatches($title, $this->getNoSaveForms())) {
+                return true; // Don't save in DB
             }
 
             $tableName = $this->getSubmitsTableName();
