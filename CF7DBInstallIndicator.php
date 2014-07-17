@@ -180,10 +180,13 @@ abstract class CF7DBInstallIndicator extends CF7DBOptionsManager {
      * Record the installed version to options.
      * This helps track was version is installed so when an upgrade is installed, it should call this when finished
      * upgrading to record the new current version
+     * @param $version string optional version string. If not set, uses $this->getVersion()
      * @return void
      */
-    protected function saveInstalledVersion() {
-        $version = $this->getVersion();
+    protected function saveInstalledVersion($version = null) {
+        if (!$version) {
+            $version = $this->getVersion();
+        }
         if ($version) {
             $this->setVersionSaved($version);
         }
