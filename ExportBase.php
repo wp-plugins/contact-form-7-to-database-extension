@@ -569,8 +569,8 @@ class ExportBase {
         $rows = $wpdb->get_results("SELECT DISTINCT `field_name` FROM `$tableName` WHERE $formNameClause ORDER BY field_order");
         $fields = array();
         foreach ($rows as $aRow) {
-            if ($aRow->field_name) {
-                // Saw a case of a column name of '' which caused query to fail
+            if ($aRow->field_name && trim($aRow->field_name) != '') {
+                // Saw a case of a column name of '' and ' ' which caused query to fail
                 // and no date to be displayed.
                 $fields[] = $aRow->field_name;
             }
