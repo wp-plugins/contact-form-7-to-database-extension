@@ -1299,6 +1299,22 @@ class CFDBFilterParserTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($p->evaluate($data));
     }
 
+    public function test_blank_values() {
+        global $_POST;
+        $_POST = array('aname' => 'Simpson', 'subject' => 'hello');
+        $p = new CFDBFilterParser;
+        $p->setComparisonValuePreprocessor(new DereferenceShortcodeVars());
+        $p->parse('your-name=$_POST(aname)&&your-subject=$_POST(subject)');
+        print_r($p->tree);
+
+        $this->assertEquals('your-name', $p->tree[0][0][0]);
+        $this->assertEquals('=', $p->tree[0][0][1]);
+        $this->assertEquals('$_POST(aname)', $p->tree[0][0][2]);
+
+        $this->assertEquals('your-subject', $p->tree[0][1][0]);
+        $this->assertEquals('=', $p->tree[0][1][1]);
+        $this->assertEquals('$_POST(subject)', $p->tree[0][1][2]);
+    }
 
 }
 

@@ -138,4 +138,11 @@ class DereferenceShortcodeVarsTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('qname', $dref->extractParamName('_POST', '$_POST(qname)'));
     }
 
+    public function testConvert() {
+        $dref = new DereferenceShortcodeVars;
+        $string = $dref->convert('your-name=$_POST(aname)&&your-subject=$_POST(subject)');
+        $this->assertEquals('your-name=&&your-subject=', $string);
+    }
+
 }
+

@@ -98,6 +98,9 @@ class CFDBFilterParser extends CFDBParserBase implements CFDBEvaluator {
                     $exprArray[0] = $this->parseValidFunction($exprArray[0]);
                     if ($count > 2) {
                         $exprArray[2] = $this->parseValidFunction($exprArray[2]);
+                    } else if ($count > 1) {
+                        // e.g. "field=" which can happen if it was "field=$_POST(field)" with no $_POST['field'] set
+                        $exprArray[2] = null;
                     } else {
                         // Case of "function()" parse as if "function()==true"
                         $exprArray[1] = '==';

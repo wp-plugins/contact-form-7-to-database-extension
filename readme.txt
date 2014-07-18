@@ -84,7 +84,8 @@ You can always deactivate the plugin without loosing data.
 == Changelog ==
 
 = 2.8.4 =
-* Bug fix: fix for rarely experienced bug where plugin is confused about needing to upgrade itself
+* Bug fix: (recently introduced in 2.8) Fixed handling of filter expressions with $_POST(field) where field is blank
+* Bug fix: Fix for rarely experienced bug where plugin is confused about needing to upgrade itself
 
 = 2.8.3 =
 * IMPORTANT: Addition fix to work properly with Contact Form 7 version 3.9

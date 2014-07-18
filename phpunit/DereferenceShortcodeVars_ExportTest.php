@@ -108,7 +108,6 @@ class DereferenceShortcodeVars_ExportTest extends PHPUnit_Framework_TestCase {
     public function test_general_option_no_replace($name, $value) {
         $options = array();
         $exp = new ExportBase;
-        $exp->setOptions($options);
 
         $options[$name] = '$_POST(' .$name .')';
         $_POST[$name] = $value;
@@ -116,6 +115,25 @@ class DereferenceShortcodeVars_ExportTest extends PHPUnit_Framework_TestCase {
         $exp->setCommonOptions(true);
         // No replacement expected
         $this->assertEquals('$_POST(' .$name .')', $exp->options[$name], "$name=$value");
+    }
+
+    public function test_post_vars() {
+        $options = array();
+        $exp = new ExportBase;
+
+        $options['debug'] = 'true';
+        $options['filter'] = 'your-name=$_POST(aname)&&your-subject=$_POST(subject)';
+        $exp->setOptions($options);
+        $exp->setCommonOptions(true);
+
+        print_r($exp->rowFilter->tree);
+        $this->assertEquals('your-name', $exp->rowFilter->tree[0][0][0]);
+        $this->assertEquals('=', $exp->rowFilter->tree[0][0][1]);
+        $this->assertEquals('', $exp->rowFilter->tree[0][0][2]);
+
+        $this->assertEquals('your-subject', $exp->rowFilter->tree[0][1][0]);
+        $this->assertEquals('=', $exp->rowFilter->tree[0][1][1]);
+        $this->assertEquals('', $exp->rowFilter->tree[0][1][2]);
     }
 
 }
