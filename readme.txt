@@ -84,6 +84,7 @@ You can always deactivate the plugin without loosing data.
 == Changelog ==
 
 = 2.8.4 =
+* New short code [cfdb-save-form-maker-post] can be used to capture data from Form Maker plugin.
 * Bug fix: (recently introduced in 2.8) Fixed handling of filter expressions with $_POST(field) where field is blank
 * Bug fix: Fix for rarely experienced bug where plugin is confused about needing to upgrade itself
 

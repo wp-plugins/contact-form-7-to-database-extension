@@ -28,6 +28,7 @@ require_once('CFDBShortcodeJson.php');
 require_once('CFDBShortcodeHtml.php');
 require_once('CFDBShortcodeExportUrl.php');
 require_once('CFDBShortCodeSavePostData.php');
+require_once('CFDBShortCodeSaveFormMakerSubmission.php');
 require_once('CFDBDeobfuscate.php');
 
 /**
@@ -343,6 +344,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         // Shortcode to save data from non-CF7/FSCF forms
         $sc = new CFDBShortCodeSavePostData();
         $sc->register('cfdb-save-form-post');
+
+        // Shortcode to save data Form Maker submissions
+        $sc = new CFDBShortCodeSaveFormMakerSubmission();
+        $sc->register('cfdb-save-form-maker-post');
     }
 
     public function ajaxLogin() {
@@ -564,7 +569,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             $cf7->submit_time = $time;
             $cf7->ip = $ip;
             $user = null;
-            if (is_user_logged_in()) {
+            if (function_exists('is_user_logged_in') && is_user_logged_in()) {
                 $current_user = wp_get_current_user(); // WP_User
                 $user = $current_user->user_login;
             }
