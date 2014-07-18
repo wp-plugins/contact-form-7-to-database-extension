@@ -748,9 +748,15 @@ class CFDBViewShortCodeBuilder extends CFDBView {
 
                 var user = jQuery("#gld_user").val();
                 var pass = jQuery("#gld_pass").val();
+                var obfuscate = jQuery('#obfuscate_cntl').is(':checked')
                 if (user || pass) {
-                    var key = '3M#v$-.u';
-                    exportUrlElements.push("l=" + encodeURI(printHex(des(key, user + "/" + pass, 1))));
+                    if (obfuscate) {
+                        var key = '3M#v$-.u';
+                        exportUrlElements.push("l=" + encodeURI(printHex(des(key, user + "/" + pass, 1))));
+                    } else {
+                        exportUrlElements.push("user_login=" + encodeURI(user));
+                        exportUrlElements.push("user_password=" + encodeURI(pass));
+                    }
                     urlBase = '<?php echo admin_url('admin-ajax.php') ?>?action=cfdb-login&cfdb-action=cfdb-export&';
                     exportValidationErrors.push("<?php _e('Warning: the function includes your WP login information. Avoid sharing it.') ?>");
                 }
@@ -1002,6 +1008,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#gld_user').keyup(createShortCodeAndExportLink);
             jQuery('#gld_pass').change(createShortCodeAndExportLink);
             jQuery('#gld_pass').keyup(createShortCodeAndExportLink);
+            jQuery('#obfuscate_cntl').click(createShortCodeAndExportLink);
             jQuery('#form_name_cntl').change(createShortCodeAndExportLink);
         });
 
@@ -1122,6 +1129,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             <input id="gld_user" type="text" value="<?php echo $userName; ?>"/>
             <label for="gld_pass"><?php _e('WP Password', 'contact-form-7-to-database-extension') ?></label>
             <input id="gld_pass" type="password" value=""/>
+            <input id="obfuscate_cntl" type="checkbox" checked/><?php _e('Hide Credentials', 'contact-form-7-to-database-extension') ?>
         </span>
 
         <div id="export_result_div">
