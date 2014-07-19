@@ -23,7 +23,8 @@ require_once('ShortCodeLoader.php');
 
 class CFDBShortCodeSaveFormMakerSubmission extends ShortCodeLoader {
 
-    const FORM_TITLE = 'Form Maker';
+    const FORM_TITLE_FIELD = 'form_title';
+    const DEFAULT_FORM_TITLE = 'Form Maker';
 
 
     /**
@@ -39,6 +40,7 @@ class CFDBShortCodeSaveFormMakerSubmission extends ShortCodeLoader {
 //        echo '</pre>';
 
         if (is_array($_POST) && !empty($_POST)) {
+            $title = isset($_POST[self::FORM_TITLE_FIELD]) ? $_POST[self::FORM_TITLE_FIELD] : self::DEFAULT_FORM_TITLE;
             $posted_data = array();
             $uploaded_files = array();
 
@@ -70,7 +72,7 @@ class CFDBShortCodeSaveFormMakerSubmission extends ShortCodeLoader {
 
 
             // Prepare data structure for call to hook
-            $data = (object)array('title' => self::FORM_TITLE,
+            $data = (object)array('title' => $title,
                     'posted_data' => $posted_data,
                     'uploaded_files' => $uploaded_files);
 
