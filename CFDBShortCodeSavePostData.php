@@ -30,7 +30,7 @@ class CFDBShortCodeSavePostData extends ShortCodeLoader {
      * @param $content string not used
      * @return void
      */
-    public function handleShortcode($atts = null, $content = null) {
+    public function handleShortcode($atts, $content = null) {
 
 //        echo '<pre>';
 //        print_r($_POST);

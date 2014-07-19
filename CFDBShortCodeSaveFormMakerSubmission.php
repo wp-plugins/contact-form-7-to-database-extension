@@ -32,7 +32,7 @@ class CFDBShortCodeSaveFormMakerSubmission extends ShortCodeLoader {
      * @param $content string inner content of short code
      * @return string shortcode content
      */
-    public function handleShortcode($atts = null, $content = null) {
+    public function handleShortcode($atts, $content = null) {
 //        echo '<pre>';
 //        print_r($_POST);
 //        echo "\n";
