@@ -83,6 +83,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8.6 =
+* Bug fix: on some system submit_time timestamp lost precision due to being represented in scientific notation. This can cause more than one submission being seen as the same.
+
 = 2.8.5 =
 * Fix to error message introduced in 2.8.4
 

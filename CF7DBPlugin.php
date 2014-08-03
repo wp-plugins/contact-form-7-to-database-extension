@@ -272,6 +272,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         // Hook into Contact Form 7 when a form post is made to save the data to the DB
         if ($this->getOption('IntegrateWithCF7', 'true') == 'true') {
             add_action('wpcf7_before_send_mail', array(&$this, 'saveCF7FormData'));
+            //add_action('wpcf7_posted_data', array(&$this, 'saveCF7FormData'));
         }
 
         // Hook into Fast Secure Contact Form
@@ -563,6 +564,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     public function saveFormData($cf7) {
         try {
             $time = function_exists('microtime') ? microtime(true) : time();
+            $time = number_format($time, 4, '.', ''); // Bug fix: on some systems microtime is in scientific notation when converted to string
             $ip = (isset($_SERVER['X_FORWARDED_FOR'])) ? $_SERVER['X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
 
             // Set up to allow all this data to be filtered
