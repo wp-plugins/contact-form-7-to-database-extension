@@ -43,7 +43,9 @@ abstract class HistogramTransform implements CFDBTransform {
         $this->groupByField = $groupByField;
     }
 
-    abstract public function addEntry(&$entry);
+    // https://bugs.php.net/bug.php?id=43200
+    // abstract method also defined interface is an error in PHP 5.0.0 - 5.3.8
+    //abstract public function addEntry(&$entry);
 
     public function getTransformedData() {
         $data = array();

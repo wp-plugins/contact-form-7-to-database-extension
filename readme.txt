@@ -83,6 +83,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8.8 =
+* PHP fix: work-around for bug in PHP 5.3.0 - 5.3.8 https://bugs.php.net/bug.php?id=43200
+
 = 2.8.7 =
 * Bug fix: [cfdb-export-link] was not processing all short code options
 
