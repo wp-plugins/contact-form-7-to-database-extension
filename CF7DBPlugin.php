@@ -272,7 +272,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         // Hook into Contact Form 7 when a form post is made to save the data to the DB
         if ($this->getOption('IntegrateWithCF7', 'true') == 'true') {
             add_action('wpcf7_before_send_mail', array(&$this, 'saveCF7FormData'));
-            //add_action('wpcf7_posted_data', array(&$this, 'saveCF7FormData'));
+            add_action('wpcf7_posted_data', array(&$this, 'generateSubmitTimeForCF7'));
         }
 
         // Hook into Fast Secure Contact Form
@@ -530,6 +530,26 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
     }
 
     /**
+     * Generate the submit_time and submit_url so they can be added to CF7 mail
+     * @param $posted_data array
+     * @return array
+     */
+    public function generateSubmitTimeForCF7($posted_data) {
+        try {
+            $time = $this->generateSubmitTime();
+            $posted_data['submit_time'] = $time;
+            $url = get_admin_url() . sprintf('admin.php?page=%s&submit_time=%s',
+
+                    $this->getDBPageSlug(),
+                    $time);
+            $posted_data['submit_url'] = $url;
+        } catch (Exception $ex) {
+            error_log(sprintf('CFDB Error: %s:%s %s  %s', $ex->getFile(), $ex->getLine(), $ex->getMessage(), $ex->getTraceAsString()));
+        }
+        return $posted_data;
+    }
+
+    /**
      * Callback from Contact Form 7. CF7 passes an object with the posted data which is inserted into the database
      * by this function.
      * @param $cf7 WPCF7_ContactForm
@@ -553,22 +573,34 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         return true;
     }
 
+    public function generateSubmitTime() {
+        $time = function_exists('microtime') ? microtime(true) : time();
+        $time = number_format($time, 4, '.', ''); // Bug fix: on some systems microtime is in scientific notation when converted to string
+        return $time;
+    }
+
     /**
      * Callback for saving form data. Originally based on Contact Form 7's callback object
      * with submission data in $cf7->posted_data. However that has changed over time.
      * FSCF sends an object matching this data structure. Other form plugins have their data
      * transformed into the expected data structure via other callbacks in this class
-     * @param $cf7 WPCF7_ContactForm|object the former when coming from CF7, the latter $fsctf_posted_data object variable
+     * @param $cf7 object containing posted data
      * @return bool
      */
     public function saveFormData($cf7) {
         try {
-            $time = function_exists('microtime') ? microtime(true) : time();
-            $time = number_format($time, 4, '.', ''); // Bug fix: on some systems microtime is in scientific notation when converted to string
+            if (!empty($cf7->posted_data['submit_time']) && is_numeric($cf7->posted_data['submit_time'])) {
+                $time = $cf7->posted_data['submit_time'];
+                unset($cf7->posted_data['submit_time']);
+                unset($cf7->posted_data['submit_url']);
+            } else {
+                $time = $this->generateSubmitTime();
+            }
+            $cf7->submit_time = $time;
+
             $ip = (isset($_SERVER['X_FORWARDED_FOR'])) ? $_SERVER['X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
 
             // Set up to allow all this data to be filtered
-            $cf7->submit_time = $time;
             $cf7->ip = $ip;
             $user = null;
             if (function_exists('is_user_logged_in') && is_user_logged_in()) {
@@ -1025,11 +1057,18 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
      * @return void
      */
     public function whatsInTheDBPage() {
-        if (isset($_REQUEST['form_name']) && isset($_REQUEST['submit_time'])) {
+        if (isset($_REQUEST['submit_time'])) {
             require_once('ExportEntry.php');
             $exp = new ExportEntry();
-            $exp->export($_REQUEST['form_name'], array('submit_time' => $_REQUEST['submit_time']));
-
+            if (isset($_REQUEST['form_name']) && !empty($_REQUEST['form_name'])) {
+                $form = $_REQUEST['form_name'];
+            } else {
+                global $wpdb;
+                $table = $this->getSubmitsTableName();
+                $form = $wpdb->get_var($wpdb->prepare("SELECT form_name from $table where submit_time = %s LIMIT 1",
+                        $_REQUEST['submit_time']));
+            }
+            $exp->export($form, array('submit_time' => $_REQUEST['submit_time']));
         } else {
             require_once('CFDBViewWhatsInDB.php');
             $view = new CFDBViewWhatsInDB;
