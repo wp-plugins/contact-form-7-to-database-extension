@@ -1068,6 +1068,14 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 $form = $wpdb->get_var($wpdb->prepare("SELECT form_name from $table where submit_time = %s LIMIT 1",
                         $_REQUEST['submit_time']));
             }
+
+            ?>
+            <form action="<?php echo get_admin_url() . 'admin.php?page=' . $this->getDBPageSlug() . "&form_name=$form" ?>" method="post">
+                <input name="form_name" type="hidden" value="<?php echo $form ?>"/>
+                <input name="<?php echo $_REQUEST['submit_time'] ?>" type="hidden" value="row"/>
+                <button id="delete" name="delete" onclick="this.form.submit();"><?php _e('Delete', 'contact-form-7-to-database-extension')?></button>
+            </form>
+            <?php
             $exp->export($form, array('submit_time' => $_REQUEST['submit_time']));
         } else {
             require_once('CFDBViewWhatsInDB.php');

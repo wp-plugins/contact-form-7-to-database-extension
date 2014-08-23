@@ -242,7 +242,7 @@ class CFDBViewWhatsInDB extends CFDBView {
                     <input name="all" type="hidden" value="y"/>
                     <input name="delete" type="submit"
                            value="<?php _e('Delete All This Form\'s Records', 'contact-form-7-to-database-extension'); ?>"
-                           onclick="return confirm('Are you sure you want to delete all the data for this form?')"/>
+                           onclick="return confirm('<?php _e('Are you sure you want to delete all the data for this form?', 'contact-form-7-to-database-extension')?>')"/>
                 </form>
                 <br/>
                     <form action="" method="post">
