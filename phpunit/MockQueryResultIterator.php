@@ -1,6 +1,6 @@
 <?php
 
-require_once('../CFDBAbstractQueryResultsIterator.php');
+include_once(dirname(dirname(__FILE__)) . '/CFDBAbstractQueryResultsIterator.php');
 
 /**
  * Class MockQueryResultIterator mock for QueryResultIterator

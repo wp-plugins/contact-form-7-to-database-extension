@@ -1,6 +1,6 @@
 <?php
 
-include_once('../CFDBTransformParser.php');
+include_once(dirname(dirname(__FILE__)) . '/CFDBTransformParser.php');
 
 class CFDBTransformParserTest extends PHPUnit_Framework_TestCase {
 

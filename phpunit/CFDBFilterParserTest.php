@@ -1,8 +1,8 @@
 <?php
 
-include_once('../CFDBFilterParser.php');
-include_once('../CFDBValueConverter.php');
-include_once('../DereferenceShortcodeVars.php');
+include_once(dirname(dirname(__FILE__)) . '/CFDBFilterParser.php');
+include_once(dirname(dirname(__FILE__)) . '/CFDBValueConverter.php');
+include_once(dirname(dirname(__FILE__)) . '/DereferenceShortcodeVars.php');
 
 class CFDBFilterParserTest extends PHPUnit_Framework_TestCase {
 

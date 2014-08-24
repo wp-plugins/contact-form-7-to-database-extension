@@ -1,6 +1,6 @@
 <?php
 
-require_once('../CFDBShortCodeContentParser.php');
+include_once(dirname(dirname(__FILE__)) . '/CFDBShortCodeContentParser.php');
 
 class CFDBShortCodeContentParserTest extends PHPUnit_Framework_TestCase {
 

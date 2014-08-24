@@ -1,9 +1,9 @@
 <?php
 
-require_once('../ExportToHtmlTemplate.php');
-require_once('../ExportToHtmlTable.php');
-require_once('../ExportToJson.php');
-require_once('../ExportToValue.php');
+include_once(dirname(dirname(__FILE__)) . '/ExportToHtmlTemplate.php');
+include_once(dirname(dirname(__FILE__)) . '/ExportToHtmlTable.php');
+include_once(dirname(dirname(__FILE__)) . '/ExportToJson.php');
+include_once(dirname(dirname(__FILE__)) . '/ExportToValue.php');
 
 include_once('MockQueryResultIterator.php');
 include_once('WP_Mock_Functions.php');

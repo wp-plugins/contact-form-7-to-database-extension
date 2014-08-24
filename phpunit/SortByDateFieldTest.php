@@ -1,6 +1,6 @@
 <?php
 
-require_once('../SortByDateField.php');
+include_once(dirname(dirname(__FILE__)) . '/SortByDateField.php');
 
 class SortByDateFieldTest extends PHPUnit_Framework_TestCase {
 

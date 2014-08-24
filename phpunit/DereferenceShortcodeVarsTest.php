@@ -1,6 +1,6 @@
 <?php
 
-include_once('../DereferenceShortcodeVars.php');
+include_once(dirname(dirname(__FILE__)) . '/DereferenceShortcodeVars.php');
 
 class DereferenceShortcodeVarsTest extends PHPUnit_Framework_TestCase {
 

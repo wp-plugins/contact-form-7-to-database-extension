@@ -1,7 +1,7 @@
 <?php
 
-include_once('../DereferenceShortcodeVars.php');
-include_once('../ExportBase.php');
+include_once(dirname(dirname(__FILE__)) . '/DereferenceShortcodeVars.php');
+include_once(dirname(dirname(__FILE__)) . '/ExportBase.php');
 include_once('WP_Mock_Functions.php');
 
 $_POST = null;

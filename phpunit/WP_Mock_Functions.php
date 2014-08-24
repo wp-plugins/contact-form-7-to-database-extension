@@ -1,6 +1,6 @@
 <?php
 
-require_once('../CF7DBPlugin.php');
+include_once(dirname(dirname(__FILE__)) . '/CF7DBPlugin.php');
 
 /**
  * Mock WP get_options

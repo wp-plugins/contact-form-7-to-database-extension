@@ -1,6 +1,6 @@
 <?php
 
-include_once('../CFDBPermittedFunctions.php');
+include_once(dirname(dirname(__FILE__)) . '/CFDBPermittedFunctions.php');
 
 class CFDBPermittedFunctionsTest extends PHPUnit_Framework_TestCase {
 

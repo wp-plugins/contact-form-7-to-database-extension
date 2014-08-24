@@ -1,10 +1,10 @@
 <?php
 
-require_once('../CountField.php');
-require_once('../SumField.php');
-require_once('../MaxField.php');
-require_once('../MinField.php');
-require_once('../AverageField.php');
+include_once(dirname(dirname(__FILE__)) . '/CountField.php');
+include_once(dirname(dirname(__FILE__)) . '/SumField.php');
+include_once(dirname(dirname(__FILE__)) . '/MaxField.php');
+include_once(dirname(dirname(__FILE__)) . '/MinField.php');
+include_once(dirname(dirname(__FILE__)) . '/AverageField.php');
 
 class BuildInStats_Test extends PHPUnit_Framework_TestCase {
 
