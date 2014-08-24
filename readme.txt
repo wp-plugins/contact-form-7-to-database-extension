@@ -86,6 +86,7 @@ You can always deactivate the plugin without loosing data.
 = 2.9 =
 * Added delete button in admin screen viewing single submission
 * Can now include in CF7 emails the CFDB [submit_time] and [submit_url]
+* Fixes to handling line breaks in [cfdb-json]
 
 = 2.8.8 =
 * PHP fix: work-around for bug in PHP 5.3.0 - 5.3.8 https://bugs.php.net/bug.php?id=43200

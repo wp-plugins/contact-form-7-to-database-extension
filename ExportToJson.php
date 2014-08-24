@@ -114,10 +114,6 @@ class ExportToJson extends ExportBase implements CFDBExport {
             }
         }
 
-        // Avoid use of json_encode() so we don't have to buffer all the data
-        $search = array('"', "\n"); // Things we need to escape in JSON
-        $replace = array('\"', '\\n');
-
         if ($format == 'map') {
 
             // Create the column name JSON values only once
@@ -127,7 +123,7 @@ class ExportToJson extends ExportBase implements CFDBExport {
                 if ($this->headers && isset($this->headers[$col])) {
                     $colDisplayValue = $this->headers[$col];
                 }
-                $jsonEscapedColumns[$col] = str_replace($search, $replace, $colDisplayValue);
+                $jsonEscapedColumns[$col] = json_encode($colDisplayValue);
             }
 
             echo "[\n";
@@ -148,9 +144,9 @@ class ExportToJson extends ExportBase implements CFDBExport {
                     else {
                         echo ',';
                     }
-                    printf('"%s":"%s"',
+                    printf('%s:%s',
                            $jsonEscapedColumns[$col],
-                           str_replace($search, $replace, $this->dataIterator->row[$col]));
+                            json_encode($this->dataIterator->row[$col]));
                 }
                 echo '}';
             }
@@ -176,7 +172,7 @@ class ExportToJson extends ExportBase implements CFDBExport {
                     if ($this->headers && isset($this->headers[$col])) {
                         $colDisplayValue = $this->headers[$col];
                     }
-                    printf('"%s"', str_replace($search, $replace, $colDisplayValue));
+                    echo json_encode($colDisplayValue);
                 }
                 echo ']';
                 $firstRow = false;
@@ -198,7 +194,7 @@ class ExportToJson extends ExportBase implements CFDBExport {
                     else {
                         echo ',';
                     }
-                    printf('"%s"', str_replace($search, $replace, $this->dataIterator->row[$col]));
+                    echo json_encode($this->dataIterator->row[$col]);
                 }
                 echo "]";
             }
