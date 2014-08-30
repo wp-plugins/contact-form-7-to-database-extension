@@ -83,6 +83,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8.10 =
+* Bug fix related to "trans" with multiple transform functions
+
 = 2.8.9 =
 * Added delete button in admin screen viewing single submission
 * Can now include in CF7 emails the CFDB [submit_time] and [submit_url]

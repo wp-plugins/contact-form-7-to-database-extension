@@ -40,6 +40,9 @@ class CFDBTransformEndpoint extends CFDBDataIteratorDecorator {
     public function nextRow() {
         if ($this->postProcessor->nextRow()) {
             $this->row =& $this->source->row;
+            if (empty($this->displayColumns)) {
+                $this->displayColumns =& $this->source->displayColumns;
+            }
             return true;
         } else {
             $this->row = null;

@@ -66,9 +66,15 @@ class CFDBTransformByFunctionIterator extends CFDBDataIteratorDecorator {
     public function nextRow() {
         if ($this->source->nextRow()) {
             $this->row =& $this->source->row;
+            if (empty($this->displayColumns) && !empty($this->source->displayColumns)) {
+                $this->displayColumns = $this->source->displayColumns;
+            }
             $functionReturn = $this->functionEvaluator->evaluateFunction($this->functionArray, $this->row);
             if ($this->fieldToAssign) {
                 $this->source->row[$this->fieldToAssign] = $functionReturn;
+                if (!in_array($this->fieldToAssign, $this->displayColumns)) {
+                    $this->displayColumns[] = $this->fieldToAssign;
+                }
             } else if (is_array($functionReturn)) {
                 // function returns new array for the entry
                 $this->source->row = $functionReturn;
