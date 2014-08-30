@@ -156,29 +156,36 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
                                 $replacements[] = $this->plugin->getFileUrl($this->dataIterator->row[$submitTimeKeyName], $formName, $aCol);
                                 break;
                             case 'link':
-                                $replacements[] =
-                                        '<a href="' .
-                                        $this->plugin->getFileUrl($this->dataIterator->row[$submitTimeKeyName], $formName, $aCol) .
-                                        '">' .
-                                        htmlentities($this->dataIterator->row[$aCol], null, 'UTF-8') .
-                                        '</a>';
+                                if (isset($this->dataIterator->row[$aCol])) {
+                                    $replacements[] =
+                                            '<a href="' .
+                                            $this->plugin->getFileUrl($this->dataIterator->row[$submitTimeKeyName], $formName, $aCol) .
+                                            '">' .
+                                            htmlentities($this->dataIterator->row[$aCol], null, 'UTF-8') .
+                                            '</a>';
+                                }
                                 break;
                             case 'image':
                             case 'img':
-                                $replacements[] =
-                                        '<img src="' .
-                                        $this->plugin->getFileUrl($this->dataIterator->row[$submitTimeKeyName], $formName, $aCol) .
-                                        '" alt="' .
-                                        htmlentities($this->dataIterator->row[$aCol], null, 'UTF-8') .
-                                        '" />';
+                                if (isset($this->dataIterator->row[$aCol])) {
+                                    $replacements[] =
+                                            '<img src="' .
+                                            $this->plugin->getFileUrl($this->dataIterator->row[$submitTimeKeyName], $formName, $aCol) .
+                                            '" alt="' .
+                                            htmlentities($this->dataIterator->row[$aCol], null, 'UTF-8') .
+                                            '" />';
+                                }
                                 break;
                             case 'name':
                             default:
-                                $replacements[] = htmlentities($this->dataIterator->row[$aCol], null, 'UTF-8');
+                                if (isset($this->dataIterator->row[$aCol])) {
+                                    $replacements[] = htmlentities($this->dataIterator->row[$aCol], null, 'UTF-8');
+                                }
                         }
-                    }
-                    else {
-                        $replacements[] = htmlentities($this->dataIterator->row[$aCol], null, 'UTF-8');
+                    } else {
+                        if (isset($this->dataIterator->row[$aCol])) {
+                            $replacements[] = htmlentities($this->dataIterator->row[$aCol], null, 'UTF-8');
+                        }
                     }
                 }
                 // Preserve line breaks in the field
