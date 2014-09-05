@@ -83,6 +83,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8.11 =
+* Bug fix related to Excel Internet Query export
+
 = 2.8.10 =
 * Bug fix related to "trans" with multiple transform functions
 
