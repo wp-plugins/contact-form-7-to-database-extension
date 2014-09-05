@@ -12,10 +12,8 @@ Saves submitted form data to the database and allow you to export the data to a 
 
 == Description ==
 
-Find detailed information, including a video tutorial on the <a href="http://cfdbplugin.com/">CFDB Plugin Site</a>
-
 The "CFDB" plugin saves contact form submissions to your WordPress database and provides short codes to retrieve and display the data.
-See the CFDB Documentation Site
+Video tutorial on the <a href="http://cfdbplugin.com/">CFDB Plugin Site</a>
 
 By simply installing the plugin, it will automatically begin to capture submissions from:
 
