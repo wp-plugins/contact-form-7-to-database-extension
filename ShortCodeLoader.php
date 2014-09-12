@@ -18,7 +18,7 @@
     along with Contact Form to Database.
     If not, see <http://www.gnu.org/licenses/>.
 */
- 
+
 abstract class ShortCodeLoader {
 
     /**
@@ -50,6 +50,15 @@ abstract class ShortCodeLoader {
         else {
             add_shortcode($shortcodeName, array($this, $functionName));
         }
+    }
+
+    public function decodeAttributes($atts) {
+        if (is_array($atts)) {
+            foreach ($atts as $key => $value) {
+                $atts[$key] = html_entity_decode($value);
+            }
+        }
+        return $atts;
     }
 
     /**

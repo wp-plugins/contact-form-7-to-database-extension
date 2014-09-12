@@ -47,6 +47,7 @@ class CFDBShortcodeTable extends ShortCodeLoader {
      */
     public function handleShortcode($atts, $content = null) {
         if (isset($atts['form'])) {
+            $atts = $this->decodeAttributes($atts);
             $atts['content'] = $content;
             $atts['canDelete'] = false;
             $atts['fromshortcode'] = true;
@@ -54,6 +55,7 @@ class CFDBShortcodeTable extends ShortCodeLoader {
             $export = new ExportToHtmlTable();
             return $export->export($atts['form'], $atts);
         }
+        return '';
     }
 
 }

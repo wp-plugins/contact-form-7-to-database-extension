@@ -30,6 +30,7 @@ class CFDBShortcodeJson extends ShortCodeLoader {
      */
     public function handleShortcode($atts, $content = null) {
         if (isset($atts['form'])) {
+            $atts = $this->decodeAttributes($atts);
             $atts['content'] = $content;
             $atts['html'] = true;
             $atts['fromshortcode'] = true;
@@ -37,5 +38,6 @@ class CFDBShortcodeJson extends ShortCodeLoader {
             $export = new ExportToJson();
             return $export->export($atts['form'], $atts);
         }
+        return '';
     }
 }

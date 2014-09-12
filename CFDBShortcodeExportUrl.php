@@ -29,6 +29,7 @@ class CFDBShortcodeExportUrl extends ShortCodeLoader {
      * @return string export link
      */
     public function handleShortcode($atts, $content = null) {
+        $atts = $this->decodeAttributes($atts);
         $params = array();
         $params[] = admin_url('admin-ajax.php');
         $params[] = '?action=cfdb-export';

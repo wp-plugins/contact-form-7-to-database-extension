@@ -83,6 +83,7 @@ You can always deactivate the plugin without loosing data.
 
 = 2.8.11 =
 * Bug fix related to Excel Internet Query export
+* Bug fix when HTML special characters in short code attributes
 
 = 2.8.10 =
 * Bug fix related to "trans" with multiple transform functions

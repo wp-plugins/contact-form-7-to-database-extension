@@ -32,6 +32,8 @@ class CFDBShortCodeSavePostData extends ShortCodeLoader {
      */
     public function handleShortcode($atts, $content = null) {
 
+        $atts = $this->decodeAttributes($atts);
+
         if (is_array($atts) && isset($atts['debug']) && $atts['debug'] == 'true') {
             echo '<pre>';
             print_r($_POST);
