@@ -927,6 +927,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#limit_rows_cntl').val('<?php echo $postedLimitNumRows ?>');
             jQuery('#limit_start_cntl').val('<?php echo $postedLimitStart ?>');
             jQuery('#random_cntl').val('<?php echo $postedRandom ?>');
+            jQuery('#unbuffered_cntl').attr("checked", false);
             jQuery('#orderby_cntl').val('<?php echo $postedOrderby ?>');
             jQuery('#torderby_cntl').val('<?php echo $postedTOrderby ?>');
             jQuery('#header_cntl').prop("checked", <?php echo $postedHeader == 'false' ? 'false' : 'true' ?>); // default = true
