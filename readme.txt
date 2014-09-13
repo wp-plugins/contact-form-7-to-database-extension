@@ -81,6 +81,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8.12 =
+* Work-around for WP bug https://core.trac.wordpress.org/ticket/29658
+
 = 2.8.11 =
 * Bug fix related to Excel Internet Query export
 * Bug fix when HTML special characters in short code attributes

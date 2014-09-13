@@ -61,6 +61,29 @@ abstract class ShortCodeLoader {
             foreach ($atts as $key => $value) {
                 $atts[$key] = $this->decodeString($value);
             }
+            $atts = $this->workAround_29658($atts);
+        }
+        return $atts;
+    }
+
+    // Work-around for https://core.trac.wordpress.org/ticket/29658
+    public function workAround_29658($atts) {
+        if (isset($atts[0])) {
+            if (isset($atts['filter']) && strpos($atts['filter'], '”') === 0) {
+                $atts['filter'] = $atts['filter'] . ' ' . $atts[0];
+                $atts['filter'] = $this->stripCurlyQuotes($atts['filter']);
+                unset($atts[0]);
+            }
+            else if (isset($atts['tfilter']) && strpos($atts['tfilter'], '”') === 0) {
+                $atts['tfilter'] = $atts['tfilter'] . ' ' . $atts[0];
+                $atts['tfilter'] = $this->stripCurlyQuotes($atts['tfilter']);
+                unset($atts[0]);
+            }
+            else if (isset($atts['trans']) && strpos($atts['trans'], '”') === 0) {
+                $atts['trans'] = $atts['trans'] . ' ' . $atts[0];
+                $atts['trans'] = $this->stripCurlyQuotes($atts['trans']);
+                unset($atts[0]);
+            }
         }
         return $atts;
     }
