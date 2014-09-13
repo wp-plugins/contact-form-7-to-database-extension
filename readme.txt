@@ -81,6 +81,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8.13 =
+* Bug fix in "trans"
+
 = 2.8.12 =
 * Work-around for WP bug https://core.trac.wordpress.org/ticket/29658
 

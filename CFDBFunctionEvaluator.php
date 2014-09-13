@@ -60,7 +60,7 @@ class CFDBFunctionEvaluator {
         }
         if (empty($functionArray)) {
             // If function has no parameters, pass in the whole form entry associative array
-            $functionArray[] = $data;
+            $functionArray[] = &$data;
         }
         return call_user_func_array($functionName, $functionArray);
     }

@@ -69,16 +69,46 @@ class CFDBTransformByFunctionIterator extends CFDBDataIteratorDecorator {
             if (empty($this->displayColumns) && !empty($this->source->displayColumns)) {
                 $this->displayColumns = $this->source->displayColumns;
             }
+            $origKeys = array_keys($this->row);
             $functionReturn = $this->functionEvaluator->evaluateFunction($this->functionArray, $this->row);
             if ($this->fieldToAssign) {
                 $this->source->row[$this->fieldToAssign] = $functionReturn;
                 if (!in_array($this->fieldToAssign, $this->displayColumns)) {
                     $this->displayColumns[] = $this->fieldToAssign;
                 }
-            } else if (is_array($functionReturn)) {
-                // function returns new array for the entry
-                $this->source->row = $functionReturn;
-                $this->row =& $this->source->row;
+            } else if ($functionReturn === null || is_array($functionReturn)) {
+                // $functionReturn when a reference was passed in and row may be modified
+
+                // New row returned
+                if (is_array($functionReturn)) {
+                    // function returns new array for the entry
+                    $this->source->row = $functionReturn;
+                    $this->row =& $this->source->row;
+                }
+
+                // Reconcile display columns
+
+                // 1. Check for the addition of new columns to add to displays
+                $newFieldsSeen = array();
+                $newKeys = array_keys($this->row);
+                $addedKeys = array_diff($newKeys, $origKeys);
+                if (!empty($addedKeys)) {
+                    foreach ($addedKeys as $add) {
+                        if (!in_array($add, $this->displayColumns)) {
+                            $this->displayColumns[] = $add;
+                            $newFieldsSeen[] = $add;
+                        }
+                    }
+                }
+
+                // 2. Remove display columns that no longer exist
+                $updatedDisplays = array();
+                foreach($this->displayColumns as $aDisplay) {
+                    if (in_array($aDisplay, $newKeys) || in_array($aDisplay, $newFieldsSeen)) {
+                        $updatedDisplays[] = $aDisplay;
+                    }
+                }
+                $this->displayColumns = $updatedDisplays;
             }
             return true;
         }

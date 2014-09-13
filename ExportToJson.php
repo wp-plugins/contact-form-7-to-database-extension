@@ -145,8 +145,11 @@ class ExportToJson extends ExportBase implements CFDBExport {
                         echo ',';
                     }
                     printf('%s:%s',
-                           $jsonEscapedColumns[$col],
-                            json_encode($this->dataIterator->row[$col]));
+                            $jsonEscapedColumns[$col],
+                            json_encode(
+                                    (isset($this->dataIterator->row[$col]) ?
+                                            $this->dataIterator->row[$col] :
+                                            '')));
                 }
                 echo '}';
             }
@@ -194,7 +197,9 @@ class ExportToJson extends ExportBase implements CFDBExport {
                     else {
                         echo ',';
                     }
-                    echo json_encode($this->dataIterator->row[$col]);
+                    echo json_encode(isset($this->dataIterator->row[$col]) ?
+                            $this->dataIterator->row[$col] :
+                            '');
                 }
                 echo "]";
             }
