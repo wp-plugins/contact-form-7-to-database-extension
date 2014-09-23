@@ -865,7 +865,13 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                         // List - value is serialized array
                         $valueArray = @unserialize($entry[$fieldId]);
                         if (is_array($valueArray)) {
-                            $postedData[$fieldName] = implode(',',$valueArray);
+                            $postedData[$fieldName] = '';
+                            // Array of (Array of column-name => value)
+                            $tmpArray = array();
+                            foreach ($valueArray as $listArray) {
+                                $tmpArray[] = implode(',', array_values($listArray));
+                            }
+                            $postedData[$fieldName] = implode('|', $tmpArray);
                         }
                         else {
                             $postedData[$fieldName] = $entry[$fieldId];

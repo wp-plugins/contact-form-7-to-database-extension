@@ -81,6 +81,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8.14 =
+* Fix to capturing Gravity Forms list values
+
 = 2.8.13 =
 * Bug fix in "trans"
 
