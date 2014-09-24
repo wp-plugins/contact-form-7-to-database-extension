@@ -552,6 +552,7 @@ class ExportBase {
         else if ($formName !== null && $formName != '*') { // * => all forms
             if (strpos($formName, ',') !== false) {
                 $formNameArray = explode(',', $formName);
+                $formNameArray[] = $formName; // in case the form name is literally the string with commas in it
                 $formNameArray = $this->escapeAndQuoteArrayValues($formNameArray);
                 $formNameClause = '`form_name` in ( ' . implode(', ', $formNameArray) . ' )';
             }
