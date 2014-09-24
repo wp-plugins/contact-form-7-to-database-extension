@@ -81,6 +81,10 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8.15 =
+* Bug Fix: No longer generating 'submit_url' for Contact Form 7 email because it seems to cause CF7 to think it is a spam submission and it drops it.
+* Bug fix: when form name has commas in it, retrieving its data from the DB did not work because plugin was treating it as a list of form names
+
 = 2.8.14 =
 * Fix to capturing Gravity Forms list values
 
