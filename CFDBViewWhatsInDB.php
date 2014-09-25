@@ -45,17 +45,14 @@ class CFDBViewWhatsInDB extends CFDBView {
         }
         $page = 1;
         if (isset($_REQUEST['dbpage'])) {
-            $page = $_REQUEST['dbpage'];
-        }
-        else if (isset($_GET['dbpage'])) {
-            $page = $_GET['dbpage'];
+            $page = filter_var($_REQUEST['dbpage']);
         }
         $currSelection = null;
         if (isset($_REQUEST['form_name'])) {
-            $currSelection = $_REQUEST['form_name'];
+            $currSelection = filter_var($_REQUEST['form_name']);
         }
-        else if (isset($_GET['form_name'])) {
-            $currSelection = $_GET['form_name'];
+        else if (isset($_REQUEST['form'])) {
+            $currSelection = filter_var($_REQUEST['form']);
         }
         // If there is only one form in the DB, select that by default
         if (!$currSelection && count($formsList) == 1) {

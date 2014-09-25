@@ -49,20 +49,20 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         //        }
 
         // Collect any values in $_REQUEST to pre-populate the page controls
-        $postedForm = isset($_REQUEST['form']) ? $_REQUEST['form'] : '';
-        $postedEnc = isset($_REQUEST['enc']) ? $_REQUEST['enc'] : '';
-        $postedSC = isset($_REQUEST['sc']) ? ('[' . $_REQUEST['sc'] . ']') : '';
-        $postedTrans = isset($_REQUEST['trans']) ? ($_REQUEST['trans']) : '';
-        $postedShow = isset($_REQUEST['show']) ? ($_REQUEST['show']) : '';
-        $postedHide = isset($_REQUEST['hide']) ? ($_REQUEST['hide']) : '';
-        $postedRole = isset($_REQUEST['role']) ? ($_REQUEST['role']) : '';
-        $postedPermissionmsg = isset($_REQUEST['permissionmsg']) ? ($_REQUEST['permissionmsg']) : '';
-        $postedSearch = isset($_REQUEST['search']) ? ($_REQUEST['search']) : '';
-        $postedFilter = isset($_REQUEST['filter']) ? ($_REQUEST['filter']) : '';
-        $postedTSearch = isset($_REQUEST['tsearch']) ? ($_REQUEST['tsearch']) : '';
-        $postedTFilter = isset($_REQUEST['tfilter']) ? ($_REQUEST['tfilter']) : '';
-        $postedLimit = isset($_REQUEST['limit']) ? ($_REQUEST['limit']) : '';
-        $postedTLimit = isset($_REQUEST['tlimit']) ? ($_REQUEST['tlimit']) : '';
+        $postedForm = filter_var(isset($_REQUEST['form']) ? $_REQUEST['form'] : '', FILTER_SANITIZE_SPECIAL_CHARS);
+        $postedEnc = filter_var(isset($_REQUEST['enc']) ? $_REQUEST['enc'] : '', FILTER_SANITIZE_SPECIAL_CHARS);
+        $postedSC = filter_var(isset($_REQUEST['sc']) ? ('[' . $_REQUEST['sc'] . ']') : '', FILTER_SANITIZE_SPECIAL_CHARS);
+        $postedTrans = filter_var(isset($_REQUEST['trans']) ? ($_REQUEST['trans']) : '', FILTER_SANITIZE_SPECIAL_CHARS);
+        $postedShow = filter_var(isset($_REQUEST['show']) ? ($_REQUEST['show']) : '', FILTER_SANITIZE_SPECIAL_CHARS);
+        $postedHide = filter_var(isset($_REQUEST['hide']) ? ($_REQUEST['hide']) : '', FILTER_SANITIZE_SPECIAL_CHARS);
+        $postedRole = filter_var(isset($_REQUEST['role']) ? ($_REQUEST['role']) : '', FILTER_SANITIZE_SPECIAL_CHARS);
+        $postedPermissionmsg = filter_var(isset($_REQUEST['permissionmsg']) ? ($_REQUEST['permissionmsg']) : '', FILTER_SANITIZE_SPECIAL_CHARS);
+        $postedSearch = filter_var(isset($_REQUEST['search']) ? ($_REQUEST['search']) : '', FILTER_SANITIZE_SPECIAL_CHARS);
+        $postedFilter = filter_var(isset($_REQUEST['filter']) ? ($_REQUEST['filter']) : '', FILTER_SANITIZE_SPECIAL_CHARS);
+        $postedTSearch = filter_var(isset($_REQUEST['tsearch']) ? ($_REQUEST['tsearch']) : '', FILTER_SANITIZE_SPECIAL_CHARS);
+        $postedTFilter = filter_var(isset($_REQUEST['tfilter']) ? ($_REQUEST['tfilter']) : '', FILTER_SANITIZE_SPECIAL_CHARS);
+        $postedLimit = filter_var(isset($_REQUEST['limit']) ? ($_REQUEST['limit']) : '', FILTER_SANITIZE_SPECIAL_CHARS);
+        $postedTLimit = filter_var(isset($_REQUEST['tlimit']) ? ($_REQUEST['tlimit']) : '', FILTER_SANITIZE_SPECIAL_CHARS);
 
         $postedLimitComponents = explode(',', $postedLimit);
         $postedLimitStart = '';
