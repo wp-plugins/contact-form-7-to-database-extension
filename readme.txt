@@ -81,6 +81,10 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8.16 =
+* Generating the [submit_time] tag for Contact Form 7 is now an option in the Options page and is off by default to avoid the post being flagged as spam
+* Added some protection against cross site scripting
+
 = 2.8.15 =
 * Bug Fix: No longer generating 'submit_url' for Contact Form 7 email because it seems to cause CF7 to think it is a spam submission and it drops it.
 * Bug fix: when form name has commas in it, retrieving its data from the DB did not work because plugin was treating it as a list of form names
