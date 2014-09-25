@@ -59,6 +59,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                                                     'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
             'CanChangeSubmitData' => array(__('Can Edit/Delete Submission data', 'contact-form-7-to-database-extension'),
                                            'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
+            'GenerateSubmitTimeInCF7Email' => array(__('Generate [submit_time] tag for Contact Form 7 email', 'contact-form-7-to-database-extension'), 'false', 'true'),
             'FunctionsInShortCodes' => array(__('Allow Any Function in Short Codes', 'contact-form-7-to-database-extension') .
                     ' <a target="_blank" href="http://cfdbplugin.com/?page_id=1073">' . __('(Creates a security hole)', 'contact-form-7-to-database-extension') . '</a>', 'false', 'true'),
             'AllowRSS' => array(__('Allow RSS URLs', 'contact-form-7-to-database-extension') .
@@ -272,7 +273,12 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
         // Hook into Contact Form 7 when a form post is made to save the data to the DB
         if ($this->getOption('IntegrateWithCF7', 'true') == 'true') {
             add_action('wpcf7_before_send_mail', array(&$this, 'saveCF7FormData'));
-            add_action('wpcf7_posted_data', array(&$this, 'generateSubmitTimeForCF7'));
+            // Generate submit_time for CF7 mail. Some people complain this causes an error
+            // so this is now optional and off by default. Seems to be related to CF7
+            // checking its data against blacklist
+            if ($this->getOption('GenerateSubmitTimeInCF7Email', 'false') == 'true') {
+                add_action('wpcf7_posted_data', array(&$this, 'generateSubmitTimeForCF7'));
+            }
         }
 
         // Hook into Fast Secure Contact Form
