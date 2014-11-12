@@ -81,6 +81,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8.17 =
+* Bug fix in [cfdb-html] variable substitution when data for column is not present.
+
 = 2.8.16 =
 * Generating the [submit_time] tag for Contact Form 7 is now an option in the Options page and is off by default to avoid the post being flagged as spam
 * Added some protection against cross site scripting

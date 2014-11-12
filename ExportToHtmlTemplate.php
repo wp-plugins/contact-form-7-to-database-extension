@@ -163,6 +163,8 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
                                             '">' .
                                             htmlentities($this->dataIterator->row[$aCol], null, 'UTF-8') .
                                             '</a>';
+                                } else {
+                                    $replacements[] = '';
                                 }
                                 break;
                             case 'image':
@@ -174,6 +176,8 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
                                             '" alt="' .
                                             htmlentities($this->dataIterator->row[$aCol], null, 'UTF-8') .
                                             '" />';
+                                } else {
+                                    $replacements[] = '';
                                 }
                                 break;
                             case 'name':
@@ -185,6 +189,8 @@ class ExportToHtmlTemplate extends ExportBase implements CFDBExport {
                     } else {
                         if (isset($this->dataIterator->row[$aCol])) {
                             $replacements[] = htmlentities($this->dataIterator->row[$aCol], null, 'UTF-8');
+                        } else {
+                            $replacements[] = '';
                         }
                     }
                 }
