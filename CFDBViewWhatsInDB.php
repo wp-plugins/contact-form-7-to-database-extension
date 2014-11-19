@@ -45,15 +45,16 @@ class CFDBViewWhatsInDB extends CFDBView {
         }
         $page = 1;
         if (isset($_REQUEST['dbpage'])) {
-            $page = filter_var($_REQUEST['dbpage']);
+            $page = strip_tags($_REQUEST['dbpage']);
         }
         $currSelection = null;
         if (isset($_REQUEST['form_name'])) {
-            $currSelection = filter_var($_REQUEST['form_name']);
+            $currSelection = strip_tags($_REQUEST['form_name']);
         }
         else if (isset($_REQUEST['form'])) {
-            $currSelection = filter_var($_REQUEST['form']);
+            $currSelection = strip_tags($_REQUEST['form']);
         }
+        $currSelectionEscaped = htmlspecialchars($currSelection);
         // If there is only one form in the DB, select that by default
         if (!$currSelection && count($formsList) == 1) {
             $currSelection = $formsList[0];
@@ -104,7 +105,7 @@ class CFDBViewWhatsInDB extends CFDBView {
         <tr>
             <td align="left" valign="top">
                 <form method="get" action="" name="displayform" id="displayform">
-                    <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>"/>
+                    <input type="hidden" name="page" value="<?php echo strip_tags($_REQUEST['page']) ?>"/>
                     <select name="form_name" id="form_name" onchange="this.form.submit();">
                         <option value=""><?php _e('* Select a form *', 'contact-form-7-to-database-extension') ?></option>
                         <?php foreach ($formsList as $formName) {
@@ -235,7 +236,7 @@ class CFDBViewWhatsInDB extends CFDBView {
             <td align="right" valign="top">
                 <?php if ($currSelection && $canEdit) { ?>
                 <form action="" method="post">
-                    <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
+                    <input name="form_name" type="hidden" value="<?php echo $currSelectionEscaped ?>"/>
                     <input name="all" type="hidden" value="y"/>
                     <input name="delete" type="submit"
                            value="<?php _e('Delete All This Form\'s Records', 'contact-form-7-to-database-extension'); ?>"
@@ -243,7 +244,7 @@ class CFDBViewWhatsInDB extends CFDBView {
                 </form>
                 <br/>
                     <form action="" method="post">
-                        <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
+                        <input name="form_name" type="hidden" value="<?php echo $currSelectionEscaped ?>"/>
                         <input name="delete_wpcf7" type="submit"
                                value="<?php _e('Remove _wpcf7 columns', 'contact-form-7-to-database-extension') ?>"/>
                     </form>
@@ -310,7 +311,7 @@ class CFDBViewWhatsInDB extends CFDBView {
             if ($canEdit) {
                 ?>
         <form action="" method="post">
-            <input name="form_name" type="hidden" value="<?php echo $currSelection ?>"/>
+            <input name="form_name" type="hidden" value="<?php echo $currSelectionEscaped ?>"/>
                 <input name="delete" type="hidden" value="rows"/>
                 <?php
 

@@ -49,20 +49,20 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         //        }
 
         // Collect any values in $_REQUEST to pre-populate the page controls
-        $postedForm = filter_var(isset($_REQUEST['form']) ? $_REQUEST['form'] : '', FILTER_SANITIZE_SPECIAL_CHARS);
-        $postedEnc = filter_var(isset($_REQUEST['enc']) ? $_REQUEST['enc'] : '', FILTER_SANITIZE_SPECIAL_CHARS);
-        $postedSC = filter_var(isset($_REQUEST['sc']) ? ('[' . $_REQUEST['sc'] . ']') : '', FILTER_SANITIZE_SPECIAL_CHARS);
-        $postedTrans = filter_var(isset($_REQUEST['trans']) ? ($_REQUEST['trans']) : '', FILTER_SANITIZE_SPECIAL_CHARS);
-        $postedShow = filter_var(isset($_REQUEST['show']) ? ($_REQUEST['show']) : '', FILTER_SANITIZE_SPECIAL_CHARS);
-        $postedHide = filter_var(isset($_REQUEST['hide']) ? ($_REQUEST['hide']) : '', FILTER_SANITIZE_SPECIAL_CHARS);
-        $postedRole = filter_var(isset($_REQUEST['role']) ? ($_REQUEST['role']) : '', FILTER_SANITIZE_SPECIAL_CHARS);
-        $postedPermissionmsg = filter_var(isset($_REQUEST['permissionmsg']) ? ($_REQUEST['permissionmsg']) : '', FILTER_SANITIZE_SPECIAL_CHARS);
-        $postedSearch = filter_var(isset($_REQUEST['search']) ? ($_REQUEST['search']) : '', FILTER_SANITIZE_SPECIAL_CHARS);
-        $postedFilter = filter_var(isset($_REQUEST['filter']) ? ($_REQUEST['filter']) : '', FILTER_SANITIZE_SPECIAL_CHARS);
-        $postedTSearch = filter_var(isset($_REQUEST['tsearch']) ? ($_REQUEST['tsearch']) : '', FILTER_SANITIZE_SPECIAL_CHARS);
-        $postedTFilter = filter_var(isset($_REQUEST['tfilter']) ? ($_REQUEST['tfilter']) : '', FILTER_SANITIZE_SPECIAL_CHARS);
-        $postedLimit = filter_var(isset($_REQUEST['limit']) ? ($_REQUEST['limit']) : '', FILTER_SANITIZE_SPECIAL_CHARS);
-        $postedTLimit = filter_var(isset($_REQUEST['tlimit']) ? ($_REQUEST['tlimit']) : '', FILTER_SANITIZE_SPECIAL_CHARS);
+        $postedForm = strip_tags(isset($_REQUEST['form']) ? $_REQUEST['form'] : '');
+        $postedEnc = strip_tags(isset($_REQUEST['enc']) ? $_REQUEST['enc'] : '');
+        $postedSC = strip_tags(isset($_REQUEST['sc']) ? ('[' . $_REQUEST['sc'] . ']') : '');
+        $postedTrans = strip_tags(isset($_REQUEST['trans']) ? ($_REQUEST['trans']) : '');
+        $postedShow = strip_tags(isset($_REQUEST['show']) ? ($_REQUEST['show']) : '');
+        $postedHide = strip_tags(isset($_REQUEST['hide']) ? ($_REQUEST['hide']) : '');
+        $postedRole = strip_tags(isset($_REQUEST['role']) ? ($_REQUEST['role']) : '');
+        $postedPermissionmsg = strip_tags(isset($_REQUEST['permissionmsg']) ? ($_REQUEST['permissionmsg']) : '');
+        $postedSearch = strip_tags(isset($_REQUEST['search']) ? ($_REQUEST['search']) : '');
+        $postedFilter = strip_tags(isset($_REQUEST['filter']) ? ($_REQUEST['filter']) : '');
+        $postedTSearch = strip_tags(isset($_REQUEST['tsearch']) ? ($_REQUEST['tsearch']) : '');
+        $postedTFilter = strip_tags(isset($_REQUEST['tfilter']) ? ($_REQUEST['tfilter']) : '');
+        $postedLimit = strip_tags(isset($_REQUEST['limit']) ? ($_REQUEST['limit']) : '');
+        $postedTLimit = strip_tags(isset($_REQUEST['tlimit']) ? ($_REQUEST['tlimit']) : '');
 
         $postedLimitComponents = explode(',', $postedLimit);
         $postedLimitStart = '';
