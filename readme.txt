@@ -81,6 +81,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8.18 =
+* Better XSS protection for admin panels
+
 = 2.8.17 =
 * Bug fix in [cfdb-html] variable substitution when data for column is not present.
 
