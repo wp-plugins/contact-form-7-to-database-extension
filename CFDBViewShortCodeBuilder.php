@@ -49,20 +49,20 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         //        }
 
         // Collect any values in $_REQUEST to pre-populate the page controls
-        $postedForm = strip_tags(isset($_REQUEST['form']) ? $_REQUEST['form'] : '');
-        $postedEnc = strip_tags(isset($_REQUEST['enc']) ? $_REQUEST['enc'] : '');
-        $postedSC = strip_tags(isset($_REQUEST['sc']) ? ('[' . $_REQUEST['sc'] . ']') : '');
-        $postedTrans = strip_tags(isset($_REQUEST['trans']) ? ($_REQUEST['trans']) : '');
-        $postedShow = strip_tags(isset($_REQUEST['show']) ? ($_REQUEST['show']) : '');
-        $postedHide = strip_tags(isset($_REQUEST['hide']) ? ($_REQUEST['hide']) : '');
-        $postedRole = strip_tags(isset($_REQUEST['role']) ? ($_REQUEST['role']) : '');
-        $postedPermissionmsg = strip_tags(isset($_REQUEST['permissionmsg']) ? ($_REQUEST['permissionmsg']) : '');
-        $postedSearch = strip_tags(isset($_REQUEST['search']) ? ($_REQUEST['search']) : '');
-        $postedFilter = strip_tags(isset($_REQUEST['filter']) ? ($_REQUEST['filter']) : '');
-        $postedTSearch = strip_tags(isset($_REQUEST['tsearch']) ? ($_REQUEST['tsearch']) : '');
-        $postedTFilter = strip_tags(isset($_REQUEST['tfilter']) ? ($_REQUEST['tfilter']) : '');
-        $postedLimit = strip_tags(isset($_REQUEST['limit']) ? ($_REQUEST['limit']) : '');
-        $postedTLimit = strip_tags(isset($_REQUEST['tlimit']) ? ($_REQUEST['tlimit']) : '');
+        $postedForm = $this->getRequestParam('form');
+        $postedEnc = $this->getRequestParam('enc');
+        $postedSC = $this->getRequestParam('sc');
+        $postedTrans = $this->getRequestParam('trans');
+        $postedShow = $this->getRequestParam('show');
+        $postedHide = $this->getRequestParam('hide');
+        $postedRole = $this->getRequestParam('role');
+        $postedPermissionmsg = $this->getRequestParam('permissionmsg');
+        $postedSearch = $this->getRequestParam('search');
+        $postedFilter = $this->getRequestParam('filter');
+        $postedTSearch = $this->getRequestParam('tsearch');
+        $postedTFilter = $this->getRequestParam('tfilter');
+        $postedLimit = $this->getRequestParam('limit');
+        $postedTLimit = $this->getRequestParam('tlimit');
 
         $postedLimitComponents = explode(',', $postedLimit);
         $postedLimitStart = '';
@@ -79,26 +79,26 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 break;
         }
 
-        $postedUnbuffered = isset($_REQUEST['unbuffered']) ? ($_REQUEST['unbuffered']) : '';
-        $postedRandom = isset($_REQUEST['random']) ? ($_REQUEST['random']) : '';
-        $postedOrderby = isset($_REQUEST['orderby']) ? ($_REQUEST['orderby']) : '';
-        $postedTOrderby = isset($_REQUEST['torderby']) ? ($_REQUEST['torderby']) : '';
-        $postedHeader = isset($_REQUEST['header']) ? ($_REQUEST['header']) : '';
-        $postedHeaders = isset($_REQUEST['headers']) ? ($_REQUEST['headers']) : '';
-        $postedItemtitle = isset($_REQUEST['itemtitle']) ? ($_REQUEST['itemtitle']) : '';
-        $postedId = isset($_REQUEST['id']) ? ($_REQUEST['id']) : '';
-        $postedClass = isset($_REQUEST['class']) ? ($_REQUEST['class']) : '';
-        $postedStyle = isset($_REQUEST['style']) ? ($_REQUEST['style']) : '';
-        $postedEdit = isset($_REQUEST['edit']) ? ($_REQUEST['edit']) : '';
-        $postedDtOptions = isset($_REQUEST['dt_options']) ? ($_REQUEST['dt_options']) : '';
-        $postedVar = isset($_REQUEST['var']) ? ($_REQUEST['var']) : '';
-        $postedFormat = isset($_REQUEST['format']) ? ($_REQUEST['format']) : '';
-        $postedFunction = isset($_REQUEST['function']) ? ($_REQUEST['function']) : '';
-        $postedDelimiter = isset($_REQUEST['delimiter']) ? ($_REQUEST['delimiter']) : '';
-        $postedFilelinks = isset($_REQUEST['filelinks']) ? ($_REQUEST['filelinks']) : '';
-        $postedWpautop = isset($_REQUEST['wpautop']) ? ($_REQUEST['wpautop']) : '';
-        $postedStripbr = isset($_REQUEST['stripbr']) ? ($_REQUEST['stripbr']) : '';
-        $postedContent = isset($_REQUEST['content']) ? ($_REQUEST['content']) : '';
+        $postedUnbuffered = $this->getRequestParam('unbuffered');
+        $postedRandom = $this->getRequestParam('random');
+        $postedOrderby = $this->getRequestParam('orderby');
+        $postedTOrderby = $this->getRequestParam('torderby');
+        $postedHeader = $this->getRequestParam('header');
+        $postedHeaders = $this->getRequestParam('headers');
+        $postedItemtitle = $this->getRequestParam('itemtitle');
+        $postedId = $this->getRequestParam('id');
+        $postedClass = $this->getRequestParam('class');
+        $postedStyle = $this->getRequestParam('style');
+        $postedEdit = $this->getRequestParam('edit');
+        $postedDtOptions = $this->getRequestParam('dt_options');
+        $postedVar = $this->getRequestParam('var');
+        $postedFormat = $this->getRequestParam('format');
+        $postedFunction = $this->getRequestParam('function');
+        $postedDelimiter = $this->getRequestParam('delimiter');
+        $postedFilelinks = $this->getRequestParam('filelinks');
+        $postedWpautop = $this->getRequestParam('wpautop');
+        $postedStripbr = $this->getRequestParam('stripbr');
+        $postedContent = $this->getRequestParam('content');
         $postedContentBefore = '';
         $postedContentAfter = '';
         if ($postedContent) {
@@ -106,8 +106,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             list($postedContentBefore, $postedContent, $postedContentAfter) = $parser->parseBeforeContentAfter($postedContent);
         }
 
-        $postedUrlonly = isset($_REQUEST['urlonly']) ? ($_REQUEST['urlonly']) : '';
-        $postedLinktext = isset($_REQUEST['linktext']) ? ($_REQUEST['linktext']) : '';
+        $postedUrlonly = $this->getRequestParam('urlonly');
+        $postedLinktext = $this->getRequestParam('linktext');
 
         $infoImg = $plugin->getPluginFileUrl('/img/info.jpg');
         ?>
@@ -875,7 +875,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             if (value) {
                 value += "&&";
             }
-            var field = jQuery('#add_trans').val()
+            var field = jQuery('#add_trans').val();
             if (field) {
                 value += field;
                 value += "="
@@ -906,50 +906,50 @@ class CFDBViewShortCodeBuilder extends CFDBView {
 
         function reset() {
             // Form
-            jQuery('#form_name_cntl').val('<?php echo $postedForm ?>');
+            jQuery('#form_name_cntl').val(<?php echo json_encode($postedForm) ?>);
             getFormFields();
 
             // Export File
-            jQuery('#export_cntl').val('<?php echo $postedEnc ?>');
-            jQuery('#add_itemtitle').val('<?php echo $postedItemtitle ?>');
+            jQuery('#export_cntl').val(<?php echo json_encode($postedEnc) ?>);
+            jQuery('#add_itemtitle').val(<?php echo json_encode($postedItemtitle) ?>);
 
             // Short Code
-            jQuery('#shortcode_ctrl').val('<?php echo $postedSC ?>');
-            jQuery('#show_cntl').val('<?php echo $postedShow ?>');
-            jQuery('#hide_cntl').val('<?php echo $postedHide ?>');
-            jQuery('#role_cntl').val('<?php echo $postedRole ?>');
-            jQuery('#permissionmsg_cntl').val('<?php echo $postedPermissionmsg ?>');
-            jQuery('#trans_cntl').val('<?php echo $postedTrans ?>');
-            jQuery('#search_cntl').val('<?php echo $postedSearch ?>');
-            jQuery('#filter_cntl').val('<?php echo $postedFilter ?>');
-            jQuery('#tsearch_cntl').val('<?php echo $postedTSearch ?>');
-            jQuery('#tfilter_cntl').val('<?php echo $postedTFilter ?>');
-            jQuery('#limit_rows_cntl').val('<?php echo $postedLimitNumRows ?>');
-            jQuery('#limit_start_cntl').val('<?php echo $postedLimitStart ?>');
-            jQuery('#random_cntl').val('<?php echo $postedRandom ?>');
+            jQuery('#shortcode_ctrl').val(<?php echo json_encode($postedSC) ?>);
+            jQuery('#show_cntl').val(<?php echo json_encode($postedShow) ?>);
+            jQuery('#hide_cntl').val(<?php echo json_encode($postedHide) ?>);
+            jQuery('#role_cntl').val(<?php echo json_encode($postedRole) ?>);
+            jQuery('#permissionmsg_cntl').val(<?php echo json_encode($postedPermissionmsg) ?>);
+            jQuery('#trans_cntl').val(<?php echo json_encode($postedTrans) ?>);
+            jQuery('#search_cntl').val(<?php echo json_encode($postedSearch) ?>);
+            jQuery('#filter_cntl').val(<?php echo json_encode($postedFilter) ?>);
+            jQuery('#tsearch_cntl').val(<?php echo json_encode($postedTSearch) ?>);
+            jQuery('#tfilter_cntl').val(<?php echo json_encode($postedTFilter) ?>);
+            jQuery('#limit_rows_cntl').val(<?php echo json_encode($postedLimitNumRows) ?>);
+            jQuery('#limit_start_cntl').val(<?php echo json_encode($postedLimitStart) ?>);
+            jQuery('#random_cntl').val(<?php echo json_encode($postedRandom) ?>);
             jQuery('#unbuffered_cntl').attr("checked", false);
-            jQuery('#orderby_cntl').val('<?php echo $postedOrderby ?>');
-            jQuery('#torderby_cntl').val('<?php echo $postedTOrderby ?>');
+            jQuery('#orderby_cntl').val(<?php echo json_encode($postedOrderby) ?>);
+            jQuery('#torderby_cntl').val(<?php echo json_encode($postedTOrderby) ?>);
             jQuery('#header_cntl').prop("checked", <?php echo $postedHeader == 'false' ? 'false' : 'true' ?>); // default = true
-            jQuery('#headers_cntl').val('<?php echo $postedHeaders ?>');
-            jQuery('#id_cntl').val('<?php echo $postedId ?>');
-            jQuery('#class_cntl').val('<?php echo $postedClass ?>');
-            jQuery('#style_cntl').val('<?php echo $postedStyle ?>');
+            jQuery('#headers_cntl').val(<?php echo json_encode($postedHeaders) ?>);
+            jQuery('#id_cntl').val(<?php echo json_encode($postedId) ?>);
+            jQuery('#class_cntl').val(<?php echo json_encode($postedClass) ?>);
+            jQuery('#style_cntl').val(<?php echo json_encode($postedStyle) ?>);
             jQuery('#edit_mode_cntl').prop('checked', <?php echo $postedEdit == 'true' ? 'true' : 'false' ?>); // default = false
-            jQuery('#dt_options_cntl').val('<?php echo $postedDtOptions ?>');
-            jQuery('#var_cntl').val('<?php echo $postedVar ?>');
-            jQuery('#format_cntl').val('<?php echo $postedFormat ?>');
-            jQuery('#function_cntl').val('<?php echo $postedFunction ?>');
-            jQuery('#delimiter_cntl').val('<?php echo $postedDelimiter ?>');
-            jQuery('#filelinks_cntl').val('<?php echo $postedFilelinks ?>');
-            jQuery('#wpautop_cntl').val('<?php echo $postedWpautop ?>');
-            jQuery('#stripbr_cntl').val('<?php echo $postedStripbr ?>');
-            jQuery('#content_cntl').val('<?php echo $postedContent ?>');
-            jQuery('#before_cntl').val('<?php echo $postedContentBefore ?>');
-            jQuery('#after_cntl').val('<?php echo $postedContentAfter ?>');
-            jQuery('#enc_cntl').val('<?php echo $postedEnc ?>');
-            jQuery('#urlonly_cntl').val('<?php echo $postedUrlonly ?>');
-            jQuery('#linktext_cntl').val('<?php echo $postedLinktext ?>');
+            jQuery('#dt_options_cntl').val(<?php echo json_encode($postedDtOptions) ?>);
+            jQuery('#var_cntl').val(<?php echo json_encode($postedVar) ?>);
+            jQuery('#format_cntl').val(<?php echo json_encode($postedFormat) ?>);
+            jQuery('#function_cntl').val(<?php echo json_encode($postedFunction) ?>);
+            jQuery('#delimiter_cntl').val(<?php echo json_encode($postedDelimiter) ?>);
+            jQuery('#filelinks_cntl').val(<?php echo json_encode($postedFilelinks) ?>);
+            jQuery('#wpautop_cntl').val(<?php echo json_encode($postedWpautop) ?>);
+            jQuery('#stripbr_cntl').val(<?php echo json_encode($postedStripbr) ?>);
+            jQuery('#content_cntl').val(<?php echo json_encode($postedContent) ?>);
+            jQuery('#before_cntl').val(<?php echo json_encode($postedContentBefore) ?>);
+            jQuery('#after_cntl').val(<?php echo json_encode($postedContentAfter) ?>);
+            jQuery('#enc_cntl').val(<?php echo json_encode($postedEnc) ?>);
+            jQuery('#urlonly_cntl').val(<?php echo json_encode($postedUrlonly) ?>);
+            jQuery('#linktext_cntl').val(<?php echo json_encode($postedLinktext) ?>);
 
             showValidateSubmitTimeHelp(false);
             showHideOptionDivs();
@@ -1144,7 +1144,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                 <br/>
                 <?php _e('Requires code installed in your Google Spreadsheet script editor.'); ?>
                 <a target="code" href="<?php echo $siteUrl ?>/wp-content/plugins/contact-form-7-to-database-extension/CFDBGoogleSSLiveData.php"><?php _e('Get code'); ?></a>.
-                <a target="instructions" href="<?php echo $siteUrl ?>/wp-admin/admin-ajax.php?action=cfdb-export&enc=GLD&form=<?php echo $postedForm ?>"><?php _e('See instructions.'); ?></a>
+                <a target="instructions" href="<?php echo $siteUrl ?>/wp-admin/admin-ajax.php?action=cfdb-export&enc=GLD&form=<?php echo urlencode($postedForm) ?>"><?php _e('See instructions.'); ?></a>
           </span>
             <br/><div class="generated" id="export_result_text"></div>
         </div>

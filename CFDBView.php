@@ -33,6 +33,9 @@ abstract class CFDBView {
         $this->headerLinks($plugin);
     }
 
+    function getRequestParam($name) {
+        return strip_tags(isset($_REQUEST[$name]) ? $_REQUEST[$name] : '');
+    }
 
     /**
      * @param $plugin CF7DBPlugin

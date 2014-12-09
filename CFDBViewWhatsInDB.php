@@ -45,14 +45,14 @@ class CFDBViewWhatsInDB extends CFDBView {
         }
         $page = 1;
         if (isset($_REQUEST['dbpage'])) {
-            $page = strip_tags($_REQUEST['dbpage']);
+            $page = $this->getRequestParam('dbpage');
         }
         $currSelection = null;
         if (isset($_REQUEST['form_name'])) {
-            $currSelection = strip_tags($_REQUEST['form_name']);
+            $currSelection = $this->getRequestParam('form_name');
         }
         else if (isset($_REQUEST['form'])) {
-            $currSelection = strip_tags($_REQUEST['form']);
+            $currSelection = $this->getRequestParam('form');
         }
         $currSelectionEscaped = htmlspecialchars($currSelection);
         // If there is only one form in the DB, select that by default
@@ -105,7 +105,7 @@ class CFDBViewWhatsInDB extends CFDBView {
         <tr>
             <td align="left" valign="top">
                 <form method="get" action="" name="displayform" id="displayform">
-                    <input type="hidden" name="page" value="<?php echo strip_tags($_REQUEST['page']) ?>"/>
+                    <input type="hidden" name="page" value="<?php echo $this->getRequestParam('page') ?>"/>
                     <select name="form_name" id="form_name" onchange="this.form.submit();">
                         <option value=""><?php _e('* Select a form *', 'contact-form-7-to-database-extension') ?></option>
                         <?php foreach ($formsList as $formName) {
