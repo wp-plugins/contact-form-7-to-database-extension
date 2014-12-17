@@ -81,6 +81,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8.21 =
+* Added icons to admin panel
+
 = 2.8.20 =
 * Additional XSS protection for admin panels
 

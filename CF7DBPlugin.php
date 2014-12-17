@@ -968,7 +968,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                         __('Contact Form DB', 'contact-form-7-to-database-extension'),
                       $this->roleToCapability($roleAllowed),
                       $menuSlug, //$this->getDBPageSlug(),
-                      array(&$this, 'whatsInTheDBPage'));
+                      array(&$this, 'whatsInTheDBPage'),
+                      $this->getPluginFileUrl('img/icon-20x20.png'));
 
         // Needed for dialog in whatsInTheDBPage
         if (strpos($_SERVER['REQUEST_URI'], $this->getDBPageSlug()) !== false) {
