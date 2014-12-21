@@ -8,7 +8,7 @@ Requires at least: 3.2.1
 Tested up to: 4.1
 Stable tag: 2.8.22
 
-Saves submitted form data to the database. Export the data to a file and or short codes to display it.
+Saves submitted form data to the database. Export the data to a file or use short codes to display it.
 
 == Description ==
 
