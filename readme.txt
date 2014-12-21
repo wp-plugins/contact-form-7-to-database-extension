@@ -81,6 +81,10 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8.22 =
+* Changed icon in admin panel
+* Dutch translation update
+
 = 2.8.21 =
 * Added icons to admin panel
 

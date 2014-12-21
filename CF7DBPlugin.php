@@ -969,7 +969,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                       $this->roleToCapability($roleAllowed),
                       $menuSlug, //$this->getDBPageSlug(),
                       array(&$this, 'whatsInTheDBPage'),
-                      $this->getPluginFileUrl('img/icon-20x20.png'));
+                      $this->getPluginFileUrl('img/icon-bw-20x20.png'));
 
         // Needed for dialog in whatsInTheDBPage
         if (strpos($_SERVER['REQUEST_URI'], $this->getDBPageSlug()) !== false) {
