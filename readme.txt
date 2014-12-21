@@ -5,8 +5,8 @@ Tags: contact form,database,contact form database,save contact form,form databas
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 3.2.1
-Tested up to: 4.0
-Stable tag: 2.8.21
+Tested up to: 4.1
+Stable tag: 2.8.22
 
 Saves submitted form data to the database. Export the data to a file and or short codes to display it.
 
