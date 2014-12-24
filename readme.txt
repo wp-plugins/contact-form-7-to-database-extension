@@ -81,6 +81,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8.23 =
+* Bug fix for Gravity Form integration. Sometimes field value was not captured where there are multiple fields of the same name but only one shown based on conditional field definition.
+
 = 2.8.22 =
 * Changed icon in admin panel
 * Dutch translation update

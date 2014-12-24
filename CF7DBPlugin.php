@@ -843,17 +843,18 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             $fieldName = $field['label'];
 
             if (!empty($field['inputs']) && is_array($field['inputs'])) {
-                // This is a multi-input field
-
                 if ($field['type'] == 'checkbox') {
-                    $values = array();
-                    foreach ($field['inputs'] as $input) {
-                        $inputId = strval($input['id']); // Need string value of number like '1.3'
-                        if (! empty($entry[$inputId])) {
-                            $values[] = $entry[$inputId];
+                    // This is a multi-input field
+                    if (!isset($postedData[$fieldName]) || $postedData[$fieldName] === '') { // handle duplicate empty hidden fields
+                        $values = array();
+                        foreach ($field['inputs'] as $input) {
+                            $inputId = strval($input['id']); // Need string value of number like '1.3'
+                            if (!empty($entry[$inputId])) {
+                                $values[] = $entry[$inputId];
+                            }
                         }
+                        $postedData[$fieldName] = implode(',', $values);
                     }
-                    $postedData[$fieldName] = implode(',', $values);
                 }
                 else {
                     foreach ($field['inputs'] as $input) {
@@ -863,7 +864,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                         if (!empty($label)) {
                             $effectiveFieldName = $fieldName . ' ' . $label;
                         }
-                        $postedData[$effectiveFieldName] = $entry[$inputId];
+                        if (!isset($postedData[$effectiveFieldName]) || $postedData[$effectiveFieldName] === '') {  // handle duplicate empty hidden fields
+                            $postedData[$effectiveFieldName] = $entry[$inputId];
+                        }
                     }
                 }
             }
@@ -871,35 +874,40 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                 $fieldId = $field['id'];
                 switch ($field['type']) {
                     case 'list' :
-                        // List - value is serialized array
-                        $valueArray = @unserialize($entry[$fieldId]);
-                        if (is_array($valueArray)) {
-                            $postedData[$fieldName] = '';
-                            // Array of (Array of column-name => value)
-                            $tmpArray = array();
-                            foreach ($valueArray as $listArray) {
-                                $tmpArray[] = implode(',', array_values($listArray));
+                        if (!isset($postedData[$fieldName]) || $postedData[$fieldName] === '') { // handle duplicate empty hidden fields
+                            // List - value is serialized array
+                            $valueArray = @unserialize($entry[$fieldId]);
+                            if (is_array($valueArray)) {
+                                //$postedData[$fieldName] = '';
+                                // Array of (Array of column-name => value)
+                                $tmpArray = array();
+                                foreach ($valueArray as $listArray) {
+                                    $tmpArray[] = implode(',', array_values($listArray));
+                                }
+                                $postedData[$fieldName] = implode('|', $tmpArray);
+                            } else {
+                                $postedData[$fieldName] = $entry[$fieldId];
                             }
-                            $postedData[$fieldName] = implode('|', $tmpArray);
-                        }
-                        else {
-                            $postedData[$fieldName] = $entry[$fieldId];
                         }
                         break;
 
                     case 'fileupload':
-                        // File Upload - value is file URL
-                        // http://<SITE>/wp-content/uploads/gravity_forms/<PATH>/<FILE>
-                        $url = $entry[$fieldId];
-                        $fileName = basename($url);
-                        $postedData[$fieldName] = $fileName;
+                        if (!isset($postedData[$fieldName]) || $postedData[$fieldName] === '') { // handle duplicate empty hidden fields
+                            // File Upload - value is file URL
+                            // http://<SITE>/wp-content/uploads/gravity_forms/<PATH>/<FILE>
+                            $url = $entry[$fieldId];
+                            $fileName = basename($url);
+                            $postedData[$fieldName] = $fileName;
 
-                        $filePath = ABSPATH . substr($url, strlen(get_site_url()));
-                        $uploadFiles[$fieldName] = $filePath;
+                            $filePath = ABSPATH . substr($url, strlen(get_site_url()));
+                            $uploadFiles[$fieldName] = $filePath;
+                        }
                         break;
 
                     default:
-                        $postedData[$fieldName] = $entry[$fieldId];
+                        if (!isset($postedData[$fieldName]) || $postedData[$fieldName] === '') { // handle duplicate empty hidden fields
+                            $postedData[$fieldName] = $entry[$fieldId];
+                        }
                         break;
                 }
 
