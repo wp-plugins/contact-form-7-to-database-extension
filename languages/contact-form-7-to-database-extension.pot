@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/contact-form-7-to-database-"
 "extension\n"
-"POT-Creation-Date: 2014-09-25 13:07:46+00:00\n"
+"POT-Creation-Date: 2014-12-24 16:47:06+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -46,21 +46,21 @@ msgid ""
 "5.0)"
 msgstr ""
 
-#: CF7DBOptionsManager.php:326
+#: CF7DBOptionsManager.php:327
 msgid "Settings"
 msgstr ""
 
-#: CF7DBOptionsManager.php:351
+#: CF7DBOptionsManager.php:352
 msgid "Save Changes"
 msgstr ""
 
-#: CF7DBOptionsManager.php:410 CF7DBPlugin.php:88
+#: CF7DBOptionsManager.php:411 CF7DBPlugin.php:88
 #: CFDBViewShortCodeBuilder.php:1211 CFDBViewShortCodeBuilder.php:1450
 #: CFDBViewShortCodeBuilder.php:1459 CFDBViewShortCodeBuilder.php:1505
 msgid "true"
 msgstr ""
 
-#: CF7DBOptionsManager.php:411 CF7DBPlugin.php:90
+#: CF7DBOptionsManager.php:412 CF7DBPlugin.php:90
 #: CFDBViewShortCodeBuilder.php:1212 CFDBViewShortCodeBuilder.php:1449
 #: CFDBViewShortCodeBuilder.php:1458 CFDBViewShortCodeBuilder.php:1506
 msgid "false"
@@ -227,23 +227,23 @@ msgstr ""
 msgid "Reference"
 msgstr ""
 
-#: CF7DBPlugin.php:968
+#: CF7DBPlugin.php:976
 msgid "Contact Form DB"
 msgstr ""
 
-#: CF7DBPlugin.php:1016 CFDBViewShortCodeBuilder.php:1159
+#: CF7DBPlugin.php:1025 CFDBViewShortCodeBuilder.php:1159
 msgid "Short Code"
 msgstr ""
 
-#: CF7DBPlugin.php:1024 CFDBViewImportCsv.php:71
+#: CF7DBPlugin.php:1033 CFDBViewImportCsv.php:71
 msgid "Import"
 msgstr ""
 
-#: CF7DBPlugin.php:1032
+#: CF7DBPlugin.php:1041
 msgid "Options"
 msgstr ""
 
-#: CF7DBPlugin.php:1091 ExportToHtmlTable.php:221
+#: CF7DBPlugin.php:1100 ExportToHtmlTable.php:221
 msgid "Delete"
 msgstr ""
 
@@ -252,20 +252,20 @@ msgid "Missing Zend Framework"
 msgstr ""
 
 #: CFDBShortcodeExportUrl.php:57 CFDBViewImportCsv.php:114
-#: CFDBViewWhatsInDB.php:228
+#: CFDBViewWhatsInDB.php:229
 msgid "Export"
 msgstr ""
 
-#: CFDBView.php:65
+#: CFDBView.php:66
 msgid "Rate this Plugin"
 msgstr ""
 
-#: CFDBView.php:71 CFDBViewShortCodeBuilder.php:130
+#: CFDBView.php:72 CFDBViewShortCodeBuilder.php:130
 #: CFDBViewShortCodeBuilder.php:1172
 msgid "Documentation"
 msgstr ""
 
-#: CFDBView.php:77
+#: CFDBView.php:78
 msgid "Support"
 msgstr ""
 
@@ -374,7 +374,7 @@ msgstr ""
 msgid "form"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:1070 CFDBViewWhatsInDB.php:109
+#: CFDBViewShortCodeBuilder.php:1070 CFDBViewWhatsInDB.php:110
 msgid "* Select a form *"
 msgstr ""
 
@@ -387,31 +387,31 @@ msgid "Export File"
 msgstr ""
 
 #: CFDBViewShortCodeBuilder.php:1092 CFDBViewShortCodeBuilder.php:1482
-#: CFDBViewWhatsInDB.php:203
+#: CFDBViewWhatsInDB.php:204
 msgid "Excel CSV (UTF8-BOM)"
 msgstr ""
 
 #: CFDBViewShortCodeBuilder.php:1095 CFDBViewShortCodeBuilder.php:1485
-#: CFDBViewWhatsInDB.php:206
+#: CFDBViewWhatsInDB.php:207
 msgid "Excel TSV (UTF16LE-BOM)"
 msgstr ""
 
 #: CFDBViewShortCodeBuilder.php:1098 CFDBViewShortCodeBuilder.php:1488
-#: CFDBViewWhatsInDB.php:209
+#: CFDBViewWhatsInDB.php:210
 msgid "Plain CSV (UTF-8)"
 msgstr ""
 
 #: CFDBViewShortCodeBuilder.php:1101 CFDBViewShortCodeBuilder.php:1491
-#: CFDBViewWhatsInDB.php:212
+#: CFDBViewWhatsInDB.php:213
 msgid "Excel CSV for Japanese (Shift-JIS)"
 msgstr ""
 
 #: CFDBViewShortCodeBuilder.php:1104 CFDBViewShortCodeBuilder.php:1494
-#: CFDBViewWhatsInDB.php:200
+#: CFDBViewWhatsInDB.php:201
 msgid "Excel Internet Query"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:1107 CFDBViewWhatsInDB.php:218
+#: CFDBViewShortCodeBuilder.php:1107 CFDBViewWhatsInDB.php:219
 msgid "Google Spreadsheet Live Data"
 msgstr ""
 
@@ -419,7 +419,7 @@ msgstr ""
 msgid "RSS"
 msgstr ""
 
-#: CFDBViewShortCodeBuilder.php:1113 CFDBViewWhatsInDB.php:224
+#: CFDBViewShortCodeBuilder.php:1113 CFDBViewWhatsInDB.php:225
 msgid "JSON"
 msgstr ""
 
@@ -832,99 +832,99 @@ msgstr ""
 msgid "No form submissions in the database"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:145
+#: CFDBViewWhatsInDB.php:146
 msgid "Google Login for Upload"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:154
+#: CFDBViewWhatsInDB.php:155
 msgid "Cannot perform operation because jQuery is not loaded in this page"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:158
+#: CFDBViewWhatsInDB.php:159
 msgid ""
 "You will now be navigated to the builder page where it will generate a "
 "function to place in your Google Spreadsheet"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:215
+#: CFDBViewWhatsInDB.php:216
 msgid "Google Spreadsheet"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:221
+#: CFDBViewWhatsInDB.php:222
 msgid "HTML"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:231
+#: CFDBViewWhatsInDB.php:232
 msgid "Advanced Export"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:241
+#: CFDBViewWhatsInDB.php:242
 msgid "Delete All This Form's Records"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:242
+#: CFDBViewWhatsInDB.php:243
 msgid "Are you sure you want to delete all the data for this form?"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:248
+#: CFDBViewWhatsInDB.php:249
 msgid "Remove _wpcf7 columns"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:259
+#: CFDBViewWhatsInDB.php:260
 msgid "Edit Data Mode"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:367
+#: CFDBViewWhatsInDB.php:368
 msgid "Did you know: This plugin captures data from both these plugins:"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:377
+#: CFDBViewWhatsInDB.php:378
 msgid ""
 "Did you know: You can add this data to your posts and pages using these "
 "shortcodes:"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:391
+#: CFDBViewWhatsInDB.php:392
 msgid "Would you like to help translate this plugin into your language?"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:393
+#: CFDBViewWhatsInDB.php:394
 msgid "How to create a translation"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:404
+#: CFDBViewWhatsInDB.php:405
 msgid "Query:"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:426
+#: CFDBViewWhatsInDB.php:427
 msgid "Cancel"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:428
+#: CFDBViewWhatsInDB.php:429
 msgid "Upload"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:436
+#: CFDBViewWhatsInDB.php:437
 msgid "Add Column"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:437
+#: CFDBViewWhatsInDB.php:438
 msgid "Delete Column"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:453
+#: CFDBViewWhatsInDB.php:454
 msgid "next »"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:454
+#: CFDBViewWhatsInDB.php:455
 msgid "« prev"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:471
+#: CFDBViewWhatsInDB.php:472
 msgid "Returned entries %s to %s of %s entries in the database"
 msgstr ""
 
-#: CFDBViewWhatsInDB.php:602 ExportToHtmlTable.php:136
+#: CFDBViewWhatsInDB.php:603 ExportToHtmlTable.php:136
 msgid "All"
 msgstr ""
 
