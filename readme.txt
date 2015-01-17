@@ -81,6 +81,10 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8.25 =
+* Now captures data from WR ContactForm
+* Bug fix to avoid rare instances of duplicate submit_time
+
 = 2.8.24 =
 * Bug fix related to displaying form names in administration panel with certain characters
 
