@@ -81,6 +81,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8.24 =
+* Bug fix related to displaying form names in administration panel with certain characters
+
 = 2.8.23 =
 * Bug fix for Gravity Form integration. Sometimes field value was not captured where there are multiple fields of the same name but only one shown based on conditional field definition.
 
