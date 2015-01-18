@@ -57,7 +57,7 @@ class CFDBIntegrationWRContactForm {
 
             return $this->plugin->saveFormData($data);
         } catch (Exception $ex) {
-            error_log(sprintf('CFDB Error: %s:%s %s  %s', $ex->getFile(), $ex->getLine(), $ex->getMessage(), $ex->getTraceAsString()));
+            $this->plugin->getErrorLog()->logException($ex);
         }
         return true;
     }

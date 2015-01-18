@@ -30,12 +30,14 @@ require_once('CFDBShortcodeExportUrl.php');
 require_once('CFDBShortCodeSavePostData.php');
 require_once('CFDBShortCodeSaveFormMakerSubmission.php');
 require_once('CFDBDeobfuscate.php');
+require_once('CFDBDateFormatter.php');
+require_once('CFDBErrorLog.php');
 
 /**
  * Implementation for CF7DBPluginLifeCycle.
  */
 
-class CF7DBPlugin extends CF7DBPluginLifeCycle {
+class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
 
     public function getPluginDisplayName() {
         return 'Contact Form to DB Extension';
@@ -78,6 +80,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             'SaveCookieData' => array(__('Save Cookie Data with Form Submissions', 'contact-form-7-to-database-extension'), 'false', 'true'),
             'SaveCookieNames' => array(__('Save only cookies in DB named (comma-separated list, no spaces, and above option must be set to true)', 'contact-form-7-to-database-extension')),
             'ShowQuery' => array(__('Show the query used to display results', 'contact-form-7-to-database-extension'), 'false', 'true'),
+            'ErrorOutput' => array(__('Error output file (full path) or email address', 'contact-form-7-to-database-extension')),
             'DropOnUninstall' => array(__('Drop this plugin\'s Database table on uninstall', 'contact-form-7-to-database-extension'), 'false', 'true'),
             //'SubmitTableNameOverride' => array(__('Use this table to store submission data rather than the default (leave blank for default)', 'contact-form-7-to-database-extension'))
         );
@@ -584,14 +587,14 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                     $user = $cf7->user;
                 }
                 else {
-                    //error_log('CFDB Error: No or invalid value returned from "cfdb_form_data" filter: ' .
+                    //$this->getErrorLog()->log('CFDB Error: No or invalid value returned from "cfdb_form_data" filter: ' .
                     //        print_r($newCf7, true));
                     // Returning null from cfdb_form_data is a way to stop from saving the form
                     return true;
                 }
             }
             catch (Exception $ex) {
-                error_log(sprintf('CFDB Error: %s:%s %s  %s', $ex->getFile(), $ex->getLine(), $ex->getMessage(), $ex->getTraceAsString()));
+                $this->getErrorLog()->logException($ex);
             }
 
             // Get title after applying filter
@@ -642,7 +645,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                             $order++,
                             $content));
                         if (!$didSaveFile) {
-                            error_log("CFDB Error: could not save uploaded file, field=$nameClean, file=$filePath");
+                            $this->getErrorLog()->log("CFDB Error: could not save uploaded file, field=$nameClean, file=$filePath");
                         }
                     }
                 }
@@ -674,7 +677,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
                             $order++,
                             $content));
                         if (!$didSaveFile) {
-                            error_log("CFDB Error: could not save uploaded file, field=$field, file=$filePath");
+                            $this->getErrorLog()->log("CFDB Error: could not save uploaded file, field=$field, file=$filePath");
                         }
                     }
                 }
@@ -717,7 +720,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
 
         }
         catch (Exception $ex) {
-            error_log(sprintf('CFDB Error: %s:%s %s  %s', $ex->getFile(), $ex->getLine(), $ex->getMessage(), $ex->getTraceAsString()));
+            $this->getErrorLog()->logException($ex);
         }
 
         // Indicate success to WordPress so it continues processing other unrelated hooks.
@@ -1177,6 +1180,14 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle {
             $forms[] = $aRow->form_name;
         }
         return $forms;
+    }
+
+    /**
+     * return CFDBErrorLog
+     */
+    public function getErrorLog() {
+        $destination = trim($this->getOption('ErrorOutput', ''));
+        return new CFDBErrorLog($this, $destination);
     }
 
 }

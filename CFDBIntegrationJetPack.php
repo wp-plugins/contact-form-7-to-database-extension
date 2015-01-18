@@ -49,16 +49,17 @@ class CFDBIntegrationJetPack {
 
             return $this->plugin->saveFormData($data);
         } catch (Exception $ex) {
-            error_log(sprintf('CFDB Error: %s:%s %s  %s', $ex->getFile(), $ex->getLine(), $ex->getMessage(), $ex->getTraceAsString()));
+            $this->plugin->getErrorLog()->logException($ex);
         }
         return true;
     }
 
     public function convertData($post_id, $all_values) {
 
-//        error_log('POST=' . print_r($_POST, true));
-//        error_log('$all_values=' . print_r($all_values, true));
-//        error_log('$extra_values=' . print_r($extra_values, true));
+//        $errorLog = $this->plugin->getErrorLog();
+//        $errorLog->log('POST=' . print_r($_POST, true));
+//        $errorLog->log('$all_values=' . print_r($all_values, true));
+//        $errorLog->log('$extra_values=' . print_r($extra_values, true));
 
         $title = 'JetPack Contact Form';
         if (isset($_POST['contact-form-id'])) {

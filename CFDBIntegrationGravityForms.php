@@ -43,7 +43,7 @@ class CFDBIntegrationGravityForms {
 
             return $this->plugin->saveFormData($data);
         } catch (Exception $ex) {
-            error_log(sprintf('CFDB Error: %s:%s %s  %s', $ex->getFile(), $ex->getLine(), $ex->getMessage(), $ex->getTraceAsString()));
+            $this->plugin->getErrorLog()->logException($ex);
         }
         return true;
     }
@@ -58,8 +58,9 @@ class CFDBIntegrationGravityForms {
      */
     public function convertData($entry, $form) {
 
-        //error_log('Form Definition: ' . print_r($form, true)); // debug
-        //error_log('Entry Definition: ' . print_r($entry, true)); // debug
+        //$errorLog = $this->plugin->getErrorLog();
+        //$errorLog->log('Form Definition: ' . print_r($form, true)); // debug
+        //$errorLog->log('Entry Definition: ' . print_r($entry, true)); // debug
 
         $postedData = array();
         $uploadFiles = array();

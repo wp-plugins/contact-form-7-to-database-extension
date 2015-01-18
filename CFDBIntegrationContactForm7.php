@@ -54,7 +54,7 @@ class CFDBIntegrationContactForm7 {
             $data = $this->convertData($cf7);
             return $this->plugin->saveFormData($data);
         } catch (Exception $ex) {
-            error_log(sprintf('CFDB Error: %s:%s %s  %s', $ex->getFile(), $ex->getLine(), $ex->getMessage(), $ex->getTraceAsString()));
+            $this->plugin->getErrorLog()->logException($ex);
         }
         return true;
     }
@@ -98,7 +98,7 @@ class CFDBIntegrationContactForm7 {
 //                    $time);
 //            $posted_data['submit_url'] = $url;
         } catch (Exception $ex) {
-            error_log(sprintf('CFDB Error: %s:%s %s  %s', $ex->getFile(), $ex->getLine(), $ex->getMessage(), $ex->getTraceAsString()));
+            $this->plugin->getErrorLog()->logException($ex);
         }
         return $posted_data;
     }
