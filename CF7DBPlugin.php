@@ -772,12 +772,12 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
      * @return void
      */
     public function createAdminMenu() {
-        $roleAllowed = 'administrator';
+        $roleAllowed = 'Administrator';
         $displayName = $this->getPluginDisplayName();
         if ('false' == $this->getOption('HideAdminPanelFromNonAdmins', 'false')) {
             $roleAllowed = $this->getRoleOption('CanSeeSubmitData');
             if (!$roleAllowed) {
-                $roleAllowed = 'administrator';
+                $roleAllowed = 'Administrator';
             }
         }
         $menuSlug = $this->getDBPageSlug();
