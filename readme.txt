@@ -83,6 +83,7 @@ You can always deactivate the plugin without loosing data.
 
 = 2.8.25 =
 * Now captures data from WR ContactForm
+* New option to allow only Administrators to see CFDB administration screens
 * Bug fix to avoid rare instances of duplicate submit_time
 
 = 2.8.24 =

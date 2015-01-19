@@ -58,6 +58,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
             'IntegrateWithWrContactForms' => array(__('Capture form submissions from WR ContactForm', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'CanSeeSubmitData' => array(__('Can See Submission data', 'contact-form-7-to-database-extension'),
                                         'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
+            'HideAdminPanelFromNonAdmins' => array(__('Allow only Administrators to see CFDB administration screens', 'contact-form-7-to-database-extension'), 'false', 'true'),
             'CanSeeSubmitDataViaShortcode' => array(__('Can See Submission when using shortcodes', 'contact-form-7-to-database-extension'),
                                                     'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
             'CanChangeSubmitData' => array(__('Can Edit/Delete Submission data', 'contact-form-7-to-database-extension'),
@@ -771,10 +772,13 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
      * @return void
      */
     public function createAdminMenu() {
+        $roleAllowed = 'administrator';
         $displayName = $this->getPluginDisplayName();
-        $roleAllowed = $this->getRoleOption('CanSeeSubmitData');
-        if (!$roleAllowed) {
-            $roleAllowed = 'administrator';
+        if ('false' == $this->getOption('HideAdminPanelFromNonAdmins', 'false')) {
+            $roleAllowed = $this->getRoleOption('CanSeeSubmitData');
+            if (!$roleAllowed) {
+                $roleAllowed = 'administrator';
+            }
         }
         $menuSlug = $this->getDBPageSlug();
 
