@@ -40,7 +40,7 @@ class CFDBErrorLog {
     var $dateFormatter;
 
 
-    function __construct($dateFormatter, $destination = null) {
+    function __construct($dateFormatter = null, $destination = null) {
         $this->dateFormatter = $dateFormatter;
         if ($destination) {
             if ($this->isEmailAddress($destination)) {
