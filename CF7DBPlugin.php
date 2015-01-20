@@ -378,7 +378,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
 
     public function ajaxLogin() {
         // Login the user
-        $key = '3M#v$-.u';
+        $key = 'kx82XcPjq8q8S!xafx%$&7p6';
         $creds = array();
         $user = null;
         $password = null;
