@@ -81,6 +81,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8.26 =
+* Encoding fix on administration page
+
 = 2.8.25 =
 * Now captures data from WR ContactForm (BETA)
 * New option to allow only Administrators to see CFDB administration screens
