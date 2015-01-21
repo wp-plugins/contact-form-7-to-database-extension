@@ -53,8 +53,8 @@ class CFDBIntegrationWRContactForm {
                                  $nameFileByIdentifier, $requiredField, $fileAttach) {
 
         try {
-            $data = $this->convertData($postID, $post, $nameFileByIdentifier, $fileAttach);
-
+            $data = $this->convertData($dataForms, $postID, $post, $submissionsData, $dataContentEmail,
+                    $nameFileByIdentifier, $requiredField, $fileAttach);
             return $this->plugin->saveFormData($data);
         } catch (Exception $ex) {
             $this->plugin->getErrorLog()->logException($ex);
@@ -63,49 +63,31 @@ class CFDBIntegrationWRContactForm {
     }
 
 
-    /**
-     * @param $postID array
-     * @param $post array
-     * @param $nameFileByIdentifier array
-     * @param $fileAttach array
-     * @return object
-     */
-    public function convertData($postID, $post, $nameFileByIdentifier, $fileAttach) {
+    public function convertData($dataForms, $postID, $post, $submissionsData, $dataContentEmail,
+                                $nameFileByIdentifier, $requiredField, $fileAttach) {
 
         $postedData = array();
         $uploadFiles = array();
 
+        foreach ($dataContentEmail as $fieldKey => $fieldValue) {
+            $fieldName = $nameFileByIdentifier[$fieldKey];
 
-        // assume $nameFileByIdentifier and $post in same order
-        $fieldNames = array_values($nameFileByIdentifier);
-        $fieldValues = array_values($post);
-        $fieldTypes = array_keys($post);
-
-        for ($idx = 0; $idx < count($fieldNames); $idx++) {
-            $fieldName = $fieldNames[$idx];
-            $fieldValue = $fieldValues[$idx];
-            $fieldType = $fieldTypes[$idx];
-
-            if (is_array($fieldValue)) {
-                switch ($fieldType) {
-                    case 'name':
-                        $tmp = array();
-                        // todo
-
-                        break;
-
-                    default:
-                        break;
+            if (strpos($fieldKey, 'file_upload_') === 0) {
+                // Handle upload files
+                $href = array();
+                preg_match('#<a href=\"([^\"]*)/wp-content/uploads/wr_contactform/([^\"]*)\">(.*)</a>#iU', $fieldValue, $href);
+                if (count($href) >= 3) {
+//                    [0] => <a href="http://site.com/wp-content/uploads/wr_contactform/2015/01/icon-50x50.png">icon-50x50.png</a>
+//                    [1] => http://site.com
+//                    [2] => 2015/01/icon-50x50.png
+//                    [3] => icon-50x50.png
+                    $filePath = dirname(dirname(dirname(__FILE__))) . '/uploads/wr_contactform/' . $href[2];
+                    $uploadFiles[$fieldName] = $filePath;
                 }
-
-            } else {
-                $postedData[$fieldName] = $fieldValue;
             }
-
-            // todo
+            $fieldValue = trim(preg_replace('#<[^>]+>#', ' ', $fieldValue));
+            $postedData[$fieldName] = $fieldValue;
         }
-
-        // TODO: handle upload files
 
         $data = (object)array(
                 'title' => get_the_title($postID),
@@ -113,7 +95,5 @@ class CFDBIntegrationWRContactForm {
                 'uploaded_files' => $uploadFiles);
         return $data;
     }
-
-
 
 }
