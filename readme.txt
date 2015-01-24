@@ -21,6 +21,7 @@ By simply installing the plugin, it will automatically begin to capture submissi
 * Contact Form 7 (CF7) plugin
 * Fast Secure Contact Form (FSCF) plugin
 * Gravity Forms plugin
+* WR ContactForm plugin (BETA)
 
 Other form submissions can be saved with the addition of the <a href="http://cfdbplugin.com/?page_id=508">[cfdb-save-form-post]</a> short code on the target submission page.
 
