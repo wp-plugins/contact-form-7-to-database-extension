@@ -82,6 +82,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8.28 =
+* Security patch
+
 = 2.8.27 =
 * Minor tweak to allow edit mode in short code to be set via $_GET and $_POST
 
