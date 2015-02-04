@@ -82,6 +82,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8.29 =
+* Tweak to install procedure
+
 = 2.8.28 =
 * Security patch
 
