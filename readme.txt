@@ -82,6 +82,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8.31 =
+* Fix to work with Gravity Forms 1.9.1.2
+
 = 2.8.30 =
 * Minor fix to short code builder page
 
