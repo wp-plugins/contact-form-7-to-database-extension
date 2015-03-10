@@ -82,6 +82,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8.33 =
+* Fixed Delete button on Admin entry detail page
+
 = 2.8.32 =
 * Security patch
 
