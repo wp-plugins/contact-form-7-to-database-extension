@@ -56,6 +56,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
             'IntegrateWithJetPackContactForm' => array(__('Capture form submissions from JetPack Contact Form', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'IntegrateWithGravityForms' => array(__('Capture form submissions from Gravity Forms', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'IntegrateWithWrContactForms' => array(__('Capture form submissions from WR ContactForm', 'contact-form-7-to-database-extension'), 'true', 'false'),
+            'IntegrateWithEnfoldThemForms' => array(__('Capture form submissions from Enfold Theme', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'CanSeeSubmitData' => array(__('Can See Submission data', 'contact-form-7-to-database-extension'),
                                         'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
             'HideAdminPanelFromNonAdmins' => array(__('Allow only Administrators to see CFDB administration screens', 'contact-form-7-to-database-extension'), 'false', 'true'),
@@ -324,6 +325,13 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
             require_once('CFDBIntegrationWRContactForm.php');
             $integration = new CFDBIntegrationWRContactForm($this);
             $integration->registerHooks();
+        }
+
+        // Enfold theme forms
+        if ($this->getOption('IntegrateWithEnfoldThemForms', 'true') == 'true') {
+            require_once('CFDBIntegrationEnfoldTheme.php');
+            $enfold = new CFDBIntegrationEnfoldTheme($this);
+            $enfold->registerHooks();
         }
 
         // Have our own hook to receive form submissions independent of other plugins
