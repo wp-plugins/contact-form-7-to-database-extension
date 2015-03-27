@@ -285,6 +285,8 @@ class CFDBViewWhatsInDB extends CFDBView {
                     $maxVisible = -1;
                 }
                 $menuJS = $this->createDatatableLengthMenuJavascriptString($maxVisible);
+
+                $sScrollX = $plugin->getOption('HorizontalScroll', 'true') == 'true' ? '"100%"' : '""';
                 ?>
             <script type="text/javascript" language="Javascript">
                 var oTable;
@@ -294,7 +296,7 @@ class CFDBViewWhatsInDB extends CFDBView {
                         "aaSorting": [],
                         //"sScrollY": "400",
                         "bScrollCollapse": true,
-                        "sScrollX":"100%",
+                        "sScrollX": <?php echo $sScrollX ?>,
                         "iDisplayLength": <?php echo $maxVisible ?>,
                         "aLengthMenu": <?php echo $menuJS ?>
                         <?php
