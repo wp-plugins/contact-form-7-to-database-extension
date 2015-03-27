@@ -28,8 +28,6 @@ Other form submissions can be saved with the addition of the <a href="http://cfd
 Contact form plugins are great but generally one thing...the ability to save and retrieve the form data to/from the database.
 If you get a lot of form submissions, then you end up sorting through a lot of email.
 
-Looking at your data in the WP Admin Area
-
 This plugin provides three administration pages in the administration area under the "Contact form DB" submenu.
 
 * "Contact form DB" to view and export form submission data
