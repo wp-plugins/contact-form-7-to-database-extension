@@ -175,7 +175,7 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
                 }
 
                 table.<?php echo $this->defaultTableClass ?> th {
-                    padding: 5px;
+                    padding: 0px;
                     border: 1px solid gray;
                 }
 
@@ -185,7 +185,7 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
                 }
 
                 table.<?php echo $this->defaultTableClass ?> tbody td {
-                    padding: 5px;
+                    padding: 0px;
                     border: 1px solid gray;
                     font-size: x-small;
                 }

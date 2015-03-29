@@ -345,7 +345,7 @@ class CFDBViewWhatsInDB extends CFDBView {
                 if ($useDataTables) {
                     $options['id'] = $tableHtmlId;
                     $options['class'] = '';
-                    $options['style'] = "#$tableHtmlId td > div { max-height: 100px;  min-width:75px; overflow: auto; font-size: small; padding:0;}"; // don't let cells get too tall
+                    $options['style'] = "#$tableHtmlId td > div { max-height: 100px;  min-width:75px; overflow: auto; font-size: small;}"; // don't let cells get too tall
                 }
                 $exporter->export($currSelection, $options);
                 ?>
