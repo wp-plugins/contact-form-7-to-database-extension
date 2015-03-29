@@ -81,7 +81,8 @@ You can always deactivate the plugin without loosing data.
 == Changelog ==
 
 = 2.8.35 =
-* Typo fix
+* Reduced cell padding in admin table
+* Fixed typo in new option
 
 = 2.8.34 =
 * Now captures Enfold Theme forms
