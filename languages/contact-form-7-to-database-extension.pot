@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Contact Form DB 2.8.34\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/contact-form-7-to-"
 "database-extension\n"
-"POT-Creation-Date: 2015-03-27 21:21:39+00:00\n"
+"POT-Creation-Date: 2015-03-29 18:44:19+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -138,7 +138,7 @@ msgid "#Rows (of maximum above) visible in the Admin datatable"
 msgstr ""
 
 #: CF7DBPlugin.php:75
-msgid "Use fixed with in Admin datatable"
+msgid "Use fixed width in Admin datatable"
 msgstr ""
 
 #: CF7DBPlugin.php:76
