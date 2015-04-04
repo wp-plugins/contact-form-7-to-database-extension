@@ -46,7 +46,6 @@ class CFDBIntegrationQuform {
     public function saveFormData($form) {
         try {
             $data = $this->convertData($form);
-
             return $this->plugin->saveFormData($data);
         } catch (Exception $ex) {
             $this->plugin->getErrorLog()->logException($ex);
