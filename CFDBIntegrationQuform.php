@@ -63,8 +63,8 @@ class CFDBIntegrationQuform {
         // http://support.themecatcher.net/quform-wordpress/guides/basic/getting-form-values
         $allValues = $form->getValues();
 
-        $this->plugin->getErrorLog()->log(
-                print_r($form, true)); // todo debug
+//        $this->plugin->getErrorLog()->log(
+//                print_r($form, true));
 
         if (is_array($allValues)) {
 
