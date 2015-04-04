@@ -56,6 +56,8 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
             'IntegrateWithJetPackContactForm' => array(__('Capture form submissions from JetPack Contact Form', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'IntegrateWithGravityForms' => array(__('Capture form submissions from Gravity Forms', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'IntegrateWithWrContactForms' => array(__('Capture form submissions from WR ContactForm', 'contact-form-7-to-database-extension'), 'true', 'false'),
+            'IntegrateWithQuform' => array(__('Capture form submissions from Quform', 'contact-form-7-to-database-extension'), 'true', 'false'),
+//            'IntegrateWithNinjaForms' => array(__('Capture form submissions from Ninja Forms', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'IntegrateWithEnfoldThemForms' => array(__('Capture form submissions from Enfold Theme', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'CanSeeSubmitData' => array(__('Can See Submission data', 'contact-form-7-to-database-extension'),
                                         'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
@@ -327,6 +329,20 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
             $integration = new CFDBIntegrationWRContactForm($this);
             $integration->registerHooks();
         }
+
+        // Hook to work with Quform
+        if ($this->getOption('IntegrateWithQuform', 'true') == 'true') {
+            require_once('CFDBIntegrationQuform.php');
+            $integration = new CFDBIntegrationQuform($this);
+            $integration->registerHooks();
+        }
+
+//        // Hook to work with Ninja Forms
+//        if ($this->getOption('IntegrateWithNinjaForms', 'true') == 'true') {
+//            require_once('CFDBIntegrationNinjaForms.php');
+//            $integration = new CFDBIntegrationNinjaForms($this);
+//            $integration->registerHooks();
+//        }
 
         // Enfold theme forms
         if ($this->getOption('IntegrateWithEnfoldThemForms', 'true') == 'true') {

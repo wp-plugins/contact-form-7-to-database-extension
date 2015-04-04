@@ -15,13 +15,15 @@ Saves submitted form data to the database. Export the data to a file or use shor
 The "CFDB" plugin saves contact form submissions to your WordPress database and provides and administration page and short codes to view and display the data.
 Video tutorial on the <a href="http://cfdbplugin.com/">CFDB Plugin Site</a>
 
-By simply installing the plugin, it will automatically begin to capture submissions from:
+By simply installing the plugin, it will automatically begin to capture form submissions from:
 
 * JetPack Contact Form plugin
 * Contact Form 7 (CF7) plugin
 * Fast Secure Contact Form (FSCF) plugin
 * Gravity Forms plugin
 * WR ContactForm plugin
+* Quform plugin
+* Enfold theme
 
 Other form submissions can be saved with the addition of the <a href="http://cfdbplugin.com/?page_id=508">[cfdb-save-form-post]</a> short code on the target submission page.
 
@@ -79,6 +81,9 @@ You can always deactivate the plugin without loosing data.
 1. Admin Panel view of submitted form data
 
 == Changelog ==
+
+= 2.8.35 =
+* Integration with Quform
 
 = 2.8.35 =
 * Reduced cell padding in admin table
