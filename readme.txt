@@ -83,8 +83,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
-= 2.8.35 =
-* Integration with Quform
+= 2.8.36 =
+* Now captures form submission from Quform plugin
+* Now captures form submission from Ninja Forms plugin
 
 = 2.8.35 =
 * Reduced cell padding in admin table
