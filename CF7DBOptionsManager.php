@@ -295,9 +295,16 @@ class CF7DBOptionsManager {
         // HTML for the page
         $settingsGroup = get_class($this) . '-settings-group';
         ?>
+            <style type="text/css">
+                table.cfdb-options-table {width: 100%}
+                table.cfdb-options-table tr:nth-child(even) {background: #f9f9f9}
+                table.cfdb-options-table tr:nth-child(odd) {background: #FFF}
+                table.cfdb-options-table td {width: 350px}
+                table.cfdb-options-table td+td {width: auto}
+            </style>
         <div class="wrap">
             <h2><?php _e('System Settings', 'contact-form-7-to-database-extension'); ?></h2>
-            <table class="form-table"><tbody>
+            <table><tbody>
             <tr><td><?php _e('System', 'contact-form-7-to-database-extension'); ?></td><td><?php echo php_uname(); ?></td></tr>
             <tr><td><?php _e('PHP Version', 'contact-form-7-to-database-extension'); ?></td>
                 <td><?php echo phpversion(); ?>
@@ -328,7 +335,7 @@ class CF7DBOptionsManager {
 
             <form method="post" action="">
             <?php settings_fields($settingsGroup); ?>
-                <table class="form-table"><tbody>
+                <table class="cfdb-options-table"><tbody>
                 <?php
         if ($optionMetaData != null) {
                     foreach ($optionMetaData as $aOptionKey => $aOptionMeta) {
@@ -336,7 +343,7 @@ class CF7DBOptionsManager {
                         $displayText = __($displayText, 'contact-form-7-to-database-extension');
                         ?>
                             <tr valign="top">
-                                <th scope="row"><p><label for="<?php echo $aOptionKey ?>"><?php echo $displayText ?></label></p></th>
+                                <td><p><label for="<?php echo $aOptionKey ?>"><?php echo $displayText ?></label></p></td>
                                 <td>
                                 <?php $this->createFormControl($aOptionKey, $aOptionMeta, $this->getOption($aOptionKey)); ?>
                                 </td>
