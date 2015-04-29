@@ -93,7 +93,7 @@ You can always deactivate the plugin without loosing data.
 
 = 2.8.34 =
 * Now captures Enfold Theme forms
-* New on Options page: "Use fixed with in Admin datatable"
+* New on Options page: "Use fixed width in Admin datatable"
 * Taiwanese language update
 
 = 2.8.33 =
