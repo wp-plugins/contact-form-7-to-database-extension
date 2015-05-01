@@ -58,6 +58,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
             'IntegrateWithWrContactForms' => array(__('Capture form submissions from WR ContactForm', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'IntegrateWithQuform' => array(__('Capture form submissions from Quform', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'IntegrateWithNinjaForms' => array(__('Capture form submissions from Ninja Forms', 'contact-form-7-to-database-extension'), 'true', 'false'),
+            'IntegrateWithCalderaForms' => array(__('Capture form submissions from Caldera Forms', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'IntegrateWithEnfoldThemForms' => array(__('Capture form submissions from Enfold Theme', 'contact-form-7-to-database-extension'), 'true', 'false'),
             'CanSeeSubmitData' => array(__('Can See Submission data', 'contact-form-7-to-database-extension'),
                                         'Administrator', 'Editor', 'Author', 'Contributor', 'Subscriber', 'Anyone'),
@@ -341,6 +342,13 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
         if ($this->getOption('IntegrateWithNinjaForms', 'true') == 'true') {
             require_once('CFDBIntegrationNinjaForms.php');
             $integration = new CFDBIntegrationNinjaForms($this);
+            $integration->registerHooks();
+        }
+
+        // Hook to work with Caldera Forms Forms
+        if ($this->getOption('IntegrateWithCalderaForms', 'true') == 'true') {
+            require_once('CFDBIntegrationCalderaForms.php');
+            $integration = new CFDBIntegrationCalderaForms($this);
             $integration->registerHooks();
         }
 

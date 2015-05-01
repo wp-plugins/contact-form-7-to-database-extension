@@ -5,7 +5,7 @@ Tags: contact form,database,contact form database,save contact form,form databas
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 3.2.1
-Tested up to: 4.2
+Tested up to: 4.2.1
 Stable tag: 2.8.36
 
 Saves submitted form data to the database. Export the data to a file or use short codes to display it.
@@ -24,6 +24,7 @@ By simply installing the plugin, it will automatically begin to capture form sub
 * WR ContactForm plugin
 * Quform plugin (BETA)
 * Ninja Forms plugin (BETA)
+* Caldera Forms plugin (BETA)
 * Enfold theme forms
 
 Other form submissions can be saved with the addition of the <a href="http://cfdbplugin.com/?page_id=508">[cfdb-save-form-post]</a> short code on the target submission page.
@@ -45,7 +46,7 @@ Use the short code builder page to set short code options.
 == Installation ==
 
 1. Your WordPress site must be running PHP5 or better. This plugin will fail to activate if your site is running PHP4.
-1. Be sure that any of Contact Form 7, Fast Secure Contact Form, JetPack, and/or Gravity Forms is installed and activated
+1. Be sure that one or more of the supported form plugins installed and activated.
 
 == Frequently Asked Questions ==
 
@@ -82,6 +83,10 @@ You can always deactivate the plugin without loosing data.
 1. Admin Panel view of submitted form data
 
 == Changelog ==
+
+= 2.8.37 =
+* Now captures form submission from Caldera Forms
+* Formatting changes on CFDB Options page
 
 = 2.8.36 =
 * Now captures form submission from Quform plugin

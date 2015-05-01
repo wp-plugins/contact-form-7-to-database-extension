@@ -66,6 +66,7 @@ class CFDBIntegrationEnfoldTheme {
 
             }
         } catch (Exception $ex) {
+            $this->plugin->getErrorLog()->logException($ex);
         }
 
         return true;
