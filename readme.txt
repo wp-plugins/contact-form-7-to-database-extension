@@ -84,6 +84,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8.38 =
+* NaturalSortByMultiField transform now supports up to 10 fields to sort on
+
 = 2.8.37 =
 * Now captures form submission from Caldera Forms
 * Formatting changes on CFDB Options page
