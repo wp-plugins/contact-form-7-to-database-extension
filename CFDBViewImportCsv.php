@@ -41,20 +41,20 @@ class CFDBViewImportCsv extends CFDBView
         $renameUrl = admin_url('admin-ajax.php') . '?action=cfdb-renameform';
 
         ?>
-        <h2><?php _e('Import CSV File into Form', 'contact-form-7-to-database-extension'); ?></h2>
+        <h2><?php echo htmlspecialchars(__('Import CSV File into Form', 'contact-form-7-to-database-extension')); ?></h2>
         <form enctype="multipart/form-data" action="<?php echo $importUrl; ?>" method="post">
             <table>
                 <tbody>
                 <tr>
-                    <td><label for="file"><?php _e('File', 'contact-form-7-to-database-extension'); ?></label></td>
+                    <td><label for="file"><?php echo htmlspecialchars(__('File', 'contact-form-7-to-database-extension')); ?></label></td>
                     <td><input type="file" name="file" id="file" size="50"></td>
                 </tr>
                 <tr>
-                    <td><input type="radio" name="into" id="new" value="new" checked> <?php _e('New Form', 'contact-form-7-to-database-extension'); ?></td>
+                    <td><input type="radio" name="into" id="new" value="new" checked> <?php echo htmlspecialchars(__('New Form', 'contact-form-7-to-database-extension')); ?></td>
                     <td><input type="text" name="newformname" id="newformname" size="50"/></td>
                 </tr>
                 <tr>
-                    <td><input type="radio" name="into" id="existing" value="into"> <?php _e('Existing Form', 'contact-form-7-to-database-extension'); ?></td>
+                    <td><input type="radio" name="into" id="existing" value="into"> <?php echo htmlspecialchars(__('Existing Form', 'contact-form-7-to-database-extension')); ?></td>
                     <td>
                         <select name="form" id="form">
                             <option value=""></option>
@@ -68,7 +68,7 @@ class CFDBViewImportCsv extends CFDBView
                 </tr>
                 </tbody>
             </table>
-            <input type="submit" name="<?php _e('Import', 'contact-form-7-to-database-extension'); ?>" id="importsubmit" value="import">
+            <input type="submit" name="<?php echo htmlspecialchars(__('Import', 'contact-form-7-to-database-extension')); ?>" id="importsubmit" value="import">
         </form>
 
         <script type="text/javascript">
@@ -81,7 +81,7 @@ class CFDBViewImportCsv extends CFDBView
                 });
         </script>
         <form enctype="multipart/form-data" action="<?php echo $renameUrl; ?>" method="post">
-            <h2><?php _e('Rename Form', 'contact-form-7-to-database-extension'); ?></h2>
+            <h2><?php echo htmlspecialchars(__('Rename Form', 'contact-form-7-to-database-extension')); ?></h2>
             <select name="form" id="form">
                 <option value=""></option>
                 <?php
@@ -91,14 +91,14 @@ class CFDBViewImportCsv extends CFDBView
                 ?>
             </select>
             <td><input type="text" name="newformname" id="renameformname" size="10"/></td>
-            <input type="submit" name="<?php _e('Rename', 'contact-form-7-to-database-extension'); ?>" id="renamesubmit" value="rename">
+            <input type="submit" name="<?php echo htmlspecialchars(__('Rename', 'contact-form-7-to-database-extension')); ?>" id="renamesubmit" value="rename">
         </form>
 
-        <h2><?php _e('Backup Form to CSV File', 'contact-form-7-to-database-extension'); ?></h2>
+        <h2><?php echo htmlspecialchars(__('Backup Form to CSV File', 'contact-form-7-to-database-extension')); ?></h2>
         <ul>
-            <li><?php _e('Backup a form into a CSV file that can be re-imported without loss of data.', 'contact-form-7-to-database-extension'); ?></li>
-            <li><?php _e('Limitation: this will not export file uploads.', 'contact-form-7-to-database-extension'); ?></li>
-            <li><?php _e('Limitation: extremely large numbers of records in your form may cause the export operation on your server to run out of memory, thereby not giving you all the rows.', 'contact-form-7-to-database-extension'); ?></li>
+            <li><?php echo htmlspecialchars(__('Backup a form into a CSV file that can be re-imported without loss of data.', 'contact-form-7-to-database-extension')); ?></li>
+            <li><?php echo htmlspecialchars(__('Limitation: this will not export file uploads.', 'contact-form-7-to-database-extension')); ?></li>
+            <li><?php echo htmlspecialchars(__('Limitation: extremely large numbers of records in your form may cause the export operation on your server to run out of memory, thereby not giving you all the rows.', 'contact-form-7-to-database-extension')); ?></li>
         </ul>
         <form method="get" action="<?php echo $plugin->getPluginDirUrl() ?>export.php">
             <input type="hidden" name="enc" value="CSV"/>
@@ -111,7 +111,7 @@ class CFDBViewImportCsv extends CFDBView
                 }
                 ?>
             </select>
-            <input type="submit" name="<?php _e('Export', 'contact-form-7-to-database-extension'); ?>" value="export">
+            <input type="submit" name="<?php echo htmlspecialchars(__('Export', 'contact-form-7-to-database-extension')); ?>" value="export">
         </form>
     <?php
 

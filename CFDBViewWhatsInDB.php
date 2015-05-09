@@ -40,7 +40,7 @@ class CFDBViewWhatsInDB extends CFDBView {
         // Identify which forms have data in the database
         $formsList = $plugin->getForms();
         if (count($formsList) == 0) {
-            _e('No form submissions in the database', 'contact-form-7-to-database-extension');
+            echo htmlspecialchars(__('No form submissions in the database', 'contact-form-7-to-database-extension'));
             return;
         }
         $page = 1;
@@ -109,9 +109,9 @@ class CFDBViewWhatsInDB extends CFDBView {
         <tr>
             <td align="left" valign="top">
                 <form method="get" action="" name="displayform" id="displayform">
-                    <input type="hidden" name="page" value="<?php echo $this->getRequestParam('page') ?>"/>
+                    <input type="hidden" name="page" value="<?php echo htmlspecialchars($this->getRequestParam('page')) ?>"/>
                     <select name="form_name" id="form_name" onchange="this.form.submit();">
-                        <option value=""><?php _e('* Select a form *', 'contact-form-7-to-database-extension') ?></option>
+                        <option value=""><?php echo htmlspecialchars(__('* Select a form *', 'contact-form-7-to-database-extension')); ?></option>
                         <?php foreach ($formsList as $formName) {
                             $selected = ($formName == $currSelection) ? "selected" : "";
                         ?>
@@ -147,7 +147,7 @@ class CFDBViewWhatsInDB extends CFDBView {
                         if (enc == 'GSS') {
                             if (typeof jQuery == 'function') {
                                 try {
-                                    jQuery("#GoogleCredentialsDialog").dialog({ autoOpen: false, title: '<?php _e("Google Login for Upload", 'contact-form-7-to-database-extension')?>' });
+                                    jQuery("#GoogleCredentialsDialog").dialog({ autoOpen: false, title: '<?php echo htmlspecialchars(__("Google Login for Upload", 'contact-form-7-to-database-extension')); ?>' });
                                     jQuery("#GoogleCredentialsDialog").dialog('open');
                                     jQuery("#guser").focus();
                                 }
@@ -156,11 +156,11 @@ class CFDBViewWhatsInDB extends CFDBView {
                                 }
                             }
                             else {
-                                alert("<?php _e('Cannot perform operation because jQuery is not loaded in this page', 'contact-form-7-to-database-extension')?>");
+                                alert("<?php echo htmlspecialchars(__('Cannot perform operation because jQuery is not loaded in this page', 'contact-form-7-to-database-extension')); ?>");
                             }
                         }
                         else if (enc == 'GLD') {
-                            alert("<?php _e('You will now be navigated to the builder page where it will generate a function to place in your Google Spreadsheet', 'contact-form-7-to-database-extension')?>");
+                            alert("<?php echo htmlspecialchars(__('You will now be navigated to the builder page where it will generate a function to place in your Google Spreadsheet', 'contact-form-7-to-database-extension')); ?>");
                             url = '<?php echo admin_url('admin.php') ?>?page=CF7DBPluginShortCodeBuilder&form=<?php echo urlencode($currSelection) ?>&enc=' + enc;
                             location.href = url;
                         }
@@ -202,35 +202,35 @@ class CFDBViewWhatsInDB extends CFDBView {
                     <input type="hidden" name="unbuffered" value="true"/>
                     <select size="1" name="enc">
                         <option id="IQY" value="IQY">
-                            <?php _e('Excel Internet Query', 'contact-form-7-to-database-extension'); ?>
+                            <?php echo htmlspecialchars(__('Excel Internet Query', 'contact-form-7-to-database-extension')); ?>
                         </option>
                         <option id="CSVUTF8BOM" value="CSVUTF8BOM">
-                            <?php _e('Excel CSV (UTF8-BOM)', 'contact-form-7-to-database-extension'); ?>
+                            <?php echo htmlspecialchars(__('Excel CSV (UTF8-BOM)', 'contact-form-7-to-database-extension')); ?>
                         </option>
                         <option id="TSVUTF16LEBOM" value="TSVUTF16LEBOM">
-                            <?php _e('Excel TSV (UTF16LE-BOM)', 'contact-form-7-to-database-extension'); ?>
+                            <?php echo htmlspecialchars(__('Excel TSV (UTF16LE-BOM)', 'contact-form-7-to-database-extension')); ?>
                         </option>
                         <option id="CSVUTF8" value="CSVUTF8">
-                            <?php _e('Plain CSV (UTF-8)', 'contact-form-7-to-database-extension'); ?>
+                            <?php echo htmlspecialchars(__('Plain CSV (UTF-8)', 'contact-form-7-to-database-extension')); ?>
                         </option>
                         <option id="CSVSJIS" value="CSVSJIS">
-                            <?php _e('Excel CSV for Japanese (Shift-JIS)', 'contact-form-7-to-database-extension'); ?>
+                            <?php echo htmlspecialchars(__('Excel CSV for Japanese (Shift-JIS)', 'contact-form-7-to-database-extension')); ?>
                         </option>
                         <option id="GSS" value="GSS">
-                            <?php _e('Google Spreadsheet', 'contact-form-7-to-database-extension'); ?>
+                            <?php echo htmlspecialchars(__('Google Spreadsheet', 'contact-form-7-to-database-extension')); ?>
                         </option>
                         <option id="GLD" value="GLD">
-                            <?php _e('Google Spreadsheet Live Data', 'contact-form-7-to-database-extension'); ?>
+                            <?php echo htmlspecialchars(__('Google Spreadsheet Live Data', 'contact-form-7-to-database-extension')); ?>
                         </option>
                         <option id="HTML" value="HTML">
-                            <?php _e('HTML', 'contact-form-7-to-database-extension'); ?>
+                            <?php echo htmlspecialchars(__('HTML', 'contact-form-7-to-database-extension')); ?>
                         </option>
                         <option id="JSON" value="JSON">
-                            <?php _e('JSON', 'contact-form-7-to-database-extension'); ?>
+                            <?php echo htmlspecialchars(__('JSON', 'contact-form-7-to-database-extension')); ?>
                         </option>
                     </select>
                     <input name="exportButton" type="button"
-                           value="<?php _e('Export', 'contact-form-7-to-database-extension'); ?>"
+                           value="<?php echo htmlspecialchars(__('Export', 'contact-form-7-to-database-extension')); ?>"
                            onclick="exportData(this.form.elements['enc'])"/>
                     <span style="font-size: x-small;"><br /><?php echo '<a href="admin.php?page=' . $plugin->getShortCodeBuilderPageSlug() . '">' .
                           __('Advanced Export', 'contact-form-7-to-database-extension') . '</a>' ?>
@@ -244,15 +244,15 @@ class CFDBViewWhatsInDB extends CFDBView {
                     <input name="all" type="hidden" value="y"/>
                     <?php wp_nonce_field('delete-from-' . $currSelectionEscaped); ?>
                     <input name="delete" type="submit"
-                           value="<?php _e('Delete All This Form\'s Records', 'contact-form-7-to-database-extension'); ?>"
-                           onclick="return confirm('<?php _e('Are you sure you want to delete all the data for this form?', 'contact-form-7-to-database-extension')?>')"/>
+                           value="<?php echo htmlspecialchars(__('Delete All This Form\'s Records', 'contact-form-7-to-database-extension')); ?>"
+                           onclick="return confirm('<?php echo htmlspecialchars(__('Are you sure you want to delete all the data for this form?', 'contact-form-7-to-database-extension')); ?>')"/>
                 </form>
                 <br/>
                     <form action="" method="post">
                         <input name="form_name" type="hidden" value="<?php echo $currSelectionEscaped ?>"/>
                         <?php wp_nonce_field('delete_wpcf7-' . $currSelectionEscaped); ?>
                         <input name="delete_wpcf7" type="submit"
-                               value="<?php _e('Remove _wpcf7 columns', 'contact-form-7-to-database-extension') ?>"/>
+                               value="<?php echo htmlspecialchars(__('Remove _wpcf7 columns', 'contact-form-7-to-database-extension')) ?>"/>
                     </form>
                 <?php } ?>
             </td>
@@ -263,7 +263,7 @@ class CFDBViewWhatsInDB extends CFDBView {
         <tr>
             <td align="left" colspan="3">
                 <span id="edit_controls">
-                    <a href="http://cfdbplugin.com/?page_id=459" target="_cfdbedit"><?php  _e('Edit Data Mode', 'contact-form-7-to-database-extension'); ?></a>
+                    <a href="http://cfdbplugin.com/?page_id=459" target="_cfdbedit"><?php  echo htmlspecialchars(__('Edit Data Mode', 'contact-form-7-to-database-extension')); ?></a>
                 </span>
             </td>
         </tr>
@@ -374,7 +374,7 @@ class CFDBViewWhatsInDB extends CFDBView {
             <tr>
                 <td align="center" colspan="4">
                     <span style="font-size:x-small; font-style: italic;">
-                        <?php _e('Did you know: This plugin captures data from both these plugins:', 'contact-form-7-to-database-extension'); ?>
+                        <?php echo htmlspecialchars(__('Did you know: This plugin captures data from both these plugins:', 'contact-form-7-to-database-extension')); ?>
                         <a target="_cf7" href="http://wordpress.org/extend/plugins/contact-form-7/">Contact Form 7</a>,
                         <a target="_fscf" href="http://wordpress.org/extend/plugins/si-contact-form/">Fast Secure Contact Form</a>,
                         <a target="_jetpack" href="http://wordpress.org/extend/plugins/jetpack/">JetPack Contact Form</a>
@@ -384,7 +384,7 @@ class CFDBViewWhatsInDB extends CFDBView {
             <tr>
                 <td align="center" colspan="4">
                     <span style="font-size:x-small; font-style: italic;">
-                    <?php _e('Did you know: You can add this data to your posts and pages using these shortcodes:', 'contact-form-7-to-database-extension'); ?>
+                    <?php echo htmlspecialchars(__('Did you know: You can add this data to your posts and pages using these shortcodes:', 'contact-form-7-to-database-extension')); ?>
                         <br/>
                         <a target="_faq" href="http://cfdbplugin.com/?page_id=284">[cfdb-html]</a>
                         <a target="_faq" href="http://cfdbplugin.com/?page_id=91">[cfdb-datatable]</a>
@@ -398,9 +398,9 @@ class CFDBViewWhatsInDB extends CFDBView {
             <tr>
                 <td align="center" colspan="4">
                         <span style="font-size:x-small; font-style: italic;">
-                            <?php _e('Would you like to help translate this plugin into your language?', 'contact-form-7-to-database-extension'); ?>
+                            <?php echo htmlspecialchars(__('Would you like to help translate this plugin into your language?', 'contact-form-7-to-database-extension')); ?>
                             <a target="_i18n"
-                               href="http://cfdbplugin.com/?page_id=7"><?php _e('How to create a translation', 'contact-form-7-to-database-extension'); ?></a>
+                               href="http://cfdbplugin.com/?page_id=7"><?php echo htmlspecialchars(__('How to create a translation', 'contact-form-7-to-database-extension')); ?></a>
                         </span>
                 </td>
             </tr>
@@ -411,7 +411,7 @@ class CFDBViewWhatsInDB extends CFDBView {
            if ($currSelection && 'true' == $plugin->getOption('ShowQuery')) {
             ?>
         <div id="query" style="margin: 20px; border: dotted #d3d3d3 1pt;">
-            <strong><?php _e('Query:', 'contact-form-7-to-database-extension') ?></strong><br/>
+            <strong><?php echo htmlspecialchars(__('Query:', 'contact-form-7-to-database-extension')); ?></strong><br/>
             <pre><?php echo $exporter->getPivotQuery($currSelection); ?></pre>
         </div>
         <?php
@@ -433,9 +433,9 @@ class CFDBViewWhatsInDB extends CFDBView {
                 <tr>
                     <td></td>
                     <td>
-                        <input type="button" value="<?php _e('Cancel', 'contact-form-7-to-database-extension') ?>"
+                        <input type="button" value="<?php echo htmlspecialchars(__('Cancel', 'contact-form-7-to-database-extension')) ?>"
                                onclick="jQuery('#GoogleCredentialsDialog').dialog('close');"/>
-                        <input type="button" value="<?php _e('Upload', 'contact-form-7-to-database-extension') ?>"
+                        <input type="button" value="<?php echo htmlspecialchars(__('Upload', 'contact-form-7-to-database-extension')) ?>"
                                onclick="uploadGoogleSS()"/>
                     </td>
                 </tr>
@@ -443,8 +443,8 @@ class CFDBViewWhatsInDB extends CFDBView {
             </table>
         </div>
         <script type="text/javascript" language="Javascript">
-            var addColumnLabelText = '<?php _e('Add Column', 'contact-form-7-to-database-extension'); ?>';
-            var deleteColumnLabelText = '<?php _e('Delete Column', 'contact-form-7-to-database-extension'); ?>';
+            var addColumnLabelText = '<?php echo htmlspecialchars(__('Add Column', 'contact-form-7-to-database-extension')); ?>';
+            var deleteColumnLabelText = '<?php echo htmlspecialchars(__('Delete Column', 'contact-form-7-to-database-extension')); ?>';
         </script>
         <?php
             do_action_ref_array('cfdb_edit_setup', array($plugin));

@@ -549,10 +549,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
             $time = strtotime($submitTime);
         }
         if ($invalid === $time) {
-            _e('Invalid: ', 'contact-form-7-to-database-extension');
+            echo htmlspecialchars(__('Invalid: ', 'contact-form-7-to-database-extension'));
         }
         else {
-            _e('Valid: ', 'contact-form-7-to-database-extension');
+            echo htmlspecialchars(__('Valid: ', 'contact-form-7-to-database-extension'));
         }
 
         echo "'$submitTime' = $time";
@@ -953,7 +953,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
                 <input name="form_name" type="hidden" value="<?php echo $form ?>"/>
                 <input name="<?php echo $submitTime ?>" type="hidden" value="row"/>
                 <?php wp_nonce_field('delete-from-' . htmlspecialchars($_REQUEST['form_name'])); ?>
-                <button id="delete" name="delete" onclick="this.form.submit();"><?php _e('Delete', 'contact-form-7-to-database-extension')?></button>
+                <button id="delete" name="delete" onclick="this.form.submit();"><?php echo htmlspecialchars(__('Delete', 'contact-form-7-to-database-extension')); ?></button>
             </form>
             <?php
             $exp->export($form, array('submit_time' => $submitTime));

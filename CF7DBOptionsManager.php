@@ -303,26 +303,26 @@ class CF7DBOptionsManager {
                 table.cfdb-options-table td+td {width: auto}
             </style>
         <div class="wrap">
-            <h2><?php _e('System Settings', 'contact-form-7-to-database-extension'); ?></h2>
+            <h2><?php echo htmlspecialchars(__('System Settings', 'contact-form-7-to-database-extension')); ?></h2>
             <table><tbody>
-            <tr><td><?php _e('System', 'contact-form-7-to-database-extension'); ?></td><td><?php echo php_uname(); ?></td></tr>
-            <tr><td><?php _e('PHP Version', 'contact-form-7-to-database-extension'); ?></td>
+            <tr><td><?php echo htmlspecialchars(__('System', 'contact-form-7-to-database-extension')); ?></td><td><?php echo php_uname(); ?></td></tr>
+            <tr><td><?php echo htmlspecialchars(__('PHP Version', 'contact-form-7-to-database-extension')); ?></td>
                 <td><?php echo phpversion(); ?>
                 <?php
                 if (version_compare('5.2', phpversion()) > 0) {
                     echo '&nbsp;&nbsp;&nbsp;<span style="background-color: #ffcc00;">';
-                    _e('(WARNING: This plugin may not work properly with versions earlier than PHP 5.2)', 'contact-form-7-to-database-extension');
+                    echo htmlspecialchars(__('(WARNING: This plugin may not work properly with versions earlier than PHP 5.2)', 'contact-form-7-to-database-extension'));
                     echo '</span>';
                 }
                 ?>
                 </td>
             </tr>
-            <tr><td><?php _e('MySQL Version', 'contact-form-7-to-database-extension'); ?></td>
+            <tr><td><?php echo htmlspecialchars(__('MySQL Version', 'contact-form-7-to-database-extension')); ?></td>
                 <td><?php echo $this->getMySqlVersion() ?>
                     <?php
                     echo '&nbsp;&nbsp;&nbsp;<span style="background-color: #ffcc00;">';
                     if (version_compare('5.0', $this->getMySqlVersion()) > 0) {
-                        _e('(WARNING: This plugin may not work properly with versions earlier than MySQL 5.0)', 'contact-form-7-to-database-extension');
+                        echo htmlspecialchars(__('(WARNING: This plugin may not work properly with versions earlier than MySQL 5.0)', 'contact-form-7-to-database-extension'));
                     }
                     echo '</span>';
                     ?>
@@ -331,7 +331,7 @@ class CF7DBOptionsManager {
             </tbody></table>
 
             <h2><img src="<?php echo $this->getPluginFileUrl('img/icon-50x50.png') ?>" alt=""/>
-                <?php _e('Settings', 'contact-form-7-to-database-extension'); ?></h2>
+                <?php echo htmlspecialchars(__('Settings', 'contact-form-7-to-database-extension')); ?></h2>
 
             <form method="post" action="">
             <?php settings_fields($settingsGroup); ?>
@@ -356,7 +356,7 @@ class CF7DBOptionsManager {
                 </tbody></table>
                 <p class="submit">
                     <input type="submit" class="button-primary"
-                           value="<?php _e('Save Changes', 'contact-form-7-to-database-extension') ?>"/>
+                           value="<?php echo htmlspecialchars(__('Save Changes', 'contact-form-7-to-database-extension')); ?>"/>
                 </p>
 
             </form>

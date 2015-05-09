@@ -219,7 +219,7 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
             <tr>
             <?php if ($canDelete) { ?>
             <th id="delete_th">
-                <button id="delete" name="delete" onclick="this.form.submit()"><?php _e('Delete', 'contact-form-7-to-database-extension')?></button>
+                <button id="delete" name="delete" onclick="this.form.submit()"><?php echo htmlspecialchars(__('Delete', 'contact-form-7-to-database-extension'))?></button>
                 <input type="checkbox" id="selectall"/>
                 <script type="text/javascript">
                     jQuery(document).ready(function() {

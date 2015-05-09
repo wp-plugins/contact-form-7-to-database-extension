@@ -66,19 +66,19 @@ abstract class CFDBView {
             <td width="20%" style="font-size:x-small;">
                 <a target="_cf7todb"
                    href="http://wordpress.org/extend/plugins/contact-form-7-to-database-extension">
-                    <?php _e('Rate this Plugin', 'contact-form-7-to-database-extension') ?>
+                    <?php echo htmlspecialchars(__('Rate this Plugin', 'contact-form-7-to-database-extension')) ?>
                 </a>
             </td>
             <td width="20%" style="font-size:x-small;">
                 <a target="_cf7todb"
                    href="http://cfdbplugin.com/">
-                    <?php _e('Documentation', 'contact-form-7-to-database-extension') ?>
+                    <?php echo htmlspecialchars(__('Documentation', 'contact-form-7-to-database-extension')) ?>
                 </a>
             </td>
             <td width="20%" style="font-size:x-small;">
                 <a target="_cf7todb"
                    href="http://wordpress.org/support/plugin/contact-form-7-to-database-extension">
-                    <?php _e('Support', 'contact-form-7-to-database-extension') ?>
+                    <?php echo htmlspecialchars(__('Support', 'contact-form-7-to-database-extension')) ?>
                 </a>
             </td>
             <td width="20%" style="font-size:x-small;">

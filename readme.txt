@@ -84,6 +84,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.8.39 =
+* Additional HTML-injection protections
+
 = 2.8.38 =
 * NaturalSortByMultiField transform now supports up to 10 fields to sort on
 
