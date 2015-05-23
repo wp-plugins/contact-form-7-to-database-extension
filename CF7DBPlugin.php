@@ -382,6 +382,9 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
         add_action('wp_ajax_nopriv_cfdb-login', array(&$this, 'ajaxLogin'));
         add_action('wp_ajax_cfdb-login', array(&$this, 'ajaxLogin'));
 
+        add_action('wp_ajax_nopriv_cfdb-cleanup', array(&$this, 'ajaxCleanup'));
+        add_action('wp_ajax_cfdb-cleanup', array(&$this, 'ajaxCleanup'));
+
         // Shortcode to add a table to a page
         $sc = new CFDBShortcodeTable();
         $sc->register(array('cf7db-table', 'cfdb-table')); // cf7db-table is deprecated
@@ -560,6 +563,21 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
         if ($invalid !== $time) {
             echo " = " . $this->formatDate($time);
         }
+        die();
+    }
+
+    public function ajaxCleanup() {
+        if (!$this->canUserDoRoleOption('CanChangeSubmitData')) {
+            die();
+        }
+        header('Content-Type: application/json; charset=UTF-8');
+        header("Pragma: no-cache");
+        header("Expires: Thu, 01 Jan 1970 00:00:00 GMT");
+        require_once('CFDBCleanupData.php');
+        $cleanup = new CFDBCleanupData($this);
+        $count = $cleanup->cleanup();
+        echo htmlspecialchars(__('Database entries fixed: ', 'contact-form-7-to-database-extension'));
+        echo ($count);
         die();
     }
 

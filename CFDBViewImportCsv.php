@@ -39,6 +39,7 @@ class CFDBViewImportCsv extends CFDBView
         $forms = $plugin->getForms();
         $importUrl = admin_url('admin-ajax.php') . '?action=cfdb-importcsv';
         $renameUrl = admin_url('admin-ajax.php') . '?action=cfdb-renameform';
+        $clenaupUrl = admin_url('admin-ajax.php') . '?action=cfdb-cleanup';
 
         ?>
         <h2><?php echo htmlspecialchars(__('Import CSV File into Form', 'contact-form-7-to-database-extension')); ?></h2>
@@ -91,7 +92,7 @@ class CFDBViewImportCsv extends CFDBView
                 ?>
             </select>
             <td><input type="text" name="newformname" id="renameformname" size="10"/></td>
-            <input type="submit" name="<?php echo htmlspecialchars(__('Rename', 'contact-form-7-to-database-extension')); ?>" id="renamesubmit" value="rename">
+            <input type="submit" name="rename" id="renamesubmit" value="<?php echo htmlspecialchars(__('Rename', 'contact-form-7-to-database-extension')); ?>">
         </form>
 
         <h2><?php echo htmlspecialchars(__('Backup Form to CSV File', 'contact-form-7-to-database-extension')); ?></h2>
@@ -113,6 +114,12 @@ class CFDBViewImportCsv extends CFDBView
             </select>
             <input type="submit" name="<?php echo htmlspecialchars(__('Export', 'contact-form-7-to-database-extension')); ?>" value="export">
         </form>
+        <h2><?php echo htmlspecialchars(__('Data Cleanup', 'contact-form-7-to-database-extension')); ?></h2>
+        <?php echo htmlspecialchars(__('Clean up data that can cause incorrect behavior', 'contact-form-7-to-database-extension')); ?>
+        <form name="cleanup" action="<?php echo $clenaupUrl; ?>" method="post">
+            <input type="submit" name="cleanup" id="cleanupsubmit" value="<?php echo htmlspecialchars(__('Clean up data', 'contact-form-7-to-database-extension')); ?>">
+        </form>
+
     <?php
 
     }
