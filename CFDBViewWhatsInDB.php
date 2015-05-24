@@ -54,7 +54,13 @@ class CFDBViewWhatsInDB extends CFDBView {
         else if (isset($_REQUEST['form'])) {
             $currSelection = $this->getRequestParam('form');
         }
-        $currSelectionEscaped = htmlspecialchars($currSelection);
+
+        if ($currSelection) {
+            $currSelection = stripcslashes($currSelection);
+            $currSelection = html_entity_decode($currSelection);
+        }
+
+        $currSelectionEscaped = htmlentities($currSelection, null, 'UTF-8');
         // If there is only one form in the DB, select that by default
         if (!$currSelection && count($formsList) == 1) {
             $currSelection = $formsList[0];
@@ -73,7 +79,7 @@ class CFDBViewWhatsInDB extends CFDBView {
                             "delete from `$tableName` where `form_name` = '%s' and `submit_time` = %F",
                             $currSelection, $submitTime));
                 }
-                else  if (isset($_POST['all'])) {
+                else if (isset($_POST['all'])) {
                     $wpdb->query(
                         $wpdb->prepare(
                             "delete from `$tableName` where `form_name` = '%s'", $currSelection));
@@ -114,8 +120,9 @@ class CFDBViewWhatsInDB extends CFDBView {
                         <option value=""><?php echo htmlspecialchars(__('* Select a form *', 'contact-form-7-to-database-extension')); ?></option>
                         <?php foreach ($formsList as $formName) {
                             $selected = ($formName == $currSelection) ? "selected" : "";
+                            $formNameEscaped = htmlentities($formName, null, 'UTF-8');
                         ?>
-                        <option value="<?php echo $formName ?>" <?php echo $selected ?>><?php echo htmlspecialchars($formName) ?></option>
+                        <option value="<?php echo $formNameEscaped ?>" <?php echo $selected ?>><?php echo $formNameEscaped ?></option>
                         <?php } ?>
                     </select>
                 </form>
