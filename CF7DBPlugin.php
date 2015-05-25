@@ -1221,14 +1221,17 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
         if (!$this->isEditorActive()) {
             return;
         }
-        $requiredEditorVersion = '1.3.1';
+        $requiredEditorVersion = '1.4';
         $editorData = $this->getEditorPluginData();
         if (isset($editorData['Version'])) {
             if (version_compare($editorData['Version'], $requiredEditorVersion) == -1) {
+                $editorPluginName = version_compare($editorData['Version'], '1.4', '<') ? 'Contact Form to DB Extension Edit' : 'Contact Form DB Editor';
                 ?>
-                <div id="message" class="error">Plugin <strong>Contact Form to DB Extension Edit</strong> should be updated.
-                    <a target="_cfdbeditupgrade" href="http://cfdbplugin.com/?page_id=939">Get the upgrade</a><br/>
-                    Current version: <?php echo $editorData['Version']; ?>, Needed version: <?php echo $requiredEditorVersion; ?>
+                <div id="message" class="error">
+                    <?php echo htmlentities(__('Plugin should be updated: ', 'contact-form-7-to-database-extension')); ?><strong><?php echo $editorPluginName ?></strong><br/>
+                    <?php echo htmlentities(__('Current version: ', 'contact-form-7-to-database-extension')); echo $editorData['Version']; ?><br/>
+                    <?php echo htmlentities(__('Minimum required version: ', 'contact-form-7-to-database-extension')); echo $requiredEditorVersion; ?><br/>
+                    <a target="_cfdbeditupgrade" href="http://cfdbplugin.com/?page_id=939"><?php echo htmlentities(__('Download the latest version', 'contact-form-7-to-database-extension')); ?></a>
                 </div>
             <?php
             }
