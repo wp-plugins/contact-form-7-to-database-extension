@@ -573,11 +573,28 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
         header('Content-Type: application/json; charset=UTF-8');
         header("Pragma: no-cache");
         header("Expires: Thu, 01 Jan 1970 00:00:00 GMT");
+        echo htmlspecialchars(__('Checking for conflicting entries. This may take a few minutes.', 'contact-form-7-to-database-extension'));
+        echo "\n";
         require_once('CFDBCleanupData.php');
         $cleanup = new CFDBCleanupData($this);
-        $count = $cleanup->cleanup();
+
+        echo htmlspecialchars(__('Phase 1 of 3...', 'contact-form-7-to-database-extension'));
+        $count = $cleanup->cleanupForms();
         echo htmlspecialchars(__('Database entries fixed: ', 'contact-form-7-to-database-extension'));
         echo ($count);
+        echo "\n";
+
+        echo htmlspecialchars(__('Phase 2 of 3...', 'contact-form-7-to-database-extension'));
+        $count = $cleanup->deleteEmptyEntries();
+        echo htmlspecialchars(__('Database entries fixed: ', 'contact-form-7-to-database-extension'));
+        echo ($count);
+        echo "\n";
+
+        echo htmlspecialchars(__('Phase 3 of 3...', 'contact-form-7-to-database-extension'));
+        $count = $cleanup->cleanupEntries();
+        echo htmlspecialchars(__('Database entries fixed: ', 'contact-form-7-to-database-extension'));
+        echo ($count);
+        echo "\n";
         die();
     }
 
