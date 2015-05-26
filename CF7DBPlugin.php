@@ -570,7 +570,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
         if (!$this->canUserDoRoleOption('CanChangeSubmitData')) {
             die();
         }
-        header('Content-Type: application/json; charset=UTF-8');
+        header('Content-Type: text/plain; charset=UTF-8');
         header("Pragma: no-cache");
         header("Expires: Thu, 01 Jan 1970 00:00:00 GMT");
         echo htmlspecialchars(__('Checking for conflicting entries. This may take a few minutes.', 'contact-form-7-to-database-extension'));
