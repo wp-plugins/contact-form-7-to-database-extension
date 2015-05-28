@@ -67,7 +67,7 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
                 }
                 if (isset($options['edit'])) {
                     $this->dereferenceOption('edit');
-                    $editMode = 'true' == $this->options['edit'];
+                    $editMode = 'true' == $this->options['edit'] || 'cells' == $this->options['edit'];
                 }
             }
 
@@ -150,7 +150,7 @@ class ExportToHtmlTable extends ExportBase implements CFDBExport {
                         <?php
                             echo $dtJsOptions;
                             if ($editMode) {
-                                do_action_ref_array('cfdb_edit_fnDrawCallbackJsonForSC', array($this->htmlTableId));
+                                do_action_ref_array('cfdb_edit_fnDrawCallbackJsonForSC', array($this->htmlTableId, $this->options['edit']));
                             }
                         ?> })
                 });

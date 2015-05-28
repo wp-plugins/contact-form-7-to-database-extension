@@ -86,6 +86,7 @@ You can always deactivate the plugin without loosing data.
 
 = 2.8.39 =
 * Additional HTML-injection protections
+* New option when Editor is installed [cfdb-datatable edit="cells"] enables editing of table cells but not column headers
 
 = 2.8.38 =
 * NaturalSortByMultiField transform now supports up to 10 fields to sort on

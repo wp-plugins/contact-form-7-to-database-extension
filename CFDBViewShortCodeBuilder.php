@@ -57,6 +57,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
         $postedHide = $this->getRequestParam('hide');
         $postedRole = $this->getRequestParam('role');
         $postedPermissionmsg = $this->getRequestParam('permissionmsg');
+        $postedEdit = $this->getRequestParam('edit');
         $postedSearch = $this->getRequestParam('search');
         $postedFilter = $this->getRequestParam('filter');
         $postedTSearch = $this->getRequestParam('tsearch');
@@ -155,6 +156,11 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     jQuery('#show_hide_div').show();
                     jQuery('#limitorder_div').show();
                     jQuery('#html_format_div').show();
+                    <?php
+                    if (!$plugin->isEditorActive()) { ?>
+                    jQuery('#edit_mode_cntl').attr('disabled', 'disabled'); <?php
+                    }
+                    ?>
                     jQuery('#dt_options_div').show();
                     jQuery('#json_div').hide();
                     jQuery('#value_div').hide();
@@ -563,6 +569,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     val = jQuery('#headers_cntl').val();
                     scElements.push(getValue('headers', val, scValidationErrors));
                     scUrlElements.push(getValueUrl('headers', val));
+                    var hadHeaders = val != '';
 
                     val = jQuery('#id_cntl').val();
                     scElements.push(getValue('id', val, scValidationErrors));
@@ -576,9 +583,11 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                     scElements.push(getValue('style', val, scValidationErrors));
                     scUrlElements.push(getValueUrl('style', val));
 
-                    if (jQuery('#edit_mode_cntl').attr('checked')) {
-                        scElements.push('edit="true"');
-                        scUrlElements.push('edit=true');
+                    val = jQuery('#edit_mode_cntl').val();
+                    scElements.push(getValue('edit', val, scValidationErrors));
+                    scUrlElements.push(getValueUrl('edit', val));
+                    if (hadHeaders && val == 'true') {
+                        scValidationErrors.push('<?php echo htmlspecialchars(__('Error: "edit=true" will not work properly when setting "headers" ', 'contact-form-7-to-database-extension')); ?>');
                     }
 
                     val = jQuery('#dt_options_cntl').val();
@@ -935,7 +944,7 @@ class CFDBViewShortCodeBuilder extends CFDBView {
             jQuery('#id_cntl').val(<?php echo json_encode($postedId) ?>);
             jQuery('#class_cntl').val(<?php echo json_encode($postedClass) ?>);
             jQuery('#style_cntl').val(<?php echo json_encode($postedStyle) ?>);
-            jQuery('#edit_mode_cntl').prop('checked', <?php echo $postedEdit == 'true' ? 'true' : 'false' ?>); // default = false
+            jQuery('#edit_mode_cntl').val(<?php echo json_encode($postedEdit) ?>);
             jQuery('#dt_options_cntl').val(<?php echo json_encode($postedDtOptions) ?>);
             jQuery('#var_cntl').val(<?php echo json_encode($postedVar) ?>);
             jQuery('#format_cntl').val(<?php echo json_encode($postedFormat) ?>);
@@ -1186,7 +1195,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
 
     </div>
 
-    <div id="security_div" class="shortcodeoptions">
+        <?php // SECURITY ?>
+        <div id="security_div" class="shortcodeoptions">
         <?php echo htmlspecialchars(__('Security', 'contact-form-7-to-database-extension')); ?>
         <div>
             <div class="label_box">
@@ -1362,12 +1372,16 @@ class CFDBViewShortCodeBuilder extends CFDBView {
     <?php // DT_OPTIONS  ?>
     <div id="dt_options_div" class="shortcodeoptions">
         <div><?php echo htmlspecialchars(__('[cfdb-datatable] Options', 'contact-form-7-to-database-extension')); ?></div>
-        <div>
+        <div id="edit_mode_div">
             <div class="label_box">
-                <label for="edit_mode_cntl"><?php echo htmlspecialchars(__('edit', 'contact-form-7-to-database-extension')) ?></label>
+                <label for="edit_mode_cntl"><?php echo htmlspecialchars(__('edit', 'contact-form-7-to-database-extension')); ?></label>
                 <a target="_docs" href="http://cfdbplugin.com/?page_id=91#edit"><img alt="?" src="<?php echo $infoImg ?>"/></a>
             </div>
-            <input type="checkbox" id="edit_mode_cntl" name="edit_mode_cntl" />
+            <select id="edit_mode_cntl" name="edit_mode_cntl">
+                <option value=""></option>
+                <option value="true"><?php echo htmlspecialchars(__('true', 'contact-form-7-to-database-extension')); ?></option>
+                <option value="cells"><?php echo htmlspecialchars(__('cells', 'contact-form-7-to-database-extension')); ?></option>
+            </select>
         </div>
         <div>
             <div class="label_box">
