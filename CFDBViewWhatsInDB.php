@@ -71,7 +71,7 @@ class CFDBViewWhatsInDB extends CFDBView {
             // Check for delete operation
             if (isset($_POST['delete']) &&
                     $canEdit &&
-                    check_admin_referer('delete-from-' . $currSelectionEscaped)) {
+                    check_admin_referer('delete-from-' . $currSelection)) {
                 if (isset($_POST['submit_time'])) {
                     $submitTime = $_POST['submit_time'];
                     $wpdb->query(

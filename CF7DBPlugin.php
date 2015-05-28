@@ -971,11 +971,11 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
      */
     public function whatsInTheDBPage() {
         if (isset($_REQUEST['submit_time'])) {
-            $submitTime = htmlspecialchars($_REQUEST['submit_time']);
+            $submitTime = $_REQUEST['submit_time'];
             require_once('ExportEntry.php');
             $exp = new ExportEntry();
             if (isset($_REQUEST['form_name']) && !empty($_REQUEST['form_name'])) {
-                $form = $_REQUEST['form_name'];
+                $form = stripslashes($_REQUEST['form_name']);
             } else {
                 global $wpdb;
                 $table = $this->getSubmitsTableName();
@@ -984,10 +984,10 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
             }
 
             ?>
-            <form action="<?php echo get_admin_url() . 'admin.php?page=' . $this->getDBPageSlug() . "&form_name=$form" ?>" method="post">
-                <input name="form_name" type="hidden" value="<?php echo $form ?>"/>
-                <input name="<?php echo $submitTime ?>" type="hidden" value="row"/>
-                <?php wp_nonce_field('delete-from-' . htmlspecialchars($_REQUEST['form_name'])); ?>
+            <form action="<?php echo get_admin_url() . 'admin.php?page=' . $this->getDBPageSlug() . "&form_name=" . urlencode($form) ?>" method="post">
+                <input name="form_name" type="hidden" value="<?php echo htmlspecialchars($form) ?>"/>
+                <input name="<?php echo htmlspecialchars($submitTime) ?>" type="hidden" value="row"/>
+                <?php wp_nonce_field('delete-from-' . $form); ?>
                 <button id="delete" name="delete" onclick="this.form.submit();"><?php echo htmlspecialchars(__('Delete', 'contact-form-7-to-database-extension')); ?></button>
             </form>
             <?php
