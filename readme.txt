@@ -84,7 +84,7 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
-= 2.8.39 =
+= 2.9 =
 * Additional HTML-injection protections
 * New option when Editor is installed [cfdb-datatable edit="cells"] enables editing of table cells but not column headers
 
@@ -526,6 +526,9 @@ See "Database Options" -> "Save Cookie Data with Form Submissions" and "Save onl
 * Initial Revision.
 
 == Upgrade Notice ==
+
+= 2.9 =
+For users of the CFDB Editor, CFDB 2.9 will require and upgrade of the CFDB Editor 1.4 as well. See admin notice after upgrade of CFDB.
 
 = 1.6 =
 New cool DataTable
