@@ -56,7 +56,7 @@ class CFDBViewWhatsInDB extends CFDBView {
         }
 
         if ($currSelection) {
-            $currSelection = stripcslashes($currSelection);
+            $currSelection = stripslashes($currSelection);
             $currSelection = html_entity_decode($currSelection);
         }
 
@@ -71,7 +71,7 @@ class CFDBViewWhatsInDB extends CFDBView {
             // Check for delete operation
             if (isset($_POST['delete']) &&
                     $canEdit &&
-                    check_admin_referer('delete-from-' . $currSelection)) {
+                    check_admin_referer('delete-from-' . stripslashes($_REQUEST['form_name']))) {
                 if (isset($_POST['submit_time'])) {
                     $submitTime = $_POST['submit_time'];
                     $wpdb->query(
