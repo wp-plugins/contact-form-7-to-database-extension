@@ -71,7 +71,7 @@ class CFDBViewWhatsInDB extends CFDBView {
             // Check for delete operation
             if (isset($_POST['delete']) &&
                     $canEdit &&
-                    check_admin_referer('delete-from-' . stripslashes($_REQUEST['form_name']))) {
+                    wp_verify_nonce($_REQUEST['_wpnonce'])) {
                 if (isset($_POST['submit_time'])) {
                     $submitTime = $_POST['submit_time'];
                     $wpdb->query(
@@ -102,7 +102,7 @@ class CFDBViewWhatsInDB extends CFDBView {
             }
             else if (isset($_POST['delete_wpcf7']) &&
                     $canEdit &&
-                    check_admin_referer('delete_wpcf7-' . $currSelectionEscaped)) {
+                    wp_verify_nonce($_REQUEST['_wpnonce'])) {
                 $plugin->delete_wpcf7_fields($currSelection);
                 $plugin->add_wpcf7_noSaveFields();
             }
@@ -249,7 +249,7 @@ class CFDBViewWhatsInDB extends CFDBView {
                 <form action="" method="post">
                     <input name="form_name" type="hidden" value="<?php echo $currSelectionEscaped ?>"/>
                     <input name="all" type="hidden" value="y"/>
-                    <?php wp_nonce_field('delete-from-' . $currSelectionEscaped); ?>
+                    <?php wp_nonce_field(); ?>
                     <input name="delete" type="submit"
                            value="<?php echo htmlspecialchars(__('Delete All This Form\'s Records', 'contact-form-7-to-database-extension')); ?>"
                            onclick="return confirm('<?php echo htmlspecialchars(__('Are you sure you want to delete all the data for this form?', 'contact-form-7-to-database-extension')); ?>')"/>
@@ -257,7 +257,7 @@ class CFDBViewWhatsInDB extends CFDBView {
                 <br/>
                     <form action="" method="post">
                         <input name="form_name" type="hidden" value="<?php echo $currSelectionEscaped ?>"/>
-                        <?php wp_nonce_field('delete_wpcf7-' . $currSelectionEscaped); ?>
+                        <?php wp_nonce_field(); ?>
                         <input name="delete_wpcf7" type="submit"
                                value="<?php echo htmlspecialchars(__('Remove _wpcf7 columns', 'contact-form-7-to-database-extension')) ?>"/>
                     </form>
@@ -328,7 +328,7 @@ class CFDBViewWhatsInDB extends CFDBView {
         <form action="" method="post">
             <input name="form_name" type="hidden" value="<?php echo $currSelectionEscaped ?>"/>
                 <input name="delete" type="hidden" value="rows"/>
-                <?php wp_nonce_field('delete-from-' . $currSelectionEscaped); ?>
+                <?php wp_nonce_field(); ?>
                 <?php
 
             }
