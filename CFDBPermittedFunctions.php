@@ -97,6 +97,9 @@ class CFDBPermittedFunctions {
             'bcmul',
             'bcdiv',
 
+        // WordPress-defined functions
+            'human_time_diff',
+
         // CFDB-defined functions
             'concat'
 
