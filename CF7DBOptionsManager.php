@@ -305,7 +305,16 @@ class CF7DBOptionsManager {
         <div class="wrap">
             <h2><?php echo htmlspecialchars(__('System Settings', 'contact-form-7-to-database-extension')); ?></h2>
             <table><tbody>
-            <tr><td><?php echo htmlspecialchars(__('System', 'contact-form-7-to-database-extension')); ?></td><td><?php echo php_uname(); ?></td></tr>
+                <?php
+                if (function_exists('php_uname')) {
+                    try { ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars(__('System', 'contact-form-7-to-database-extension')); ?></td>
+                            <td><?php echo php_uname(); ?></td>
+                        </tr>
+                    <?php
+                    } catch (Exception $ex) {}
+                }?>
             <tr><td><?php echo htmlspecialchars(__('PHP Version', 'contact-form-7-to-database-extension')); ?></td>
                 <td><?php echo phpversion(); ?>
                 <?php
