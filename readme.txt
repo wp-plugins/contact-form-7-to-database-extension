@@ -86,6 +86,7 @@ You can always deactivate the plugin without loosing data.
 
 = 2.9.3 =
 * Fix error on systems where php_uname() is not available
+* Allowing various PHP math functions in "trans"
 
 = 2.9.2 =
 * Fix for some cases where cannot delete row in administration page
