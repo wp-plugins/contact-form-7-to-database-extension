@@ -148,9 +148,12 @@ class CFDBPermittedFunctions {
 
         // WordPress-defined functions
             'human_time_diff',
+            'current_time',
 
         // CFDB-defined functions
-            'concat'
+            'concat',
+            'sum',
+            'multiply'
 
     );
 

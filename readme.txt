@@ -84,6 +84,13 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.9.4 =
+* Added spreadsheet-like transforms:
+** Sum rows: trans="total=field1,field2,field3"
+** Sum columns: trans=TotalField(field1,field2,field3)
+** Sum both: trans="total=field1,field2&&TotalField(field1,field2,total)"
+** Sum product prices: trans="p1_total=multiply(p1,9.99)&&p2_total=multiply(p2,8.99)&&line_total=sum(p1_total,p2_total)&&TotalField(line_total)"
+
 = 2.9.3 =
 * Fix error on systems where php_uname() is not available
 * Allowing various PHP math functions in "trans"

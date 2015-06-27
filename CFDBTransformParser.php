@@ -36,6 +36,7 @@ require_once('SumField.php');
 require_once('MinField.php');
 require_once('MaxField.php');
 require_once('AverageField.php');
+require_once('TotalField.php');
 
 require_once('cfdb-transform-functions.php');
 

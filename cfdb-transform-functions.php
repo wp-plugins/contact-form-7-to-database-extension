@@ -1,6 +1,6 @@
 <?php
 /*
-    "Contact Form to Database" Copyright (C) 2011-2014 Michael Simpson  (email : michael.d.simpson@gmail.com)
+    "Contact Form to Database" Copyright (C) 2011-2015 Michael Simpson  (email : michael.d.simpson@gmail.com)
 
     This file is part of Contact Form to Database.
 
@@ -31,3 +31,36 @@ function concat() { // concat(...) // splat operator in PHP 5.3
     }
     return $string;
 }
+
+/**
+ * Sum all input parameters
+ * @return float|int
+ */
+function sum() { // concat(...) // splat operator in PHP 5.3
+    $sum = 0.0;
+    foreach (func_get_args() as $arg) {
+        $sum += floatval($arg);
+    }
+    return $sum;
+}
+
+/**
+ * Sum all input parameters
+ * @return float|int
+ */
+function multiply() { // concat(...) // splat operator in PHP 5.3
+    $product = '';
+    $first = true;
+    foreach (func_get_args() as $arg) {
+        if (is_numeric($arg)) {
+            if ($first) {
+                $product = floatval($arg);
+                $first = false;
+            } else {
+                $product *= floatval($arg);
+            }
+        }
+    }
+    return $product;
+}
+
