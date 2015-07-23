@@ -84,6 +84,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.9.5 =
+* Bug fix to Google Spreadsheet Live Data export (failing to login)
+
 = 2.9.4 =
 * Added spreadsheet-like transforms:
 ** Sum rows: trans="total=field1,field2,field3"
