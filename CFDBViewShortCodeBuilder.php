@@ -763,8 +763,8 @@ class CFDBViewShortCodeBuilder extends CFDBView {
                         var key = 'kx82XcPjq8q8S!xafx%$&7p6';
                         exportUrlElements.push("l=" + encodeURI(printHex(des(key, user + "/" + pass, 1))));
                     } else {
-                        exportUrlElements.push("user_login=" + encodeURI(user));
-                        exportUrlElements.push("user_password=" + encodeURI(pass));
+                        exportUrlElements.push("username=" + encodeURI(user));
+                        exportUrlElements.push("password=" + encodeURI(pass));
                     }
                     urlBase = '<?php echo admin_url('admin-ajax.php') ?>?action=cfdb-login&cfdb-action=cfdb-export&';
                     exportValidationErrors.push("<?php echo htmlspecialchars(__('Warning: the function includes your WP login information. Avoid sharing it.', 'contact-form-7-to-database-extension')) ?>");

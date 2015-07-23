@@ -440,11 +440,19 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
                 }
             }
         }
+
         if (!$user) {
             $user = !empty($_REQUEST['username']) ? $_REQUEST['username'] : null;
         }
+        if (!$user) {
+            $user = !empty($_REQUEST['user_login']) ? $_REQUEST['user_login'] : null;
+        }
+
         if (!$password) {
             $password = !empty($_REQUEST['password']) ? $_REQUEST['password'] : null;
+        }
+        if (!$password) {
+            $password = !empty($_REQUEST['user_password']) ? $_REQUEST['user_password'] : null;
         }
 
         $creds['user_login'] = $user;
@@ -462,7 +470,7 @@ class CF7DBPlugin extends CF7DBPluginLifeCycle implements CFDBDateFormatter {
             switch ($_REQUEST['cfdb-action']) {
                 case 'cfdb-export':
                     if (!$this->canUserDoRoleOption('CanSeeSubmitData')) {
-                        echo '<strong>ERROR</strong>: user ' . $_REQUEST['username'] . ' is not authorized to export CFDB data';
+                        echo '<strong>ERROR</strong>: user ' . $creds['user_login'] . ' is not authorized to export CFDB data';
                         die;
                     }
                     $this->ajaxExport();
