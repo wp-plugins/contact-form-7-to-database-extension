@@ -28,11 +28,10 @@ class CF7DBPluginExporter {
         // Consolidate GET and POST parameters. Allow GET to override POST.
         $params = array_merge($_POST, $_GET);
 
-        if (array_key_exists('content', $params)) {
-            $params['content'] = stripslashes($params['content']);
+//        print_r($params);
+        foreach ($params as $key => $value) {
+            $params[$key] = stripslashes($value);
         }
-
-        //print_r($params);
 
         // Assumes coming from CF7DBPlugin::whatsInTheDBPage()
         $key = '3fde789a'; //substr($_COOKIE['PHPSESSID'], - 5); // session_id() doesn't work
