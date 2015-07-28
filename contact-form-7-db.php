@@ -56,11 +56,10 @@ function CF7DBPlugin_i18n_init() {
 // Run initialization
 /////////////////////////////////
 
-// First initialize i18n
-CF7DBPlugin_i18n_init();
+// Initialize i18n
+add_action('plugins_loaded','CF7DBPlugin_i18n_init');
 
-
-// Next, run the version check.
+// Run the version check.
 // If it is successful, continue with initialization for this plugin
 if (CF7DBPlugin_PhpVersionCheck()) {
     // Only load and run the init function if we know PHP version can parse it
