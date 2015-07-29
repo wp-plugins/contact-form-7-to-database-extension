@@ -84,6 +84,10 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.9.6 =
+* Bug fix: Occasional problem with language translations being initialized
+* Minor update to Contact Form 7 integration
+
 = 2.9.5 =
 * Bug fix to Google Spreadsheet Live Data export (failing to login)
 * Bug fix for exporting forms with a single quote in the name
