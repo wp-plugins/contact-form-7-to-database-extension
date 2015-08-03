@@ -50,6 +50,27 @@ class CFDBIntegrationWRContactFormTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('hello', $data->posted_data['My Password']);
     }
 
+
+    public function dataProviderFileUrl() {
+        $wpContentDirPath = dirname(dirname(dirname(dirname(__FILE__))));
+        $data = array();
+        $data[] = array('<a href="http://www.site.com/wp-content/uploads/2015/08/Amazon-icon1.png">Amazon.png</a>',
+                $wpContentDirPath . '/uploads/2015/08/Amazon-icon1.png');
+        $data[] = array('<a href="http://www.site-something.com/wp-content/uploads/2015/06/twitter.png">Twitter.png</a>',
+                $wpContentDirPath . '/uploads/2015/06/twitter.png');
+        $data[] = array('<a href="http://site.com/wp-content/uploads/wr_contactform/2015/01/icon-50x50.png">icon-50x50.png</a>',
+                $wpContentDirPath . '/uploads/wr_contactform/2015/01/icon-50x50.png');
+        return $data;
+    }
+
+    /**
+     * @dataProvider dataProviderFileUrl
+     */
+    public function testParseFileUrl($fileUrl, $filePath) {
+        $wr = new CFDBIntegrationWRContactForm(null);
+        $this->assertEquals($filePath, $wr->parseFileUrl($fileUrl));
+    }
+
 }
 
 /**

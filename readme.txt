@@ -84,6 +84,9 @@ You can always deactivate the plugin without loosing data.
 
 == Changelog ==
 
+= 2.9.7 =
+* Bug Fix: Capturing file uploads from WR Contact Form 1.1.10
+
 = 2.9.6 =
 * Bug fix: Occasional problem with language translations being initialized
 * Minor update to Contact Form 7 integration

@@ -74,14 +74,8 @@ class CFDBIntegrationWRContactForm {
 
             if (strpos($fieldKey, 'file_upload_') === 0) {
                 // Handle upload files
-                $href = array();
-                preg_match('#<a href=\"([^\"]*)/wp-content/uploads/wr_contactform/([^\"]*)\">(.*)</a>#iU', $fieldValue, $href);
-                if (count($href) >= 3) {
-//                    [0] => <a href="http://site.com/wp-content/uploads/wr_contactform/2015/01/icon-50x50.png">icon-50x50.png</a>
-//                    [1] => http://site.com
-//                    [2] => 2015/01/icon-50x50.png
-//                    [3] => icon-50x50.png
-                    $filePath = dirname(dirname(dirname(__FILE__))) . '/uploads/wr_contactform/' . $href[2];
+                $filePath = $this->parseFileUrl($fieldValue);
+                if ($filePath) {
                     $uploadFiles[$fieldName] = $filePath;
                 }
             }
@@ -94,6 +88,24 @@ class CFDBIntegrationWRContactForm {
                 'posted_data' => $postedData,
                 'uploaded_files' => $uploadFiles);
         return $data;
+    }
+
+    /**
+     * @param $fileUrl
+     * @return string
+     */
+    public function parseFileUrl($fileUrl) {
+        $href = array();
+        preg_match('#<a href=\"([^\"]*)/wp-content/([^\"]*)\">(.*)</a>#iU', $fileUrl, $href);
+        if (count($href) >= 3) {
+//            [0] => <a href="http://www.site.com/wp-content/uploads/2015/08/Amazon-icon1.png">Amazon.png</a>
+//            [1] => http://www.site.com
+//            [2] => uploads/2015/08/Amazon-icon1.png
+//            [3] => Amazon.png
+            $wpContentDirPath = dirname(dirname(dirname(__FILE__)));
+            return $wpContentDirPath . DIRECTORY_SEPARATOR . $href[2];
+        }
+        return null;
     }
 
 }
